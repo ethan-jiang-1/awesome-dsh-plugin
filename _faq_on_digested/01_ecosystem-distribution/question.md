@@ -16,7 +16,7 @@
 
 以下所有数字都从 `data/plugins/*.yml` 与边车 JSON(star/download 等)现算得到,快照 `main@5e7dc7eb`,2026-08-27,条目总数 **2286**。脚本逻辑在此完整给出,便于重跑。
 
-**A. 通用加载与解析**(与 `_digested/ecosystem/census.py` 的 `load_entries` 同逻辑):
+**A. 通用加载与解析**(逻辑如下,可直接复现):
 
 - 遍历 `data/plugins/*.yml`,每个文件一个条目;
 - 解析白名单字段:`url / name / category / tarball / description.en / description.zh`;解析失败或 `url` 缺失则丢弃;
