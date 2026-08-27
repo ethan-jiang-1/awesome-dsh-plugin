@@ -223,32 +223,33 @@ def main():
         tops = ", ".join(f"{c}:{v}" for c, v in cc.most_common(4))
         print(f"  {lab}({tag_count[lab]})→ {tops}")
 
-    # 5 成熟度(stars/downloads)
-    svals = sorted(v["stars"] for v in stars.values() if isinstance(v, dict))
+    # 5 成熟度(stars/downloads)——统一按「join 到当前条目」的行统计,边车孤儿行单列
+    urlset = {e["url"] for e in entries}
+    svals = sorted(stars[u]["stars"] for u in urlset if u in stars and isinstance(stars[u], dict))
+    srows = sum(1 for v in stars.values() if isinstance(v, dict))
+    dvals_star = sorted(downloads[u]["downloads"] for u in urlset if u in downloads and isinstance(downloads[u], dict))
+    drows = sum(1 for v in downloads.values() if isinstance(v, dict))
     med = svals[len(svals)//2]
+    mean = sum(svals) / max(1, len(svals))
     above = sum(1 for x in svals if x >= 100)
     zeroish = sum(1 for x in svals if x <= 5)
-    print(f"\n── ⑤ 成熟度信号 ──")
-    print(f"stars 覆盖 {len(svals)} 条目:中位 {med},均值 {sum(svals)/max(1,len(svals)):.0f},"
-          f"≤5 星占 {zeroish*100//max(1,len(svals))}%,≥100 星 {above} 条")
-    smap = {}
-    for u, v in stars.items():
-        if isinstance(v, dict):
-            smap[u] = v["stars"]
-    top_star = sorted(((u, s) for u, s in smap.items()), key=lambda kv: -kv[1])[:15]
+    print(f"\n── ⑤ 成熟度信号(join 到当前条目) ──")
+    print(f"stars 覆盖 {len(svals)}/{len(entries)} 条目(边车 {srows} 行,{srows-len(svals)} 行孤儿):"
+          f"中位 {med},均值 {mean:.0f},≤5 星占 {zeroish*100//max(1,len(svals))}%,≥100 星 {above} 条")
+    smap = {u: v["stars"] for u, v in stars.items() if isinstance(v, dict) and u in urlset}
+    top_star = sorted(smap.items(), key=lambda kv: -kv[1])[:15]
     ent_by_url = {e["url"]: e for e in entries}
-    print("Top 15 by stars:")
+    print("Top 15 by stars(join):")
     for u, s in top_star:
         e = ent_by_url.get(u)
         cat = e.get("category") if e else "?"
         nm = (e.get("name") if e else u)[:52]
         print(f"  {s:>6}  [{cat:<9}] {nm}")
-    dvals = sorted(v["downloads"] for v in downloads.values() if isinstance(v, dict))
-    if dvals:
-        dmed = dvals[len(dvals)//2]
-        print(f"npm 月下载覆盖 {len(dvals)}:中位 {dmed},top: "
+    if dvals_star:
+        dmd = dvals_star[len(dvals_star)//2]
+        print(f"npm 月下载覆盖 {len(dvals_star)}/{len(entries)}(边车 {drows} 行,{drows-len(dvals_star)} 行孤儿):中位 {dmd},top: "
               + ", ".join(f"{ent_by_url.get(u, {}).get('name', u)}={v['downloads']}"
-                          for u, v in sorted(downloads.items(), key=lambda kv: -(kv[1]['downloads'] if isinstance(kv[1], dict) else 0))[:8]))
+                          for u, v in sorted(downloads.items(), key=lambda kv: -(kv[1]['downloads'] if isinstance(kv[1], dict) else 0))[:8] if u in urlset))
 
     # 6 命名与语言习惯(repo 名以 dsh 开头的占比;文件形如 owner__repo--sub.yml)
     prefixed = sum(
@@ -266,6 +267,18 @@ def main():
     print(f"dsh 前缀命名 {prefixed}/{N};中文描述齐备 {zh_ok}/{N}({zh_ok*100//N}%);"
           f"monorepo 子包条目 {subpath},来自 {len(mono_owner)} 个仓,Top5: "
           + ", ".join(f"{k}({v})" for k, v in mono_owner.most_common(5)))
+
+    # 7 信号沉默度:有多少条目在 stars/downloads 边车里连一条成熟度信号都没有
+    have_star = {u for u in urlset if u in stars and isinstance(stars[u], dict)}
+    have_dl = {u for u in urlset if u in downloads and isinstance(downloads[u], dict)}
+    both = len(have_star & have_dl)
+    neither = len(urlset) - len(have_star | have_dl)
+    star0 = sum(1 for u in have_star if stars[u].get("stars", 0) == 0)
+    dl0 = sum(1 for u in have_dl if downloads[u].get("downloads", 0) == 0)
+    tarb = sum(1 for e in entries if e.get("tarball"))
+    print(f"\n── ⑦ 信号沉默度 ──")
+    print(f"star+download 双覆盖:{both};两者皆无(完全沉默):{neither} ({round(neither*100/max(1, N))}%);"
+          f"有 star 但 ==0:{star0};有下载但 ==0:{dl0};带 tarball:{tarb}")
 
 
 if __name__ == "__main__":

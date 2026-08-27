@@ -14,7 +14,7 @@
 
 | 专题 | 状态 | 已有正文 | 最近核验 commit |
 |------|------|----------|-----------------|
-| [`ecosystem`](../ecosystem/00-map.md) | 首版完成(数据层由 census.py 现算;场景带解读为归纳) | 00-map · 01-scenario-taxonomy · 02-tech-landscape · 03-growth-maturity(+ census.py) | `5e7dc7eb` |
+| [`ecosystem`](../ecosystem/00-map.md) | 首版完成(数据层由 census.py 现算;场景带解读为归纳) | 00-map · 01-scenario-taxonomy · 02-tech-landscape · 03-growth-maturity(+ 03 §4 信号盲区) | `5e7dc7eb` + 本地修正(census ⑤⑦ join/沉默度语义) |
 | [`mechanics/system`](../mechanics/system/00-map.md) | 进行中(全景流已核验) | 仅 map | `5e7dc7eb` |
 | [`mechanics/registry-data`](../mechanics/registry-data/00-map.md) | 进行中(schema/边车/普查已核验) | 仅 map | `5e7dc7eb` |
 | [`mechanics/readme-pipeline`](../mechanics/readme-pipeline/00-map.md) | 进行中 | 01-generate-readme | `5e7dc7eb` |

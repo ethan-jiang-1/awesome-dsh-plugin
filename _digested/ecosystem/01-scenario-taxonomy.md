@@ -27,7 +27,7 @@
 | 21 | identity | 4 | 0.2% | 近乎占位 |
 | 22 | agi | 1 | 0.0% | 名字最大的一类,条目最少 |
 
-分类是活的(registry-data 已证:usage/vision/security/browser/git/docs/remote/voice 都是后期从大类拆出)。**ui 是全生态第一大类且新增持续最猛**(近 7 天每日新增占比 15–23%,census ③透视)。
+分类是活的(registry-data 已证:usage/vision/security/browser/git/docs/remote/voice 都是后期从大类拆出)。**ui 是全生态第一大类且新增持续最猛**(除去 8-22 周六谷值日以外,近 7 天每天占当日新增的 15–23%,见 census ③)。
 
 ## 场景重组:22 类 → 十个场景带
 

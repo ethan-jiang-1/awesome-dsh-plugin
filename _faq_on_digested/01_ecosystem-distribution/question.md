@@ -16,8 +16,8 @@
 
 - `_digested/ecosystem/census.py`(标准库脚本)输出@ `main@5e7dc7eb`,2026-08-27:分类分布、34 技术标签、共现对、作者集中度、首录日期演化、stars/npm 成熟度;
 - 为本题补充的两个专项统计(脚本逻辑同 census.load_entries,正则如下):
-  - **壳件词汇**:`面板|sidebar|侧栏|输入框|chat.? ?window|panel|状态栏|menubar|气泡` 在 en+zh 描述上的命中;
-  - **聚合型仓库**:repo 名匹配 `hub|packs?|collection|-plugins$|^plugins-|bundle` 的独立 repo 及其贡献条目数;
+  - **壳件词汇**:`面板|sidebar|侧栏|输入框|chat.? ?window|panel|状态栏|menubar|气泡` 在 en+zh 描述上的命中(大小写敏感,按描述原文合并匹配,命中 **434/2286≈19%**);
+  - **聚合型仓库**:repo 名匹配 `hub|packs?|collection|-plugins$|^plugins-|bundle` 的独立 repo 及其贡献条目数(51 仓/91 条);
 - [`_digested/ecosystem/01-scenario-taxonomy.md`](../../_digested/ecosystem/01-scenario-taxonomy.md)、[`02-tech-landscape.md`](../../_digested/ecosystem/02-tech-landscape.md)、[`03-growth-maturity.md`](../../_digested/ecosystem/03-growth-maturity.md);
 - 根 `README.md`:7-9(DSH 定义)@ `main@5e7dc7eb`。
 

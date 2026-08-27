@@ -13,7 +13,7 @@
 ## 技术含义解读
 
 **1. "给纯文本底座补感官"是这个生态最大的技术主题。**
-DeepSeek Harness 的主模型是纯文本对话,于是视觉/语音全靠外挂桥:`ximengxiaolan/dsh-vision-bridge`(贴图 → OpenAI 兼容 VLM 转文字 → 回填文本模型)、`Cheng-cheng9669/dsh-deepseek-vision`(复用 DeepSeek 网页识图模式)、`3274375092/dsh-voice`(语音输入转聊天消息)。图像理解 49 + OCR 57 + ASR/TTS 43 + 图像生成 32 + 视频 51,合计约 230 条(与 vision/voice 官方类部分重叠)都是这一模式的变体。
+DeepSeek Harness 的主模型是纯文本对话,于是视觉/语音全靠外挂桥:`ximengxiaolan/dsh-vision-bridge`(贴图 → OpenAI 兼容 VLM 转文字 → 回填文本模型)、`Cheng-cheng9669/dsh-deepseek-vision`(复用 DeepSeek 网页识图模式)、`3274375092/dsh-voice`(语音输入转聊天消息)。图像理解 49 + OCR 57 + ASR 22 + TTS 21 + 图像生成 32 + 视频 51(均为**标签命中次数**,允许多标、互有重叠),合计约 230 次命中(与 vision/voice 官方类部分重叠)都是这一模式的变体。
 
 **2. 模型阵营:官方母公司门内,Claude/OpenAI 才是第二梯队主力。**
 DeepSeek 123(部分是自指)→ Claude 76 > OpenAI 59 >> Gemini 20 ≈ Kimi 20 > Qwen 18 > GLM 16。但更结构性的信号是**模型聚合/路由 138 条**:OpenRouter / one-api / new-api / LiteLLM 中转几乎是标准件——"换大脑"能力被普遍视为 harness 应有之义。`Bcy2020/dsh-cc-ecosystem` 甚至把 Claude Code 全家桶(.claude/ 技能、斜杠命令、权限规则)原样加载进 DSH。
@@ -33,5 +33,6 @@ DeepSeek 123(部分是自指)→ Claude 76 > OpenAI 59 >> Gemini 20 ≈ Kimi 20 
 ## 方法注记(引用数字前必读)
 
 - 标签由约 34 组正则在合并后的 en+zh 描述上判定,**接受多标**,故各标签之和远大于条目数;
-- 已修正的两处系统性误报:「本地推理」曾因正则含『离线』报 44(剔除后 **10**,真实本地推理生态很小);「图像生成」曾因『绘图/画图』泛匹配报 361(收紧到生图专属词后 **32**)。其余标签抽样 5–7 例核验均真实,但正则法天花板就是描述写出来的东西——**插件能做什么 ≠ 描述说了什么**;
+- 已修正的两处系统性误报:「本地推理」曾因正则含『离线』报 44(剔除后 **10**,真实本地推理生态很小);「图像生成」曾因『绘图/画图/海报』等泛匹配报 361(收紧到生图专属词后 **32**)。其余标签抽样 5–7 例核验均真实,但正则法天花板就是描述写出来的东西——**插件能做什么 ≠ 描述说了什么**;
+- **本文的「安全/权限 299」统计的是插件自身提供的能力,不是这 2286 个可执行插件构成的供给链攻击面**;后者的风险面由 [submission-gates](../mechanics/submission-gates/00-map.md) 的门禁语义(PR schema 校验)把关,但「门禁能否拦住恶意代码」不在本文覆盖内;
 - 星标/下载等外部信号不在本文,见 [03-growth-maturity.md](03-growth-maturity.md)。

@@ -23,7 +23,7 @@
 
 ## 分类体系(2026-08-27 普查)
 
-共 22 类全部有脚本看守(generate-readme ↔ contributing.md ↔ reorder-categories.py 三处联动:改序重排要动 CAT_IDS 与 locales 两个 categories 块再再生 README)。条目量分布(前八):ui 358、tools 295、dev 193、session 156、workflow 130、usage 124、memory 112、notify 110;最末 identity 仅 4。taxonomy 是活的:usage/vision/security/browser/git/docs/remote/voice 都是长胖后从 tools/ui/dev 里拆出来的(contributing.md:93)。
+共 22 类全部有脚本看守(generate-readme ↔ contributing.md ↔ reorder-categories.py 三处联动:改序重排要动 CAT_IDS 与 locales 两个 categories 块再再生 README)。条目量分布(前八):ui 358、tools 295、dev 193、session 156、workflow 131、usage 124、memory 112、notify 110;最末 identity 仅 4。taxonomy 是活的:usage/vision/security/browser/git/docs/remote/voice 都是长胖后从 tools/ui/dev 里拆出来的(contributing.md:93)。
 
 主题类特殊通道:**Themes & Appearance(theme)**下的条目自动进入 dsh-market 的 Themes Tab 一键安装。
 
