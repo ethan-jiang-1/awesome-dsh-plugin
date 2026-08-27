@@ -12,14 +12,32 @@
 
 提问者的站位是**评估者**:想知道这个生态"在发生什么、值什么",不是想成为其中作者。因此三个视角都以"能形成判断"为标准取舍细节。
 
-## 使用的数据与来源
+## 方法与口径(自足,不依赖其它目录)
 
-- `_digested/ecosystem/census.py`(标准库脚本)输出@ `main@5e7dc7eb`,2026-08-27:分类分布、34 技术标签、共现对、作者集中度、首录日期演化、stars/npm 成熟度;
-- 为本题补充的两个专项统计(脚本逻辑同 census.load_entries,正则如下):
-  - **壳件词汇**:`面板|sidebar|侧栏|输入框|chat.? ?window|panel|状态栏|menubar|气泡` 在 en+zh 描述上的命中(大小写敏感,按描述原文合并匹配,命中 **434/2286≈19%**);
-  - **聚合型仓库**:repo 名匹配 `hub|packs?|collection|-plugins$|^plugins-|bundle` 的独立 repo 及其贡献条目数(51 仓/91 条);
-- [`_digested/ecosystem/01-scenario-taxonomy.md`](../../_digested/ecosystem/01-scenario-taxonomy.md)、[`02-tech-landscape.md`](../../_digested/ecosystem/02-tech-landscape.md)、[`03-growth-maturity.md`](../../_digested/ecosystem/03-growth-maturity.md);
-- 根 `README.md`:7-9(DSH 定义)@ `main@5e7dc7eb`。
+以下所有数字都从 `data/plugins/*.yml` 与边车 JSON(star/download 等)现算得到,快照 `main@5e7dc7eb`,2026-08-27,条目总数 **2286**。脚本逻辑在此完整给出,便于重跑。
+
+**A. 通用加载与解析**(与 `_digested/ecosystem/census.py` 的 `load_entries` 同逻辑):
+
+- 遍历 `data/plugins/*.yml`,每个文件一个条目;
+- 解析白名单字段:`url / name / category / tarball / description.en / description.zh`;解析失败或 `url` 缺失则丢弃;
+- 技术特征打标用 **34 组正则**在合并后的 en+zh 描述文本上判定,**接受多标**(同一条目可命中多个标签),故各标签之和远大于条目数。
+
+**B. 本问用到的两组标签口径:**
+
+| 标签 | 定义(正则) | 命中 |
+|------|-----------|-----:|
+| 壳件词汇 | `面板\|sidebar\|侧栏\|输入框\|chat.? ?window\|panel\|状态栏\|menubar\|气泡` 在 en+zh 描述上命中(大小写敏感) | 434/2286 ≈ 19% |
+| 聚合型仓库 | repo 名匹配 `hub\|packs?\|collection\|-plugins$\|^plugins-\|bundle` 的独立 repo 及其贡献条目 | 51 仓 / 91 条 |
+
+**C. 三个视角用到的核心口径**(全部按"join 到当前 2286 条"统计,边车里的孤儿行单列不计入):
+
+- **分类分布**:官方 22 类,前八为 ui 358、tools 295、dev 193、session 156、workflow 131、usage 124、memory 112、notify 110;ui 独占 15.7%。
+- **技术标签**:安全/权限 299、文档/写作 197、任务/项目 195、用量/成本监控 192、桌面集成 173、RAG/知识库 164、上下文/会话 150、主题美化 141、模型聚合/路由 138、终端/命令行 128、DeepSeek 123、浏览器自动化 120、MCP 109、Claude 76、IM 推送 75、移动/远程 70……(完整 34 标签见答案相应段落)。
+- **作者集中度**:1522 个独立 owner;1 件 1182(77.6%)、2–4 件 297、5–9 件 33、10–29 件 9、≥30 件 1。
+- **首录日期演化**:8-16 首录 963 条(=837 迁移 + 126 散落);8-17~21 为 199/189/151/159/113;8-22 谷值 4;8-23~27 为 106/190/54/42/58;近 7 天日均 81。
+- **成熟度信号**:stars 覆盖 1480/2286(65%),中位 2,均值 73,≥100 星 48 条;npm 月下载覆盖 619/2286(27%),中位 512;**772 条(34%)两样皆无(完全沉默)**。
+
+**D. 边车"孤儿行"说明**:star 边车 1494 行、download 边车 624 行,但分别只有 1480/619 行 join 到当前条目,差值 14/5 行指向已不在列表的 URL,不参与上述统计。
 
 ## 答案
 
