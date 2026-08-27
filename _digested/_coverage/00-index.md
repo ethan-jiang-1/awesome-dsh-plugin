@@ -12,12 +12,14 @@
 
 | 专题 | 状态 | 已有正文 | 最近核验 commit |
 |------|------|----------|-----------------|
-| [`system`](../system/00-map.md) | 骨架 | 仅 map | — |
-| [`registry-data`](../registry-data/00-map.md) | 骨架 | 仅 map | — |
-| [`readme-pipeline`](../readme-pipeline/00-map.md) | 骨架 | 仅 map | — |
-| [`site-surface`](../site-surface/00-map.md) | 骨架 | 仅 map | — |
-| [`submission-gates`](../submission-gates/00-map.md) | 骨架 | 仅 map | — |
-| [`probes-and-decay`](../probes-and-decay/00-map.md) | 骨架 | 仅 map | — |
+| [`system`](../system/00-map.md) | 进行中(全景流已核验) | 仅 map | `5e7dc7eb` |
+| [`registry-data`](../registry-data/00-map.md) | 进行中(schema/边车/普查已核验) | 仅 map | `5e7dc7eb` |
+| [`readme-pipeline`](../readme-pipeline/00-map.md) | 进行中 | 01-generate-readme | `5e7dc7eb` |
+| [`site-surface`](../site-surface/00-map.md) | 初稿完成 | 01-build-site · 02-templates-locales | `5e7dc7eb` |
+| [`submission-gates`](../submission-gates/00-map.md) | 已核验(pr-check/pr-guard/pr-gate/regate/check-submission/check-bleed 均逐行) | 01 · 02 · 03 | `5e7dc7eb` |
+| [`probes-and-decay`](../probes-and-decay/00-map.md) | 初稿完成(12 脚本 + decay-scan.yml) | 01 · 02 · 03 | `5e7dc7eb` |
+
+> 核验方式说明:`submission-gates`、`system`、`registry-data`、`readme-pipeline` 由主笔逐行精读;`site-surface`、`probes-and-decay` 两专题由并行子代理逐行精读后主笔蒸馏,未做全文二次抽查——引用前如需强保证,按文中行号回源核对。
 
 ## 按源码组(粗粒度)
 
