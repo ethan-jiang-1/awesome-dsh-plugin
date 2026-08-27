@@ -23,3 +23,7 @@ data/screenshots-declared.json
 data/screenshots-live.json
 
 .npm-cache/
+
+# Ethan research branch: python census artifacts
+__pycache__/
+_parse_errors.txt
