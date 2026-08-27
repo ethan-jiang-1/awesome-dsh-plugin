@@ -39,7 +39,7 @@ _faq_on_digested/
 引用 `_digested/` 用相对路径:
 
 ```markdown
-../_digested/system/00-map.md
+../_digested/mechanics/system/00-map.md
 ```
 
 引用源码标注 commit hash,避免链接随时间失效。

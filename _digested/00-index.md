@@ -1,60 +1,47 @@
 # `_digested` — awesome-dsh-plugin 消化
 
-这个目录消化两件事:**插件生态本身**(主轴——里面有什么、谁在做、往哪走),以及注册表的运转机制(辅助——数据和结论可信度的基础)。它不是使用指南,也不是给 upstream 的补丁。
+> 站位声明:我是**评估者**,不是贡献者。关心的是这东西有什么用、生态长什么样、数据可不可信——不学怎么投稿、不复刻它的门禁。本目录的结构就按这个视角组织。
 
-> **审计基线**:awesome-dsh-plugin `main@5e7dc7ebdfe538e89be20c7a34879a91e5fd2c1e`(2026-08-27)。每次同步产品源码后,在 [`_change_log/`](./_change_log/00-index.md) 记录范围,并按 [`_coverage/`](./_coverage/00-index.md) 逐专题复核;ecosystem 各文档要求重跑 [`ecosystem/census.py`](./ecosystem/census.py) 刷新数字。
+**产品**:DSH = DeepSeek Harness(`deepseek-ai/deepseek-harness`,官方开源 agent 框架,"一切皆插件");本仓库是它的社区插件目录,`dsh plugin add` 安装制。
+**审计基线**:`main@5e7dc7ebdfe538e89be20c7a34879a91e5fd2c1e`(2026-08-27)。同步 upstream 后按 [`_change_log/`](./_change_log/00-index.md) 审计过期结论。
 
-## 分支纪律
+## 读法(只有两站)
 
-| 分支 | 上面有什么 |
-|------|------------|
-| `main` | 干净的 upstream 镜像。不放研究材料,不改产品代码。 |
-| `ethan` | 研究分支。源码随 `upstream/main` merge 进来；研究材料位于 `_digested/` 和 `_faq_on_digested/`。 |
+### 第一站 · [`ecosystem/`](./ecosystem/00-map.md) — 生态全景(主轴)
 
-同步方式：在 `ethan` 上非快进 merge `upstream/main`，让产品源码对齐新基线并保留研究目录，再按 `_change_log/` 审计过期结论。
+回答"这里头有什么、正在发生什么":
 
-## 主轴:`ecosystem/` — 插件生态全景
+| 文件 | 回答什么 |
+|------|----------|
+| [00-map](./ecosystem/00-map.md) | 全景导读 + 头条事实(14 天长出 2286 条)+ 方法精度声明 |
+| [01-scenario-taxonomy](./ecosystem/01-scenario-taxonomy.md) | **按场景分**:22 类逐类透视 → 重聚十个场景带("做壳" vs "做增强") |
+| [02-tech-landscape](./ecosystem/02-tech-landscape.md) | **按技术分**:34 个技术标签、模型阵营、多模态外挂、成本品类 |
+| [03-growth-maturity](./ecosystem/03-growth-maturity.md) | 演化节奏、作者结构、成熟度金字塔与外部巨头接入 |
 
-回答"这个生态里有什么、正在发生什么":
+数字全部可重跑复现:`python3 _digested/ecosystem/census.py`(仅标准库)。
 
-- [ecosystem/00-map.md](./ecosystem/00-map.md) — 全景导读:DSH 是什么、头条事实(14 天长出 2286 条)、两套坐标系、方法精度声明
-- [ecosystem/01-scenario-taxonomy.md](./ecosystem/01-scenario-taxonomy.md) — **按场景分**:官方 22 类逐类透视 + 重聚十个场景带
-- [ecosystem/02-tech-landscape.md](./ecosystem/02-tech-landscape.md) — **按技术分**:34 个技术标签、模型阵营格局、多模态外挂模式
-- [ecosystem/03-growth-maturity.md](./ecosystem/03-growth-maturity.md) — 演化节奏、作者结构(单件作者 vs 工作室)、成熟度金字塔
+### 第二站 · [`mechanics/00-map.md`](./mechanics/00-map.md) — 机制速览(一页)
 
-## 辅助参考:机制专题
-
-理解收录数据的来源与可信度时再读(不是本消化的目标方向):
-
-| 目录 | 聚焦 | 一句话 |
-|------|------|--------|
-| `system/` | 全局运转图 | 一条 PR 从提交到出现在 README/站点要流经哪些环节 |
-| `registry-data/` | 数据模型 | `data/plugins/*.yml` 是事实源，各 JSON 边车各自记录什么 |
-| `readme-pipeline/` | README 生成 | `generate-readme.mjs` 怎么把 YAML 变成中英双语 README |
-| `site-surface/` | 站点 | 模板、多语言资产怎么从同一份数据长出网站 |
-| `submission-gates/` | 提交与门禁 | 五条 workflow、check-submission / check-bleed 构成的准入机制 |
-| `probes-and-decay/` | 探针与衰减 | probe-* 家族采集哪些遥测(stars/downloads 正是 ecosystem 的数据源)，列表腐烂怎么被发现 |
+只回答评估要用的三个问题:名单数据可信吗 / 会不会烂 / 什么量级。**到此为止即可**;其下六个子目录(`system`、`registry-data`、`submission-gates`、`readme-pipeline`、`site-surface`、`probes-and-decay`)是逐行机制档案,投稿者或复现构建时才需要。
 
 ## 横切目录
 
 | 目录 | 用途 |
 |------|------|
-| `ecosystem/census.py` | 生态普查脚本,每次同步后重跑刷新 ecosystem 数字 |
-| `_coverage/` | 覆盖矩阵，按源码组追踪 digest 覆盖状态 |
-| `_change_log/` | 上游同步记录，变更摘要与资料审计 |
+| [`_coverage/`](./_coverage/00-index.md) | 覆盖矩阵:各专题消化到什么程度 |
+| [`_change_log/`](./_change_log/00-index.md) | 上游同步记录:每次合入后哪些结论要复核 |
 
-## 每个专题内部的结构
+## 分支纪律
 
-- `00-map.md`:按主干顺序阅读的**概念导读**，只建立职责、关系和阅读入口；状态为「未消化」时只承诺范围。
-- 编号正文(如 `01-xxx.md`):按问题查找的**机制参考**，记录数据结构、算法、失败行为和源码入口(标 commit hash)。
-- 引用规范见各正文顶部；文件一律不叫 `README.md`,避免与产品文档语料混淆。
+| 分支 | 上面有什么 |
+|------|------------|
+| `main` | 干净的 upstream 镜像,不放研究材料 |
+| `ethan` | 研究分支;非快进 merge `upstream/main` 同步 |
 
 ## 验证
-
-修改本目录或 `_faq_on_digested/` 后运行：
 
 ```sh
 node _digested/verify.mjs
 ```
 
-该检查验证 Markdown 的严格 UTF-8、LF 换行与单个结尾换行，以及相对链接与锚点确实存在。
+检查严格 UTF-8、LF 与结尾换行、相对链接与锚点。二次研究见同级 [`_faq_on_digested/`](../_faq_on_digested/00-index.md)。

@@ -1,6 +1,6 @@
 # ecosystem 01 · 按场景分:官方 22 类透视与场景重组
 
-> 数据:`census.py` 输出于 `main@5e7dc7eb`,2026-08-27。分类定义层面另见 [`registry-data/00-map.md`](../registry-data/00-map.md)(schema/CAT_IDS);本文关心的是**每一类里实际住着什么**。
+> 数据:`census.py` 输出于 `main@5e7dc7eb`,2026-08-27。分类定义层面另见 [`mechanics/registry-data/00-map.md`](../mechanics/registry-data/00-map.md)(schema/CAT_IDS);本文关心的是**每一类里实际住着什么**。
 
 ## 官方 22 类全量分布
 
