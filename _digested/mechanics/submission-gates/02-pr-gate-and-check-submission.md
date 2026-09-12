@@ -15,10 +15,10 @@
 |------|-----|------|----------------|
 | `MIN_AGE_DAYS` | 1 天 | :21 | 过滤"PR 前几分钟才建的仓库"。**0001:失败文案重写**——不再说"约 N 小时后重新提交",改为"nothing to do: this check re-runs by itself"(regate 的 aged 规则每 6 小时按 summary 里的 `/days old/` 字样自动翻转判决;旧文案曾驱使作者关 PR 重开或 force-push 空提交去"买"本就会到账的东西) |
 | ~~`MIN_COMMITS`~~ | ~~10~~ | 已删(:23-29) | **0001 删除**(2026-09-03,#4196):提交数衡量的是开发**习惯**不是质量——squash-merge 仓的多年真改动 main 历史很短,而 `git commit --allow-empty` 十秒清线;"实践中它从未拒绝过任何东西,全部效果就是延迟 + 一枚让后续人审对干净历史带偏见的红 X"。age floor 保留:**时间不可伪造**。另注意 pr-gate.yml:309 的 success 文案仍残留 "enough commits" 字样——上游自己的过期字符串 |
-| `CONCURRENCY` | 6 | :23 | 批间并发 |
-| `MAX_TREE_PKGS` | 40 | :24 | 每个 package.json 要一次 contents API;DSH 本体树里 dsh-base 排在第 19 个 manifest(~248 个中),所以守得住 |
-| `MAX_ENTRIES_PER_PR` | 3(env 可覆盖) | :70 | 最近 100 个已合并 PR:92×1 条、8×2 条、0×3 条。awesome-go 收 1 条、awesome-python 自动关多件套——3 是宽松端。唯一正当多件形态:monorepo 子包各自可安装 |
-| `MAX_WAIT_PER_CALL_MS` / `_TOTAL_MS` | 75s / 150s | :122-123 | 无界退避本身就是事故(runner 空转等配额重置不如报 unverified 让 regate 重来) |
+| `CONCURRENCY` | 6 | :31 | 批间并发 |
+| `MAX_TREE_PKGS` | 40 | :32 | 每个 package.json 要一次 contents API;DSH 本体树里 dsh-base 排在第 19 个 manifest(~248 个中),所以守得住 |
+| `MAX_ENTRIES_PER_PR` | 3(env 可覆盖) | :78 | 最近 100 个已合并 PR:92×1 条、8×2 条、0×3 条。awesome-go 收 1 条、awesome-python 自动关多件套——3 是宽松端。唯一正当多件形态:monorepo 子包各自可安装 |
+| `MAX_WAIT_PER_CALL_MS` / `_TOTAL_MS` | 75s / 150s | :130-131 | 无界退避本身就是事故(runner 空转等配额重置不如报 unverified 让 regate 重来) |
 
 ### 两级准入日期(contributing 的「老条约老规则」)
 
@@ -41,7 +41,7 @@
 
 由此派生一整族行为:meta 请求失败 → 本条目"nothing checked";tree API 截断(truncated:true,HTTP 仍是 200)→ 视为 unknown 而非 absent(:211-216 附近);package.json 超 40 个读不完 → 同样 unknown。~~commit 数读不到记 unverified~~ 一条随 commitCount() 一并删除(0001)。
 
-### 身份黑名单与 vendored 检测(:26-46, :236-248)
+### 身份黑名单与 vendored 检测(:41/:50, vendored :244)
 
 - `FIRST_PARTY_REPOS = {deepseek-ai/deepseek-harness}`:**按身份拒绝**。DSH 自己声明 dsh.bundle,合同检查它全过——"在插件的插件列表里收录产品本体"是每个访客都认得的错误,所以不按合同按身份拒。
 - `FIRST_PARTY_PACKAGES = {@deepseek-ai/dsh-base, dsh-web-app, dsh-headless}`:**vendored 记录暂缓**。实测有五个仓库存着 harness 拷贝(fork:false 检不出来);它们可能只是在测试里合法地带了一份 harness,所以只有整棵树扫完仍无真实 bundle 时才报"这个仓库包含的是 harness 而非插件"。
@@ -77,7 +77,7 @@
 - **非 yml 扩展名的显式归因(0001 新增)**:extract 收集 data/plugins/ 下全部变更路径,而校验器只读 `*.yml`——扩展名丢失的条目会被计数、永不解析、永远进 failure 分支,#1477 因此被"重跑 workflow"搪塞了 13 天。现在全数非 yml 时直接报 "N entry file(s) missing the .yml extension",不再让作者空转。
 - modified.txt:本 PR 改写的既有条目单独列出,M 类不走年龄/提交门(存量条目按收录时的规则,周度 decay scan 盯它们的退化),但**每一份判决都要附上这份清单**让评审追问:#1348 案(两次混过所有机械检查)正是这类。
 
-### 判决翻译表(:169-249)
+### 判决翻译表(约 :198-311)
 
 | 情形 | 结论 | 标题语义 |
 |------|------|----------|
@@ -93,5 +93,5 @@
 
 ## 待复核
 
-- [ ] neutral 在 regate 侧的重访闭环 → 见 [03](./03-regate-and-bleed.md)(已核)
+- [x] neutral 在 regate 侧的重访闭环 → 见 [03](./03-regate-and-bleed.md)(已核)
 - [ ] `concurrency.group: pr-gate-<head_sha>` cancel-in-progress 的实际效果(同一 head_sha 连续完成两次会互相取消?)UNVERIFIED,值得跑一次观察

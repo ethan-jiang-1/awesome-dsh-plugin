@@ -28,12 +28,14 @@
 
 | 源码组 | 归入专题 |
 |--------|----------|
-| `data/plugins/*.yaml`(≈2288 个) + `lib/entries.mjs` | registry-data |
+| `data/plugins/*.yml`(3552 个) + `scripts/lib/entries.mjs` | registry-data |
 | `data/*.json` 四个边车 | registry-data / probes-and-decay(写入方) |
 | `scripts/generate-readme.mjs` | readme-pipeline |
 | `scripts/build-site.mjs`、`site/*` | site-surface |
 | `.github/workflows/pr-*.yml`、`regate.yml`、`check-submission`、`check-bleed` | submission-gates |
 | `.github/workflows/build-site.yml`、`decay-scan.yml` | 分别归 site-surface / probes-and-decay 的调度视角 |
+| `.github/workflows/sync-readme.yml`(0001 新增) | readme-pipeline |
+| `.github/workflows/held-rescan.yml`(0001 新增) | submission-gates |
 | `scripts/probe-*.mjs`、`scan-decay.mjs`、`publish-*.mjs` | probes-and-decay |
 | `scripts/migrate-to-yaml.mjs`、`reorder-categories.py`、`prune-legacy-screenshots.mjs`、`maint-rebase.sh` | 历史/迁移工具,暂不单开专题,分别挂在相关专题下 |
 | `contributing.md`、PR/Issue 模板 | submission-gates |

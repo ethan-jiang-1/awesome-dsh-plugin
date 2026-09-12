@@ -28,7 +28,7 @@ awesome-dsh-plugin 是一台**把人工编辑压缩到最小、其余全部机�
    │      #4196:"时间不可伪造,提交数可以 pad")/ 每 PR≤3 条
    │    → check-run 判决 success | neutral(fail-open 放行)| failure
    │
-   └─ regate.yml(every 6h)+ 人评(contributing 六维度,CI 只是前置条件)
+   └─ regate.yml(every 6h)+ 人评(contributing 八维度,CI 只是前置条件)
         四理由重跑:never/stale/aged-in/neutral;绿灯满 48h 重访(passStale)
 
 merge → push main
@@ -52,12 +52,12 @@ decay-scan.yml(Mon 03:41):GraphQL 批扫全列表 → 单一 tracking issue,gone
 1. **README 是投影但也是枢纽。** YAML→README(generate-readme)、README→站点(build-site parseReadme)、README→探针花名册。一份数据两次投影,每次投影各配守卫(marker 替换 + 全文 URL 集合校验;bilingual parity 五检)。改数据只有一个入口,读数据却认 README——这是理解全仓库行为的钥匙。
 2. **判决必须自我声明其局限。** gate 分不清「通过」与「没查过」时宁可显式失败;配额紧张放行的条目标 neutral 并留给 regate 重访;scan-decay 不确定率超 5% 整份报告不发。"a stale red gets noticed by its author, a stale green gets merged."
 3. **workflow 永不写仓库(0001 出现唯一例外)。** 部署链 `contents: read`;探针成果活在 git 快照(stars/downloads/updates)+ Actions cache(共享 entry probe-data-v2 四 path + downloads-v1/updates-v1)+"与快照合并";唯一动 committed 文件的是维护者手动工具(prune-legacy-screenshots / maint-rebase)**和新 bot sync-readme.yml(代投稿者做 README 重生成提交)——这是"永不写仓库"原则为消灭 218/296 冲突开的唯一口子**。
-4. **错误信息承担教学职责。** 太新的仓库被告知几小时后重交;子路径写错给出候选目录与可粘贴修正;stale-fork 给出三行恢复命令;"127 submissions wearing a coat" 的拆分劝告。整个贡献体验被当作产品来写。
+4. **错误信息承担教学职责,并按"谁该动"分向(0001 深化)。** 该作者动手的:子路径写错给出候选目录与可粘贴修正、stale-fork 给出三行恢复命令、"127 submissions wearing a coat" 的拆分劝告;时间能解决的(仓库太新):明说 "nothing to do, no need to resubmit"——regate 每 6 小时自动翻绿,不再驱使人关-重开。整个贡献体验被当作产品来写。
 5. **常量即事故刻度。** 每个阈值注释都指名一次翻车(#1348/#1554/#1608/#1619/#1635/#1673/#1701/#1794/#2797、2026-08-18 配额挤兑、2026-08-25 三义 403、0001 新增 #3512 catalog 冻结三天/#3417/#3698 READMEs 卡旧值/#4196 commit floor 误拦/8-30 218 个 README 冲突 PR/9-07 held 积压 11 件)。读这份源码约等于读它的故障史——这正是它适合消化学习的原因。
 
 ## 规模事实(2026-09-12 实测)
 
-条目 3552 · 分类 23(ui 最大 592,agi 最小 6)· monorepo 子路径条目 383(来自 259 仓)· 上游节奏 0001 单次 3213 commits/15 天(squash-style,PR 号入题)· workflows 七条(pr-check/pr-guard/pr-gate/regate/build-site/decay-scan + ⭐sync-readme/held-rescan)· scripts 约 4400 行(js-yaml 唯一运行时依赖;marked 仅详情页正文渲染用)· 站点自定义域 awesome-dsh-plugin.com(Pages + Cloudflare;0001 起含 AdSense 变量门控 + Giscus 评论,privacy 页已如实改写)。
+条目 3552 · 分类 23(ui 最大 592,agi 最小 6)· monorepo 子路径条目 383(来自 259 仓)· 上游节奏 0001 单次 3213 commits/15 天(squash-style,PR 号入题)· workflows 八条(pr-check/pr-guard/pr-gate/regate/build-site/decay-scan/sync-readme/held-rescan)· scripts 约 4400 行(js-yaml 唯一运行时依赖;marked 仅详情页正文渲染用)· 站点自定义域 awesome-dsh-plugin.com(Pages + Cloudflare;0001 起含 AdSense 变量门控 + Giscus 评论,privacy 页已如实改写)。
 
 ## 各专题导航
 

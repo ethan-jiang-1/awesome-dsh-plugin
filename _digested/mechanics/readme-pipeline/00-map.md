@@ -4,7 +4,7 @@
 
 ## 定位
 
-根目录双语 README(3555+ 行)是 `data/plugins/*.yml` 的**投影**:marker 块(`<!-- BEGIN TOC -->…<!-- END TOC -->`、`<!-- BEGIN PLUGINS -->…<!-- END PLUGINS -->`)内由脚本再生,块外(badges、banner、intro、Contributing/Badge/Disclaimer)永远手工维护。
+根目录双语 README(各 3742 行,2026-09-12 实测)是 `data/plugins/*.yml` 的**投影**:marker 块(`<!-- BEGIN TOC -->…<!-- END TOC -->`、`<!-- BEGIN PLUGINS -->…<!-- END PLUGINS -->`)内由脚本再生,块外(badges、banner、intro、Contributing/Badge/Disclaimer)永远手工维护。
 
 **0001 重构(核心变更)**:投稿改为 **yml-only**——"That one file is the whole submission"(contributing.md:22)。投稿者**不再需要**跑 `generate-readme`(也不再提交 README);PR 合并后由新增的 `.github/workflows/sync-readme.yml` 在 main 上重生成并以 bot 身份提交(`permissions: contents: write`,git push)。pr-check 的 `--check` 语义收窄:**仅当 PR 自己手改了 README 才要求与 yml 匹配**(:133-137);yml-only PR(新常态)由 runner 现场重新生成以保持树一致(:123-126)。动机:要求 PR 内 regenerate 曾使同分类的提交永远互相冲突——8-30 当天 296 个 open PR 里 218 个卡在生成行上,"none of them over anything a human had written"。
 

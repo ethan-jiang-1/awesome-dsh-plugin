@@ -14,7 +14,7 @@
 | 文件 | 回答什么 |
 |------|----------|
 | [00-map](./ecosystem/00-map.md) | 全景导读 + 头条事实(14 天长出 2286 条)+ 方法精度声明 |
-| [01-scenario-taxonomy](./ecosystem/01-scenario-taxonomy.md) | **按场景分**:22 类逐类透视 → 重聚十个场景带("做壳" vs "做增强") |
+| [01-scenario-taxonomy](./ecosystem/01-scenario-taxonomy.md) | **按场景分**:23 类逐类透视 → 重聚十一个场景带("做壳" vs "做增强") |
 | [02-tech-landscape](./ecosystem/02-tech-landscape.md) | **按技术分**:34 个技术标签、模型阵营、多模态外挂、成本品类 |
 | [03-growth-maturity](./ecosystem/03-growth-maturity.md) | 演化节奏、作者结构、成熟度金字塔与外部巨头接入 |
 | [04-value-trend](./ecosystem/04-value-trend.md) | **价值定位与趋势**(catalog 双快照 + 自采快照):头部在哪、增量流向、优秀插件特征 |

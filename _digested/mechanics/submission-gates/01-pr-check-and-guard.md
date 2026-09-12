@@ -4,7 +4,7 @@
 
 ## pr-check.yml(146 行,fork 可见的第一层)
 
-触发 `pull_request`,权限 `contents: read`,无任何 secrets。五个 step 依次(pr-check.yml:24-82):
+触发 `pull_request`,权限 `contents: read`,无任何 secrets。六个 step 依次(pr-check.yml:24-146):
 
 1. **Stale-fork 守卫**。**0001 修订:计数对象从 README 行数改为条目文件数**(`git diff -- data/plugins/` 数增删)——README 行数口径下,一个只带 `data/plugins/` 的 stale fork 会显示干净的对称 diff;新口径提示语改为"单一投稿应为 +1/-0"。防的仍是落后 fork 静默吞条目(#502 案,删除在中英两侧对称自洽)。
 2. **扩展名守卫**。`find data/plugins -type f ! -name '*.yml'`;丢失扩展名 = 沉默消失且全树自洽(#2495/#2140)。
