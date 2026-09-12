@@ -1,9 +1,9 @@
-# ecosystem 05 · 方法档案:fresh_probe 数据管线
+# 方法 01 · fresh_probe 数据管线(新鲜下载/星标自采)
 
 > **为什么有这份文档**:做"真实下载/热度趋势"时,仓库边车不可用、catalog 会停更、
 > 公开 API 有各自的坑——下面每一条都是实际踩过并验证过的。脚本本体
-> [`fresh_probe.py`](fresh_probe.py) 已固化这些对策;本文记录"为什么必须这样"。
-> 首次跑通:2026-09-12,基线 `main@38976afd`。
+> [`fresh_probe.py`](../ecosystem/fresh_probe.py) 已固化这些对策;本文记录"为什么必须这样"。
+> 首次跑通:2026-09-12,基线 `main@38976afd`。总纲见 [`00-index.md`](00-index.md)。
 
 ## 1. 数据源层级(重要程度递增)
 
@@ -22,7 +22,7 @@
 | `api.github.com` / `gh api` | 通(gh CLI 已认证,5000/hr) | GraphQL 星标、contents API 都走它 |
 | `api.npmjs.org` / `registry.npmjs.org` | 通,无鉴权 | 下载量、包名归属校验 |
 
-## 3. 五个坑与对策(脚本内的不变量)
+## 3. 六个坑与对策(脚本内的不变量)
 
 ### 坑 1:npm 包名不在注册表里
 yml 只有 GitHub URL;npm 名要解析。层级:上一份快照的 npm 名(已验证)>
@@ -70,7 +70,7 @@ python3 _digested/ecosystem/fresh_probe.py --quiet    # 只采集
 ```
 
 - 时机:每次 `_change_log` 同步后跑一次;或想看趋势时随时跑(快照按日期落盘,可任意间隔对比)。
-- 产出:`_snapshots/snap-<UTC 日期>.json`(url → npm 名/月下载/stars/pushedAt/archived)。
+- 产出:`_digested/ecosystem/_snapshots/` 下的 `snap-<UTC 日期>.json`(url → npm 名/月下载/stars/pushedAt/archived)。
 - 配额: contents API 只在首次/新条目时回源(缓存命中为 0),GraphQL 45 批,
   npmjs 无配额压力。单次全程约 5 分钟。
 - 依赖:`gh auth login` 已完成;Python 3 标准库。

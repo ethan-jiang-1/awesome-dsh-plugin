@@ -2,7 +2,7 @@
 
 > 站位:回答"洪流里真正有价值的那一小块是什么、在往哪走"。数据三层:仓库快照 `main@38976afd`(2026-09-12,census 现算)+ **npm catalog 双快照** `2026.826.2432`(2026-08-25,2189 条)与 `2026.908.3168`(2026-09-07,3363 条)。
 >
-> **方法要点**:仓库内 `data/downloads.json` 是冻结快照(15 天 3213 commits 只变 6 行,下载榜数字与 08-26 完全一致)——新鲜下载量只活在上游 Actions cache 与每夜发布的 `dsh-plugin-catalog` npm 包里。**做下载趋势必须取 catalog 或自采,不能信仓库边车**;catalog 夜间发布在 09-08 后停更后,自采管线成为主数据源,详见 [`05-fresh-probe-method.md`](05-fresh-probe-method.md)。
+> **方法要点**:仓库内 `data/downloads.json` 是冻结快照(15 天 3213 commits 只变 6 行,下载榜数字与 08-26 完全一致)——新鲜下载量只活在上游 Actions cache 与每夜发布的 `dsh-plugin-catalog` npm 包里。**做下载趋势必须取 catalog 或自采,不能信仓库边车**;catalog 夜间发布在 09-08 后停更后,自采管线成为主数据源,详见 [`_method/01-fresh-probe.md`](../_method/01-fresh-probe.md)。
 
 ## 1. 总量与降温:洪流正在退潮
 
@@ -53,7 +53,7 @@
 
 反面特征(skill 33%、wsl 0% 转化):微工具单件(omdsh-dev 系列)、环境特定(wsl)、纯 prompt 包——**"能装"不等于"被用"**;无 UI 存在感、无持续会话价值的东西沉底最快。
 
-## 7. 首跑自采快照补记(2026-09-12,方法见 [05](05-fresh-probe-method.md))
+## 7. 首跑自采快照补记(2026-09-12,方法见 [_method/01](../_method/01-fresh-probe.md))
 
 catalog 停更后自采管线接棒,09-07 → 09-12 五日增量(月窗口下载):
 
@@ -65,7 +65,7 @@ catalog 停更后自采管线接棒,09-07 → 09-12 五日增量(月窗口下载
 
 ## 8. 下一步监控点
 
-- ~~catalog 夜间发布恢复与否~~ → 已由自采管线 [`fresh_probe.py`](fresh_probe.py) 解决(方法见 [05](05-fresh-probe-method.md)),每次同步后重跑即得新鲜增量;
+- ~~catalog 夜间发布恢复与否~~ → 已由自采管线 [`fresh_probe.py`](../ecosystem/fresh_probe.py) 解决(方法见 [_method/01](../_method/01-fresh-probe.md)),每次同步后重跑即得新鲜增量;
 - dsh-web 的引力:是否吸走 better-sidebar/TUI 的份额(直接竞争 vs 分层共存);
 - usage/model 类在 DeepSeek 计价变化下的敏感度;
 - 新类目 wsl 的 0% 转化是否是"环境错配"而非"需求不存在"。
