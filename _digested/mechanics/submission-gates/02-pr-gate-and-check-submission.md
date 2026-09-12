@@ -1,11 +1,11 @@
 # 02 · pr-gate 与 check-submission:判决机
 
-> 基线:`main@5e7dc7eb`。行号对应该基线。
+> 基线:`upstream@38976afd`(0001 复核;行数 check-submission 529→**584**、pr-gate.yml 275→**316**)。最大变更:**commit floor 删除**(#4196)+ 已收录仓库豁免 + 非法扩展名的显式归因。
 
 ## 分工
 
-- `check-submission.mjs`(529 行):纯校验器。输入是条目清单,输出是 JSON 判决 `{ok, checked, failures[], incomplete[], tooMany?}`(`--json` 落盘),退出码只反映 failures。
-- `pr-gate.yml`(275 行):调度与判决发布层。处理「PR 是谁、改了哪些文件、怎么把结果钉回 commit」,并把校验器产出翻译成 check-run(success / neutral / failure 三种结论 + 65000 字符 summary 上限)。
+- `check-submission.mjs`(584 行):纯校验器。输入是条目清单,输出是 JSON 判决 `{ok, checked, failures[], incomplete[], tooMany?}`(`--json` 落盘),退出码只反映 failures。
+- `pr-gate.yml`(316 行):调度与判决发布层。处理「PR 是谁、改了哪些文件、怎么把结果钉回 commit」,并把校验器产出翻译成 check-run(success / neutral / failure 三种结论 + 65000 字符 summary 上限)。
 
 ## 校验器(check-submission.mjs)
 
@@ -13,7 +13,8 @@
 
 | 常量 | 值 | 出处 | 为什么是这个数 |
 |------|-----|------|----------------|
-| `MIN_AGE_DAYS` / `MIN_COMMITS` | 1 天 / 10 提交 | :21-22 | 过滤"PR 前几分钟才建的仓库";低于线的作者被告知精确等待时长,"重新提交不受任何影响" |
+| `MIN_AGE_DAYS` | 1 天 | :21 | 过滤"PR 前几分钟才建的仓库"。**0001:失败文案重写**——不再说"约 N 小时后重新提交",改为"nothing to do: this check re-runs by itself"(regate 的 aged 规则每 6 小时按 summary 里的 `/days old/` 字样自动翻转判决;旧文案曾驱使作者关 PR 重开或 force-push 空提交去"买"本就会到账的东西) |
+| ~~`MIN_COMMITS`~~ | ~~10~~ | 已删(:23-29) | **0001 删除**(2026-09-03,#4196):提交数衡量的是开发**习惯**不是质量——squash-merge 仓的多年真改动 main 历史很短,而 `git commit --allow-empty` 十秒清线;"实践中它从未拒绝过任何东西,全部效果就是延迟 + 一枚让后续人审对干净历史带偏见的红 X"。age floor 保留:**时间不可伪造**。另注意 pr-gate.yml:309 的 success 文案仍残留 "enough commits" 字样——上游自己的过期字符串 |
 | `CONCURRENCY` | 6 | :23 | 批间并发 |
 | `MAX_TREE_PKGS` | 40 | :24 | 每个 package.json 要一次 contents API;DSH 本体树里 dsh-base 排在第 19 个 manifest(~248 个中),所以守得住 |
 | `MAX_ENTRIES_PER_PR` | 3(env 可覆盖) | :70 | 最近 100 个已合并 PR:92×1 条、8×2 条、0×3 条。awesome-go 收 1 条、awesome-python 自动关多件套——3 是宽松端。唯一正当多件形态:monorepo 子包各自可安装 |
@@ -21,8 +22,8 @@
 
 ### 两级准入日期(contributing 的「老条约老规则」)
 
-- `GATE_EFFECTIVE_FROM`:2026-08-16T00:00:00Z(:50)之后开的 PR 才受年龄/提交门槛约束;
-- `BULK_RULE_FROM`:2026-08-20T00:00:00Z(:71)之后才受 ≤3 条上限约束;
+- `GATE_EFFECTIVE_FROM`:2026-08-16T00:00:00Z(:58)之后开的 PR 才受年龄/门槛约束;
+- `BULK_RULE_FROM`:2026-08-20T00:00:00Z(:79)之后才受 ≤3 条上限约束;
 - workflow 侧(pr-gate.yml:152-153)用 `git log --diff-filter=A -- <pr-gate.yml>` 取 workflow 实际落地日作为 effective_from,**不让脚本默认值和现实漂移**。
 
 ### 判决的四种出口(:490-513)
@@ -38,7 +39,7 @@
 
 > 一个 gate 若分不清「通过」和「从没跑过」,比没有 gate 更糟——因为它被信任着。
 
-由此派生一整族行为:meta 请求失败 → 本条目"nothing checked";commit 数读不到 → 记 `unverified`,绝不打印"N commits 达标"这种关于没数过的仓库的话(:388-392);tree API 截断(truncated:true,HTTP 仍是 200)→ 视为 unknown 而非 absent(:211-216);package.json 超 40 个读不完 → 同样 unknown(:252-255)。
+由此派生一整族行为:meta 请求失败 → 本条目"nothing checked";tree API 截断(truncated:true,HTTP 仍是 200)→ 视为 unknown 而非 absent(:211-216 附近);package.json 超 40 个读不完 → 同样 unknown。~~commit 数读不到记 unverified~~ 一条随 commitCount() 一并删除(0001)。
 
 ### 身份黑名单与 vendored 检测(:26-46, :236-248)
 
@@ -55,7 +56,8 @@
 
 - **403 三义性**:权限拒绝(无 retry-after/x-ratelimit-remaining 头,立即返回)、主配额(x-ratelimit-remaining:0,等到 reset)、次级滥用限制(retry-after,约一分钟)。第一版三者一律放弃 → 2026-08-25 八个投稿裸奔未核验。修复:只重试"重试有用"的两类,严格等 GitHub 要求的时长(:108-116)。
 - **memo 按 promise 不按结果**(:167-171):monorepo N 个子包 → 同 repo 的 meta/commits/tree 只发一次;#1608 一个 PR 带 33 个子包曾产生 64 次纯重复调用(1000/h 配额,还要和其它 workflow 共享——这就是 2026-08-18 挤兑的成因,23 个开放 PR 因此挂着"无法完全检查")。
-- commitCount 从 Link header 的 rel="last" 页码取值(:348-355),走同一套 api() 退避——它曾自带裸 fetch,挤兑时把仓库误显成"没有提交史"。
+- ~~commitCount~~(0001 删除):曾从 Link header 的 rel="last" 页码取值,走同一套 api() 退避;commit floor 删除后整个函数移除,memo 只剩 meta/tree 两类。
+- **已收录仓库豁免(0001 新增,listedReposAt)**:从 base commit 的 `git ls-tree` 按**文件名**解析已收录 owner/repo(名字 `owner__repo--sub.yml` 的第一个 `__` 必是 owner 边界,GitHub owner 名不含下划线);豁免的是**仓库**不是变更类型——改名落到已收录仓库直接跳过门槛(Tlyer233 案:插件在自己仓里上移一层目录,却被"7 commits (needs 10)"拒绝),落到未收录仓库仍受全量审查(#1554 原样保留)。豁免**以 base 为准**,PR 不能靠同一 push 里自加首条目给自己发豁免;base 读不到 → null = "谁都不豁免",fail-closed。
 
 ## pr-gate.yml 调度层
 
@@ -71,7 +73,8 @@
 
 - checkout 停留在 main(信任的代码、信任的 lockfile);`git fetch refs/pull/N/head` 后 **merge-base 对比今天的 origin/main**——API 给的 base.sha 是开 PR 时的快照,fork 同步过的分支会因此把别人的条目算进本 PR(:104-111)。
 - `--diff-filter=AR`:**R(改名)必须算进来**。#1554 通过改名条目文件、把 url 指向别的仓库绕过了"没有新增文件"的门;"R 时 --name-only 打印新路径",恰好是要检查的那份。
-- `git archive … | tar -x`:blob 只作数据进 /tmp/prdata,不执行任何东西。
+- `git archive … | tar -x`:blob 只作数据进 /tmp/prdata,不执行任何东西。0001 增量:extract 步骤显式输出 `base` 供 listedReposAt 使用(注释:必须从 base commit 读,从 checkout 读则 PR 加的每个仓都像"早已收录")。
+- **非 yml 扩展名的显式归因(0001 新增)**:extract 收集 data/plugins/ 下全部变更路径,而校验器只读 `*.yml`——扩展名丢失的条目会被计数、永不解析、永远进 failure 分支,#1477 因此被"重跑 workflow"搪塞了 13 天。现在全数非 yml 时直接报 "N entry file(s) missing the .yml extension",不再让作者空转。
 - modified.txt:本 PR 改写的既有条目单独列出,M 类不走年龄/提交门(存量条目按收录时的规则,周度 decay scan 盯它们的退化),但**每一份判决都要附上这份清单**让评审追问:#1348 案(两次混过所有机械检查)正是这类。
 
 ### 判决翻译表(:169-249)
@@ -84,7 +87,7 @@
 | tooMany | failure | 附全文拆分劝告 + "pick as well as split" |
 | checked===0 但 extract 说有文件 | failure | 两个组件互相矛盾,不能 vouch |
 | ok 且有 incomplete | **neutral** | "X pass;其余放行但 nothing here vouches for them;Re-run to check properly" —— neutral 就是留给 regate 重访的钩子 |
-| ok 全绿 | success | "dsh.bundle declared, repo old enough, enough commits" + modifiedNote |
+| ok 全绿 | success | "dsh.bundle declared, repo old enough, enough commits" + modifiedNote(**上游遗留**:commit floor 已删但这句没改,pr-gate.yml:309) |
 | 有 failures | failure | 每条逐点列出 + 指向 contributing.md |
 
 ## 待复核

@@ -19,7 +19,7 @@
 | [`mechanics/registry-data`](../mechanics/registry-data/00-map.md) | **已核验**(0001:wsl 23 类、schema 白名单未变、3552 条、CRLF 11 个;行号刷新) | 仅 map | `38976afd` |
 | [`mechanics/readme-pipeline`](../mechanics/readme-pipeline/00-map.md) | **已核验**(0001:yml-only 投稿 + sync-readme bot 重生成 + --check 语义收窄 + CRLF 归一化,已并入两篇) | 00-map · 01-generate-readme | `38976afd` |
 | [`mechanics/site-surface`](../mechanics/site-surface/00-map.md) | **已核验**(0001:AdSense/Giscus/并发组拆分/1098 行/7160 页/隐私页重写已并入三篇) | 01-build-site · 02-templates-locales | `38976afd` |
-| [`mechanics/submission-gates`](../mechanics/submission-gates/00-map.md) | 需复核(0001:四道门禁实质 diff、commit floor 删除、held-rescan 新增;复核中) | 01 · 02 · 03 | `5e7dc7eb` |
+| [`mechanics/submission-gates`](../mechanics/submission-gates/00-map.md) | **已核验**(0001:commit floor 删除/#4196、已收录仓库豁免、路径一层守卫、三档排序、held-rescan;pr-gate:309 上游遗留字符串已记) | 01 · 02 · 03 | `38976afd` |
 | [`mechanics/probes-and-decay`](../mechanics/probes-and-decay/00-map.md) | **已核验**(0001:仅 probe-npm +150 行/version 字段/新鲜度分层;九探针口径不变;六处修正已并入) | 01 · 02 · 03 | `38976afd` |
 
 > 核验方式说明:`mechanics/submission-gates`、`system`、`registry-data`、`readme-pipeline` 由主笔逐行精读;`site-surface`、`probes-and-decay` 两专题由并行子代理逐行精读后主笔蒸馏,未做全文二次抽查——引用前如需强保证,按文中行号回源核对。`ecosystem` 的数字均可由 `_digested/ecosystem/census.py`(标准库,无第三方依赖)重跑复现;技术标签为描述正则判定,精度边界见其 02 文末方法注记。

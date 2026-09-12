@@ -1,8 +1,8 @@
 # 03 · regate 与 check-bleed:判决保鲜与描述污染检测
 
-> 基线:`main@5e7dc7eb`。行号对应该基线。
+> 基线:`upstream@38976afd`(0001 复核;regate.yml 197→**218 行**,check-bleed 94 行未变)。
 
-## regate.yml(197 行):判决是快照
+## regate.yml(218 行):判决是快照
 
 核心论断在工作流头注释(:1-18):判决过期有两种方式——**被时钟过期**(0.5 天的仓库几小时后就合格了,但没人重查)和**被代码过期**(门禁本身改了,旧判决全是已不存在的代码作出的;"stale red 会被人注意到,stale green 会被合并")。所以它重跑 `PR check`(从而级联触发 gate)于以下开放 PR:
 
@@ -12,7 +12,7 @@
 |------|------|------|
 | `never` | gate check-run 不存在 | PR 早于 gate 出生,或 run 死在贴出判决之前——"没被判过"与"通过"在扫队列时不可区分 |
 | `stale` | 判决时间 < 门禁最后变更时间 | 门禁最后变更时刻 = `pr-gate.yml` 与 `scripts/check-submission.mjs` 两路径最近 commit 时间取大者(:70-79) |
-| `aged` | conclusion=failure 且 summary 匹配 `/days old\|commit\(s\)/` 且距上次 ≥24h | "时间能解决的失败"。每轮只重试一次而非每 6 小时一次:年龄按整天计,多问只会听同样的答案,还会让真太新的仓库霸占 oldest-first 队首(:140-145) |
+| `aged` | conclusion=failure 且 summary 匹配 `/days old\|commit\(s\)/` 且距上次 ≥24h | "时间能解决的失败"。0001:正则保留 `commit(s)` 兼容存量判决(门槛已删,新判决只有 days old 文案);配合 check-submission 的新文案("nothing to do, no need to resubmit"),aged PR 现在**静默自愈**,作者不再被支使去重开 PR |
 | `unverified` | conclusion=neutral | **gate fail-open 的闭环**:放行了但没人 vouch 的条目,`aged` 只匹配 failure、`passStale` 只匹配 success,不补这条 neutral 将永远无人复查(:147-158) |
 
 第五个**非紧急**理由 `passStale`(:160-170):success 满 `PASS_STALE_MS = 48h`。绿灯只是"对当时那个仓库的陈述"——作者可以 force-push 掉提交、改名让 URL 404、干脆删库,绿灯依旧绿。#1022:一条"All 11 entries pass"一天后四个仓库三个跌破提交门槛一个 404,靠人肉复核才发现,"which is not a control"(不算控制手段)。
@@ -21,7 +21,8 @@
 
 - `MAX_RERUNS = 20`:从 12 提上来——重跑陈旧判决规则上线后有积压要清。
 - 先收集再执行:urgent 永远优先于 speculative(«那些 PR 是被卡住的,绿的可能错只是"可能"»)。
-- oldest-first 是修出来的(:84-90):`pulls.list` 返回最新在前,#2146 曾挂"约 24h 后重新提交"119 小时——每一轮 20 个名额都被更新的 PR 吃掉,同状态堆积 22 个、最深的五天。
+- oldest-first 是修出来的(:84-90):`pulls.list` 返回最新在前,#2146 曾挂"aged in"判决 119 小时——每一轮 20 个名额都被更新的 PR 吃掉。
+- **0001:排序从两档改三档**(blocking > revalidate > speculative):门禁文件一变更,全体 open 判决同时变 stale(~140 个),按 PR 号升序会让积压 backlog 排在真正被卡的投稿前面——"一个只等仓库满一天的插件要等两天而不是六小时",触发条件仅仅是维护者改了门禁注释。blocking(没人 vouch 或卡在时钟上)优先于 revalidate(判决大概率仍对,只是出于尽责重问);diligence yields。
 - run id 不再依赖最近 100 次 run 的 SHA 索引(:92-97):任何两小时窗口外的 push 都会被静默跳过;改从 check-run 自带的 details_url 里抠 run id。
 - 全部包在 try/catch 里且把 403/429 当"本轮少干点",绝不为配额紧张发红色告警(:55-56, :194-196)。
 - check 本身失败的 PR 直接跳过(:130):内容错了时间治不好,重跑纯烧配额。

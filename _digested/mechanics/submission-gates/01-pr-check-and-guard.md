@@ -1,16 +1,17 @@
 # 01 · pr-check 与 pr-guard:fork 安全层与元检查
 
-> 基线:`main@5e7dc7eb`。所有行号对应该基线。
+> 基线:`upstream@38976afd`(0001 复核;pr-check 82→**146 行**)。行号对应该基线,段内引用为步骤序号。
 
-## pr-check.yml(82 行,fork 可见的第一层)
+## pr-check.yml(146 行,fork 可见的第一层)
 
 触发 `pull_request`,权限 `contents: read`,无任何 secrets。五个 step 依次(pr-check.yml:24-82):
 
-1. **Stale-fork 守卫**(:24-41)。对 README.md 做 diff,数被删的条目行(`^-- \[.+\]\(https://github\.com/`)与新增行;当 `removed > 2 且 removed > added` 判失败,提示"Sync fork 后重推"。防的是落后 fork 一合并就静默吞掉新条目——#502 那种会删 32 条的 fork 曾在所有内容检查下全身而过,因为删除在中英两侧是对称的、自洽的。
-2. **扩展名守卫**(:42-59)。`find data/plugins -type f ! -name '*.yml'`。readEntries() 只读 `*.yml`,一个丢失扩展名的文件会在沉默中消失——且其余检查全绿:再生的 README 同样少了它,自洽。#2495 修过一次,#2140 又从旧 main 基础上把它带回来。
-3. **README 同步**:generate-readme.mjs --check(:60-68)。
-4. **awesome-lint**(:69-70)。
-5. **站点构建**,带 `SKIP_PUBLISH_CHECKS=1`、探针数据缺失容忍(:71-82)——PR 检查必须免 token、fork 安全,所以发布前的 star 覆盖率门槛在这里关掉。
+1. **Stale-fork 守卫**。**0001 修订:计数对象从 README 行数改为条目文件数**(`git diff -- data/plugins/` 数增删)——README 行数口径下,一个只带 `data/plugins/` 的 stale fork 会显示干净的对称 diff;新口径提示语改为"单一投稿应为 +1/-0"。防的仍是落后 fork 静默吞条目(#502 案,删除在中英两侧对称自洽)。
+2. **扩展名守卫**。`find data/plugins -type f ! -name '*.yml'`;丢失扩展名 = 沉默消失且全树自洽(#2495/#2140)。
+3. **路径一层守卫(0001 新增)**。条目必须在 `data/plugins/` 恰好一层深——readEntries() 的 glob 不递归,放错层的文件会"README 再生时静默消失、其余检查全绿"(与扩展名丢失同一自洽漏洞家族);报错给出可粘贴的 `git mv` 修正。
+4. **READMEs match data/plugins**。**0001 重构**:两种形态都接受——yml-only(新常态:runner 现场重生成,保持树一致)与 yml+再生 README(仍须 --check 匹配,手改被抓)。见 [readme-pipeline/00-map](../readme-pipeline/00-map.md)。
+5. **awesome-lint**。
+6. **站点构建**,带 `SKIP_PUBLISH_CHECKS=1`、探针数据缺失容忍——PR 检查必须免 token、fork 安全,发布前的 star 覆盖率门槛在这里关掉。
 
 ## 为什么需要 pr-guard.yml:两类「检查根本不会运行」的状态
 
