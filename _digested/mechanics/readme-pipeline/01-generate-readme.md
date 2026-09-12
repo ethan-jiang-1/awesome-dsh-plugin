@@ -1,6 +1,6 @@
 # 01 · generate-readme 逐段机制
 
-> 基线:`main@5e7dc7eb`。210 行小脚本,但每个函数都值得记录。
+> 基线:`upstream@38976afd`(0001 复核:210→**215 行**,唯一增量是 CRLF 归一化 +5 行;全部函数行为未变)。行号可能有 ±5 漂移,机制描述为准。
 
 ## 主流程(:80-186)
 
@@ -17,7 +17,9 @@ readEntries()(坏 YAML 在这里以可读消息退出,不打堆栈)
     before !== after 时写盘(w 写模式)/ --check 模式则记 stale
     parsedUrls() 全文集合校验(smuggled / missing 都算 stale)
 → untranslated 清单汇报(≥1 条时)
-→ stale 则 exit 1 并提示 regenerate+commit
+→ stale 则 exit 1 并提示 regenerate
+    (0001 起 --check 只在 PR 手改 README 时才由 pr-check 调用;
+     yml-only PR 由 runner 现场无 --check 生成;合并后由 sync-readme.yml 执行)
 ```
 
 ## 细节摘录
@@ -25,8 +27,9 @@ readEntries()(坏 YAML 在这里以可读消息退出,不打堆栈)
 - **replaceBlock**(:49-57):marker 对丢失或逆序直接 exit 1——手编时不小心吃掉注释是常见事故。
 - **escapeRefs**(:112-116):按 code span 切片,偶数段(非代码)才做 `(^|[^\\])\[(?![^\]]*\]\()` 的开括号转义;三条既有条目依赖 inline link,不能误伤。
 - **破链检查**(:188-197):README 内所有指向 `README*.md` 的链接必须存在(语言切换链接失效会被拦)。
-- **category 清单看守**(:199-210):contributing.md 里必须逐字包含 `` `agi` `ui` … `fun` `` 反引号拼接串——taxonomy 曾加 usage/vision 后文档仍停在旧十二项,故改为脚本看守。(对照:PR 模板的同款列表未被看守,已漂移,见 00-map。)
+- **category 清单看守**(:204-215 附近):contributing.md 里必须逐字包含 CAT_IDS 反引号拼接串——taxonomy 曾加 usage/vision 后文档仍停在旧十二项,故改为脚本看守。0001:contributing 与 PR 模板列表都已人工同步到含 wsl 的 23 项;PR 模板那份依然无脚本看守(见 00-map)。
 - **幂等性**:before==after 不写盘打印 "up to date";整个脚本无增量概念,每次全量重建。
+- **CRLF 归一化(0001 新增,+5 行)**:`normalizeNewlines`(:49-53)把 `\r\n?` 归一为 `\n`,`parsedUrls` 切行改 `split(/\r?\n/)`——Windows 下 autocrlf 检出的 README 逻辑内容未变,不应报 stale。"Git sees no content diff" 是判据。
 
 ## 它不做的事
 

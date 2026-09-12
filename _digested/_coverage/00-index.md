@@ -17,7 +17,7 @@
 | [`ecosystem`](../ecosystem/00-map.md) | **已核验**(0001:头条/23 类分布/标签表/演化曲线/盲区全部重算;新增 04 趋势、05→_method 方法档案) | 00-map · 01-scenario-taxonomy · 02-tech-landscape · 03-growth-maturity · 04-value-trend(+ _method/01) | `38976afd` |
 | [`mechanics/system`](../mechanics/system/00-map.md) | **已核验**(0001:生命周期图并入五处机制变更,规模事实刷新) | 仅 map | `38976afd` |
 | [`mechanics/registry-data`](../mechanics/registry-data/00-map.md) | **已核验**(0001:wsl 23 类、schema 白名单未变、3552 条、CRLF 11 个;行号刷新) | 仅 map | `38976afd` |
-| [`mechanics/readme-pipeline`](../mechanics/readme-pipeline/00-map.md) | 需复核(0001:生成归属改为 main 合并后重生成,核心假设变更;复核中) | 01-generate-readme | `5e7dc7eb` |
+| [`mechanics/readme-pipeline`](../mechanics/readme-pipeline/00-map.md) | **已核验**(0001:yml-only 投稿 + sync-readme bot 重生成 + --check 语义收窄 + CRLF 归一化,已并入两篇) | 00-map · 01-generate-readme | `38976afd` |
 | [`mechanics/site-surface`](../mechanics/site-surface/00-map.md) | **已核验**(0001:AdSense/Giscus/并发组拆分/1098 行/7160 页/隐私页重写已并入三篇) | 01-build-site · 02-templates-locales | `38976afd` |
 | [`mechanics/submission-gates`](../mechanics/submission-gates/00-map.md) | 需复核(0001:四道门禁实质 diff、commit floor 删除、held-rescan 新增;复核中) | 01 · 02 · 03 | `5e7dc7eb` |
 | [`mechanics/probes-and-decay`](../mechanics/probes-and-decay/00-map.md) | **已核验**(0001:仅 probe-npm +150 行/version 字段/新鲜度分层;九探针口径不变;六处修正已并入) | 01 · 02 · 03 | `38976afd` |

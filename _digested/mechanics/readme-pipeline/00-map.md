@@ -1,10 +1,12 @@
 # readme-pipeline · README 生成
 
-> 状态:**进行中**(generate-readme.mjs 已逐行核验;边车数据与站点侧联动见姊妹专题)。最近核验:`5e7dc7eb`,2026-08-27。
+> 状态:**0001 已复核**(生成归属发生本专题立项以来最大变更:README 不再随 PR 提交,改由 main 合并后 bot 重生成;generate-readme.mjs 210→215 行,其余函数未动)。最近核验:`38976afd`,2026-09-12。
 
 ## 定位
 
-根目录双语 README 各约 600KB(2469 行),是 `data/plugins/*.yml` 的**投影**:marker 块(`<!-- BEGIN TOC -->…<!-- END TOC -->`、`<!-- BEGIN PLUGINS -->…<!-- END PLUGINS -->`)内由脚本再生,块外(badges、banner、intro、Contributing/Badge/Disclaimer)永远手工维护——`npm ci && node scripts/generate-readme.mjs` 是投稿者本地要跑的全部(:22-27 contributing.md)。CI 用 `--check` 模式验证同步(pr-check.yml:65)。
+根目录双语 README(3555+ 行)是 `data/plugins/*.yml` 的**投影**:marker 块(`<!-- BEGIN TOC -->…<!-- END TOC -->`、`<!-- BEGIN PLUGINS -->…<!-- END PLUGINS -->`)内由脚本再生,块外(badges、banner、intro、Contributing/Badge/Disclaimer)永远手工维护。
+
+**0001 重构(核心变更)**:投稿改为 **yml-only**——"That one file is the whole submission"(contributing.md:22)。投稿者**不再需要**跑 `generate-readme`(也不再提交 README);PR 合并后由新增的 `.github/workflows/sync-readme.yml` 在 main 上重生成并以 bot 身份提交(`permissions: contents: write`,git push)。pr-check 的 `--check` 语义收窄:**仅当 PR 自己手改了 README 才要求与 yml 匹配**(:133-137);yml-only PR(新常态)由 runner 现场重新生成以保持树一致(:123-126)。动机:要求 PR 内 regenerate 曾使同分类的提交永远互相冲突——8-30 当天 296 个 open PR 里 218 个卡在生成行上,"none of them over anything a human had written"。
 
 ## 本专题的三个核心机制
 
@@ -21,7 +23,14 @@
 | 站点层 | parity 五检(分隔符/互相缺失/分类一致)| build-site.mjs:56-117 |
 | 守卫层 | contributing.md 的 category 清单由生成器核对(CAT_IDS 拼串比对,漂移过一次后改为脚本看守)| generate-readme.mjs:203-210 |
 
-**已知未守卫点**:.github/pull_request_template.md 勾选框里的 category 列表仍是旧的 12 项(现为 22 项)——它不在任何脚本的看守范围内。同类问题还散布在注释里的过期数字(build-site "2,143 entries"、build-site.mjs:9 过期职责声明、probe-npm 头注释的 30 天)。这个仓库的一致性哲学是:**能被脚本看守的都被看守了;看不了的靠注释承认人工性。**
+**已知未守卫点(0001 更新)**:.github/pull_request_template.md 的 category 列表这次**被人工同步到了 23 项**(含 wsl)——但它仍不在任何脚本看守范围内,与 contributing.md 的同步靠人记得。这个仓库的一致性哲学不变:**能被脚本看守的都被看守了;看不了的靠注释承认人工性**(build-site "2,143 entries" 等过期注释仍在,见各专题)。
+
+## sync-readme.yml:bot 重生成(0001 新增,精读)
+
+- **写权限的口子**:注释明说 "Unlike build-site.yml, this one DOES write to the repository — that is its entire job",刻意独立成窄权限 workflow,保住 "the build never writes" 在 build 侧为真。
+- **排队不取消**:`concurrency: { group: sync-readme, cancel-in-progress: false }`——两个 merge 都会触发重生成,取消会让 main 留着 stale README 等下一次 merge 才修复,所以排队。
+- **bot guard**:`if: github.actor != 'github-actions[bot]'`——bot 自己的提交会再触发一次 push,第二次运行 diff 为空即 exit 0,终止性靠 generate-readme 的确定性。
+- **added-date 语义转移**(workflow 注释里自己交代了):新条目 README 行的"首个 added commit"现在是这个 bot commit 而非 merge commit——同日秒差,但读 build-site 日期推导的人要知道每个近期日期都指向 bot commit。
 
 ## 正文
 
