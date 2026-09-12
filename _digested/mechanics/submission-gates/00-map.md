@@ -27,6 +27,7 @@
 | [`pr-check.yml`](./01-pr-check-and-guard.md) | `pull_request`(含 fork) | 无 token | 形式层(六步):stale-fork 守卫(数条目文件)、`.yml` 扩展名守卫、**条目路径守卫(0001 新增)**、README 一致性(两种形态,#3832)、awesome-lint、站点构建(SkipPublishChecks) |
 | [`pr-gate.yml`](./02-pr-gate-and-check-submission.md) | `workflow_run: PR check completed` | 有 token | 实质层:dsh.bundle 清单、仓库年龄≥1天(**提交数门槛已删**,#4196)、每 PR ≤3 条、**已收录仓库豁免**;产出 check-run 判决 |
 | [`pr-guard.yml`](./01-pr-check-and-guard.md) | schedule `37 * * * *` + 手动 | 元检查 | 抓两类"其他检查根本不会运行"的状态:删掉 workflow 文件的 PR(#1635)、动了 `.github/` 的 stale fork(#1614/#1635) |
+
 ### 保鲜线
 
 | workflow | 触发 | 权限面 | 职责 |
@@ -40,8 +41,7 @@
 |----------|------|--------|------|
 | `decay-scan.yml` | 归 [probes-and-decay](../probes-and-decay/00-map.md) | — | 收录后的持续监督,不属于准入 |
 
-> 口径注:本专题覆盖上述六条 workflow 中除监督线外的五条 + held-rescan;`build-site.yml` 归 [site-surface](../site-surface/00-map.md)、`sync-readme.yml` 归 [readme-pipeline](../readme-pipeline/00-map.md)(后者是仓库唯一向 main 写入的 workflow,bot 提交 README)。
-| `decay-scan.yml` | 归 [probes-and-decay](../probes-and-decay/00-map.md) | — | 收录后的持续监督,不属于准入 |
+> 口径注:本专题覆盖六条 workflow——三道准入门 + regate/held-rescan(保鲜线)+ decay-scan(监督线);`build-site.yml` 归 [site-surface](../site-surface/00-map.md)、`sync-readme.yml` 归 [readme-pipeline](../readme-pipeline/00-map.md)(仓库唯一向 main 写入的 workflow,bot 提交 README),这两条不计入六条。
 
 配套脚本:[`check-submission.mjs`](./02-pr-gate-and-check-submission.md)(584 行,实质校验)、[`check-bleed.mjs`](./03-regate-and-bleed.md)(94 行,描述串染检测,#1348,未变)。
 

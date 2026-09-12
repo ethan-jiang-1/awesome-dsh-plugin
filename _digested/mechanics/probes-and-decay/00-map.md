@@ -1,6 +1,6 @@
 # probes-and-decay · 探针与衰减
 
-> 状态:**0001 已复核**(12 个脚本 + 调度 workflow 逐行消化;行号引用以 `upstream@38976afd` 为准)。最近核验:`38976afd`,2026-09-12。复核结论:仅 probe-npm.mjs(97→150 行)与 build-site.yml(并发组拆分)有实质变更,其余探针/decay/publish 脚本 diff 为空。
+> 状态:**0001 已复核**(11 个脚本 = 7 个 probe-* + scan-decay + 双 publish + prune-legacy-screenshots,另加调度 workflow 逐行消化;行号引用以 `upstream@38976afd` 为准)。最近核验:`38976afd`,2026-09-12。复核结论:仅 probe-npm.mjs(97→150 行)与 build-site.yml(并发组拆分)有实质变更,其余探针/decay/publish 脚本 diff 为空。
 
 ## 定位
 

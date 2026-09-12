@@ -1,6 +1,6 @@
 # mechanics · 注册表机制(评估者速览)
 
-> **默认读到本文为止。** 下面六个子目录是机制档案(投稿者/维护者视角的逐行笔记,共 ~700 行),对"理解这个项目有什么用"贡献很小。评估所需的全部数字与解读在 [`ecosystem/`](../ecosystem/00-map.md)。
+> **默认读到本文为止。** 下面六个子目录是机制档案(投稿者/维护者视角的逐行笔记,共 ~770 行),对"理解这个项目有什么用"贡献很小。评估所需的全部数字与解读在 [`ecosystem/`](../ecosystem/00-map.md)。
 > 结论基线:`main@38976afd`,2026-09-12(0001 已复核;本页与各专题 map 同步更新)。
 
 ## 评估这个项目,机制层面只需要知道三件事
@@ -12,7 +12,7 @@
 每周一个 decay 扫描给条目打 flag(消失/归档/休眠),不确定率超过 5% 就熔断不判死,且只开 issue 提醒人、从不自动删除。→ **含义**:衰老有监控、有人工兜底,不是挂了没人管的目录。
 
 **3. 它是个什么量级的工程?**
-约 4400 行 scripts + 8 条 workflow,基础设施仍是纯 GitHub-Native(GitHub Actions + Pages + npm OIDC,零第三方服务)。→ **含义**:这是 awesome-list 的工业化形态——一个人靠纯 GitHub-Native 工具就能维持的注册表;架构极保守,没有值得借鉴的黑科技。~~没有隐藏的商业逻辑~~——**此结论 0001 已推翻**:站点接入 AdSense(变量门控,ads.txt 落库)与 Giscus 评论,变现动作首次落地(详见 [site-surface](site-surface/00-map.md) 与 [ecosystem/04](../ecosystem/04-value-trend.md))。
+约 4600 行 scripts + 8 条 workflow(约 1470 行),基础设施仍是纯 GitHub-Native(GitHub Actions + Pages + npm OIDC)。→ **含义**:这是 awesome-list 的工业化形态——一个人靠纯 GitHub-Native 工具就能维持的注册表;架构极保守,没有值得借鉴的黑科技。~~没有隐藏的商业逻辑~~——**此结论 0001 已推翻**:站点接入 AdSense(变量门控,ads.txt 落库)与 Giscus 评论,变现动作首次落地(详见 [site-surface](site-surface/00-map.md) 与 [ecosystem/04](../ecosystem/04-value-trend.md))。
 
 ## 六个档案各是什么(按需再翻)
 
@@ -24,4 +24,4 @@
 | [`readme-pipeline/`](readme-pipeline/00-map.md) · [`site-surface/`](site-surface/00-map.md) | README 与站点如何生成 | 要复现构建或研究双语一致性 |
 | [`probes-and-decay/`](probes-and-decay/00-map.md) | 探针家族 + 腐烂扫描 | 追问"stars 数字怎么来的""上游合并后哪些边车会变" |
 
-> 数字类细节的重跑入口:ecosystem 用 [`census.py`](../ecosystem/census.py);机制行为的复核流程见 [`_change_log/`](../_change_log/00-index.md)。
+> 数字类细节的重跑入口:ecosystem 用 [`census.py`](../ecosystem/census.py) 与 [`fresh_probe.py`](../ecosystem/fresh_probe.py);机制行为的复核流程见 [`_change_log/`](../_change_log/00-index.md)。

@@ -13,7 +13,7 @@
 | `never` | gate check-run 不存在 | PR 早于 gate 出生,或 run 死在贴出判决之前——"没被判过"与"通过"在扫队列时不可区分 |
 | `stale` | 判决时间 < 门禁最后变更时间 | 门禁最后变更时刻 = `pr-gate.yml` 与 `scripts/check-submission.mjs` 两路径最近 commit 时间取大者(:70-79) |
 | `aged` | conclusion=failure 且 summary 匹配 `/days old\|commit\(s\)/`(:163-165)且距上次 ≥24h | "时间能解决的失败"。0001:正则保留 `commit(s)` 分支兼容存量判决——但门槛已删、新判决只有 days old 文案,**该分支已成死代码待清理**;配合 check-submission 的新文案("nothing to do, no need to resubmit"),aged PR 现在**静默自愈**,作者不再被支使去重开 PR |
-| `unverified` | conclusion=neutral | **gate fail-open 的闭环**:放行了但没人 vouch 的条目,`aged` 只匹配 failure、`passStale` 只匹配 success,不补这条 neutral 将永远无人复查(:147-158) |
+| `unverified` | conclusion=neutral | **gate fail-open 的闭环**:放行了但没人 vouch 的条目,`aged` 只匹配 failure、`passStale` 只匹配 success,不补这条 neutral 将永远无人复查(:168-176) |
 
 第五个**非紧急**理由 `passStale`(现 :187):success 满 `PASS_STALE_MS = 48h`。绿灯只是"对当时那个仓库的陈述"——作者可以 force-push 掉提交、改名让 URL 404、干脆删库,绿灯依旧绿。#1022:一条"All 11 entries pass"一天后四个仓库三个跌破提交门槛一个 404,靠人肉复核才发现,"which is not a control"(不算控制手段)。
 
