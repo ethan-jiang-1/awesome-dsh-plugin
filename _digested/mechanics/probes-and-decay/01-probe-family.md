@@ -1,4 +1,4 @@
-# 01 · probe 家族:九个采集器的机制参考
+# 01 · probe 家族:九个采集器的机制参考(7 个 probe-* 脚本 + scan-decay + prune-legacy-screenshots)
 
 > 基线:`upstream@38976afd`(0001 复核;probe-npm 自 97 行扩至 150 行,其余采集器未变)。行号为脚本内行号。
 
