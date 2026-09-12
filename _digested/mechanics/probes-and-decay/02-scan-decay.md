@@ -1,6 +1,6 @@
 # 02 · scan-decay:腐坏判据与人机分工
 
-> 基线:`main@5e7dc7eb`。
+> 基线:`upstream@38976afd`(0001 复核;scan-decay 与 decay-scan.yml 未变)。
 
 ## 职责边界
 

@@ -1,6 +1,6 @@
 # probes-and-decay · 探针与衰减
 
-> 状态:**初稿完成**(12 个脚本 + 调度 workflow 已逐行消化;行号引用来自 `main@5e7dc7eb` 工作区)。最近核验:`5e7dc7eb`,2026-08-27。
+> 状态:**0001 已复核**(12 个脚本 + 调度 workflow 逐行消化;行号引用以 `upstream@38976afd` 为准)。最近核验:`38976afd`,2026-09-12。复核结论:仅 probe-npm.mjs(97→150 行)与 build-site.yml(并发组拆分)有实质变更,其余探针/decay/publish 脚本 diff 为空。
 
 ## 定位
 
@@ -31,7 +31,7 @@
 - **非原子写入**:所有脚本都是裸 `writeFileSync`,无 tmp+rename。安全性由“地板门不过就 exit 不写”兜底,而不是由原子性兜底。
 - **没有共享 HTTP 客户端**:四套 fetch 封装并存(裸 fetch×2 处、rate-limit-aware gh() 两份逐字重复、scan-decay 的 api()/graphql()、downloads 的六次退避),user-agent 各自为政。是债,但每套的退避策略确实不同。
 - **probe-downloads 的死常量**:`CONCURRENCY = 8` 从未被使用(:42),实际全串行——scoped 包靠每包 sleep 2000ms 的 pacing 过 limiter(测得:8 并发 94/134 失败,pacing 是唯一有效解)。
-- **probe-npm 对新条目的污染通道**:首见即遇网络故障会被记成 `{npm: null}`(≈"未发布"),违反自身家族的“未知≠否定”纪律;因 unpublished 判定每天重查而次日自愈,但值得记住这个例外。
+- **probe-npm 对新条目的污染通道**:首见即遇网络故障会被记成 `{npm: null, version: null}`(≈"未发布"),违反自身家族的“未知≠否定”纪律;因 unpublished 判定每天重查而次日自愈,但值得记住这个例外(失败兜底见 probe-npm.mjs:133)。
 
 ## 正文
 

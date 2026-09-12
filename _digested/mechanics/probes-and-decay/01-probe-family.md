@@ -1,11 +1,11 @@
 # 01 · probe 家族:九个采集器的机制参考
 
-> 基线:`main@5e7dc7eb`。行号为脚本内行号。
+> 基线:`upstream@38976afd`(0001 复核;probe-npm 自 97 行扩至 150 行,其余采集器未变)。行号为脚本内行号。
 
 ## 公共行为模式
 
 - **花名册来源**:除 tarballs/screenshots(直接 `readEntries()` 消费 YAML)外,一律解析 `README.md` 的条目行(`/^- \[.+?\]\((https:\/\/github\.com\/[^)]+)\) [—-] /`)——README 是探针眼里的注册表视图。
-- **增量判据**:`fresh()` = 非 PROBE_ALL 且已有值且 checkedAt 在 `PROBE_RECHECK_DAYS`(默认 1,readmes 例外默认 7)天内。published 判定(probe-npm)与成功 README 永久有效不重查;unpublished 每天复查。
+- **增量判据**:`fresh()` = 非 PROBE_ALL 且已有值且 checkedAt 在 `PROBE_RECHECK_DAYS`(默认 1,readmes 例外默认 7)天内。**0001 修订**:published 的语义分层了——包名判定与成功 README 仍永久有效不重查;但 probe-npm 的 `version` 字段只靠 nightly `PROBE_ALL` 全量刷新(push 构建永不刷新);unpublished 每天复查。
 - **monorepo**:stars/updates/tarballs 取父 repo;npm/readmes/screenshots 进入子目录。
 - **写盘前**:按 key localeCompare 排序(readmes 例外:紧凑无缩进)、清理不在列表中的 key。
 
@@ -14,7 +14,7 @@
 | 脚本 | 目标 API | token | 输出 value 形状 | 特殊点 |
 |------|----------|-------|-----------------|--------|
 | probe-stars(142)| `repos/{repo}` | 需 | `{stars, checkedAt}` | 无重试;失败保留旧值 |
-| probe-npm(97)| raw package.json + registry.npmjs.org | 免 | `{npm: name\|null, checkedAt}` | **repository 字段回链校验**防冒名:先 `dist-tags.latest` 再取该 version 的 repository(处理 registry 顶层陈旧 metadata),小写包含即认 |
+| probe-npm(150)| raw package.json + registry.npmjs.org | 免 | `{npm: name\|null, version: latest\|null, checkedAt}` | **repository 字段回链校验**防冒名:先 `dist-tags.latest` 再取该 version 的 repository(处理 registry 顶层陈旧 metadata),小写包含即认。**0001 新增 version 字段**(:14-21):三态区分——键缺失=未回填、`version:null`=探过但无 latest tag、有键必写(失败兜底 :133);弱值不覆盖强值(`latest ?? priorVersion`,:100-105);新鲜度分层:full 队列(PROBE_ALL/首见/unpublished 超 1 天)跑完整探针,backfill 队列(已发布无 version 键)只打一次 registry 一次性回填(:60-68,112-124);`hasOwnProperty` 兼容旧行(:58)。零额外请求(packument 本来就取了);下游 build-site.mjs:390 透传进 plugins.json(消费方 dsh-market#348) |
 | probe-downloads(227)| npm bulk point/last-month | 免 | `{downloads, checkedAt}` | unscoped 批量 128 个/scoped 单发+2s pacing(npm bulk 混入一个 scoped 即整批 400);404 算 0 不算失败;**分 population 双层地板**(scoped/unscoped 分别 ≥66%)——2026-08-19 总体 85% 达标而 scoped 仅 30%,聚合数掩盖了病态的一半 |
 | probe-readmes(214)| `/repos/{repo}/readme` | 需 | `{en?, zh?, missing?}` | 语言嗅探 CJK 占比>3% 定 zh;9 个候选中文文件名 + 5 个英文,经一次 contents listing 匹配省配额;<br>`MAX_BYTES=48KB` 截断;**404 → {missing:true}(是事实),其他错误 → null(保留旧值)**;替补语言必须过嗅探不信文件名("some 'zh' files are English stubs") |
 | probe-updates(199)| releases/latest + commits?per_page=5 | 需 | `{release{tag,name,publishedAt,url,body}, commits[{sha,message,date}], checkedAt}` | body 截 4KB、message 取首行截 200 字;`!release && !commits.length` 才算失败;刻意无地板(update notes 缺失合法),但拒绝空 map 替换非空 |

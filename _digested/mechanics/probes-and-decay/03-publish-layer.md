@@ -1,6 +1,6 @@
 # 03 · 发布层:npm 双包与 legacy 截图清退
 
-> 基线:`main@5e7dc7eb`。
+> 基线:`upstream@38976afd`(0001 复核;发布脚本未变,build-site.yml 行号已更新)。
 
 ## 为什么发 npm(注释里有真实测量)
 
@@ -22,7 +22,7 @@
 共享的两个决策:
 
 1. **registry 打不通时照常尝试发布**(:60-63):"重复版本的错误 < 静默跳过真更新"——npm 会拒绝重复版本兜底。
-2. **执行顺序在 Pages deploy 之后**(build-site.yml:165-167):"站点才是大家看的,registry 故障没资格拖住它。"
+2. **执行顺序在 Pages deploy 之后**(build-site.yml:222-239;deploy 现于 :178-197):"站点才是大家看的,registry 故障没资格拖住它。"**0001 增量**:deploy 步骤对探针运行挂 `continue-on-error: schedule||workflow_dispatch`(:197)——镜像句同样成立:"deploy 失败也没资格拖住 registry 发布与 cache-save——run 存在的理由是探针+发布,不是部署"(2026-09-05 的 403 曾把 36 分钟探针成果全部带走)。
 
 ## prune-legacy-screenshots.mjs:maintainer-run 的清退器
 
@@ -41,7 +41,7 @@ probe-npm → downloads → stars             五个 probe 全跳过
 → publish catalog + updates(OIDC)        (不做 npm 发布)
 ```
 
-- 结果三路持久化:**git 提交的快照**(stars/downloads/updates/screenshots.json)+ **Actions cache**(npm-map/readmes/tarballs 三条平行 entry:#1673 后刻意按文件分组防版本连锁失效)+ 与快照合并;**唯独永不写回 git**(workflow `contents: read`)。push 构建靠 cache 把夜间成果带进当次 docs/(这正是 #2797 里 downloads 一度比 npm 真实值低 42% 的事故面)。
+- 结果三路持久化:**git 提交的快照**(stars/downloads/updates/screenshots.json)+ **Actions cache**(共享 entry `probe-data-v2` 一条含 npm-map/stars/readmes/tarballs 四个 path(#1673 后按文件分组防版本连锁失效),另有 downloads-v1 与 updates-v1 两条独立 entry)+ 与快照合并;**唯独永不写回 git**(workflow `contents: read`)。push 构建靠 cache 把夜间成果带进当次 docs/(这正是 #2797 里 downloads 一度比 npm 真实值低 42% 的事故面)。**0001 增量**:并发组拆分(build-site.yml:48-50)后 push/nightly 分属 `build-site-push`/`build-site-probe` 两组、可同时在飞——push 不再能取消 nightly(动机链在 :32-47:#3512 catalog 冻结三天、#3417/#3698 READMEs 卡旧值,根源都是 nightly 被 push 中途取消)。
 - push 冷缓存且 `data/npm-map.json` 为空的兜底分支也会临时跑 probes:"Probing is slow; that is cheaper than a wrong plugins.json"(build-site.yml 注释)。
 
 ## 待复核
