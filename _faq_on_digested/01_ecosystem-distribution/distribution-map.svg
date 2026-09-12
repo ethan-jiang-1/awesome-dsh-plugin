@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="880" viewBox="0 0 1200 880" font-family="'PingFang SC','Microsoft YaHei','Noto Sans CJK SC',sans-serif">
+  <rect x="0" y="0" width="1200" height="880" fill="#ffffff"/>
+
+  <text x="40" y="42" font-size="21" font-weight="bold" fill="#202124">A01 · 生态分布一图流 —— 23 官方类 → 11 场景带 → 两大阵营</text>
+  <text x="40" y="66" font-size="13" fill="#5f6368">基线 main@38976afd(2026-09-12),3552 条。条目数 = census.py 现算;月下载 = fresh_probe 自采(snap-2026-09-12)。security(120)横切不入带。</text>
+
+  <!-- 图例 -->
+  <rect x="40" y="86" width="14" height="14" rx="3" fill="#fff3e0" stroke="#ef6c00"/><text x="60" y="98" font-size="12" fill="#37474f">做壳</text>
+  <rect x="106" y="86" width="14" height="14" rx="3" fill="#e3f2fd" stroke="#1565c0"/><text x="126" y="98" font-size="12" fill="#37474f">做增强</text>
+  <rect x="190" y="86" width="14" height="14" rx="3" fill="#e8f5e9" stroke="#2e7d32"/><text x="210" y="98" font-size="12" fill="#37474f">做渠道(市场)</text>
+  <rect x="310" y="86" width="14" height="14" rx="3" fill="#f3e5f5" stroke="#8e24aa"/><text x="330" y="98" font-size="12" fill="#37474f">横切</text>
+  <rect x="382" y="86" width="14" height="14" rx="3" fill="#f5f5f5" stroke="#9e9e9e"/><text x="402" y="98" font-size="12" fill="#37474f">其他/占位</text>
+  <rect x="490" y="88" width="30" height="10" fill="#37474f"/><text x="528" y="98" font-size="12" fill="#37474f">深色内条 = 该带月下载(独立标尺,满格 = 139.5 万)</text>
+
+  <!-- 条形图:label 锚点 x=200(右对齐),条起点 x=210,条目标尺 0.72px/条 -->
+  <!-- 每行:浅色条 = 条目;深色内条 = 月下载(139.5万 = 满格 598px) -->
+
+  <g font-size="13" fill="#202124">
+    <text x="200" y="152" text-anchor="end" font-weight="bold">界面与外观</text>
+    <rect x="210" y="138" width="598" height="24" rx="4" fill="#fff3e0" stroke="#ef6c00"/>
+    <rect x="210" y="145" width="598" height="10" fill="#ef6c00"/>
+    <text x="816" y="155" font-size="12" fill="#37474f">830 条 · 23.4% ▸ dl 139.5 万(转化率最高)</text>
+
+    <text x="200" y="192" text-anchor="end" font-weight="bold">Agent 能力扩展</text>
+    <rect x="210" y="178" width="446" height="24" rx="4" fill="#e3f2fd" stroke="#1565c0"/>
+    <rect x="210" y="185" width="287" height="10" fill="#1565c0"/>
+    <text x="664" y="195" font-size="12" fill="#37474f">620 · 17.5% ▸ dl 66.9 万</text>
+
+    <text x="200" y="232" text-anchor="end" font-weight="bold">会话·记忆·上下文</text>
+    <rect x="210" y="218" width="282" height="24" rx="4" fill="#e3f2fd" stroke="#1565c0"/>
+    <rect x="210" y="225" width="207" height="10" fill="#1565c0"/>
+    <text x="500" y="235" font-size="12" fill="#37474f">392 · 11.0% ▸ dl 48.3 万</text>
+
+    <text x="200" y="272" text-anchor="end" font-weight="bold">开发者工作流</text>
+    <rect x="210" y="258" width="256" height="24" rx="4" fill="#e3f2fd" stroke="#1565c0"/>
+    <rect x="210" y="265" width="232" height="10" fill="#1565c0"/>
+    <text x="474" y="275" font-size="12" fill="#37474f">355 · 10.0% ▸ dl 54.2 万</text>
+
+    <text x="200" y="312" text-anchor="end" font-weight="bold">成本·模型控制</text>
+    <rect x="210" y="298" width="253" height="24" rx="4" fill="#e3f2fd" stroke="#1565c0"/>
+    <rect x="210" y="305" width="217" height="10" fill="#1565c0"/>
+    <text x="471" y="315" font-size="12" fill="#37474f">352 · 9.9% ▸ dl 50.5 万</text>
+
+    <text x="200" y="352" text-anchor="end" font-weight="bold">渠道与触达</text>
+    <rect x="210" y="338" width="238" height="24" rx="4" fill="#e3f2fd" stroke="#1565c0"/>
+    <rect x="210" y="345" width="331" height="10" fill="#1565c0"/>
+    <text x="456" y="355" font-size="12" fill="#37474f">331 · 9.3% ▸ dl 77.2 万(dsh-web 拉动)</text>
+
+    <text x="200" y="392" text-anchor="end" font-weight="bold">流程自动化</text>
+    <rect x="210" y="378" width="155" height="24" rx="4" fill="#e3f2fd" stroke="#1565c0"/>
+    <rect x="210" y="385" width="105" height="10" fill="#1565c0"/>
+    <text x="373" y="395" font-size="12" fill="#37474f">216 · 6.1% ▸ dl 24.6 万</text>
+
+    <text x="200" y="432" text-anchor="end" font-weight="bold">多模态外挂</text>
+    <rect x="210" y="418" width="112" height="24" rx="4" fill="#e3f2fd" stroke="#1565c0"/>
+    <rect x="210" y="425" width="95" height="10" fill="#1565c0"/>
+    <text x="330" y="435" font-size="12" fill="#37474f">155 · 4.4% ▸ dl 22.2 万(红利已过峰)</text>
+
+    <text x="200" y="472" text-anchor="end" font-weight="bold">市场·发现</text>
+    <rect x="210" y="458" width="91" height="24" rx="4" fill="#e8f5e9" stroke="#2e7d32"/>
+    <rect x="210" y="465" width="294" height="10" fill="#2e7d32"/>
+    <text x="309" y="475" font-size="12" fill="#37474f">126 · 3.5% ▸ dl 68.7 万(dsh-market 一条 38.4 万)</text>
+
+    <text x="200" y="512" text-anchor="end" font-weight="bold">环境/系统(wsl)</text>
+    <rect x="210" y="498" width="25" height="24" rx="4" fill="#f5f5f5" stroke="#9e9e9e"/>
+    <rect x="210" y="505" width="2" height="10" fill="#616161"/>
+    <text x="243" y="515" font-size="12" fill="#37474f">35 · 1.0% ▸ dl 0.5 万(转化 ≈ 0%)</text>
+
+    <text x="200" y="552" text-anchor="end" font-weight="bold">其他(identity/agi)</text>
+    <rect x="210" y="538" width="14" height="24" rx="4" fill="#f5f5f5" stroke="#9e9e9e"/>
+    <rect x="210" y="545" width="7" height="10" fill="#616161"/>
+    <text x="232" y="555" font-size="12" fill="#37474f">20 · 0.6% ▸ dl 1.6 万</text>
+
+    <text x="200" y="592" text-anchor="end" font-weight="bold" fill="#8e24aa">security(横切)</text>
+    <rect x="210" y="578" width="86" height="24" rx="4" fill="#f3e5f5" stroke="#8e24aa"/>
+    <rect x="210" y="585" width="65" height="10" fill="#8e24aa"/>
+    <text x="304" y="595" font-size="12" fill="#37474f">120 · 3.4% ▸ dl 15.2 万(散布全生态,标签命中 465)</text>
+  </g>
+
+  <!-- 三个解读框 -->
+  <g>
+    <rect x="40" y="640" width="356" height="128" rx="10" fill="#fff8f0" stroke="#ef6c00"/>
+    <text x="56" y="666" font-size="13" font-weight="bold" fill="#202124">阵营:条目份额 vs 下载份额</text>
+    <text x="56" y="690" font-size="12" fill="#37474f">壳 830 条(23.4%)→ 139.5 万 dl(24.5%)</text>
+    <text x="56" y="710" font-size="12" fill="#37474f">增强 2421 条(68.2%)→ 343.9 万(60.4%)</text>
+    <text x="56" y="730" font-size="12" fill="#37474f">市场·渠 126 条(3.5%)→ 68.7 万(12.1%)</text>
+    <text x="56" y="750" font-size="12" fill="#37474f">壳的转化效率全场最高;供给结构与</text>
+    <text x="56" y="766" font-size="12" fill="#37474f">使用结构错位最大的是"多模态外挂"。</text>
+  </g>
+  <g>
+    <rect x="422" y="640" width="356" height="128" rx="10" fill="#f5f9ff" stroke="#1565c0"/>
+    <text x="438" y="666" font-size="13" font-weight="bold" fill="#202124">作者双峰(2291 个 owner)</text>
+    <text x="438" y="690" font-size="12" fill="#37474f">单件作者 1753(76.5%);作者基尼 0.31</text>
+    <text x="438" y="710" font-size="12" fill="#37474f">≥5 条的"职业化"仅 68 家;Top50 占 16.3%</text>
+    <text x="438" y="730" font-size="12" fill="#37474f">头名 perrylink / omdsh-dev(各 37)</text>
+    <text x="438" y="750" font-size="12" fill="#37474f">要么投一件就走,要么成产品线,</text>
+    <text x="438" y="766" font-size="12" fill="#37474f">稳定做 3–4 件的腰部几乎不存在。</text>
+  </g>
+  <g>
+    <rect x="804" y="640" width="356" height="128" rx="10" fill="#f4fbf6" stroke="#2e7d32"/>
+    <text x="820" y="666" font-size="13" font-weight="bold" fill="#202124">集中度与信号</text>
+    <text x="820" y="690" font-size="12" fill="#37474f">分类基尼 0.43(ui 独占 16.7%)</text>
+    <text x="820" y="710" font-size="12" fill="#37474f">下载 ≥1 万的 56 条(1.7%)占总下载 55%</text>
+    <text x="820" y="730" font-size="12" fill="#37474f">星标中位 2,≥100★ 136 条(fresh 口径)</text>
+    <text x="820" y="750" font-size="12" fill="#37474f">壳件词汇命中 20.7%;聚合仓 80 仓 / 161 条</text>
+    <text x="820" y="766" font-size="12" fill="#37474f">22% 条目未发布 npm,永远缺下载维度。</text>
+  </g>
+
+  <rect x="40" y="796" width="1120" height="56" rx="10" fill="#fafafa" stroke="#b0bec5"/>
+  <text x="56" y="820" font-size="13" font-weight="bold" fill="#37474f">机制链(三视角的因果收束)</text>
+  <text x="56" y="840" font-size="12" fill="#37474f">复制成本极低(技术=造桥)→ 竞争转向渠道占位(业务=修渠)→ 定位收敛到主窗口的原位增强(体验=装窗)——逐条论证见 answer.md。</text>
+</svg>

@@ -15,7 +15,7 @@ DSH = **DeepSeek Harness**(`deepseek-ai/deepseek-harness`,见根 README.md:7-9):
 | 生态年龄 | **30 天**(2026-08-13 init;8-16 的 963 条中 837 是旧 README→yml 迁移,见 [03 §1](03-growth-maturity.md);**近 7 天日均新增已降到 39**,洪流持续退潮) |
 | 条目 / 作者 | 3552 条,2291 个独立 owner,**76.5% 作者只有一件作品** |
 | 官方分类 | 23 类(新增 wsl);ui 592 独占 16.7%,头部五类(ui/tools/dev/session/workflow)占 46% |
-| 成熟度 | stars 中位数 **2**,75% 的条目 ≤5 星,≥100 星 47 条(星标边车冻结,头部以 fresh_probe 自采数为准) |
+| 成熟度 | stars 中位数 **2**,72% 的条目 ≤5 星,≥100 星 **136** 条(均为 fresh_probe 自采口径;**冻结边车口径仅 47 条**,两者不可混用) |
 | **变现信号** | **站点已接 AdSense**(ads.txt 落库、build 变量门控)+ Giscus 评论——"无变现"结论作废,见 [04 §2](04-value-trend.md) |
 | 信号覆盖(fresh_probe 自采) | stars 3540/3552(99.6%);npm 可归因 2558(72%),**22% 条目未发布到 npm**;有下载 50%,双无仅 10% |
 | 头部来源 | 星标 Top3 仍是外部巨头(archify 53656★、OpenViking 35988★、hindsight 23482★),**新增腾讯 WeKnora(21766★)**;单一最大事件是 **dsh-web monorepo(7422★,五日 +11.6 万下载)**,见 [04](04-value-trend.md) |
