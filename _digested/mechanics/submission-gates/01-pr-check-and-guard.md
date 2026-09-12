@@ -8,7 +8,7 @@
 
 1. **Stale-fork 守卫**。**0001 修订:计数对象从 README 行数改为条目文件数**(`git diff -- data/plugins/` 数增删)——README 行数口径下,一个只带 `data/plugins/` 的 stale fork 会显示干净的对称 diff;新口径提示语改为"单一投稿应为 +1/-0"。防的仍是落后 fork 静默吞条目(#502 案,删除在中英两侧对称自洽)。
 2. **扩展名守卫**。`find data/plugins -type f ! -name '*.yml'`;丢失扩展名 = 沉默消失且全树自洽(#2495/#2140)。
-3. **路径一层守卫(0001 新增)**。条目必须在 `data/plugins/` 恰好一层深——readEntries() 的 glob 不递归,放错层的文件会"README 再生时静默消失、其余检查全绿"(与扩展名丢失同一自洽漏洞家族);报错给出可粘贴的 `git mv` 修正。
+3. **路径一层守卫(0001 新增,#3956)**。条目必须匹配 `^data/plugins/[^/]+\.yml`——readEntries() 的 glob 不递归,放错层的文件"README 再生时静默消失、其余检查全绿"(与扩展名丢失同一自洽漏洞家族)。真实案例:#3914(data/ 浅一层,人工翻队列才发现)、#3622(data/plugins/data/plugins/ 深层,全绿两周、站点和市场都没有,文件还是非法 YAML——双重故障互相掩护);09-12 从只查浅一层扩为任意错深。报错给出可粘贴的 `git mv` 修正。
 4. **READMEs match data/plugins**。**0001 重构**:两种形态都接受——yml-only(新常态:runner 现场重生成,保持树一致)与 yml+再生 README(仍须 --check 匹配,手改被抓)。见 [readme-pipeline/00-map](../readme-pipeline/00-map.md)。
 5. **awesome-lint**。
 6. **站点构建**,带 `SKIP_PUBLISH_CHECKS=1`、探针数据缺失容忍——PR 检查必须免 token、fork 安全,发布前的 star 覆盖率门槛在这里关掉。

@@ -26,12 +26,12 @@
 - `BULK_RULE_FROM`:2026-08-20T00:00:00Z(:79)之后才受 ≤3 条上限约束;
 - workflow 侧(pr-gate.yml:152-153)用 `git log --diff-filter=A -- <pr-gate.yml>` 取 workflow 实际落地日作为 effective_from,**不让脚本默认值和现实漂移**。
 
-### 判决的四种出口(:490-513)
+### 判决的四种出口(:560-567 附近)
 
 1. `problems` 非空 → failure(exit 1),逐条以 `::error file=…::` 注解到具体文件;
 2. 仅 `unverified` → 放行但如实汇报("N pass;M could not be fully checked"),**incomplete 永不阻塞**(§ fail-open 纪律);
 3. 全查过且全过 → "all checked entries pass";
-4. 超 PR 条数上限 → 在发出任何网络请求**之前**就拒绝(:458-483),"先花配额再拒"是浪费。
+4. 超 PR 条数上限 → 在发出任何网络请求**之前**就拒绝(:518-541),"先花配额再拒"是浪费。
 
 ### 反悔逻辑的核心:`unverified ≠ problems`
 
@@ -84,7 +84,8 @@
 | 无新增+无修改 | success | "No entries changed" |
 | 无新增但有修改 | success + modifiedNote | 列出所有被改写的既有条目 |
 | 结果文件缺失 | failure | "The gate could not run"( checker 崩溃=bug 不是投稿问题)|
-| tooMany | failure | 附全文拆分劝告 + "pick as well as split" |
+| tooMany | failure | 附全文拆分劝告 + "pick as well as split"(提前拒在 :518-541) |
+| changed 全部无 .yml 扩展名 | failure | "N entry file(s) missing the .yml extension" + 逐文件 git mv 命令(0001 新增,pr-gate:263-289;#1477 曾挂 13 天被反复告知重跑 workflow) |
 | checked===0 但 extract 说有文件 | failure | 两个组件互相矛盾,不能 vouch |
 | ok 且有 incomplete | **neutral** | "X pass;其余放行但 nothing here vouches for them;Re-run to check properly" —— neutral 就是留给 regate 重访的钩子 |
 | ok 全绿 | success | "dsh.bundle declared, repo old enough, enough commits" + modifiedNote(**上游遗留**:commit floor 已删但这句没改,pr-gate.yml:309) |
