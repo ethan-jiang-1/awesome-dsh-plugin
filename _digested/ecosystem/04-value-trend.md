@@ -2,7 +2,7 @@
 
 > 站位:回答"洪流里真正有价值的那一小块是什么、在往哪走"。数据三层:仓库快照 `main@38976afd`(2026-09-12,census 现算)+ **npm catalog 双快照** `2026.826.2432`(2026-08-25,2189 条)与 `2026.908.3168`(2026-09-07,3363 条)。
 >
-> **方法要点**:仓库内 `data/downloads.json` 是冻结快照(15 天 3213 commits 只变 6 行,下载榜数字与 08-26 完全一致)——新鲜下载量只活在上游 Actions cache 与每夜发布的 `dsh-plugin-catalog` npm 包里。**做下载趋势必须取 catalog,不能信仓库边车**(取法:`npm pack dsh-plugin-catalog@<ver> --cache <dir>`,注意本地 npm cache 可能报 EPERM,换 `--cache` 即可)。另:catalog 的夜间 npm 发布在 09-08 后停更,与 #3512 型故障同征,引用时注明快照日期。
+> **方法要点**:仓库内 `data/downloads.json` 是冻结快照(15 天 3213 commits 只变 6 行,下载榜数字与 08-26 完全一致)——新鲜下载量只活在上游 Actions cache 与每夜发布的 `dsh-plugin-catalog` npm 包里。**做下载趋势必须取 catalog 或自采,不能信仓库边车**;catalog 夜间发布在 09-08 后停更后,自采管线成为主数据源,详见 [`05-fresh-probe-method.md`](05-fresh-probe-method.md)。
 
 ## 1. 总量与降温:洪流正在退潮
 
@@ -53,9 +53,20 @@
 
 反面特征(skill 33%、wsl 0% 转化):微工具单件(omdsh-dev 系列)、环境特定(wsl)、纯 prompt 包——**"能装"不等于"被用"**;无 UI 存在感、无持续会话价值的东西沉底最快。
 
-## 7. 下一步监控点
+## 7. 首跑自采快照补记(2026-09-12,方法见 [05](05-fresh-probe-method.md))
 
-- catalog 夜间发布恢复与否(09-08 后停更——若长期停,趋势数据源要换 GitHub API 直采);
+catalog 停更后自采管线接棒,09-07 → 09-12 五日增量(月窗口下载):
+
+- 总量 532 万 → 569 万(**+7%/5 天**,增速较前 12 天的 +159% 明显回落——洪流退潮在下载侧也成立了);
+- dsh-web 五个子包各 +2.1~2.4 万(合计 +11.6 万),7422★,仍在吸引新用户但边际趋缓;
+- 类目增量流向:**ui 23.5% · remote 15.7% · usage 14.4% · market 14.2% · tools 13.5% · memory 12.4%**——成本/用量类五日 +5.4 万,验证"中国定价机制催生成本工程"是持续需求而非一次性红利;
+- 新崛起(无基数):dsh-server-deck(402→1.8万,远程)、dsh-token-usage-stats(→1.5万)、dsh-xueqiu(9.1千,股票)、billion-context-dsh(7.6千/84★,上下文)、dsh-focus-chat(4.1千/22★);
+- 覆盖盲区确认:22% 条目未发布 npm,这些永远缺下载维度,结论只对可归因的 72% 成立。
+
+## 8. 下一步监控点
+
+- ~~catalog 夜间发布恢复与否~~ → 已由自采管线 [`fresh_probe.py`](fresh_probe.py) 解决(方法见 [05](05-fresh-probe-method.md)),每次同步后重跑即得新鲜增量;
 - dsh-web 的引力:是否吸走 better-sidebar/TUI 的份额(直接竞争 vs 分层共存);
 - usage/model 类在 DeepSeek 计价变化下的敏感度;
 - 新类目 wsl 的 0% 转化是否是"环境错配"而非"需求不存在"。
+- ~22% 条目未发布到 npm(0001 实测 772/3552):它们的"使用信号"永远缺下载维度,趋势评估要显式说明这一盲区。

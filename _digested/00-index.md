@@ -18,6 +18,7 @@
 | [02-tech-landscape](./ecosystem/02-tech-landscape.md) | **按技术分**:34 个技术标签、模型阵营、多模态外挂、成本品类 |
 | [03-growth-maturity](./ecosystem/03-growth-maturity.md) | 演化节奏、作者结构、成熟度金字塔与外部巨头接入 |
 | [04-value-trend](./ecosystem/04-value-trend.md) | **价值定位与趋势**(catalog 双快照):头部在哪、增量流向、优秀插件特征 |
+| [05-fresh-probe-method](./ecosystem/05-fresh-probe-method.md) | **数据方法档案**:新鲜下载/星标自采管线的五个坑与对策(趋势分析必读) |
 
 数字全部可重跑复现:`python3 _digested/ecosystem/census.py`(仅标准库)。
 
