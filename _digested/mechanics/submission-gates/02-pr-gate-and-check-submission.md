@@ -46,13 +46,13 @@
 - `FIRST_PARTY_REPOS = {deepseek-ai/deepseek-harness}`:**按身份拒绝**。DSH 自己声明 dsh.bundle,合同检查它全过——"在插件的插件列表里收录产品本体"是每个访客都认得的错误,所以不按合同按身份拒。
 - `FIRST_PARTY_PACKAGES = {@deepseek-ai/dsh-base, dsh-web-app, dsh-headless}`:**vendored 记录暂缓**。实测有五个仓库存着 harness 拷贝(fork:false 检不出来);它们可能只是在测试里合法地带了一份 harness,所以只有整棵树扫完仍无真实 bundle 时才报"这个仓库包含的是 harness 而非插件"。
 
-### hasBundle() 的三层判定(:272-342)
+### hasBundle() 的三层判定(:280 起;fuzzy 候选 :300-313、根指向修正 :316-356)
 
 1. **直读**入口 URL 对应目录的 package.json(sub 先行;解析失败 → 明确失败而非"视为无清单",BOM 由 :186 剥除——Windows 编辑器写出的 U+FEFF 曾让 JSON.parse 抛错后被误报为"没有 dsh.bundle");
 2. sub 404 → 用 `manifestDirs()` 做 leaf 名的双向 includes fuzzy 匹配给出候选(#1794 教训:旧提示会让作者照建议改成另一个插件名);
 3. 根指向且根无 bundle → 全树扫描;找到子包 bundle 时**仍判失败**,并给出完整修正三件套(url/name/文件名,#1701 教训:site 从条目 URL 构造安装命令,装的是根,不是碰巧在某子目录里的清单。2026-08-18 审计 1302 个根指向条目,48 个实际不可安装)。
 
-### API 成本工程(:95-171)
+### API 成本工程(:95-171 → 0001 下移约 8-16 行)
 
 - **403 三义性**:权限拒绝(无 retry-after/x-ratelimit-remaining 头,立即返回)、主配额(x-ratelimit-remaining:0,等到 reset)、次级滥用限制(retry-after,约一分钟)。第一版三者一律放弃 → 2026-08-25 八个投稿裸奔未核验。修复:只重试"重试有用"的两类,严格等 GitHub 要求的时长(:108-116)。
 - **memo 按 promise 不按结果**(:167-171):monorepo N 个子包 → 同 repo 的 meta/commits/tree 只发一次;#1608 一个 PR 带 33 个子包曾产生 64 次纯重复调用(1000/h 配额,还要和其它 workflow 共享——这就是 2026-08-18 挤兑的成因,23 个开放 PR 因此挂着"无法完全检查")。
