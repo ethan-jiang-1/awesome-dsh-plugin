@@ -17,6 +17,31 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 PLUG = ROOT / "data" / "plugins"
 
+# 新队列的起点:0001 审计基线当天。写死在这里,好让 04-value-trend §4 的
+# 「新队列 vs 存量类目漂移」表由同一脚本复现(0001 时该表口径没有落盘,0002 补)。
+COHORT_FROM = "2026-09-12"
+
+
+def strip_comment(val):
+    """YAML 行内注释:只有「前面是空白、且不在引号内」的 # 才起注释。
+
+    url 里的 #sub 片段没有前置空白,描述里的 #tag / #12B7F5 都在引号内,
+    两者都不能被切掉。0002 修复:此前不做剥离,投稿者把 PR 模板的注释一起
+    粘进 category 行时(实测 2 条),# 后面的注释文字被当成类目名,凭空
+    多出两个类目(见 0002 变更记录)。
+    """
+    out, quote = [], None
+    for i, ch in enumerate(val):
+        if quote:
+            if ch == quote:
+                quote = None
+        elif ch in "'\"":
+            quote = ch
+        elif ch == "#" and (i == 0 or val[i - 1].isspace()):
+            break
+        out.append(ch)
+    return "".join(out).strip()
+
 
 def parse_yml(path):
     """字段白名单内的简易解析:url/name/category/tarball/description.en/zh。
@@ -35,7 +60,7 @@ def parse_yml(path):
             continue
         m = re.match(r"^([A-Za-z_]+):\s*(.*)$", line)
         if m:
-            key, val = m.group(1), m.group(2).strip()
+            key, val = m.group(1), strip_comment(m.group(2))
             if key == "description":
                 in_desc = not bool(val)
                 continue
@@ -44,7 +69,7 @@ def parse_yml(path):
             continue
         m = re.match(r"^\s+(en|zh):\s*(.*)$", line)
         if m and in_desc:
-            doc[f"description.{m.group(1)}"] = m.group(2).strip().strip("'\"")
+            doc[f"description.{m.group(1)}"] = strip_comment(m.group(2)).strip("'\"")
     return doc
 
 
@@ -279,6 +304,21 @@ def main():
     print(f"\n── ⑦ 信号沉默度 ──")
     print(f"star+download 双覆盖:{both};两者皆无(完全沉默):{neither} ({round(neither*100/max(1, N))}%);"
           f"有 star 但 ==0:{star0};有下载但 ==0:{dl0};带 tarball:{tarb}")
+
+    # 8 新队列 vs 存量的类目漂移(0002 新增;口径见文件头 COHORT_FROM)
+    cohort = [e for d, e in dated if d != '?' and d >= COHORT_FROM]
+    C = len(cohort)
+    ccoh = Counter(e.get("category", "?") for e in cohort)
+    print(f"\n── ⑧ 新队列 vs 存量({COHORT_FROM} 起首录,新队列 {C} 条) ──")
+    print(f"{'category':<10}{'存量':>7}{'存量%':>8}{'新队列':>8}{'新队列%':>9}{'漂移pp':>8}")
+    drift = {c: (ccoh.get(c, 0) * 100 / max(1, C)) - (n * 100 / N) for c, n in cats.items()}
+    for c, n in cats.most_common(12):
+        sp = n * 100 / N
+        cp = ccoh.get(c, 0) * 100 / max(1, C)
+        print(f"{c:<10}{n:>7}{sp:>7.1f}%{ccoh.get(c, 0):>8}{cp:>8.1f}%{cp-sp:>+7.1f}")
+    ranked = sorted(drift.items(), key=lambda kv: -kv[1])
+    print("上升:" + " · ".join(f"{c} {v:+.1f}" for c, v in ranked[:5] if v > 0))
+    print("下降:" + " · ".join(f"{c} {v:+.1f}" for c, v in ranked[-5:] if v < 0))
 
 
 if __name__ == "__main__":

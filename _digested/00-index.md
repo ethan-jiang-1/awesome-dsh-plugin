@@ -3,7 +3,7 @@
 > 站位声明:我是**评估者**,不是贡献者。关心的是这东西有什么用、生态长什么样、数据可不可信——不学怎么投稿、不复刻它的门禁。本目录的结构就按这个视角组织。
 
 **产品**:DSH = DeepSeek Harness(`deepseek-ai/deepseek-harness`,官方开源 agent 框架,"一切皆插件");本仓库是它的社区插件目录,`dsh plugin add` 安装制。
-**审计基线**:`main@38976afdb5f70d1bcd1dfd5ed0e50e5a3a559fd4`(2026-09-11;0001 次同步,见 [`_change_log/`](./_change_log/00-index.md)。全部专题已于 2026-09-12 复核到此基线)。
+**审计基线**:`main@c18ba4a0d`(2026-09-30;0002 次同步,见 [`_change_log/`](./_change_log/00-index.md)。全部专题已于 2026-09-30 复核到此基线)。
 
 ## 读法(只有两站)
 
@@ -13,11 +13,11 @@
 
 | 文件 | 回答什么 |
 |------|----------|
-| [00-map](./ecosystem/00-map.md) | 全景导读 + 头条事实(30 天长出 3552 条,日均新增已降至 39)+ 方法精度声明 |
-| [01-scenario-taxonomy](./ecosystem/01-scenario-taxonomy.md) | **按场景分**:23 类逐类透视 → 重聚十一个场景带("做壳" vs "做增强") |
-| [02-tech-landscape](./ecosystem/02-tech-landscape.md) | **按技术分**:34 个技术标签、模型阵营、多模态外挂、成本品类 |
+| [00-map](./ecosystem/00-map.md) | 全景导读 + 头条事实(30→48 天长出 4392 条,日均新增已降至 31)+ 方法精度声明 |
+| [01-scenario-taxonomy](./ecosystem/01-scenario-taxonomy.md) | **按场景分**:23 类逐类透视 → 重聚十一个场景带("做壳" vs "做增强")+ 新队列漂移 |
+| [02-tech-landscape](./ecosystem/02-tech-landscape.md) | **按技术分**:34 个技术标签、模型阵营、多模态外挂、成本品类、**能力披露** |
 | [03-growth-maturity](./ecosystem/03-growth-maturity.md) | 演化节奏、作者结构、成熟度金字塔与外部巨头接入 |
-| [04-value-trend](./ecosystem/04-value-trend.md) | **价值定位与趋势**(catalog 双快照 + 自采快照):头部在哪、增量流向、优秀插件特征 |
+| [04-value-trend](./ecosystem/04-value-trend.md) | **价值定位与趋势**:头部在哪、增量流向、优秀插件特征(下载侧数字仍为 09-12 口径,见文首数据状态) |
 
 数字全部可重跑复现:`python3 _digested/ecosystem/census.py`(仅标准库);新鲜下载/星标走 [`fresh_probe.py`](./ecosystem/fresh_probe.py)(方法见 [`_method/01`](./_method/01-fresh-probe.md))。
 
@@ -29,8 +29,8 @@
 
 | 目录 | 用途 |
 |------|------|
-| [`_coverage/`](./_coverage/00-index.md) | 覆盖矩阵:各专题消化到什么程度 |
-| [`_change_log/`](./_change_log/00-index.md) | 上游同步记录:每次合入后哪些结论要复核 |
+| [`_coverage/`](./_coverage/00-index.md) | 覆盖矩阵:各专题消化到什么程度 + 研究工具自身的修复记录 |
+| [`_change_log/`](./_change_log/00-index.md) | 上游同步记录:每次合入后哪些结论要复核(含取数通道对策) |
 | [`_method/`](./_method/00-index.md) | **方法与纪律**:数据从哪来、坑在哪(引用下载/星标数字前必读) |
 
 ## 分支纪律

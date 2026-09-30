@@ -12,10 +12,14 @@
 _change_log/
 ├── 00-index.md
 ├── 0000-baseline.md                    # 研究起点，不是一次同步
-└── 0001-<from>-to-<to>.md              # 之后每次合入写一条
+├── 0001-5e7dc7eb-to-38976afd.md        # 15 天 / 3213 commits / 2286→3552 条
+└── 0002-38976afd-to-c18ba4a0d.md       # 18 天 / 1436 commits / 3552→4392 条
 ```
 
-编号递增。`0000` 只记录开始消化时的 checkout；同步记录从 `0001` 起。本仓库没有版本号，所以文件名用短 hash 对：`0001-5e7dc7eb-to-<new>.md`。
+编号递增。`0000` 只记录开始消化时的 checkout；同步记录从 `0001` 起。本仓库没有版本号，所以文件名用短 hash 对：`0002-38976afd-to-<new>.md`。
+
+> **取数通道(截至 0002)**:`git fetch` 的长连接会挂死且换协议不保险——0001 是 https 挂死、SSH 可用;0002 连 SSH fetch 也挂死,而 `ssh -T` 与 `git ls-remote https://…` 都秒回。**先 `ls-remote` 探活,再**用带低速阈值的 https fetch:
+> `git -c http.lowSpeedLimit=1000 -c http.lowSpeedTime=30 fetch upstream main:refs/remotes/upstream/main`
 
 ## 每条 sync 记录的固定结构
 

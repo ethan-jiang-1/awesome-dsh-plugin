@@ -4,7 +4,7 @@
 
 简单说:**一子目录 = 一个探究过的问题,答案是自己综合出来的,不是从某一份材料里直接抄的。**
 
-> **当前研究基线**:涉及行为的结论以 awesome-dsh-plugin `main@38976afdb5f70d1bcd1dfd5ed0e50e5a3a559fd4`(2026-09-11)为准;各问题若初问于更早快照,会在文内显式标注双基线并重算。旧 checkout 只用于变更史,不能替代当前源码验证。
+> **当前研究基线**:涉及行为的结论以 awesome-dsh-plugin `main@c18ba4a0d4f7bc8334a460b07c08e09a56f6868a`(2026-09-30)为准;各问题若初问于更早快照,会在文内显式标注多基线并重算(答案里保留 2286 / 3552 / 4392 三代基线值)。旧 checkout 只用于变更史,不能替代当前源码验证。**自采的下载数字仍是 `snap-2026-09-12` 口径**(0002 轮完整自采未完成,见 [`01_ecosystem-distribution/data-notes.md`](01_ecosystem-distribution/data-notes.md))。
 
 ## 和 `_digested/` 内置问题的区别
 

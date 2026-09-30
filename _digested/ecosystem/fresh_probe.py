@@ -23,10 +23,13 @@ npm 包名解析优先级:上一份本地快照 > catalog 快照(_snapshots/cata
 对比在报告里给出。标准库实现,与 census.py 同风格。
 """
 import concurrent.futures as cf
+import http.client
 import json
 import re
+import socket
 import subprocess
 import sys
+import threading
 import time
 import urllib.parse
 import urllib.request
@@ -80,28 +83,46 @@ def _gh_headers():
     return h
 
 
-def raw_npm_name(url):
+class ProbeUnavailable(Exception):
+    """一条回源在重试后仍然失败:这是「本轮未知」,不是「没有」。"""
+
+
+def raw_npm_name(url, attempts=3):
     """经 api.github.com contents API 读 repo(或子路径)package.json 的 name。
 
     raw.githubusercontent.com 在部分网络不可达;api.github.com(gh 同款通道)
     可达。monorepo 条目取子路径下的 package.json。
+
+    0002 修复:原实现只捕获 URLError,而连接被对端掐断抛的是
+    http.client.RemoteDisconnected(OSError 子类,不是 URLError)——实测 942 条
+    回源的长尾里它直接掀掉整轮采集。现在瞬时错误重试,仍失败则抛
+    ProbeUnavailable,由调用方按「未知」处理:不写缓存(下次重试)、更不写
+    None(那会把一次网络抖动固化成「未发布」,违反本目录「未知 ≠ 死亡」)。
     """
     path = (subpath_of(url) + "/" if subpath_of(url) else "") + "package.json"
     u = f"https://api.github.com/repos/{repo_of(url)}/contents/{path}?ref=HEAD"
-    req = urllib.request.Request(u, headers=_gh_headers())
-    try:
-        with urllib.request.urlopen(req, timeout=12) as r:
-            text = r.read().decode("utf-8", "replace")
-        return json.loads(text).get("name") or None
-    except (urllib.error.URLError, urllib.error.HTTPError, json.JSONDecodeError,
-            TimeoutError, ValueError):
-        return None
+    last = None
+    for attempt in range(1, attempts + 1):
+        req = urllib.request.Request(u, headers=_gh_headers())
+        try:
+            with urllib.request.urlopen(req, timeout=12) as r:
+                text = r.read().decode("utf-8", "replace")
+            return json.loads(text).get("name") or None
+        except urllib.error.HTTPError as e:
+            if e.code == 404:
+                return None  # 该路径没有 package.json,这是事实不是失败
+            last = e
+        except (OSError, ValueError) as e:  # RemoteDisconnected/超时/坏 JSON
+            last = e
+        if attempt < attempts:
+            time.sleep(1.5 * attempt)
+    raise ProbeUnavailable(f"{type(last).__name__}: {last}")
 
 
 def _registry_repo_owner(name):
     """registry.npmjs.org 元数据里的 repository 指向的 'owner'(小写)或 None。"""
     try:
-        meta = _get_json(f"https://registry.npmjs.org/{urllib.parse.quote(name, safe='')}")
+        meta = _get_json(f"https://registry.npmjs.org/{urllib.parse.quote(name, safe='')}", timeout=30, attempts=3)
         if not meta:
             return None  # 404:包不存在(未发布)
         repo = meta.get("repository")
@@ -111,7 +132,7 @@ def _registry_repo_owner(name):
         m = re.search(r"github\.com[:/]([^/]+)", u, re.I)
         return m.group(1).lower() if m else None
     except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError,
-            json.JSONDecodeError, ValueError):
+            json.JSONDecodeError, ValueError, http.client.HTTPException):
         return None
 
 
@@ -132,11 +153,37 @@ def validate_names(names, to_check):
             by_name.setdefault(n, []).append(u)
     owners = {u: repo_of(u).split("/")[0].lower() for u in to_check}
     ok_name = {}
-    with cf.ThreadPoolExecutor(WORKERS) as ex:
-        futs = {ex.submit(_registry_repo_owner, n): n for n in by_name}
+    budget_end = time.monotonic() + VALIDATE_BUDGET_S
+    skipped = 0
+    # 不用 with:预算用尽时要 shutdown(wait=False) 把队列里剩下的丢掉,
+    # 而 with 的 __exit__ 是 wait=True——它会把一千多个待办全跑完,等于没预算。
+    ex = cf.ThreadPoolExecutor(VALIDATE_WORKERS)
+    try:
+        # 期限必须套在 worker 内部:套在消费端(f.result)没用——as_completed
+        # 要等某个 future 完成才会让出,若 12 个 worker 全卡在 DNS 解析上,
+        # 消费循环永远不执行,预算也就永远不触发(0002 实测卡死 40 分钟)。
+        def checked(n):
+            return _call_with_deadline(lambda: _registry_repo_owner(n), VALIDATE_DEADLINE_S)
+
+        futs = {ex.submit(checked, n): n for n in by_name}
+        done = 0
         for f in cf.as_completed(futs):
             n = futs[f]
-            meta_owner = f.result()
+            done += 1
+            if done % 200 == 0:
+                log(f"  校验 {done}/{len(futs)}")
+            if time.monotonic() > budget_end:
+                # 预算用尽:不猜具体归属,但也不无条件丢弃——退回「元数据不可用」
+                # 那一条分支(名字含 dsh 或按 owner 作用域命名则通过)。校验每轮
+                # 重跑,所以下轮会自动补上;宁可这轮保守,也不要空转一小时。
+                skipped += 1
+                meta_owner = None
+            else:
+                try:
+                    meta_owner = f.result()
+                except Exception as exc:  # 单条校验失败按「无法确认」处理(0002)
+                    log(f"⚠ 校验请求失败({n}):{type(exc).__name__},按无法确认归属处理")
+                    meta_owner = None
             urls = by_name[n]
             good = False
             for u in urls:
@@ -146,6 +193,11 @@ def validate_names(names, to_check):
                 elif "dsh" in n.lower() and meta_owner is None:
                     good = True  # 元数据没写 repository,但名字足够特异
                 ok_name[u] = n if good else ok_name.get(u)
+    finally:
+        ex.shutdown(wait=False, cancel_futures=True)
+    if skipped:
+        log(f"⚠ 包名校验预算 {VALIDATE_BUDGET_S}s 用尽,剩余 {skipped} 个名字按「无法确认」处理"
+            f"(下一轮自动重试;本轮归因数因此偏低)")
     dropped = [u for u in to_check if not ok_name.get(u)]
     if dropped:
         log(f"⚠ 包名校验丢弃 {len(dropped)} 条(撞名或无法确认归属),示例:"
@@ -179,18 +231,31 @@ def resolve_npm_names(entries, prev_map, catalog_map):
                 need_raw.append(u)
     log(f"npm 包名:快照/目录命中 {trusted},本地缓存 {cached},需回源 {len(need_raw)}")
     if need_raw:
+        SNAP_DIR.mkdir(exist_ok=True)
+        failed = []
         with cf.ThreadPoolExecutor(WORKERS) as ex:
-            futs = {ex.submit(raw_npm_name, u): u for u in need_raw}
+            # 同 validate_names:期限套在 worker 内部,否则 as_completed 会被
+            # 卡在 DNS 上的 worker 永久挡住
+            futs = {ex.submit(lambda u=u: _call_with_deadline(lambda: raw_npm_name(u))): u
+                    for u in need_raw}
             done = 0
             for f in cf.as_completed(futs):
                 u = futs[f]
-                names[u] = f.result()
-                cache[u] = f.result()
+                try:
+                    name = f.result()
+                except Exception as exc:  # 单条未知不拖垮整轮(0002)
+                    failed.append((u, str(exc)))
+                    continue
+                names[u] = name
+                cache[u] = name
                 done += 1
-                if done % 500 == 0:
-                    log(f"  回源 {done}/{len(need_raw)}")
-        SNAP_DIR.mkdir(exist_ok=True)
+                if done % 200 == 0:
+                    log(f"  回源 {done}/{len(need_raw)}(增量落盘)")
+                    cache_path.write_text(json.dumps(cache, ensure_ascii=False, indent=1))
         cache_path.write_text(json.dumps(cache, ensure_ascii=False, indent=1))
+        if failed:
+            log(f"⚠ 回源失败 {len(failed)} 条(网络/限流),本轮未知、不写缓存,下次自动重试;"
+                f"示例:{[u.split('github.com/')[1] for u, _ in failed[:3]]}")
     # 校验每轮重跑:回源/缓存来源的名字都可能撞名(如 repo 叫 schedule 的
     # 条目会解析到 npm 公共包 schedule),prev/catalog 来源才视为已验证
     names.update(validate_names(names, raw_sourced))
@@ -202,6 +267,38 @@ def resolve_npm_names(entries, prev_map, catalog_map):
 # ---------- npm 下载量 ----------
 
 NPM_UA = {"User-Agent": "dsh-digest-fresh-probe", "Accept": "application/json"}
+
+# urlopen 的 timeout 管不到 DNS 解析,而一次卡死的解析能让整轮采集在
+# "scoped 400/782" 上停摆四十分钟(0002 实测)。所以每个请求再套一层硬期限:
+# 超时就把那个线程丢下不管(daemon,泄漏可接受),整轮继续。
+CALL_DEADLINE_S = 45
+# 再兜一层:任何 urlopen 忘了传 timeout 的路径也不会无限等
+socket.setdefaulttimeout(30)
+# 包名校验(validate_names)要逐个问 registry.npmjs.org,是全程唯一可能
+# 无上限的阶段:给它单条期限 + 整体预算,宁可这轮少归因也不空转。并发压到 6:
+# registry 在 12 并发下会大范围超时(0002 实测),慢总比错好。
+VALIDATE_DEADLINE_S = 60
+VALIDATE_BUDGET_S = 1800
+VALIDATE_WORKERS = 10
+
+
+def _call_with_deadline(fn, seconds=CALL_DEADLINE_S):
+    box = {}
+
+    def run():
+        try:
+            box["v"] = fn()
+        except Exception as exc:  # 交给调用方按原有语义处理
+            box["e"] = exc
+
+    t = threading.Thread(target=run, daemon=True)
+    t.start()
+    t.join(seconds)
+    if t.is_alive():
+        raise TimeoutError(f"call exceeded {seconds}s (DNS/连接卡死)")
+    if "e" in box:
+        raise box["e"]
+    return box.get("v")
 
 
 def _get_json(u, timeout=15, attempts=6):
@@ -227,7 +324,10 @@ def _get_json(u, timeout=15, attempts=6):
                 wait *= 2
                 continue
             raise
-        except (urllib.error.URLError, TimeoutError, json.JSONDecodeError):
+        except (OSError, ValueError, http.client.HTTPException):
+            # OSError 涵盖 URLError/超时/连接被掐;HTTPException 涵盖
+            # IncompleteRead(响应体读一半就断,0002 实测打死过一整轮)——
+            # 它既不是 OSError 也不是 ValueError,所以必须显式列出。
             if attempt < attempts:
                 time.sleep(wait)
                 wait *= 2
@@ -259,7 +359,8 @@ def fetch_downloads(names):
         chunk = unscoped[i:i + NPM_BULK]
         q = ",".join(urllib.parse.quote(n, safe="") for n in chunk)
         try:
-            d = _get_json(f"https://api.npmjs.org/downloads/point/last-month/{q}")
+            d = _call_with_deadline(
+                lambda: _get_json(f"https://api.npmjs.org/downloads/point/last-month/{q}"), 90)
             if isinstance(d, dict) and "downloads" not in d:
                 for n, v in d.items():
                     record(n, v)
@@ -277,7 +378,7 @@ def fetch_downloads(names):
         def one(n):
             u = f"https://api.npmjs.org/downloads/point/last-month/{urllib.parse.quote(n, safe='')}"
             try:
-                return n, _get_json(u)
+                return n, _call_with_deadline(lambda: _get_json(u, attempts=3))
             except Exception:  # 该包本轮放弃,记 0
                 return n, None
 

@@ -1,6 +1,6 @@
 # 01 · generate-readme 逐段机制
 
-> 基线:`upstream@38976afd`(0001 复核:210→**215 行**,唯一增量是 CRLF 归一化 +5 行;全部函数行为未变)。行号可能有 ±5 漂移,机制描述为准。
+> 基线:`upstream@c18ba4a0d`(0002 复核:**仍 215 行、本窗口零 diff**;0001 的增量是 CRLF 归一化 +5 行,全部函数行为未变)。行号可能有 ±5 漂移,机制描述为准。
 
 ## 主流程(:80-186)
 
@@ -18,8 +18,11 @@ readEntries()(坏 YAML 在这里以可读消息退出,不打堆栈)
     parsedUrls() 全文集合校验(smuggled / missing 都算 stale)
 → untranslated 清单汇报(≥1 条时)
 → stale 则 exit 1 并提示 regenerate
-    (0001 起 --check 只在 PR 手改 README 时才由 pr-check 调用;
-     yml-only PR 由 runner 现场无 --check 生成;合并后由 sync-readme.yml 执行)
+    (0001 起 --check 只在 PR 手改 README 时才由 pr-check 调用,现位于
+     pr-check.yml:171-210 且比对 PR head 而非 merge ref;
+     yml-only PR 由 runner 现场无 --check 生成;合并后由 sync-readme.yml 执行。
+     0002 另加一道前置门:PR 改了 README 里的插件行却没带任何
+     data/plugins/ 文件 → 直接拒(pr-check.yml:105-152,#5845))
 ```
 
 ## 细节摘录
