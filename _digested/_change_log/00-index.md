@@ -13,13 +13,14 @@ _change_log/
 ├── 00-index.md
 ├── 0000-baseline.md                    # 研究起点，不是一次同步
 ├── 0001-5e7dc7eb-to-38976afd.md        # 15 天 / 3213 commits / 2286→3552 条
-└── 0002-38976afd-to-c18ba4a0d.md       # 18 天 / 1436 commits / 3552→4392 条
+├── 0002-38976afd-to-c18ba4a0d.md       # 18 天 / 1436 commits / 3552→4392 条
+└── 0003-c18ba4a0d-to-4693e5a83.md       # 18 天 / 216 commits / 4392→4489 条 (生态结构已复核;热度未重采)
 ```
 
-编号递增。`0000` 只记录开始消化时的 checkout；同步记录从 `0001` 起。本仓库没有版本号，所以文件名用短 hash 对：`0002-38976afd-to-<new>.md`。
+编号递增。`0000` 只记录开始消化时的 checkout；同步记录从 `0001` 起。本仓库没有版本号，所以文件名用短 hash 对：`0003-c18ba4a0d-to-<new>.md`。
 
-> **取数通道(截至 0002)**:`git fetch` 的长连接会挂死且换协议不保险——0001 是 https 挂死、SSH 可用;0002 连 SSH fetch 也挂死,而 `ssh -T` 与 `git ls-remote https://…` 都秒回。**先 `ls-remote` 探活,再**用带低速阈值的 https fetch:
-> `git -c http.lowSpeedLimit=1000 -c http.lowSpeedTime=30 fetch upstream main:refs/remotes/upstream/main`
+> **取数通道(截至 0003)**:`git fetch` 的长连接会挂死且换协议不保险——0001 是 https 挂死、SSH 可用;0002 SSH fetch 也挂死;0003 `ls-remote` 秒回但带 lowSpeed 阈值的 https fetch 因低速失败,改 SSH fetch 成功。下次先 `ls-remote` 探活,再尝试 SSH:
+> `git fetch git@github.com:awesome-dsh-plugin/awesome-dsh-plugin.git main:refs/remotes/upstream/main`
 
 ## 每条 sync 记录的固定结构
 
@@ -46,7 +47,7 @@ _change_log/
 
 1. 在本目录新增一条记录,按上面结构写全。
 2. 更新 [`../00-index.md`](../00-index.md) 顶部的产品源码审计基线。
-3. 按「对消化材料的影响」表,在 [`../_coverage/00-index.md`](../_coverage/00-index.md) 将受影响专题改回「需复核」;完成源码复核后再更新其最近核验 commit。
+3. 按「对消化材料的影响」表,在 [`../_coverage/00-index.md`](../_coverage/00-index.md) 将受影响专题改回「需复核」;完成源码复核后再更新其最近核验 commit。若上游同步删除研究目录,先从合并前研究分支恢复本地材料,不得把它当作 upstream 内容接受。
 4. 复核 `_faq_on_digested/` 中受波及的答案。
 5. 运行 `node _digested/verify.mjs`。
 

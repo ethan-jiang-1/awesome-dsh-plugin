@@ -1,10 +1,10 @@
 # system · 全局运转图
 
-> 状态:**0002 已复核**(全景数据流按 `upstream@c18ba4a0d` 重核,0002 的八处机制变更已并入下图;细节判定见各专题 map)。最近核验:`c18ba4a0d`,2026-09-30。
+> 状态:**0003 已复核**(源头、门禁、探针与部署 workflow 无 diff;站点投影新增 locale/category JSON catalog 与客户端虚拟卡片列表,详见 [site-surface](../site-surface/00-map.md))。最近核验:`4693e5a83`,2026-10-11。
 
 ## 定位
 
-awesome-dsh-plugin 是一台**把人工编辑压缩到最小、其余全部机器再生产**的注册表:约 4392 个人工维护的小 YAML 投影成双语 README(由 main 合并后自动重生成,投稿者不再提交),再投影成数千页静态站点与 npm 目录包;收录由三道 fork-安全门禁把关;外部事实(stars/下载量/npm 归属/能力披露/存活)由探针家族夜间保鲜,失联条目进单一人审 issue。**0002 新增的两条外部防线**:一条盯**线上字节**(site-health,治"站点静默冻结"),一条盯**评论线程**(adopt-discussions,治"手工建的帖子 widget 读不到")。
+awesome-dsh-plugin 是一台**把人工编辑压缩到最小、其余全部机器再生产**的注册表:约 4489 个人工维护的小 YAML 投影成双语 README(由 main 合并后自动重生成,投稿者不再提交),再投影成数千页静态站点与 npm 目录包;收录由三道 fork-安全门禁把关;外部事实(stars/下载量/npm 归属/能力披露/存活)由探针家族夜间保鲜,失联条目进单一人审 issue。**0002 新增的两条外部防线**:一条盯**线上字节**(site-health,治"站点静默冻结"),一条盯**评论线程**(adopt-discussions,治"手工建的帖子 widget 读不到")。
 
 ## 一条 PR 的完整生命周期(0002 复核修订)
 
@@ -55,6 +55,7 @@ merge → push main
         探针清单(0002):+probe-capabilities(dsh-trust-check 静态扫描 → data/capabilities.json,
           永远在跑,不进 PROBE_ALL 门控)
         nightly 还会把 probe-npm 的 version 字段刷进 plugins.json(dsh-market 消费)
+         ⭐0003(#6105):首页/分类页只 SSR 前 24 张;构建另写 locale 全量与分类专属 catalog.json(均 hash-versioned),客户端虚拟化完整卡片列表;catalog 失败仅回退 24 张
 
 ⭐0002 新增:site-health.yml(46 行,每日 07:23)→ check-site-health.mjs(152 行)
      拉线上首页数 /p/ 链接,与 data/plugins 条目数比,落后 >tolerance(300)即红
@@ -75,9 +76,9 @@ decay-scan.yml(Mon 03:41):GraphQL 批扫全列表 → 单一 tracking issue,gone
 4. **错误信息承担教学职责,并按"谁该动"分向。** 该作者动手的:子路径写错给出候选目录与可粘贴修正、stale-fork 给三行恢复命令、"127 submissions wearing a coat" 的拆分劝告、**0002:非法 YAML 给文件:行号与复现命令**;时间能解决的:明说 "nothing to do, no need to resubmit";**0002 新增第三类——只有维护者能动的**:分支冲突导致 CI 从未运行 → held-rescan 入列并写明补救是 rebase。
 5. **常量即事故刻度。** 每个阈值注释都指名一次翻车(#1348/#1554/#1608/#1619/#1635/#1673/#1701/#1794/#2797、2026-08-18 配额挤兑、2026-08-25 三义 403、#3512 catalog 冻结三天/#3417/#3698 READMEs 卡旧值/#4196 commit floor 误拦/8-30 218 个 README 冲突 PR/9-07 held 积压 11 件),0002 又添一批:**#4680 乱码挂 5 天、#5083 fault 挂 9 天、#932 超龄 run 打死 7/8 轮、#5533 被跳过 9 次、#5796 18/96 假红、#5845 README-only 投稿、#2202 分支冲突无人管、2026-09-15 两条目被改写到当天、2026-09-19 README 陈旧八小时、2026-09-22 探针误跑 40 分钟、dshmarket.com 冻结 18 天、2026-09-24 giscus 大小写劈线程**。读这份源码约等于读它的故障史——这正是它适合消化学习的原因。
 
-## 规模事实(2026-09-30 实测)
+## 规模事实(2026-10-11 实测)
 
-条目 **4392** · 分类 23(ui 最大 759,agi 最小 15)· monorepo 子路径条目 **468**(来自 **313** 仓)· 上游节奏 0002 单次 **1436 commits/18 天**(squash-style,PR 号入题;其中只有 27 个碰了 data/plugins 以外的文件)· workflows **十条**(pr-check/pr-guard/pr-gate/regate/build-site/decay-scan/sync-readme/held-rescan/**site-health/adopt-discussions**)· scripts 约 **6184 行**(devDependencies:`js-yaml`、`marked`、**`dsh-trust-check@^0.1.13`**;0001 时"js-yaml 唯一运行时依赖"的表述已不再准确)· 站点自定义域 awesome-dsh-plugin.com(Pages + Cloudflare;含 AdSense 变量门控 + Giscus 评论,privacy 页已如实改写)· 0002 起仓库**首次有测试**(6 个 `*.test.mjs`)。
+条目 **4489** · 分类 23(ui 最大 781,agi 最小 17)· monorepo 子路径条目 **472**(来自 **316** 仓)· 上游节奏 0003 单次 **216 commits/18 天**(其中 172 个文件变化,主要是 registry 数据与 README;无 workflow 变更)· workflows **十条**(pr-check/pr-guard/pr-gate/regate/build-site/decay-scan/sync-readme/held-rescan/**site-health/adopt-discussions**)· scripts 约 **6184 行**(devDependencies:`js-yaml`、`marked`、**`dsh-trust-check@^0.1.13`**;0001 时"js-yaml 唯一运行时依赖"的表述已不再准确)· 站点自定义域 awesome-dsh-plugin.com(Pages + Cloudflare;含 AdSense 变量门控 + Giscus 评论,privacy 页已如实改写)· 0002 起仓库**首次有测试**(6 个 `*.test.mjs`)。
 
 ## 各专题导航
 

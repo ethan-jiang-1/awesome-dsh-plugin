@@ -1,10 +1,10 @@
 # 01 · build-site 主干与部署链
 
-> 基线:`upstream@c18ba4a0d`(0002 复核)。行号 = scripts/build-site.mjs(**1174 行**,1098→1174)除注明外。0001 核心变更:README 生成归属重构(sync-readme.yml)、AdSense/Giscus 注入、并发组拆分、added-date 双账本、plugins.json 新增 version。**0002 核心变更:能力披露三字段进 plugins.json、下载窗口显式化(含 start/end/checkedAt)、added-date 加"改写不算新增"守卫、slug/giscus term 不再小写化、site-health 看门狗、build-site 增加 `workflow_run` 触发 + 探针事件白名单。**
+> 基线:`upstream@4693e5a83`(0003 复核)。行号 = scripts/build-site.mjs(**1256 行**,1174→1256)除注明外。0001 核心变更:README 生成归属重构(sync-readme.yml)、AdSense/Giscus 注入、并发组拆分、added-date 双账本、plugins.json 新增 version。0002 核心变更:能力披露三字段进 plugins.json、下载窗口显式化、added-date 加"改写不算新增"守卫、slug/giscus term 大小写修复、site-health、`workflow_run` + 探针白名单。**0003(#6105):首页/分类页改为首 24 卡片 SSR,其余从带 hash URL 的 JSON catalog 虚拟窗口化加载,同时提供 no-JS 与 fetch-failure 回退。**
 
 ## 阶段流水
 
-1. **常量与资产**(:19-53):`ORIGIN='https://awesome-dsh-plugin.com'` 硬编码;`site/assets/*` 平铺拷进 `docs/` 根(CNAME、robots.txt、badge.svg、logo.svg、双语 banner/og PNG、两个 woff2 字体子集、404.html);字体自托管的理由写在 template.html:27-31("a webfont request hands the visitor's IP to a third party on every page view")。**0002:`site/` 目录零 diff**——模板、locales、隐私页、ads.txt、Giscus 脚本全部未动。
+1. **常量与资产**(:19-53):`ORIGIN='https://awesome-dsh-plugin.com'` 硬编码;`site/assets/*` 平铺拷进 `docs/` 根(CNAME、robots.txt、badge.svg、logo.svg、双语 banner/og PNG、两个 woff2 字体子集、404.html);字体自托管的理由写在 template.html:27-31("a webfont request hands the visitor's IP to a third party on every page view")。0003 修改了 `site/template.html` 与 `site/locales.mjs`,加入 catalog preload / no-JS 提示与虚拟列表样式;隐私页、ads.txt、Giscus 脚本未动。
 2. **解析 README 花名册**(:99-160):en 要求分隔符 `-`、zh 要求 `—`(取自 loc.sep);五类 parity 失败全部置 `parityBroken` → exit 1,"refusing to build (a silent drop would delist and delete pages)":同 locale 内 URL 重复 / 分隔符不符 / 某语言缺 URL / 同 URL 两语言分类不同(#343)/ 只存在于另一语言。分类归属是**标题子串匹配**(`h[1].includes(loc.categories[id])`)。
 3. **数据加载与派生**(:170-471):
    - `added-dates.json` 是人工拥有的**冻结基线**(2026-08-15 前固定);缺失日期改用**双账本推导**(README 账本 :216-269 + 条目 yml 账本 :270-290;`scripts/lib/added-dates.mjs:15` 抽出 `firstAddedDate`,走 `git log --diff-merges=first-parent --no-patch --diff-filter=A`,取最旧)。
@@ -16,7 +16,7 @@
    - 截图:host 白名单四个 GitHub 域(:350-371;key 必须 URL 精确匹配已列条目)、1–8 张、超限 exit 1。
    - 三方合并:`declared`(作者仓库的 screenshots.json)> legacy key;live verdict 仅剔除 ok:false(404/410),全死删整个字段而不是留空数组。
    - slug 规则(:456):`slugOf()` 移入 `scripts/lib/terms.mjs:22`(`repo--sub路径(/→-)`,无 sub 则 repo 本身),与 adopt-discussions 共用同一份实现。
-4. **页面生成**(四轮循环):首页(:597)+ 分类页(:636,空分类跳过)+ 隐私页(:681-707,缺 privacyBody 文件 exit 1,检查在 :683-684)+ 详情页 ×约 8784。替换实现分两类:**结构块用 regex+回调函数**(避免 `$&` 类特殊序列被展开),标量 token 用 `replaceAll('__X__', () => v)` 同样带回调。index/category 两轮新增 `__CARD_COUNT__`(:620/:668,服务端渲染计数,消除 #count CLS)与 `AD_HEAD_TOKEN`(:621/:669)。孤儿详情页清理:重建 live slug 集合后 rmSync 不匹配者(:961-976)。
+4. **首页/分类与隐私页生成**:首页(:650-692)+ 分类页(:703-749,空分类跳过)+ 隐私页(:750-776,缺 privacyBody 文件 exit 1)。HTML 仅预渲染 download 排名前 24 张卡(`FALLBACK_CARDS` :502),`__CARD_COUNT__` 仍报全类目总数,`__FALLBACK_COUNT__` 显示当前 HTML 里确有的卡片数。两种结构产物并行生成:**HTML 首屏**与可客户端读取的 **JSON catalog**。`catalogPayload()`(:569-604)将 locale 文案、卡片元数据、描述、安装命令和详情 URL 串入 JSON;首页 catalog 包全量,分类 catalog 只包含该分类。`catalogHref()`(:598-602)基于 JSON SHA-256 前 8 位加 `?v=`,令 CDN URL 随内容变更。`<link rel=preload>` 预载 catalog。客户端在 `template.html` 过滤/排序并虚拟化可见卡片(约 3 行 overscan);`<noscript>` 提示只显示首屏。catalog 获取/渲染失败则保留首批烘焙卡片并在本地筛排——不是全量降级。详情页仍每插件每语言一页,孤儿详情页清理仍保留。
 5. **README 渲染**(`renderReadme` :723):Marked + heading depth+1(cap 6)、相对链接基于 raw base 解析;`renderer.html` 返回空串——**详情页正文里裸 HTML 全部丢弃**;图片必须过 SCREENSHOT_HOSTS(允许 `data:`),丢图后清理空 `<a>`/`<p>`。多语言选择按 LOCALES 顺序回退,兼容旧的无 key 结构,命中非本页语言时提示 P_README_ONLY 并在包裹 div 标真实 lang。
 6. **数据产物**:
 
@@ -27,6 +27,8 @@
 | `docs/readmes.json` | 详情页正文源(locale→{md,base,blobBase})| MB 级 |
 | `docs/updates.json` | 来自 `data/updates.json`(cache-only,见 [probes-and-decay/03](../probes-and-decay/03-publish-layer.md)),仅 listed | KB 级 |
 | `docs/feed.xml` ×2 | 按 addedAt 倒序 newest 30 条 | |
+| `docs/catalog.json` ×2 | 首页全量卡片 catalog(en/zh 各一份) | locale 文案与卡片数据随 JSON 下发;HTML 内 `?v=<sha256前8位>` 固定 CDN 版本 |
+| `docs/<locale>/<category>/catalog.json` | 每个有条目的分类页一份分类专属 catalog | 不下载无关类别;部署必须与 HTML 一起发布,缺失时交互只剩首屏 24 张 fallback 卡 |
 | `docs/sitemap.xml` | 四类 URL + 全套 hreflang alternates | 分类页 daily、详情页 weekly(lastmod=e.added)、隐私页 yearly,lastmod 取隐私源文件最后 commit 日期——"lastmod 每晚移动而内容没变会让爬虫不再相信全站的 lastmod" |
 
 ## 部署链(build-site.yml,282 行)
@@ -40,6 +42,8 @@
 
 ## 已知文档漂移
 
+- 详情页量随当前名单更新,约 4489×2 个静态详情页;首页与分类页现各多一个 JSON catalog 资源。精确构建输出总数仍无 CI build log 留档。
+
 - build-site.mjs:9 注释声称 "re-syncs the plugin-count figure inside every README"——build 全文写盘调用无一触及 README,计数徽章走 shields endpoint。**过期注释,行为是「build 从不碰源文件」**;0001 后这句话有了例外形态:写 README 的是 sync-readme.yml,不是 build。
 - AdSense 头注入(`adHead()`,build-site.mjs:72,变量未设时返回空串,`__AD_HEAD__\n` 连换行一起替换——**未设变量时产物与无广告构建逐字节相同**;注入点 :621/:669/:942,privacy-template 没有)与 Giscus 评论懒加载(`mapping:'specific'` 按 `plugin:<slug>` 映射 Discussion、IntersectionObserver 400px 触发才注入 script——**不滚动=不联系第三方**;enabled 时四 ID 强校验)。
 - **0002 修复的静默漂移**:giscus 的 term 从"构建时小写化"改为 `termOf(e.slug)` 原样(:856)。自评论区上线到 2026-09-24,这条小写化让**所有 owner/repo 含大写的条目被劈成两个 Discussion**——市场问 `plugin:FeatherHunter/dsh-prompt`,catalog 答 `plugin:featherhunter/dsh-prompt`,"Two threads, neither wrong"。同一份 `slugOf/termOf` 现由 build-site 与 adopt-discussions 共用(`lib/terms.mjs`)。
@@ -48,5 +52,7 @@
 
 - [ ] checkout + Pages 上传的实际耗时分布(workflow 无计时输出;UNVERIFIED)
 - [x] ~~会不会自动提交 README~~ → build-site 链不会;**0001 起 sync-readme.yml 会**(仓库唯一写 main 的 workflow),见上
-- [ ] 0002:capabilities 三字段写进了 plugins.json,但**站内页面不渲染**(site/ 零 diff 且模板无对应 token)——确认消费方只有 dsh-market
-- [ ] 0002:约 8800+ 页是 4392×2+2×25 的推算值,没有构建日志佐证(UNVERIFIED)
+- [ ] 0002:capabilities 三字段写进了 plugins.json,但**站内页面不渲染**(模板无对应 token)——确认消费方只有 dsh-market
+- [ ] 0003:site-health 只比线上首页插件链接数与 registry 总数;未见它校验生成 catalog 是否完整,应评估坏/缺 catalog 的部署能否被发现
+- [ ] catalog JSON 的总输出字节及 Pages 实际部署/边缘缓存命中情况(当前只按构建逻辑确认,未从 production 下载测量)
+- [ ] 0002:约 9000+ 个详情页是 4489×2 的推算值,没有构建日志佐证(UNVERIFIED)
