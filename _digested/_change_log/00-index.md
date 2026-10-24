@@ -14,13 +14,19 @@ _change_log/
 ├── 0000-baseline.md                    # 研究起点，不是一次同步
 ├── 0001-5e7dc7eb-to-38976afd.md        # 15 天 / 3213 commits / 2286→3552 条
 ├── 0002-38976afd-to-c18ba4a0d.md       # 18 天 / 1436 commits / 3552→4392 条
-└── 0003-c18ba4a0d-to-4693e5a83.md       # 18 天 / 216 commits / 4392→4489 条 (生态结构已复核;热度未重采)
+├── 0003-c18ba4a0d-to-4693e5a83.md       # 18 天 / 216 commits / 4392→4489 条
+└── 0004-4693e5a83-to-b4d0049a8.md       # 13 天 / 3450 commits / 4489→6704 条 (+2215)
 ```
 
-编号递增。`0000` 只记录开始消化时的 checkout；同步记录从 `0001` 起。本仓库没有版本号，所以文件名用短 hash 对：`0003-c18ba4a0d-to-<new>.md`。
+编号递增。`0000` 只记录开始消化时的 checkout；同步记录从 `0001` 起。本仓库没有版本号，所以文件名用短 hash 对：`0004-4693e5a83-to-<new>.md`。
 
-> **取数通道(截至 0003)**:`git fetch` 的长连接会挂死且换协议不保险——0001 是 https 挂死、SSH 可用;0002 SSH fetch 也挂死;0003 `ls-remote` 秒回但带 lowSpeed 阈值的 https fetch 因低速失败,改 SSH fetch 成功。下次先 `ls-remote` 探活,再尝试 SSH:
-> `git fetch git@github.com:awesome-dsh-plugin/awesome-dsh-plugin.git main:refs/remotes/upstream/main`
+> **取数通道(截至 0004)**:每次先 `ls-remote` 探活再 fetch,但**哪个协议当天能用是浮动的**。0004 实测:SSH `ls-remote`(git@github.com)挂死 45 s 以上;https `ls-remote` **秒回**;https fetch 默认 lowSpeed 阈值会因低速失败,tune 后成功:
+> ```sh
+> git ls-remote https://github.com/awesome-dsh-plugin/awesome-dsh-plugin.git main
+> git -c http.lowSpeedLimit=1000 -c http.lowSpeedTime=60 fetch --no-tags \
+>   https://github.com/awesome-dsh-plugin/awesome-dsh-plugin.git main:refs/remotes/upstream/main
+> ```
+> 该 fetch 用了约 5 分钟(经 tail 管道时不刷新进度,容易误判成卡死;用 `job_output` 等它结束)。macOS 没有 `timeout` 命令,别指望用它兜底。
 
 ## 每条 sync 记录的固定结构
 

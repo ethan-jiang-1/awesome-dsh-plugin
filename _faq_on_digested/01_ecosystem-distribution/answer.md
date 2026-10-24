@@ -1,6 +1,6 @@
 # A01 · 分布的三视角答案:技术上造桥,业务上修渠,体验上装窗
 
-> 数据快照:初问于 `main@5e7dc7eb`(2026-08-27,2286 条);0001 后按 `main@38976afd`(2026-09-12,3552 条)全量重算;**0002 后按 `main@c18ba4a0d`(2026-09-30,4392 条)再重算**,本文数字除注明"旧/0001"外均为 4392 新基线。分类思路与 [`_digested/ecosystem/01`](../../_digested/ecosystem/01-scenario-taxonomy.md) 同口径(23 官方类 → 11 场景带)。方法与正则见 [question.md](question.md);**一图流见 [distribution-map.svg](distribution-map.svg)**。月下载仍是 0001 自采快照 `snap-2026-09-12`(3552 条口径,0002 轮自采未完成),凡引用下载处均已随文标注。
+> 数据快照:初问于 `main@5e7dc7eb`(2026-08-27,2286 条);0001 后按 `main@38976afd`(2026-09-12,3552 条)全量重算;**0002 后按 `main@c18ba4a0d`(2026-09-30,4392 条)再重算**,本文数字除注明"旧/0001"外均为 4392 新基线。**0004(2026-10-24,6704 条)未重算本文数字**——分类与下载仍是 4392 口径,当前计数见 [`../../_digested/ecosystem/01-scenario-taxonomy.md`](../../_digested/ecosystem/01-scenario-taxonomy.md);定性的三视角结论在 0004 复核中方向不变。分类思路与 [`_digested/ecosystem/01`](../../_digested/ecosystem/01-scenario-taxonomy.md) 同口径(23 官方类 → 11 场景带)。方法与正则见 [question.md](question.md);**一图流见 [distribution-map.svg](distribution-map.svg)**。月下载仍是 0001 自采快照 `snap-2026-09-12`(3552 条口径,0002 轮自采未完成),凡引用下载处均已随文标注。
 
 ## 一句话总答案
 

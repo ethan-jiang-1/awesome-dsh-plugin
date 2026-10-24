@@ -1,6 +1,6 @@
 # 03 · regate 与 check-bleed:判决保鲜与描述污染检测
 
-> 基线:`upstream@c18ba4a0d`(0002 复核;regate.yml 218→**369 行**,check-bleed 94 行未变)。
+> 基线:`upstream@b4d0049a8`(0004 复核;regate.yml 218→**369 行后未再变**,check-bleed 94 行未变)。0003/0004 对这两份文件都是零 diff,但 0004 **动了 regate 的两个输入时钟**——见下节末。
 
 ## regate.yml(369 行):判决是快照
 
@@ -35,7 +35,9 @@ if (checkRedFresh && !aged && !unverified && !faulted) continue   // :298
 - **403 不再等于限流(0002 重写,:316-364)**:只有 `429`、或 403 且正文匹配 `/rate limit/i` 才终止本轮;`tooOld`(运行时间超过一个月,403 + `/over a month ago/i`)现在**跳过该 PR 并点名**,继续处理其余(:333-346)。事故:**#932 在 2026-09-18 跨过 30 天,把 8 轮里的 7 轮打死**;当时有 28 个开放 PR 挂着超龄 run。另一个误判案例:#5582 的 "This workflow is already running" 也是 403,同样不该停。
 - 全部包在 try/catch 里且把配额紧张当"本轮少干点",绝不为配额紧张发红色告警。
 
-## check-bleed.mjs(94 行,**未变**):跨条目文本污染指纹
+**0004 的副作用:这一轮同步自己把两个时钟都推前了。** 上表的 `stale` 与 `checkStaleRed` 是同一条道理——"代码变了,旧判决作废"。0004 恰好同时命中两侧:`gateChangedAt` 的输入里有 `pr-gate.yml`(本轮 369→375 行),`checkChangedAt` 的输入里有 `.github/workflows/pr-check.yml` 与整个 `scripts/lib` 目录(`entries.mjs` 就在里面,:95-97)。后果按代码推得出来,不需要观测:开放 PR 里判决时间早于这几个 commit 的 `Submission gate`(实际上就是全体)一起变 `stale`,而所有**当前是红**的 `check` 一起变 `checkStaleRed`——`stale` 进 revalidate 档(:305),`checkStaleRed` 进 blocking 档(:304),每轮上限仍 20(`MAX_RERUNS`)。**这是设计意图,不是事故**:pr-check 改了,旧的红就不再是对当前代码的陈述。反过来说,一次纯 CI 改动会让队列排上几轮——**队列长度本窗口无法离线测量**(不联网取不到开放 PR 数),所以"要排多久"这里不给数字。
+
+## check-bleed.mjs(94 行,**未变**;0003/0004 均零 diff):跨条目文本污染指纹
 
 #1348 案的产物:一个声称刷新 dsh-notifier 条目的 PR,顺手把 dsh-notifier 的新句子追加到了无关插件 dsh-cyber-particle 的描述上。发生过两次,YAML 合法、README 能再生、lint 干净——没有检查看「PR 是否碰了它不该碰的条目」。检测机制:
 
@@ -57,7 +59,10 @@ if (checkRedFresh && !aged && !unverified && !faulted) continue   // :298
 
 六者同源于一个事故家族(#502 / #1348 / #1554/#1635/#1614/#3914/#3622/#5845/#4680),共同信条:**机械检查全绿 ≠ 内容没坏;凡是机器说不了的,就把它摆到评审眼前。**
 
+**0004 又加了一道,性质不同,没有事故编号。** `icon` 的主机/后缀判据(`entries.mjs:116-134`)拦的不是"内容与描述不符",而是**把访客的浏览器指向不可担保的地方**——一张卡片就是一个 `<img>` 请求,判据要在合并前而不是在访问时决定它指向哪里。它归在 pr-check 第 5 步(经 `generate-readme.mjs:95` 的 `validateEntries()` 生效),不在这张表原有的六层里,也不进 pr-gate:所以它既不该算进"六道",也不是同一个事故家族的成员。记这一笔是为了不让读者把上表当成全部——**形状判据在 pr-check,实质判据在 pr-gate,两边都不覆盖对方**。
+
 ## 待复核
 
 - [ ] **0002**:`commit(s)` 分支是否真已无判决命中(正则仍在 regate.yml:223)——需拉一次开放 PR 队列的 summary 抽样
 - [ ] **0002**:`faulted` 的 1 小时冷却是否够——#5083 那次 fault 的根因是限流,冷却期内配额未必恢复
+- [ ] **0004 新增**:本轮 `gateChangedAt`/`checkChangedAt` 同时前移之后,重新入队的开放 PR 有多少轮才清空——需要联网取开放 PR 数,本窗口未测

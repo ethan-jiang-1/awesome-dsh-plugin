@@ -1,13 +1,15 @@
 # 02 · pr-gate 与 check-submission:判决机
 
-> 基线:`upstream@c18ba4a0d`(0002 复核;pr-gate.yml 316→**369 行**,`check-submission.mjs` **584 行未变**)。0001 最大变更:commit floor 删除(#4196)+ 已收录仓库豁免 + 非法扩展名的显式归因。**0002 最大变更:非法 YAML 的显式归因(#4680)+ held-rescan 收编"CI 从未运行"的 PR(#2202)。**
+> 基线:`upstream@b4d0049a8`(0004 复核;pr-gate.yml 369→**375 行**,`check-submission.mjs` **584 行未变**)。0001 最大变更:commit floor 删除(#4196)+ 已收录仓库豁免 + 非法扩展名的显式归因。**0002 最大变更:非法 YAML 的显式归因(#4680)+ held-rescan 收编"CI 从未运行"的 PR(#2202)。** 0003 对本专题零 diff;**0004 对 pr-gate 的唯一改动是 `npm ci` 的 registry 环境变量(:96-102),其余全是行号 +6**。
 
 ## 分工
 
 - `check-submission.mjs`(584 行,**未变**):纯校验器。输入是条目清单,输出是 JSON 判决 `{ok, checked, failures[], incomplete[], tooMany?}`(`--json` 落盘),退出码只反映 failures。
-- `pr-gate.yml`(**369 行**):调度与判决发布层。处理「PR 是谁、改了哪些文件、怎么把结果钉回 commit」,并把校验器产出翻译成 check-run(success / neutral / failure 三种结论 + 65000 字符 summary 上限)。
+- `pr-gate.yml`(**375 行**):调度与判决发布层。处理「PR 是谁、改了哪些文件、怎么把结果钉回 commit」,并把校验器产出翻译成 check-run(success / neutral / failure 三种结论 + 65000 字符 summary 上限)。
 
 > 0002 观察:**这次的加固全部落在"调度/归因层",校验器一行没动**——也就是门禁的病不在判据,而在"判据没跑起来、或跑起来但说不清是哪份文件"。
+
+> 0004 补一条边界:**形状判据不在这个校验器里**。`validateEntries()`(url 形状、文件名↔url、`name`↔url、未知键、`category`、`description` 的 locale、`tarball`、以及 0004 的 `icon`;完整清单以 `entries.mjs:169-256` 为准)只由 `scripts/generate-readme.mjs:95` 调用,落在 `PR check` 那一侧;`check-submission.mjs` 判的是仓库的实质(dsh.bundle、年龄、条数)。所以 `Submission gate` 变绿**不等于**条目文件本身合法——两张 check 合起来才是合同,单看其中一张都会高估。最直接的例子:`icon` 写成第三方图床,pr-gate 的判决一动不动,红在 pr-check。
 
 ## 校验器(check-submission.mjs)
 
@@ -60,7 +62,9 @@
 - **memo 按 promise 不按结果**(:175-180 附近):monorepo N 个子包 → 同 repo 的 meta/commits/tree 只发一次;#1608 一个 PR 带 33 个子包曾产生 64 次纯重复调用(1000/h 配额,这就是 2026-08-18 挤兑的成因,23 个开放 PR 因此挂着"无法完全检查")。
 - **已收录仓库豁免(`listedReposAt`)**:从 base commit 的 `git ls-tree` 按**文件名**解析已收录 owner/repo(名字 `owner__repo--sub.yml` 的第一个 `__` 必是 owner 边界,GitHub owner 名不含下划线);豁免的是**仓库**不是变更类型——改名落到已收录仓库直接跳过门槛(Tlyer233 案:插件在自己仓里上移一层目录,却被"7 commits (needs 10)"拒绝),落到未收录仓库仍受全量审查(#1554 原样保留)。豁免**以 base 为准**,PR 不能靠同一 push 里自加首条目给自己发豁免;base 读不到 → null = "谁都不豁免",fail-closed。
 
-## pr-gate.yml 调度层(369 行)
+## pr-gate.yml 调度层(375 行)
+
+**0004 的唯一 diff 在装包**(:96-102):`npm ci` 前加了 `npm_config_registry: https://registry.npmjs.org/` 与 `npm_config_replace_registry_host: always`,注释写明理由——lockfile 里还有 7 条 `resolved` 钉在 npmmirror,而该 CDN 在 2026-10-19 反复 503/504,`npm ci` 一挂几十分钟。这跟判据无关,但和本专题的主题有关:**装包挂死 = 这一步永远不出结果**,而"没有 verdict"与"通过"在这条链上从来都是要分开的两种状态。整个步仍带 `if: steps.pr.outputs.found == 'true'`(:103),PR 找不到时依旧不装包。
 
 ### 定位 PR:一次请求而非遍历(:43-60)
 
@@ -70,7 +74,7 @@
 
 在贴出判决前死掉的 gate 与"不需要跑的 gate"不可区分——绿色 check 旁读者只会觉得"没问题"。现在 catch 里直接在对应 commit 上创建 conclusion:failure 的 check-run。**0002:这类"门禁自己跑挂"的判决现在会被 regate 认出来并 1 小时后自动重问**(见 [03](./03-regate-and-bleed.md) 的 `faulted`)。
 
-### 提取层(:99-153)
+### 提取层(:105-159)
 
 - checkout 停留在 main(信任的代码、信任的 lockfile);`git fetch refs/pull/N/head` 后 **merge-base 对比今天的 origin/main**——API 给的 base.sha 是开 PR 时的快照,fork 同步过的分支会因此把别人的条目算进本 PR。
 - `--diff-filter=AR`:**R(改名)必须算进来**。#1554 通过改名条目文件、把 url 指向别的仓库绕过了"没有新增文件"的门;"R 时 --name-only 打印新路径",恰好是要检查的那份。
@@ -78,13 +82,13 @@
 - **非 yml 扩展名的显式归因**(:264-285):extract 收集 data/plugins/ 下全部变更路径,而校验器只读 `*.yml`——扩展名丢失的条目会被计数、永不解析、永远进 failure 分支,#1477 因此被"重跑 workflow"搪塞了 13 天。现在全数非 yml 时直接报 "N entry file(s) missing the .yml extension",附逐文件 `git mv` 命令。
 - modified.txt:本 PR 改写的既有条目单独列出,M 类不走年龄/提交门(存量条目按收录时的规则,周度 decay scan 盯它们的退化),但**每一份判决都要附上这份清单**让评审追问:#1348 案(两次混过所有机械检查)正是这类。
 
-### 0002 新增:非法 YAML 的显式归因(:286-337)
+### 0002 新增:非法 YAML 的显式归因(:292-343)
 
 在非 .yml 分支之后,pr-gate 现在把**每一个变更的 `.yml`** 丢给 js-yaml 解析,失败则报 `N entry file(s) are not valid YAML`,附文件+行号与一行复现命令。动机写在注释里:"the file is named right but is not valid YAML, so readEntries() drops it and --only-list then matches nothing"——**#4680 在这里挂了五天**,根因是它的 `zh:` 行是 GBK 乱码(UTF-8 被当 GBK 读)。
 
 实现细节值得记一笔:`require` 用的是**绝对路径** `${process.env.GITHUB_WORKSPACE}/node_modules/js-yaml`,因为 github-script 会把 `require` 解析到 action 自己的目录而不是工作树。js-yaml 加载不了时退回通用的"门禁什么都没查到"文案,不静默放行。
 
-### 判决翻译表(约 :198-362)
+### 判决翻译表(约 :204-368)
 
 | 情形 | 结论 | 标题语义 |
 |------|------|----------|
@@ -93,10 +97,10 @@
 | 结果文件缺失 | failure | "The gate could not run"( checker 崩溃=bug 不是投稿问题;**0002 起 regate 会对它 1 小时后重问**)|
 | tooMany | failure | 附全文拆分劝告 + "pick as well as split" |
 | changed 全部无 .yml 扩展名 | failure | "N entry file(s) missing the .yml extension" + 逐文件 git mv 命令 |
-| **有 .yml 但解析不了(0002)** | failure | **"N entry file(s) are not valid YAML" + 文件:行号 + 复现命令(:316-337;#4680)** |
+| **有 .yml 但解析不了(0002)** | failure | **"N entry file(s) are not valid YAML" + 文件:行号 + 复现命令(:322-343;#4680)** |
 | checked===0 但 extract 说有文件 | failure | 两个组件互相矛盾,不能 vouch |
 | ok 且有 incomplete | **neutral** | "X pass;其余放行但 nothing here vouches for them" —— neutral 就是留给 regate 重访的钩子 |
-| ok 全绿 | success | "dsh.bundle declared, repo old enough, enough commits" + modifiedNote(**上游遗留**:commit floor 已删但这句没改,现位于 **pr-gate.yml:362**)|
+| ok 全绿 | success | "dsh.bundle declared, repo old enough, enough commits" + modifiedNote(**上游遗留**:commit floor 已删但这句没改,现位于 **pr-gate.yml:368**)|
 | 有 failures | failure | 每条逐点列出 + 指向 contributing.md |
 
 ## held-rescan.yml(258 行):"从未运行"也是队列成员
@@ -110,3 +114,4 @@
 - [x] neutral 在 regate 侧的重访闭环 → 见 [03](./03-regate-and-bleed.md)(已核)
 - [ ] `concurrency.group: pr-gate-<head_sha>` cancel-in-progress 的实际效果(同一 head_sha 连续完成两次会互相取消?)UNVERIFIED,值得跑一次观察
 - [ ] **0002 新增**:`entries.mjs` 的 name↔url 规则(#5756)会不会误伤"顺手把 name 写成上游组织名"的合法条目——六条违规里五条指向不存在的仓库,可疑但未抽样全部
+- [ ] **0004 新增**:`validateEntries()` 只在 `generate-readme.mjs` 里跑,`build-site.mjs` 直接 `readEntries()`、不校验——main 上的 `build-site.yml` 会把 `icon` 原样写进 `plugins.json` 发布出去。今天挡住非法值的是"PR 里第 5 步先跑过"这个顺序,不是构建自己的判据;维护者直推 main 的路径没有这层保险。要否给构建/发布也接一层,未决
