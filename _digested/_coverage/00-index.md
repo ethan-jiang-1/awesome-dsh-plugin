@@ -26,6 +26,21 @@
 
 > 核验方式说明:0004 六个机制专题都有真实 diff,均由子代理逐行读 diff 后改写档案,主代理另核对 market-index/capabilities/entries/check-site-health 的关键实现。`ecosystem` 的当前结构总数可由 [`census.py`](../ecosystem/census.py)(标准库,无第三方依赖)重跑;生态 03/04 中仍有按历史日期标注的 4392/3552 名单口径,只作为各次星标/下载采样的历史分母,不可视为当前基线。仓库下载/星标边车冻结于 2026-08-19,能力边车冻结于 2026-09-24(`dsh-trust-check@0.1.13`),均未用于更新趋势判断。
 
+## 影响面层(leverage,2026-10-31 新建)
+
+第二轴,不与 `ecosystem/` 的 23 类合并。四个域各一份宪章 + 1 张旗舰卡,均为 `observed`(机制核过 DSH 0.2.1-rc.3 安装包 README)。
+
+| 域 | 状态 | 已有正文 | 数字来源 |
+|----|------|----------|----------|
+| [`lever-reshape-product`](../leverage/lever-reshape-product/README.md) | **框架已核验**,样本回读 catalog 原文 | README · 01-product-stack | `leverage/census.py` §1–§8 |
+| [`lever-cross-boundary`](../leverage/lever-cross-boundary/README.md) | 同上 | README · 01-collab-topology | 同上 |
+| [`lever-prove-output`](../leverage/lever-prove-output/README.md) | 同上 | README · 01-quality-chain | 同上 |
+| [`lever-draw-limit`](../leverage/lever-draw-limit/README.md) | 同上 | README · 01-trust-layers | 同上 + `capabilities.json` join |
+
+**准入已固化为可执行门禁**:[`leverage/census.py`](../leverage/census.py) §9 输出「影响力 A/B/C ≥1 且 深度 D/E ≥1」的通过集——**51/7924(0.6%)**,规则与分级见 [`leverage/horizon.md`](../leverage/horizon.md)。`--probe "<正则>"` 用于复核任何「稀缺」断言。
+
+> **未做**:四域的样本均停在「catalog 自述 + 官方包 README」两级,未读插件源码;`[OBS]` 类判断中的失效条件多数尚未用真实事故样本验证。E 级(反面教材)目前只有 2 条真判;`hyperion2144/dsh-desktop-tauriapp` 过不了机器门,靠人工 F+G 进入。四张卡的「待答问题」与 horizon 的「已知缺口」即下一轮入口。
+
 ## 按源码组(粗粒度)
 
 | 源码组 | 归入专题 |

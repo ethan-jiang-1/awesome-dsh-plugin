@@ -5,7 +5,7 @@
 **产品**:DSH = DeepSeek Harness(`deepseek-ai/deepseek-harness`,官方开源 agent 框架,"一切皆插件");本仓库是它的社区插件目录,`dsh plugin add` 安装制。
 **审计基线**:`main@efe602e7b`(2026-10-31;0005 同步记录见 [`_change_log/`](./_change_log/00-index.md))。生态结构统计已按 **7924 条**重算;本轮上游源码零 diff,六个机制专题按「无对应 diff」核验(submission-gates 另有 `contributing.md` 文档段);下载/星标尚未重采,仅保留带日期的历史值(仓库边车冻结于 2026-08-19)。
 
-## 读法(只有两站)
+## 读法(三站)
 
 ### 第一站 · [`ecosystem/`](./ecosystem/00-map.md) — 生态全景(主轴)
 
@@ -24,6 +24,19 @@
 ### 第二站 · [`mechanics/00-map.md`](./mechanics/00-map.md) — 机制速览(一页)
 
 只回答评估要用的三个问题:名单数据可信吗 / 会不会烂 / 什么量级。**到此为止即可**;其下六个子目录(`system`、`registry-data`、`submission-gates`、`readme-pipeline`、`site-surface`、`probes-and-decay`)是逐行机制档案,投稿者或复现构建时才需要。
+
+### 第三站 · [`leverage/00-map.md`](./leverage/00-map.md) — 影响面与杠杆(第二轴)
+
+`ecosystem/` 按「是什么」分类;这一层按「**改了多大、多深、留了什么代价**」提问,四个域并列、无先后:
+
+| 目录 | 标语 | 回答什么 |
+|------|------|----------|
+| [lever-reshape-product](./leverage/lever-reshape-product/README.md) | 不改上游,DSH 能被组装成什么产品 | 产品栈七层;产品化的单位是 profile 不是插件 |
+| [lever-cross-boundary](./leverage/lever-cross-boundary/README.md) | 协作跨到哪个边界,每跨一界多付什么 | 四道边界与其各自的税(状态归属/冲突裁决/失败收敛) |
+| [lever-prove-output](./leverage/lever-prove-output/README.md) | 门禁装在哪一环,产物凭什么算完成 | 质量链六环;只有检查点与版本新鲜度是原生硬门禁 |
+| [lever-draw-limit](./leverage/lever-draw-limit/README.md) | 谁能碰什么,由谁强制,留下什么证据 | 信任三层;沙箱只覆盖文件,网络与进程无策略词汇 |
+
+每域一份宪章(`README.md`,准入/不收/选择要求/复核触发)+ 若干编号卡。**入口先读 [`horizon.md`](./leverage/horizon.md)**:准入条件(A/B/C 影响力 + D/E/G 深度)、S/A/B/C 分级、每条必写的六项。7924 条里过门的是 **51 条(0.6%)**——对象不随名单膨胀,`B` 级以下不立卡。数字可重跑:`python3 _digested/leverage/census.py`(§9 即准入门);复核任何稀缺性断言用 `--probe "<正则>"`。
 
 ## 横切目录
 
