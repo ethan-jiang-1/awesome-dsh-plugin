@@ -43,7 +43,7 @@ budget: 160
   - **聚合要"策展 + 共享默认 + 自有更新"**——`13_组合包` / `14_聚合补丁` 算，纯打包不算；
   - **自带运行时不算**——`oh-dsh` 的 Web 只是三种界面之一 → [`shell` 侧](../shell/README.md)。
 
-> **怎么加卡**：过 00-map §11.1 快筛且门槛达标 → 读 patch/bundle 形态 → 按 00-map §5 建卡 → catalog 与本表各补一行 → `node _digested/verify.mjs`。
+> **怎么加卡**：过 00-map §11.1 快筛且门槛达标 → 读 patch/bundle 形态 → 按 00-map §5 建卡 → catalog 与本表各补一行 → `node _leverage/verify.mjs`。
 
 ## 3. 卡表
 

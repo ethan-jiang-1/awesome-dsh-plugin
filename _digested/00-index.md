@@ -25,18 +25,20 @@
 
 只回答评估要用的三个问题:名单数据可信吗 / 会不会烂 / 什么量级。**到此为止即可**;其下六个子目录(`system`、`registry-data`、`submission-gates`、`readme-pipeline`、`site-surface`、`probes-and-decay`)是逐行机制档案,投稿者或复现构建时才需要。
 
-### 第三站 · [`leverage/`](./leverage/README.md) — 影响面与杠杆(第二轴)
+### 第三站 · [`_leverage/`](../_leverage/README.md) — 影响面与杠杆(第二轴,已出册)
 
-`ecosystem/` 按「是什么」分类;这一层按「**改了多大、多深、留了什么代价**」提问,四个域并列、无先后:
+**2026-10-31 起独立出册**:`leverage/`(三域)与 `leverage-reshape-product/`(产品线)一起搬到同级目录 [`_leverage/`](../_leverage/README.md),有自己的入口、规则源与验证口径;`_digested/` 只留 `ecosystem/`、`mechanics/` 与横切目录。
+
+`ecosystem/` 按「是什么」分类;`_leverage/` 按「**改了多大、多深、留了什么代价**」提问,四个域并列、无先后:
 
 | 目录 | 标语 | 回答什么 |
 |------|------|----------|
-| [leverage-reshape-product](./leverage-reshape-product/README.md)（另册，与 `leverage/` 平级） | 不改上游,DSH 能被组装成什么产品 | 产品栈七层;**通用插件** / **profile 级产品** / **自带宿主**三条路线分开算；有自己的规则源与 catalog |
-| [lever-cross-boundary](./leverage/lever-cross-boundary/README.md) | 协作跨到哪个边界,每跨一界多付什么 | 四道边界与其各自的税(状态归属/冲突裁决/失败收敛) |
-| [lever-prove-output](./leverage/lever-prove-output/README.md) | 门禁装在哪一环,产物凭什么算完成 | 质量链六环;只有检查点与版本新鲜度是原生硬门禁 |
-| [lever-draw-limit](./leverage/lever-draw-limit/README.md) | 谁能碰什么,由谁强制,留下什么证据 | 信任三层;沙箱只覆盖文件,网络与进程无策略词汇 |
+| [leverage-reshape-product](../_leverage/leverage-reshape-product/README.md)（另册,与 `leverage/` 平级） | 不改上游,DSH 能被组装成什么产品 | 产品栈七层;**通用插件** / **profile 级产品** / **自带宿主**三条路线分开算;有自己的规则源与 catalog |
+| [lever-cross-boundary](../_leverage/leverage/lever-cross-boundary/README.md) | 协作跨到哪个边界,每跨一界多付什么 | 四道边界与其各自的税(状态归属/冲突裁决/失败收敛) |
+| [lever-prove-output](../_leverage/leverage/lever-prove-output/README.md) | 门禁装在哪一环,产物凭什么算完成 | 质量链六环;只有检查点与版本新鲜度是原生硬门禁 |
+| [lever-draw-limit](../_leverage/leverage/lever-draw-limit/README.md) | 谁能碰什么,由谁强制,留下什么证据 | 信任三层;沙箱只覆盖文件,网络与进程无策略词汇 |
 
-**入口**:[`leverage/README.md`](./leverage/README.md) 首屏有三条路——拿走东西去 [BORROW.md](./leverage/BORROW.md),查某一篇去 [catalog.md](./leverage/catalog.md),知道凭什么去 [horizon.md](./leverage/horizon.md)。四域成稿;**先过门再立卡,卡片数不随名单涨**。准入/分级见 horizon,**不维护全库计数与命中率**。
+**入口**:[`_leverage/README.md`](../_leverage/README.md) 是这一站的读法;单册入口 [`leverage/README.md`](../_leverage/leverage/README.md) 首屏有三条路——拿走东西去 [BORROW.md](../_leverage/leverage/BORROW.md),查某一篇去 [catalog.md](../_leverage/leverage/catalog.md),知道凭什么去 [horizon.md](../_leverage/leverage/horizon.md)。四域成稿;**先过门再立卡,卡片数不随名单涨**。准入/分级见 horizon,**不维护全库计数与命中率**。
 
 ## 横切目录
 
@@ -59,4 +61,4 @@
 node _digested/verify.mjs
 ```
 
-检查严格 UTF-8、LF 与结尾换行、相对链接与锚点。二次研究见同级 [`_faq_on_digested/`](../_faq_on_digested/00-index.md)。
+只校验 `_digested/` 与 `_faq_on_digested/` 两棵树:严格 UTF-8、LF 与结尾换行、相对链接与锚点。`_leverage/` 有自己独立的校验器(`node _leverage/verify.mjs`),两边互不依赖。二次研究见同级 [`_faq_on_digested/`](../_faq_on_digested/00-index.md)。

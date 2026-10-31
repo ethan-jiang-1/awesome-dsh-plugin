@@ -12,7 +12,7 @@ budget: 220
 
 > **标语**:*From a plugin to a profile to an app.* —— 产品的单位，从插件到 profile 到应用。
 > **和 `leverage/` 平级**：`leverage/` 回答"对上游的杠杆有多大"（协作 / 质量 / 安全三域）；本目录只回答"**怎么把 DSH 装成产品**"。
-> **规模**：三个 lever，**19 张样本卡** + 1 个门 + 5 份原始证据 + 1 份指标快照。
+> **规模**：三个 lever，**18 张样本卡** + 1 个门 + 6 份原始证据 + 1 份指标快照（另有 1 个观察样本，不占卡位）。
 > **状态**：`living`（随样本增长） · 基线 DSH `0.2.1-rc.3` · 名单 @ `efe602e7b` · **指标 2026-10-31 重采**（快照见 [`_证据/指标快照-2026-10-31.json`](./_证据/指标快照-2026-10-31.json)）
 
 ## 0. 三个入口
@@ -120,7 +120,7 @@ Q2 交付的是"一块能力"，还是"一整套产品形态"？
 | `profile` | ★ ≥ 200 或 npm 近 30 天 ≥ 3,000 | 同上 |
 | `shell` | ★ ≥ 100 或 npm 近 30 天 ≥ 1,000 | 同上 |
 
-**三种数，三种口径**：★（GitHub API，写时点）/ npm 近 30 天下载（含 CI 与镜像，≠ 用户数）/ 仓库 2026-08-19 快照（只作历史对照）。**本线 19 张卡已于 2026-10-31 统一重采**，原始响应存 [`_证据/指标快照-2026-10-31.json`](./_证据/指标快照-2026-10-31.json)。
+**三种数，三种口径**：★（GitHub API，写时点）/ npm 近 30 天下载（含 CI 与镜像，≠ 用户数）/ 仓库 2026-08-19 快照（只作历史对照）。**本线 18 张卡已于 2026-10-31 统一重采**（另有 1 个观察样本），原始响应存 [`_证据/指标快照-2026-10-31.json`](./_证据/指标快照-2026-10-31.json)。
 
 **证据深度**（卡片页头写一句）：`README 级` < `源码级` < `实测级`。只在 README 上下的结论，不写"机制已核"。
 
@@ -141,10 +141,10 @@ Q2 交付的是"一块能力"，还是"一整套产品形态"？
 ## 9. 校验
 
 ```sh
-node _digested/verify.mjs
+node _leverage/verify.mjs
 ```
 
-`verify.mjs` 同时校验 `_digested/leverage/` 与 `_digested/leverage-reshape-product/` 两棵树：严格 UTF-8、LF、相对链接与锚点、frontmatter 契约（domain 固定 `reshape-product`）、`sample` 必须有借鉴节；另外校验本册 `catalog.md` 与本目录 Markdown 集合双向一致、三个 lever README 卡表覆盖本 lever 全部编号卡。
+`_leverage/verify.mjs` 是**自包含**的校验器，只读 `_leverage/` 这一棵树（不依赖 `_digested/` 的脚本或数据）：严格 UTF-8、LF、相对链接与锚点、frontmatter 契约（domain 固定 `reshape-product`）、`sample` 必须有借鉴节；另外校验本册 `catalog.md` 与本目录 Markdown 集合双向一致、三个 lever README 卡表覆盖本 lever 全部编号卡、门槛数字与 `00-map` §7 同数、卡片页头影响力过门槛（或标"机制例外"）。`leverage/` 三域由同一支校验器一并覆盖。
 
 ## 与 `leverage/` 的边界
 

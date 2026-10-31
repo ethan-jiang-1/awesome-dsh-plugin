@@ -132,7 +132,7 @@ DSH 包的事实来自本机安装目录(`dsh --version` 与各包 README),不�
 - **新域**:必须同时满足「新位置(seam/slot/layer)+ 多个过门样本 + 三域都装不下」;才加目录、`domain` 枚举、README 域表一行、BORROW 一行。**产品线是另册**,不适用本条。
 - **同步上游**:只改受影响卡的 `updated` 与 `[DSH]` 断言 + 本文件「基线」行;`ecosystem/`、`_coverage/` 按原流程。
 - **口径变化**:准入/分级只改 [`horizon.md`](./horizon.md)(单一源);三域 README 的副本是摘要,不必同步改。本文件的证据协议若变,在 `_change_log/` 记一笔。
-- **验证**:`node _digested/verify.mjs`(frontmatter/链接/锚点/编码)。**不做计数校验**。
+- **验证**:`node _leverage/verify.mjs`(frontmatter/链接/锚点/编码)。**不做计数校验**。
 
 ## 待回答问题
 

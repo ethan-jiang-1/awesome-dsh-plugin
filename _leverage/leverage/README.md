@@ -10,7 +10,7 @@ budget: 260
 ---
 # `leverage/` · 影响面与杠杆(第二轴)
 
-> **一句话**:[`ecosystem/`](../ecosystem/00-map.md) 回答「有什么」;这一层回答「**它占了哪条缝、改到多深、代价是什么、什么时候会坏、别人能抄哪一行**」。
+> **一句话**:[`ecosystem/`](../../_digested/ecosystem/00-map.md) 回答「有什么」;这一层回答「**它占了哪条缝、改到多深、代价是什么、什么时候会坏、别人能抄哪一行**」。
 > **不是**:插件推荐榜、功能分类、安装教程。它是**深读层**——**不是每一条都值得研究**:先过门,再立卡。
 > **状态**:三域成稿（产品线另册：[`../leverage-reshape-product/`](../leverage-reshape-product/README.md)） ｜ 篇数以 [catalog](./catalog.md) 为准 ｜ 基线:名单 `efe602e7b`(2026-10-31) · DSH `0.2.1-rc.3`
 
@@ -92,11 +92,11 @@ DSH 的扩展面是有限、可枚举的:seam(fs/shell/sandbox/llm/subagent/work
 **给 agent 的五条检索式**(不用读全目录):
 
 ```sh
-sed -n '1,80p' _digested/leverage/catalog.md # 全量菜单（手工维护）
-grep -rl '^kind: sample' _digested/leverage --include='*.md' # 只要样本卡
-grep -rn '^read_when:.*冲突' _digested/leverage --include='*.md'
-grep -rn -E '^#{2,3} .*(借鉴|搬走|借用|照抄|食谱|配方|移植)' _digested/leverage
-node _digested/verify.mjs # frontmatter / 链接 / 锚点
+sed -n '1,80p' _leverage/leverage/catalog.md # 全量菜单（手工维护）
+grep -rl '^kind: sample' _leverage/leverage --include='*.md' # 只要样本卡
+grep -rn '^read_when:.*冲突' _leverage/leverage --include='*.md'
+grep -rn -E '^#{2,3} .*(借鉴|搬走|借用|照抄|食谱|配方|移植)' _leverage/leverage
+node _leverage/verify.mjs # frontmatter / 链接 / 锚点
 ```
 
 ## 6. 文件约定
@@ -124,7 +124,7 @@ node _digested/verify.mjs # frontmatter / 链接 / 锚点
 
 | 口径 | 值 | 谁维护 |
 |---|---|---|
-| 名单 | `efe602e7b`(2026-10-31 快照) | [`ecosystem/`](../ecosystem/00-map.md) |
+| 名单 | `efe602e7b`(2026-10-31 快照) | [`ecosystem/`](../../_digested/ecosystem/00-map.md) |
 | 能力披露 | `data/capabilities.json`,2026-09-24 静态扫描 | 旧扫描,非判决 |
 | 星标/下载 | 星标 2026-09-30、下载 2026-09-12 | `data/*.json`(历史锚点) |
 | 实时 GitHub / npm | CROSS / LIMIT 采样 2026-10-31 | 各域 README |
@@ -171,7 +171,7 @@ node _digested/verify.mjs # frontmatter / 链接 / 锚点
 ## 9. 校验
 
 ```sh
-node _digested/verify.mjs # frontmatter / 链接 / 锚点 / 编码
+node _leverage/verify.mjs # frontmatter / 链接 / 锚点 / 编码
 ```
 
 **只校验文件自洽,不校验计数**——名单在涨,任何全局数字都不是稳定真值。

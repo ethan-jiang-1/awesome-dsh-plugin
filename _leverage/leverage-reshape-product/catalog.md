@@ -30,18 +30,18 @@ updated: 2026-10-31
 | [`BORROW.md`](./BORROW.md) | guide | 跨 lever 借用总入口：按需求路由 + 18 条可搬走规则 + 三条"别抄"。 | 18 条 + 每条出处 + 抄错后果；4 条需求路由。 | 只读一节就走；或评审方案时逐条对照。 | observed |
 | [`BACKLOG.md`](./BACKLOG.md) | index | 候选池：过了门槛待深挖的、和没过门槛的，各留一行。 | 少走弯路：某产品为什么还没成卡。 | 要补新样本；或想知道某产品为什么没卡。 | living |
 | [`catalog.md（本文件）`](./catalog.md) | index | 全量文件清单（手工维护）。 | — | 想一次看全，或按关键词找。 | living |
-| [`_证据/指标快照-2026-10-31.json`](./_证据/指标快照-2026-10-31.json) | evidence | 19 张卡的 ★ / forks / issues / npm 月下载原始响应（跨 lever 共用，可复算）。 | 复算卡片影响力数字；核对取数时点与口径。 | 引用或更新任何卡片指标前。 | observed |
+| [`_证据/指标快照-2026-10-31.json`](./_证据/指标快照-2026-10-31.json) | evidence | 18 张卡 + 1 观察样本的 ★ / forks / issues / npm 月下载原始响应（跨 lever 共用，可复算）。 | 复算卡片影响力数字；核对取数时点与口径。 | 引用或更新任何卡片指标前。 | observed |
 
 ### `plugin/` · 通用插件（9）
 
 | 文件 | kind | 定位 | 能拿走什么 | 什么时候读 | 状态 |
 |---|---|---|---|---|---|
-| [`README.md`](./plugin/README.md) | charter | **插件侧宪章**：只收能 `dsh plugin --profile <任意> add` 的 0.2.x 样本；一卡一插件，卡卡要交借鉴食谱。 | 9 个插件样本的七层坐标 + 一张可照抄的接缝表。 | 要装配件；或判断一个插件是「厚客人」还是「宿主」。 | observed |
+| [`README.md`](./plugin/README.md) | charter | **插件侧宪章**：只收能 `dsh plugin --profile <任意> add` 的 0.2.x 样本；一卡一插件，卡卡要交借鉴食谱。 | 8 个插件样本的七层坐标 + 一张可照抄的接缝表。 | 要装配件；或判断一个插件是「厚客人」还是「宿主」。 | observed |
 | [`11_薄基座-dock.md`](./plugin/11_薄基座-dock.md) | sample | `AKS1st/dock`：只给注册表、不给能力的工作台基座，六个 API + 六个兄弟包。 | 服务面 + 零内部依赖 + 可选 peer；隐藏要留一条与被隐藏物无关的逃生口。 | 要做平台型外壳/注册表；或要接别人的布局又不想改它。 | observed |
 | [`12_厚工作台-better-sidebar.md`](./plugin/12_厚工作台-better-sidebar.md) | sample | `omdsh-dev/DSH-better-sidebar`：一个插件把自己做成 IDE，且内置功能也走自己的扩展点。 | 一种扩展点形状 + 内置也走它；原型方法注册表；版本前缀 key + 引用完整性。 | 要做厚工作台/多面板 IDE；或要设计第三方可扩展的注册表。 | observed |
 | [`21_生成式界面-dsh-genui.md`](./plugin/21_生成式界面-dsh-genui.md) | sample | `omdsh-dev/dsh-genui`：把回复本身变成可操作界面，用内容协议当扩展面。 | 内容协议当扩展面；节点级丢弃 + 块级退回原文；无 action 渲染成 disabled。 | 要让模型输出可交互组件；或要设计容错的内容协议。 | observed |
 | [`31_驾驶舱-dsh-context.md`](./plugin/31_驾驶舱-dsh-context.md) | sample | `bowenliang123/dsh-context`：把上下文、成本、编队做成可读可归因的五块面。 | 同源出数；估算与真实并列；兼容性写成 Rule/Limitation/Check/Procedure。 | 要做用量/成本/上下文面板；或要避免面板数字与用户已知数字打架。 | observed |
-| [`41_首启推荐-dsh-bootstrap.md`](./plugin/41_首启推荐-dsh-bootstrap.md) | sample | `why-sir/dsh-bootstrap`：装完第一屏回答「我还该装什么」，用计划 + 环境码。 | 版本锁不到就跳过；环境码未包含 = 保持现状；写完读回磁盘自证。 | 要做首启/推荐/一键配置；或要设计可导入导出的环境配置。 | observed |
+| [`04_首启观察-dsh-bootstrap.md`](./plugin/_证据/04_首启观察-dsh-bootstrap.md) | evidence | 观察样本：★1 / npm 763 的社区首启插件；保留"推荐 + 计划 + 环境码"机制分析，不占卡位。 | 机制参考；为什么它还不值得当卡。 | 要核对首启机制；或问"它为什么没卡"。 | open |
 | [`51_分发与救生页-dsh-market.md`](./plugin/51_分发与救生页-dsh-market.md) | sample | `dsh-market/dsh-market`：把发现与安装搬进产品，并给「起不来」留救生页。 | 救生页活在插件栈外；界面只做一个决定；外部索引每次使用前再校验。 | 要做分发/市场/安装器；或要设计「装坏了怎么回」。 | observed |
 | [`61_多端与远程-dsh-mobile.md`](./plugin/61_多端与远程-dsh-mobile.md) | sample | `saya-ch/dsh-mobile`：把手机当一台要配对的设备，用回环上游 + 独立 HTTPS 网关。 | 配对码 + 可撤销（删哈希）+ 回环准入；撤销与显示解耦。 | 要做多端/远程访问；或要给会话开一个网络入口。 | observed |
 | [`71_感官接入-modlens.md`](./plugin/71_感官接入-modlens.md) | sample | `liustack/modlens`：给纯文本模型装上眼睛，粘贴即读、零配置。 | 未确认就放过；加元数据条目而不换路由；attempts/warnings 让回退不静默。 | 要补模型能力缺口（视觉/语音/搜索）；或要接管别人的路由而不改它。 | observed |

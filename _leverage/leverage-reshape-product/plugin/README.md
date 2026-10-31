@@ -2,8 +2,8 @@
 title: "plugin · 通用插件"
 domain: reshape-product
 kind: charter
-positioning: "插件侧宪章：什么算「装进任何 profile 都成立的客人」，以及 9 张卡各抄哪一行。"
-takeaway: "9 个插件样本的七层坐标 + 一张可照抄的接缝表。"
+positioning: "插件侧宪章：什么算「装进任何 profile 都成立的客人」，以及 8 张卡各抄哪一行。"
+takeaway: "8 个插件样本的七层坐标 + 一张可照抄的接缝表。"
 read_when: "要给现有 profile 加一块能力；或判断某插件算不算产品化、该不该分家。"
 status: observed
 updated: 2026-10-31
@@ -69,7 +69,7 @@ budget: 240
 
 ---
 
-> **怎么加卡**：过 00-map §11.1 的 10 分钟快筛 → 深挖 → 按 00-map §5 建卡 → catalog 与本表各补一行 → `node _digested/verify.mjs`。
+> **怎么加卡**：过 00-map §11.1 的 10 分钟快筛 → 深挖 → 按 00-map §5 建卡 → catalog 与本表各补一行 → `node _leverage/verify.mjs`。
 
 ## 3. 怎么读这个目录
 
@@ -109,7 +109,7 @@ budget: 240
 | **`3` 驾驶舱** | | | |
 | [`驾驶舱`](./31_驾驶舱-dsh-context.md) | `bowenliang123/dsh-context` | 3,909 / 264,177 | 五块面回答"它吃了什么、为什么变笨、钱花在哪" | **同源出数**；估算与真实并列；兼容性写成 `Rule/Limitation/Check/Procedure`；"mirror, don't import" |
 | **`4` 上手** | | | |
-| [`首启推荐`](./41_首启推荐-dsh-bootstrap.md) | `why-sir/dsh-bootstrap` | 1 / — | 装完第一屏就答"我还该装什么"：计划 + 环境码 | **版本锁不到就跳过**；环境码能表达"保持现状"；读回磁盘自证收敛；失败只损失面板不损失宿主 |
+> **本类暂无达标卡**：`dsh-bootstrap` 未过门槛（★1 / npm 763），降级为观察样本（见 [`_证据/04_首启观察`](./_证据/04_首启观察-dsh-bootstrap.md)）；候选池见 [`BACKLOG`](../BACKLOG.md)。
 | **`5` 分发** | | | |
 | [`分发与救生页`](./51_分发与救生页-dsh-market.md) | `dsh-market/dsh-market` | 9,902 / 813,066 | 把发现与安装搬进产品，并给"起不来"留救生页 | **救生页由进程外 helper 在原地址提供**；只给一个决定；外部索引每次使用前校验；自动重启先问"会不会杀死自己" |
 | **`6` 多端** | | | |
@@ -133,7 +133,6 @@ budget: 240
 | [`薄基座`](./11_薄基座-dock.md) | `AKS1st/dock` | `dock-base` + 兄弟包 `dock-files`/`dock-editor`/`dock-images`/`dock-markdown`/`dock-git`/`dock-spreadsheet` | `AKS1st__dock.yml` + `AKS1st__dock-*.yml` (`ui`) | `dsh plugin --profile web add dock-base` 后逐条装 | `_证据/01_壳与工作台-原始挖掘.md` §二 | 仓库 `src/client/contract.ts`、0.2.x 实测(本卡 `[OPEN]`) |
 | [`生成式界面`](./21_生成式界面-dsh-genui.md) | `omdsh-dev/dsh-genui`(npm scope 是 `@changfenhuang`) | `@changfenhuang/dsh-genui` | `omdsh-dev__dsh-genui.yml` (`ui`) | `dsh plugin --profile web add @changfenhuang/dsh-genui` | 本轮直接读 README 全文(429 行),行号已内联 | **`SKILL.md` 字段级 schema**、`docs/map.md`、action payload 信封 |
 | [`驾驶舱`](./31_驾驶舱-dsh-context.md) | `bowenliang123/dsh-context` | `dsh-context` | `bowenliang123__dsh-context.yml` (`usage`) | GUI Add plugin,或 `dsh plugin --profile web add dsh-context` | 本轮直接读 README 全文(237 行)+ 上游 `dsh-token-meter` 源码 | git tag `v0.78.2` 快照、`docs/compatibility.md`、`docs/model-pricing-mapping.md` 与页脚两行 **0.2.2-alpha.2** 核实 |
-| [`首启推荐`](./41_首启推荐-dsh-bootstrap.md) | `why-sir/dsh-bootstrap` | 未采到 | `why-sir__dsh-bootstrap.yml` (`market`;**无 ★/下载计量**) | 目录内名称 `why-sir/dsh-bootstrap` | `_证据/02_首启与分发-原始挖掘.md` §一 | npm 包名、其目录快照的生成时间锚(2026-10-16) |
 | [`分发与救生页`](./51_分发与救生页-dsh-market.md) | `dsh-market/dsh-market` | `dshmarket`(商店内显示 **Plugin Market**) | `dsh-market__dsh-market.yml` (`market`) | Desktop:Settings→Plugins;web:`dsh plugin --profile web add dshmarket` | `_证据/02_首启与分发-原始挖掘.md` §二 + §四 | issue #227/#139 原文、救生页 HTML 的实际实现 |
 | [`多端与远程`](./61_多端与远程-dsh-mobile.md) | `saya-ch/dsh-mobile` | `dsh-mobile`(+ Android App) | `saya-ch__dsh-mobile.yml` (`remote`) | 见卡 §3.1(Android App / 浏览器两条路) | `_证据/03_移动与视觉-原始挖掘.md` §一 | `compat.js` 的语法下限实测(Chromium 92 那档 `[OPEN]`) |
 | [`感官接入`](./71_感官接入-modlens.md) | `liustack/modlens` | `@liustack/modlens` | `liustack__modlens.yml` (`vision`) | `npx -y @deepseek-ai/dsh plugin --profile web add @liustack/modlens@3.27.2` | `_证据/03_移动与视觉-原始挖掘.md` §二 | 六个引擎各自的质量差异、`docs/security.md` 全文 |
@@ -191,6 +190,6 @@ budget: 240
 
 - [ ] 第二梯队的 `6`/`7` 类候选：`shaobeichen/dsh-pocket`（10,411 下载）、`THEWOLFWALKER/dsh-notifier`（6,677）、`ysr666/dsh-vision-router`（21,679）、`Anionex/dsh-vision-toolkit`（17,248）——先判断它们是否**改变了交互契约**，只加能力的不成卡
 - [ ] `3` 类第二张候选：`feibi-mochi/deepseek-harness-control-center`（2,066 下载）
-- [ ] `4` 类第二张：安装器 / 向导候选未探；`dsh-bootstrap` 是目录外样本，说明这类可能被目录系统性漏掉
+- [ ] `4` 类：目前无达标卡；`dsh-bootstrap` 只作观察样本，`dsh-config-manager`（★277 / 月 19,723）已过门槛、**优先补一张"配置迁移"卡**（类别待定 4/5）
 
 **搬到 shell 侧的待办**（口径外产品、证伪样本）见 [`../shell/README.md`](../shell/README.md) §5。

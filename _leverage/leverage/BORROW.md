@@ -327,7 +327,7 @@ budget: 420
 
 1. **先写失效条件，再写功能**。写不出失效条件的方案，不是工程，是信仰。
 2. **一个机制只在一处有完整论证**。引用时给文件 + 节号，不复制论证。
-3. **升级后重跑**：`node _digested/verify.mjs`；catalog 手工补一行。若样本掉门，按 [horizon](./horizon.md) §8 重审。
+3. **升级后重跑**：`node _leverage/verify.mjs`；catalog 手工补一行。若样本掉门，按 [horizon](./horizon.md) §8 重审。
 
 ---
 

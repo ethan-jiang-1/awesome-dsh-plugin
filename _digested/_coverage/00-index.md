@@ -26,20 +26,22 @@
 
 > 核验方式说明:0004 六个机制专题都有真实 diff,均由子代理逐行读 diff 后改写档案,主代理另核对 market-index/capabilities/entries/check-site-health 的关键实现。`ecosystem` 的当前结构总数可由 [`census.py`](../ecosystem/census.py)(标准库,无第三方依赖)重跑;生态 03/04 中仍有按历史日期标注的 4392/3552 名单口径,只作为各次星标/下载采样的历史分母,不可视为当前基线。仓库下载/星标边车冻结于 2026-08-19,能力边车冻结于 2026-09-24(`dsh-trust-check@0.1.13`),均未用于更新趋势判断。
 
-## 影响面层(leverage,2026-10-31 新建)
+## 影响面层(leverage,2026-10-31 新建;同日出册到 `_leverage/`)
 
-第二轴,不与 `ecosystem/` 的 23 类合并。四域成稿:宪章/索引、横向手册、机制卡、样本卡、原始证据各有其位。入口是 [`leverage/README.md`](../leverage/README.md);按任务借用看 [`BORROW.md`](../leverage/BORROW.md);全量清单见 [`catalog.md`](../leverage/catalog.md)。
+**这一层已搬出 `_digested/`**:两册(`leverage/` 三域与 `leverage-reshape-product/` 产品线)连同各自的 `_证据/` 一起移到仓库根同级目录 [`_leverage/`](../../_leverage/README.md),统一入口见该目录的 README。下表保留覆盖状态,路径指到新位置。
+
+第二轴,不与 `ecosystem/` 的 23 类合并。四域成稿:宪章/索引、横向手册、机制卡、样本卡、原始证据各有其位。入口是 [`leverage/README.md`](../../_leverage/leverage/README.md);按任务借用看 [`BORROW.md`](../../_leverage/leverage/BORROW.md);全量清单见 [`catalog.md`](../../_leverage/leverage/catalog.md)。
 
 | 域 | 状态 | 已有正文 | 证据来源 |
 |----|------|----------|----------|
-| [`leverage-reshape-product`](../leverage-reshape-product/README.md)（另册，与 leverage 平级） | **成稿**;核心卡已读到源码/实测,其余 README 级;三个 lever（通用插件 / profile 级产品 / 自带宿主）+ 独立规则源 | 1 规则源 + 3 lever 宪章（9 / 4 / 6 卡）+ 1 门 + 1 借用指南 + 1 候选池 + 5 证据 = 33 篇 + 1 指标快照 | catalog + 插件 README + 2026-10-31 指标快照 |
-| [`lever-cross-boundary`](../leverage/lever-cross-boundary/README.md) | **成稿**;14 样本源码逐文件读过,影响力用 2026-10-31 实时数据 | 1 宪章 + 3 横向卡 + 14 样本 | 2026-10-31 实时 GitHub/npm |
-| [`lever-prove-output`](../leverage/lever-prove-output/README.md) | **成稿**;12 样本,17 个仓库锁 `repo@commit` | 1 宪章 + 10 卡(含溯源卡/手册) | `repo@commit` + 实时抓取 |
-| [`lever-draw-limit`](../leverage/lever-draw-limit/README.md) | **成稿**;10 样本,多卡读过 src,坐标只锁版本 | 1 宪章 + 8 卡 + 1 手册 | npm 近 30 天 + `capabilities.json` |
+| [`leverage-reshape-product`](../../_leverage/leverage-reshape-product/README.md)(另册,与 leverage 平级) | **成稿**;核心卡已读到源码/实测,其余 README 级;三个 lever(通用插件 / profile 级产品 / 自带宿主)+ 独立规则源 | 1 规则源 + 3 lever 宪章(8 / 4 / 6 卡)+ 1 门 + 1 借用指南 + 1 候选池 + 5 证据 = 33 篇 + 1 指标快照 | catalog + 插件 README + 2026-10-31 指标快照 |
+| [`lever-cross-boundary`](../../_leverage/leverage/lever-cross-boundary/README.md) | **成稿**;14 样本源码逐文件读过,影响力用 2026-10-31 实时数据 | 1 宪章 + 3 横向卡 + 14 样本 | 2026-10-31 实时 GitHub/npm |
+| [`lever-prove-output`](../../_leverage/leverage/lever-prove-output/README.md) | **成稿**;12 样本,17 个仓库锁 `repo@commit` | 1 宪章 + 10 卡(含溯源卡/手册) | `repo@commit` + 实时抓取 |
+| [`lever-draw-limit`](../../_leverage/leverage/lever-draw-limit/README.md) | **成稿**;10 样本,多卡读过 src,坐标只锁版本 | 1 宪章 + 8 卡 + 1 手册 | npm 近 30 天 + `capabilities.json` |
 
-**准入是人工判断,不是脚本**:证据类型 A/B/C/D/E/F/G 与 S/A/B/C 分级见 [`leverage/horizon.md`](../leverage/horizon.md)。**不设通过率、不跑全库计数**——名单在涨,任何 `N / 总数` 都会过期。
+**准入是人工判断,不是脚本**:证据类型 A/B/C/D/E/F/G 与 S/A/B/C 分级见 [`leverage/horizon.md`](../../_leverage/leverage/horizon.md)。**不设通过率、不跑全库计数**——名单在涨,任何 `N / 总数` 都会过期。
 
-> **未做/已知缺口**:证据强度分域——PROVE 锁 `repo@commit`,CROSS/LIMIT 读源码但只锁版本,RESHAPE 证据深度逐卡标注(部分源码级/实测,部分 README 级)、未锁 `repo@commit`;E 级(反面教材)只有 2 条真判;规格独立性、多门禁共存、租约 epoch 仍未解决。完整清单在 [`BORROW.md`](../leverage/BORROW.md) §6;各域「待答问题」与 [horizon](../leverage/horizon.md) §7 是下一轮入口。
+> **未做/已知缺口**:证据强度分域——PROVE 锁 `repo@commit`,CROSS/LIMIT 读源码但只锁版本,RESHAPE 证据深度逐卡标注(部分源码级/实测,部分 README 级)、未锁 `repo@commit`;E 级(反面教材)只有 2 条真判;规格独立性、多门禁共存、租约 epoch 仍未解决。完整清单在 [`BORROW.md`](../../_leverage/leverage/BORROW.md) §6;各域「待答问题」与 [horizon](../../_leverage/leverage/horizon.md) §7 是下一轮入口。
 
 ## 按源码组(粗粒度)
 
@@ -69,7 +71,7 @@
 
 **0005:`census.py` 修了一处会静默少算分母的地方**——两份新条目把 JSON 直接写进 `.yml`(js-yaml 接受,门禁也放行),而 `parse_yml` 只认 YAML 行,两条因此被跳过、只留一行 stderr。现在遇到 `{` 开头就回退到 `json.loads`,并对 `description` 做展平;修后总数 7922 → **7924**。`fresh_probe.py` 与 `verify.mjs` 未动。
 
-**2026-10-31(整理轮)**:[`verify.mjs`](../verify.mjs) 扩展为对 `leverage/**` 强制 frontmatter(9 键 / 枚举 / 路径一致)、`card`/`sample` 必须有借用节、`budget` 超限只警告;[`catalog.md`](../leverage/catalog.md) 改为**手工维护**的全量清单(不生成、不校验计数)。这两处把「每篇的定位与借用节」变成可校验的契约,而不是靠人记。
+**2026-10-31(整理轮)**:[`verify.mjs`](../verify.mjs) 负责 `_digested/` 两棵树的编码/链接/锚点;`_leverage/` 出册后自带独立校验器(`_leverage/verify.mjs`,对两册强制 frontmatter / 借用节 / catalog 与卡表一致);[`catalog.md`](../../_leverage/leverage/catalog.md) 改为**手工维护**的全量清单(不生成、不校验计数)。这两处把「每篇的定位与借用节」变成可校验的契约,而不是靠人记。
 
 **2026-10-31(另册对齐)**:产品线顶层改为与 `leverage/` 同构的骨架——`README` / `00-map` / `horizon` / `BORROW` / `BACKLOG` / `catalog`,**固定名、不编号**;卡片仍用 `NN_`。`verify.mjs` 同时增两条契约:产品线 `catalog.md` 与目录 Markdown 集合**双向一致**、三个 lever README 卡表覆盖本 lever 全部编号卡。
 

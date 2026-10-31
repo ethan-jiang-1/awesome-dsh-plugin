@@ -1,5 +1,7 @@
 #!/usr/bin/env node
-// 研究材料自校验：严格 UTF-8、LF 换行与单个结尾换行、Markdown 相对链接与锚点存在性。
+// `_digested/` 与 `_faq_on_digested/` 自校验：严格 UTF-8、LF 换行与单个结尾换行、
+// Markdown 相对链接与锚点存在性。
+// `_leverage/` 有自己独立的校验器（`node _leverage/verify.mjs`），本文件不覆盖它。
 // 用法：node _digested/verify.mjs   （在仓库根执行）
 
 import { readdirSync, readFileSync } from 'node:fs';
@@ -18,24 +20,18 @@ function fail(file, line, msg) {
 
 // ---------- 收集文件 ----------
 const mdFiles = [];
-(function walk(dir) {
-  for (const name of readdirSync(join(repoRoot, dir), { withFileTypes: true })) {
-    const rel = join(dir, name.name);
-    if (name.isDirectory()) walk(rel);
-    else if (name.name.endsWith('.md')) mdFiles.push(rel);
-  }
-})(roots[0]);
-(function walk(dir) {
-  for (const name of readdirSync(join(repoRoot, dir), { withFileTypes: true })) {
-    const rel = join(dir, name.name);
-    if (name.isDirectory()) walk(rel);
-    else if (name.name.endsWith('.md')) mdFiles.push(rel);
-  }
-})(roots[1]);
+for (const root of roots) {
+  (function walk(dir) {
+    for (const name of readdirSync(join(repoRoot, dir), { withFileTypes: true })) {
+      const rel = join(dir, name.name);
+      if (name.isDirectory()) walk(rel);
+      else if (name.name.endsWith('.md')) mdFiles.push(rel);
+    }
+  })(root);
+}
 
 // ---------- 内容检查 ----------
 const headingsByFile = new Map(); // rel -> Set(slug)
-const textsByFile = new Map(); // rel -> 原文，供 leverage frontmatter 校验复用
 const warnings = [];
 
 function githubSlug(text) {
@@ -78,7 +74,6 @@ for (const rel of mdFiles) {
     }
   });
   headingsByFile.set(rel, slugs);
-  textsByFile.set(rel, text);
 }
 
 function checkLink(fromRel, line, target) {
@@ -103,196 +98,6 @@ function checkLink(fromRel, line, target) {
     const key = fsPath.startsWith(repoRoot + '/') ? fsPath.slice(repoRoot.length + 1) : fsPath;
     const slugs = headingsByFile.get(key);
     if (slugs && !slugs.has(anchor)) fail(fromRel, line, `锚点不存在：${target}`);
-  }
-}
-
-// ---------- leverage / product：frontmatter 契约 ----------
-const LEVERAGE_PREFIX = '_digested/leverage/';
-const PRODUCT_PREFIX = '_digested/leverage-reshape-product/';
-const DOMAIN_BY_DIR = {
-  // 产品线已独立成册（_digested/leverage-reshape-product/）；这里只保留三域的映射。
-  'lever-cross-boundary': 'cross-boundary',
-  'lever-prove-output': 'prove-output',
-  'lever-draw-limit': 'draw-limit',
-};
-const KINDS = new Set(['index', 'charter', 'guide', 'playbook', 'card', 'sample', 'evidence']);
-const STATUSES = new Set(['observed', 'inferred', 'open', 'living']);
-const FM_REQUIRED = ['title', 'domain', 'kind', 'positioning', 'read_when', 'status', 'updated'];
-const TAKEAWAY_REQUIRED = new Set(['card', 'sample', 'playbook']);
-const BORROW_HEADING = /^#{2,3} .*(借鉴|搬走|借用|照抄|食谱|配方|移植)/m;
-
-function parseFrontmatter(text) {
-  if (!text.startsWith('---\n')) return { error: '缺 frontmatter（文件必须以 --- 开头）' };
-  const end = text.indexOf('\n---\n', 4);
-  if (end < 0) return { error: 'frontmatter 未闭合' };
-  const meta = {};
-  for (const line of text.slice(4, end).split('\n')) {
-    if (!line.trim()) continue;
-    const m = line.match(/^([A-Za-z_][A-Za-z0-9_]*):[ \t]*(.*)$/);
-    if (!m) return { error: `frontmatter 行无法解析：${line}` };
-    const [, key, raw] = m;
-    let value = raw.trim();
-    if (value.startsWith('"')) {
-      try {
-        value = JSON.parse(value);
-      } catch {
-        return { error: `${key} 的引号值转义非法` };
-      }
-    }
-    meta[key] = value;
-  }
-  return { meta };
-}
-
-for (const rel of mdFiles) {
-  if (!rel.startsWith(LEVERAGE_PREFIX) && !rel.startsWith(PRODUCT_PREFIX)) continue;
-  const text = textsByFile.get(rel) ?? '';
-  const parsed = parseFrontmatter(text);
-  if (parsed.error) {
-    fail(rel, 1, parsed.error);
-    continue;
-  }
-  const meta = parsed.meta;
-
-  for (const key of FM_REQUIRED) {
-    if (!meta[key]) fail(rel, 1, `frontmatter 缺 ${key}`);
-  }
-  if (meta.title && meta.title.length > 80) fail(rel, 1, 'title 超过 80 字');
-  if (meta.positioning && meta.positioning.length > 120) fail(rel, 1, 'positioning 超过 120 字');
-  if (meta.read_when && meta.read_when.length > 80) fail(rel, 1, 'read_when 超过 80 字');
-
-  let expectedDomain;
-  if (rel.startsWith(PRODUCT_PREFIX)) {
-    // 产品线独立于 leverage：整棵 product/ 都属于 reshape-product 域。
-    expectedDomain = 'reshape-product';
-  } else {
-    const rest = rel.slice(LEVERAGE_PREFIX.length);
-    const dir = rest.includes('/') ? rest.split('/')[0] : '';
-    expectedDomain = DOMAIN_BY_DIR[dir] ?? 'layer';
-  }
-  if (meta.domain && meta.domain !== expectedDomain) {
-    fail(rel, 1, `domain=${meta.domain} 与路径不符（应为 ${expectedDomain}）`);
-  }
-  if (meta.kind && !KINDS.has(meta.kind)) fail(rel, 1, `kind 非法：${meta.kind}`);
-  if (meta.status && !STATUSES.has(meta.status)) fail(rel, 1, `status 非法：${meta.status}`);
-  if (meta.updated && !/^\d{4}-\d{2}-\d{2}$/.test(meta.updated)) {
-    fail(rel, 1, `updated 不是 YYYY-MM-DD：${meta.updated}`);
-  }
-
-  if (TAKEAWAY_REQUIRED.has(meta.kind) && !meta.takeaway) {
-    fail(rel, 1, `kind=${meta.kind} 必须有 takeaway`);
-  }
-  if ((meta.kind === 'card' || meta.kind === 'sample') && !BORROW_HEADING.test(text)) {
-    fail(rel, 1, 'card/sample 必须有借用节（标题含 借鉴/搬走/借用/照抄/食谱/配方/移植）');
-  }
-  if (meta.budget) {
-    const budget = Number(meta.budget);
-    if (!Number.isInteger(budget) || budget <= 0) {
-      fail(rel, 1, `budget 不是正整数：${meta.budget}`);
-    } else {
-      const lines = text.split('\n').length - (text.endsWith('\n') ? 1 : 0);
-      if (lines > budget) warnings.push(`${rel}: ${lines}/${budget} 行，超出预算`);
-    }
-  }
-}
-
-// ---------- 页内锚点 ----------
-for (const rel of mdFiles) {
-  const raw = readFileSync(join(repoRoot, rel), 'utf8');
-  let inFence = false;
-  raw.split('\n').forEach((line, i) => {
-    if (/^(```|~~~)/.test(line.trim())) { inFence = !inFence; return; }
-    if (inFence) return;
-    for (const m of line.matchAll(/\[[^\]]*\]\(#([^)\s]+)\)/g)) {
-      if (!headingsByFile.get(rel)?.has(decodeURIComponent(m[1]))) {
-        fail(rel, i + 1, `页内锚点不存在：#${m[1]}`);
-      }
-    }
-  });
-}
-
-// ---------- 产品线 catalog：全量 Markdown 必须一行不多一行不少 ----------
-const PRODUCT_ROOT = '_digested/leverage-reshape-product/';
-const PRODUCT_CATALOG = PRODUCT_ROOT + 'catalog.md';
-if (mdFiles.includes(PRODUCT_CATALOG)) {
-  const text = readFileSync(join(repoRoot, PRODUCT_CATALOG), 'utf8');
-  const listed = new Set();
-  for (const m of text.matchAll(/\]\((\.\/[^)#\s]+\.md)\)/g)) {
-    listed.add(m[1].replace(/^\.\//, ''));
-  }
-  const files = mdFiles
-    .filter((f) => f.startsWith(PRODUCT_ROOT))
-    .map((f) => f.slice(PRODUCT_ROOT.length));
-  for (const f of files) if (!listed.has(f)) fail(PRODUCT_CATALOG, null, `catalog 缺行：${f}`);
-  for (const f of listed) if (!files.includes(f)) fail(PRODUCT_CATALOG, null, `catalog 多行：${f}`);
-}
-
-// ---------- 产品线 lever README：卡表必须覆盖本 lever 的全部卡片 ----------
-for (const lever of ['plugin', 'profile', 'shell']) {
-  const readme = `${PRODUCT_ROOT}${lever}/README.md`;
-  if (!mdFiles.includes(readme)) continue;
-  const text = readFileSync(join(repoRoot, readme), 'utf8');
-  const linked = new Set();
-  for (const m of text.matchAll(/\]\((\.\/\d{2}_[^)#\s]+\.md)\)/g)) {
-    linked.add(m[1].replace(/^\.\//, ''));
-  }
-  const actual = mdFiles
-    .filter((f) => f.startsWith(`${PRODUCT_ROOT}${lever}/`) && !f.includes('/_证据/'))
-    .map((f) => f.slice(`${PRODUCT_ROOT}${lever}/`.length))
-    .filter((f) => /^\d{2}_/.test(f));
-  for (const f of actual) if (!linked.has(f)) fail(readme, null, `卡表缺行：${f}`);
-  for (const f of linked) if (!actual.includes(f)) fail(readme, null, `卡表多行：${f}`);
-}
-
-// ---------- 产品线门槛：00-map §7 与顶部/三个 lever README 必须同数 ----------
-{
-  const mapPath = PRODUCT_ROOT + '00-map.md';
-  if (mdFiles.includes(mapPath)) {
-    const mapText = readFileSync(join(repoRoot, mapPath), 'utf8');
-    const rowRe = /\| `(plugin|profile|shell)` \| ★ ≥ ([\d,]+) 或 npm 近 30 天 ≥ ([\d,]+)/g;
-    const top = PRODUCT_ROOT + 'README.md';
-    for (const m of mapText.matchAll(rowRe)) {
-      const [, lever, star, npm] = m;
-      const targets = [top, `${PRODUCT_ROOT}${lever}/README.md`];
-      for (const t of targets) {
-        if (!mdFiles.includes(t)) { fail(mapPath, null, `门槛目标缺失：${t}`); continue; }
-        const text = readFileSync(join(repoRoot, t), 'utf8');
-        if (!text.includes(`★ ≥ ${star}`)) fail(t, null, `门槛与 00-map 不一致：缺 ★ ≥ ${star}`);
-        if (!text.includes(`npm 近 30 天 ≥ ${npm}`)) fail(t, null, `门槛与 00-map 不一致：缺 npm ≥ ${npm}`);
-      }
-    }
-  }
-}
-
-// ---------- 产品线：卡头影响力必须过门槛，或标“机制例外” ----------
-{
-  const mapPath = PRODUCT_ROOT + '00-map.md';
-  if (mdFiles.includes(mapPath)) {
-    const mapText = readFileSync(join(repoRoot, mapPath), 'utf8');
-    const thresholds = new Map();
-    for (const m of mapText.matchAll(/\| `(plugin|profile|shell)` \| ★ ≥ ([\d,]+) 或 npm 近 30 天 ≥ ([\d,]+)/g)) {
-      const n = (v) => Number(v.replace(/,/g, ''));
-      thresholds.set(m[1], [n(m[2]), n(m[3])]);
-    }
-    const num = (v) => Number(String(v).replace(/,/g, '')) || 0;
-    for (const rel of mdFiles) {
-      if (!rel.startsWith(PRODUCT_ROOT)) continue;
-      const parts = rel.slice(PRODUCT_ROOT.length).split('/');
-      if (parts.length !== 2 || !thresholds.has(parts[0]) || !/^\d{2}_/.test(parts[1])) continue;
-      const text = readFileSync(join(repoRoot, rel), 'utf8');
-      const head = text.split('\n').slice(0, 36).join('\n');
-      const starM = head.match(/★\s*\**\s*([\d,]+)/);
-      let npm = 0;
-      for (const pat of [/npm 月下载\s*\**\s*([\d,]+)/, /npm 近 30 天\s*\**\s*([\d,]+)/, /npm\s*\**\s*([\d,]+)\**/]) {
-        const m = head.match(pat);
-        if (m) { npm = num(m[1]); break; }
-      }
-      const [starMin, npmMin] = thresholds.get(parts[0]);
-      const ok = (starM && num(starM[1]) >= starMin) || npm >= npmMin;
-      if (!ok && !text.includes('机制例外')) {
-        fail(rel, null, `影响力未过 ${parts[0]} 门槛（★${starM ? starM[1] : 0} / npm ${npm}），且未标“机制例外”`);
-      }
-    }
   }
 }
 

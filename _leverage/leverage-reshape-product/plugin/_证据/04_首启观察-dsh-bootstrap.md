@@ -1,14 +1,17 @@
 ---
-title: "首启推荐 · dsh-bootstrap"
+title: "04_首启观察 · dsh-bootstrap"
 domain: reshape-product
-kind: sample
-positioning: "`why-sir/dsh-bootstrap`：装完第一屏回答「我还该装什么」，用计划 + 环境码。"
+kind: evidence
+positioning: "观察样本：未过影响力门槛的社区首启插件，只作机制参考，不作产品卡。"
 takeaway: "版本锁不到就跳过；环境码未包含 = 保持现状；写完读回磁盘自证。"
 read_when: "要做首启/推荐/一键配置；或要设计可导入导出的环境配置。"
-status: observed
+status: open
 updated: 2026-10-31
 ---
-# 首启推荐 · dsh-bootstrap:把「装什么」变成首启
+> **观察样本（2026-10-31）**：★ 1 / npm 月 **763**（`dsh-bootstrap@0.1.0`，2026-10-17 发布）；仓库 2026-10-17 建、**单次推送**，14 天。
+> **未过 `plugin` 门槛**（★≥200 或 npm≥2,000），只保留机制参考；达门槛后在 [`BACKLOG`](../../BACKLOG.md) 转正。
+
+# 04_首启观察 · dsh-bootstrap：把「装什么」变成首启（观察样本）
 
 > **状态**:`observed` · **基线**:DSH `0.2.1-rc.3`(它只依赖 profile 层语义,不依赖具体 CLI 参数)· **读于**:2026-10-31
 > **类**:`4` 上手 · **层**:**6**(首启)→ 7(安装)→ 5(默认值)
@@ -17,12 +20,12 @@ updated: 2026-10-31
 > **借鉴价值**:**① 计划先于执行,并逐条标出"跳过"的理由;② 版本锁不到就跳过,绝不盲装 `latest`;③ 环境码"未包含 = 保持现状";④ 生成前扫敏感内容并**阻止**而非脱敏;⑤ 写完**读回磁盘自证**。**
 
 > **证据深度**:源码级（上游 profile 语义 + README）（2026-10-31）
-> **影响力**：机制例外——目录外的首启样本，证明该品类被目录系统性漏掉（门槛见 [`00-map` §7](../00-map.md)）。
+> **影响力**：机制例外——目录外的首启样本，证明该品类被目录系统性漏掉（门槛见 [`00-map` §7](../../00-map.md)）。
 
 > **样本档案**
-> **repo**:[`why-sir/dsh-bootstrap`](https://github.com/why-sir/dsh-bootstrap) · **npm**:目录外(未采到 npm 包名) · **版本**:—
-> **目录条目**:`data/plugins/why-sir__dsh-bootstrap.yml`(`market`;**出现于目录但无 ★/下载计量**)
-> **装法**:目录内名称 `why-sir/dsh-bootstrap`
+> **repo**:[`why-sir/dsh-bootstrap`](https://github.com/why-sir/dsh-bootstrap) · **npm**:`dsh-bootstrap@0.1.0`（2026-10-17 发布，月下载 763） · **版本**:`0.1.0`
+> **目录条目**:`data/plugins/why-sir__dsh-bootstrap.yml`（`market`；仓库 2026-08-19 快照未记 ★/下载，实时值见页头）
+> **装法**:`dsh plugin add dsh-bootstrap`（npm 包已于 2026-10-17 发布）
 > **已在本地挖掘**:`_证据/02_首启与分发-原始挖掘.md` §一(bootstrap 的 8 小节)+ §三(与 market 的对照)
 > **再深挖去哪**:README 的降级清单与"已知限制"三节;环境码格式 `DSHB1.<base64url>` 与敏感内容扫描规则
 
@@ -176,7 +179,7 @@ DSHB1z.<base64url(deflateRaw(JSON))>   # 压缩(默认取更短的那个)
 
 | 口径 | 值 |
 |---|---|
-| 目录内指标 | **无**(`why-sir/dsh-bootstrap` 不在 `data/plugins/`,无 ★/下载口径) |
+| 目录内指标 | 仓库快照无 ★/下载；实时：★ 1 / npm 月 763（2026-10-31） |
 | 为什么仍然收 | 它是**唯一一个 Web 侧 6 层样本**,且证明目录系统会**系统性漏掉"首启"这一类** |
 | 网络行为 | 启动**零网络**;每个请求 **8 s 超时**;离线走缓存 → 内置种子 16 个 |
 | 数据来源 | 官方插件目录(与 `[CAT]` 同源)+ GitHub Star + npm 近月下载 |

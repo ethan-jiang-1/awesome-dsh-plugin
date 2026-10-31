@@ -158,7 +158,7 @@ grep -rl "owner/repo" data/plugins | head
 ## 8. 怎么复核这份规则
 
 ```sh
-node _digested/verify.mjs # frontmatter / 链接 / 锚点 / 编码
+node _leverage/verify.mjs # frontmatter / 链接 / 锚点 / 编码
 ```
 
 **每次上游同步后必做**:重读受影响样本的坐标与 `[DSH]` 断言;若某个 S/A 样本**掉了证据**(被引消失、描述改口、官方对象不再被替换),它不是「还能用」,而是**必须重审**——这正是分级表存在的意义。**不要重跑计数门**:没有计数门。
