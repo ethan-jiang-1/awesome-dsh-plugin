@@ -361,3 +361,18 @@ P2 不成立:answer-reviewer 自己说「**cap is a leak guard, not the real gat
 - [ ] `[OPEN]` quality-review 的「SOP 目录」是生态里最接近「团队标准」的设计。它能否升级为**可执行的检查**而不只是提示词?
 - [ ] `[OPEN]` doublecheck 的 `red-before-green` 纪律若有可执行的接线(而非提示词),会不会成为 ③ 环最硬的样本?
 - [ ] `[OPEN]` 官方 auto-review 明确说判官会错、且 `run_code` 内层不评审——生态里有没有人做「评审评审者」?
+
+---
+
+## 证据与边界
+
+> 核对时点 2026-11-01；宿主固定 `@deepseek-ai/dsh@0.2.1-rc.3`。
+
+| 主张 | 标签 | 来源/核对方式 | 边界 |
+|---|---|---|---|
+| `llm/stream` 是 waterfall，可包裹/替换流 | `[SRC-DSH]` | `dsh-llm/lib/types/index.d.ts:45` | 只证明接缝；不证明判官与执行者已隔离 |
+| 子代理可作为独立判官，但外部 provider 只支持一次性执行 | `[SRC-DSH]` | `dsh-subagent/README.md` 的 external execution 说明 | 判官能否续聊取决于 provider，不是通用能力 |
+| 判官应独立于执行者上下文 | `[OBS]` | 本章命题 | 经验判断；同模型判官仍可能同错 |
+| 样本的判官位置与提示词 | `[DOC]` | 样本 README/自述 | 未核实现与校准数据 |
+
+**未验证**：判官与执行者同模型时的相关性、判官被注入后的可靠性，均 `[OPEN]`。

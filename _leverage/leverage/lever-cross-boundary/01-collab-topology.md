@@ -168,7 +168,7 @@ updated: 2026-10-31
 
 **所以“团队”对模型而言是**:我不能扩权、我看不到同伴的过程、我收到的每条同伴消息都长得像用户说话、而且我说我是谁不算数。任何把团队当“共享大脑”的设计，都在这四条上撞墙。
 
-> **另有两条容易被误解** `[DSH]`:① `subagent` 与 Agent Teams 是**两套并存的协作原语**,`agent-team-profile` 打包时**显式禁用**了 `tool-subagent` / `tool-subagent-fork` / `subagent-control` / `list-agents`——「装了 Teams 就同时有子代理委派」是错的。② 子代理服务**没有持久的父信箱**(“The service has no durable parent mailbox”),驻留是进程本地的;`listChildren` 不读子日志,只是父拥有的投影,所以是 O(D) 而不是可持久查询的目录。
+> **另有两条容易被误解** `[DSH]`:① `subagent` 与 Agent Teams 是**两套并存的协作原语**,`agent-team-profile` 打包时**显式禁用**了 `tool-subagent` / `tool-subagent-fork` / `tool-subagent-control` / `tool-subagent-list-agents`——「装了 Teams 就同时有子代理委派」是错的。② 子代理服务**没有持久的父信箱**(“The service has no durable parent mailbox”),驻留是进程本地的;`listChildren` 不读子日志,只是父拥有的投影,所以是 O(D) 而不是可持久查询的目录。
 
 ## 7. 失败模式
 
@@ -203,3 +203,21 @@ updated: 2026-10-31
 - [ ] `[OPEN]` 边界 3 缺少统一身份层,是否意味着长期只能是“每插件一套配对”?DSH 原生 Peer 模型能否被复用成统一身份?
 - [ ] `[OPEN]` 代理流派（副机自主）与镜像流派（本地映射）会长期并存,还是其中一个会赢?
 - [ ] `[OPEN]` **磁盘上的 team.json 会不会成为事实上的标准?** 三家自建 roster 都在 `<workspace>/.<plugin>/<teamId>/` 下写自己的状态,彼此不可读。若没有共享 schema,团队状态就无法跨插件迁移。
+
+---
+
+## 证据与边界
+
+> 核对时点 2026-11-01；宿主固定为本机 `@deepseek-ai/dsh@0.2.1-rc.3` 安装树。下列路径均相对该安装树的 `node_modules/@deepseek-ai/`。
+
+| 主张 | 标签 | 来源/核对方式 | 边界 |
+|---|---|---|---|
+| `maxDepth` 默认 1，只允许直接子代理 | `[SRC-DSH]` | `dsh-subagent/lib/index.js:2979`（zod `.default(1)`）；README:49 | 只对通过该设置继承深度的工具生效；显式 depth 可覆盖 |
+| `maxActiveSubagents` 默认 8，根父不占槽、先预留再物化、耗尽不排队 | `[SRC-DSH]` | `dsh-subagent/lib/index.js:2980`（`.default(8)`）；README:53/55 | 每棵 activation 树独立计额；调低不杀已驻留子代理 |
+| 子代理权限启动时固定、需审批的操作自动拒绝 | `[DOC]` | `dsh-subagent/README.md:181,186`（注入的运行上下文声明） | 未在真实审批场景实测；机制强制点未逐行核 |
+| 子代理服务没有持久父信箱；父不在时消息被拒 | `[SRC-DSH]`/`[DOC]` | `dsh-subagent/README.md:207,212` | 只覆盖 in-process continuable child；外部 provider 不适用 |
+| Agent Team 是并存原语，profile 显式禁用四个 subagent 工具 | `[SRC-DSH]` | `dsh-experimental-agent-team-profile/cordis.patch.yml:4-14`（精确 id：`tool-subagent-control`、`tool-subagent-list-agents`、`tool-subagent`、`tool-subagent-fork`） | 只证明该 profile 的打包行；不证明装了 Teams 后运行时一定互斥 |
+| 目录检索 259 条 `subagent` / 189 条 `子代理` | `[OBS]` | 2026-10-31 目录快照，检索式见本章开头 | 计数随目录增长漂移，不是产品事实 |
+| ACP/SDK/Codex/Claude Code 等外部 provider 只支持一次性执行 | `[DOC]` | 本章原文引 `interrupt_agent` 描述；未逐包核 | 具体 provider 能力可能随版本变化，运行前需重核 |
+
+**未验证**：`approval` 被钉为 `never` 的代码路径、外部 provider 的实际中断语义、Teams 与 subagent 在同一 profile 共存时的运行时行为，均标 `[OPEN]`，不作为工程保证引用。

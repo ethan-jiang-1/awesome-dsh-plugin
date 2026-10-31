@@ -302,3 +302,18 @@ updated: 2026-10-31
 - [ ] `[OPEN]` 安装面“不核实对话中的批准”是刻意的边界(服务不做意图验证)还是缺口?谁能补这一环?
 - [ ] `[OPEN]` 安全插件自身的能力披露能不能降到“零能力”?例如纯静态扫描器是否可以完全无需 shell 与网络?
 - [ ] `[OPEN]` 官方“让模型先撞墙再学规矩”的策略,与门禁插件的“预先拒绝”直接冲突。哪一方更有效,有可测量的对照吗?
+
+---
+
+## 证据与边界
+
+> 核对时点 2026-11-01；宿主固定 `@deepseek-ai/dsh@0.2.1-rc.3`。
+
+| 主张 | 标签 | 来源/核对方式 | 边界 |
+|---|---|---|---|
+| 审批是 `approval/request` waterfall，可 allow/ask/deny 或 `next()` | `[SRC-DSH]` | `dsh-user-approval/lib/types/types.d.ts:81` | 只证明接缝与返回类型 |
+| 工具前有 `tools/pre-execute`，之后还有单调 `guard` | `[SRC-DSH]` | `dsh-tools/lib/types/index.d.ts:47,512-524` | 两条接缝表达力不同 |
+| 沙箱策略有 `sandbox/mode` 事件与 session 投影 | `[SRC-DSH]` | `dsh-sandbox-policy/lib/types/index.d.ts:2-6` | 只证明策略面；不证明样本正确使用 |
+| “信任分层 = 审批/工具/沙箱/凭据” | `[OBS]` | 本章归纳 | 经验框架；层间顺序需按部署定 |
+
+**未验证**：样本的硬拒是否真不可推翻、沙箱与审批组合的真实优先级，均 `[OPEN]`。

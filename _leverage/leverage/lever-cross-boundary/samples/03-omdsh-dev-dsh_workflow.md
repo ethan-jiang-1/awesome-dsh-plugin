@@ -16,6 +16,7 @@ updated: 2026-10-31
 > **什么时候找它**:要一条**可复现**的多 agent 流水线,接受「不是断点续跑」
 
 > 导航:[样本索引](../03-sample-encyclopedia.md) · [域章程](../README.md) · [三笔税机制谱](../02-coordination-mechanisms.md) · [四道边界](../01-collab-topology.md)
+> **证据链**：固定 `main@44b83c1`（0.1.2）的机制、版本门与偏差见[`03 源码复核`](../_证据/03-dsh_workflow-源码复核.md)。
 
 ## 设计思路
 
@@ -23,13 +24,13 @@ updated: 2026-10-31
 
 **它最反直觉的一条**:**没有 DAG、没有 step/node/edge**。JS 控制流本身就是编排;`wf.phase`/`parallel`/`pipeline`/`runAgent`/`spawnAgent`/`synthesize` 是编排词汇,每个「节点」就是一个**新的 DSH 子代理**。用代码表达控制流,而不是用数据结构表达控制流——这样并行/条件/循环都免费,代价是**图不可静态分析**。
 
-**治理是它的重心**:三级信任(trusted-package / capability-generated / trusted-local);13 类 FORBIDDEN 静态正则 + QuickJS/WASM 独立堆双保险;胶囊字段精确白名单且**拒收 KodaX 格式**;全服务共享一个 `maxConcurrency` 部署信号量;token **开工前预留、结束后对账**。
+**治理是它的重心**:三级信任(trusted-package / capability-generated / trusted-local);**12 条** FORBIDDEN 静态正则 + 1 条 `constructor` 下标特判 + QuickJS/WASM 独立堆双保险;胶囊字段精确白名单且**拒收 KodaX 格式**;全服务共享一个 `maxConcurrency` 部署信号量;token **开工前预留、结束后对账**。
 
-**失败收敛**:`runAgent` 普通失败 → `null`;结构化输出最多 1 次同路由无工具修复;verification hard 模式同 actor 修复至多 3 轮,否则 `completed_unverified`/`failed`;无自动重试,幂等靠**结果缓存 + artifact 独占写**。
+**失败收敛**:`runAgent` 普通失败 → `null`;结构化输出最多 1 次同路由无工具修复;verification hard 模式**最多 3 次评估、2 次后续修复**，仍不通过则抛错/标未验证;无自动重试,幂等靠**结果缓存 + artifact 独占写**。
 
-**必须准确表述的一点**:**「可恢复」= 从不可变快照整体重跑 + 按内容键回放结果缓存,不是断点续跑**;进程重启后活跃 run 丢失。而且它**明说不替换**原生 `ctx.workflows`——它是包在 `dsh-subagent` 之上的一层,不是替代。
+**必须准确表述的一点**:**「可恢复」= 从不可变快照整体重跑 + 按内容键回放结果缓存,不是断点续跑**;进程重启丢的是**控制面**（内存 runs、pause/resume、任务句柄），磁盘记录会留下 stale `running`，需 `--force` 处理。而且它**明说不替换**原生 `ctx.workflows`——它是包在 `dsh-subagent` 之上的一层,不是替代。
 
-**代价与失效**:`minDshVersion` 已存但全仓无比较逻辑;多进程共用绝对 runDirectory 无锁;嵌套 workflow 与父共享 maxAgents/token 配额;trusted-local 的 `.ts` 走 Node 模块缓存,不热更。
+**代价与失效**:`minDshVersion` 已存但全仓无比较逻辑（0.1.2 的 `dshVersion` 还是硬编码 `0.0.1-rc.2`）;多进程共用绝对 runDirectory 无锁;嵌套 workflow 与父共享 maxAgents/token 配额;trusted-local 的 `.ts` 走 Node 模块缓存,不热更。
 
 ## 三笔税与代价
 
@@ -45,11 +46,11 @@ updated: 2026-10-31
 |---|---|
 | **仓库** | [`omdsh-dev/dsh_workflow`](https://github.com/omdsh-dev/dsh_workflow) |
 | **npm 包名** | `@dsh-external/workflow` |
-| **版本(本次读)** | `0.1.2` |
+| **版本(本次读)** | `0.1.2`（`main@44b83c1`；最新 tag 是 `v0.1.4`，`src/` 仅两行版本常量不同） |
 | **License** | MIT |
 | **npm 状态** | **未发布到公共 registry**(`@dsh-external/workflow` = 404) |
 | **安装** | `dsh plugin --profile web add "github:dsh-external/dsh_workflow#main"` |
-| **⚠ 仓库名与安装路径不一致** | 仓库在 `omdsh-dev/` 下,但上方安装命令用的是 **`github:dsh-external/dsh_workflow`**——两者不是同一 owner。**照着抄之前先去确认哪个是活的**;这就是为什么本文件同时给出仓库 URL 和安装串 |
+| **⚠ 仓库名与安装路径** | `dsh-external/dsh_workflow` 会 301 重定向到 `omdsh-dev/dsh_workflow`（同一 repo id，改名/转移）。安装串目前靠重定向可用，但**会随再次改名而断**；package.json 里的旧名是未回写的元数据 |
 | **接线方式** | 仅 `dsh.bundle.patch` → `cordis.patch.yml`(无 client 注入) |
 
 ## 借用指南

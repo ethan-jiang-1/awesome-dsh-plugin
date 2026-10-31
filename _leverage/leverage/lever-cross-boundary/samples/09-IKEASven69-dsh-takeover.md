@@ -10,24 +10,25 @@ updated: 2026-10-31
 ---
 # 09 · `IKEASven69/dsh-takeover`
 
-> **一句话**:`handoff: 1` 协议的拉/推/取闭环,`~/.handoff/` 是总线,跨机靠同步盘——**插件零网络**。
-> **边界**:3 跨进程/跨机 · **过了哪些门**:F + G · **证据级别**:`observed`(源码逐文件读过)
+> **一句话**：`handoff: 1` 的拉/推/取闭环，`~/.handoff/` 是总线，跨机靠同步盘；**“takeover”替换的是会话（新建 + 投递 `/resume-*`），不是进程、端口、profile 或 UI**；无出站网络，但有入站 HTTP 子路由。
+> **边界**:接管本体在同进程内；跨进程只发生在文件总线与只读外部库，跨机靠同步盘 · **过了哪些门**:F + G · **证据成熟度**:固定 commit 复核（见下方证据链）
 > **影响力**(2026-10-31 实时采样):**0★**
 > **什么时候找它**:要跨机但**不想写任何协议**,且能接受没有实时性
 
 > 导航:[样本索引](../03-sample-encyclopedia.md) · [域章程](../README.md) · [三笔税机制谱](../02-coordination-mechanisms.md) · [四道边界](../01-collab-topology.md)
+> **证据链**：固定 `main@afbc55c`（工作树 0.4.3）的替换对象、版本错位、入站路由与失败路径见[`09 源码复核`](../_证据/09-takeover-源码复核.md)。
 
 ## 设计思路
 
-**一句话设计思路**:`handoff: 1` 协议的「拉/推/取」闭环,`~/.handoff/` 是总线,跨机靠 `HANDOFF_HOME` 指同步盘,**插件零网络**。
+**一句话设计思路**：`handoff: 1` 的「拉/推/取」闭环，`~/.handoff/` 是总线，跨机靠 `HANDOFF_HOME` 指同步盘；插件**无出站请求**，但会在宿主 listener 上挂入站路由。
 
 **它为什么可行**:协作状态被做成**可序列化的自包含单元** ——一张会话卡片(含六段上下文骨架、随卡补丁 `<id>.patch`、四态证据账本)。
 
-**「恰好一次」的实现完全靠文件系统原语**,这是本域最漂亮的一段:顺序 = `assertSafeId` → 尺寸闸(8MiB) → `open(<id>.claim,'wx')` 独占认领(EEXIST 即「另一进程取件中」) → render → rename 到 archived → finally 删 claim。同名归档内容相同 = 幂等吸收,不同 = 先写 `.conflict-HHMMSS[-n].md` 再 rename。认领残留 60s 后 `sweepClaims` 清。CHANGELOG 明说这套来自「Windows 并发 rename 双成功」的真实缺陷。
+**「恰好一次」的实现完全靠文件系统原语**（核的是固定 commit 内的 vendored `@agent-handoff/core` **编译产物**；该包在本仓没有源码，`wx`/rename/archived 逻辑的作者源不在 pin 内）:顺序 = `assertSafeId` → 尺寸闸(8MiB) → `open(<id>.claim,'wx')` 独占认领（EEXIST 即「另一进程取件中」） → render → rename 到 archived → finally 删 claim。同名归档内容相同 = 幂等吸收,不同 = 先写 `.conflict-HHMMSS[-n].md` 再 rename。claim 残留阈值 60s，但 `sweepClaims` **只在列目录时触发**（不是定时器），且 claim 打开的任何失败都会被报成“另一进程”。CHANGELOG 明说这套来自「Windows 并发 rename 双成功」的真实缺陷。
 
 **四态账本** `CURRENT_OBSERVED` / `HISTORY_REPORTED` / `MISMATCH` / `UNAVAILABLE` 是它的证据模型——**接力过来的上下文永远标注“这是报告,不是观察”**,原文才按需分页拉取。
 
-**代价**:没有回执、没有实时性,冲突语义由同步盘决定;密钥与卡片同盘(威胁模型 T1-T6 里自列)。
+**代价**：没有回执、没有实时性，冲突语义由同步盘决定；密钥与卡片同盘（威胁模型自列）。接管失败**没有自动回滚**：create 成功而 rename/prompt 失败时，错误会回传孤儿 `sessionId`，只能手动删。
 
 ## 三笔税与代价
 
@@ -43,7 +44,7 @@ updated: 2026-10-31
 |---|---|
 | **仓库** | [`IKEASven69/dsh-takeover`](https://github.com/IKEASven69/dsh-takeover) |
 | **npm 包名** | `dsh-takeover` |
-| **版本(本次读)** | `0.4.3` |
+| **版本(本次读)** | 工作树 `0.4.3` @ `main afbc55c`（npm 404；tag `v0.4.3` 指向自述 0.4.2 的树；HEAD 已含 0.4.4 提交） |
 | **License** | MIT |
 | **npm 状态** | **未发布到公共 registry**(404)——0★ + 未发布,是它几乎无人使用的最直接解释 |
 | **安装** | `dsh plugin --profile web add github:IKEASven69/dsh-takeover`(README:78) |

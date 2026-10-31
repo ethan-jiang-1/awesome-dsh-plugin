@@ -36,7 +36,7 @@ P1 不成立(见 §3.2 的机械规则)。P2 **成立**——`agent/turn-stoppin
 | 对象 | 门禁位置 | 阶梯级 | 改了什么 |
 |---|---|---|---|
 | `rootsbymenda/dsh-second-angle` | `agent/turn-stopping`(同步等判定)+ `agent/assistant-stream`(收证据)+ 可选 `ctx.tools.guard()` | **5** | 把「本轮工具输出」变成答案的**证据池**,答案里的具体断言必须能在池里找到出处,否则 steer 修正 |
-| `AaronandWork/dsh-evidence-gate` | `systemPrompt.section`(order 550)+ `tools/result` 监听 + `evidence_gate` 工具 | 4–5 | 把工具结果编成**索引**,断言按关键词回查索引;四级判定 + 反误杀阶梯 |
+| `AaronandWork/dsh-evidence-gate` | 系统提示装配（宿主 seam 为 `system-prompt/assemble`；样本若用 `systemPrompt.section` 属自有封装）+ `tools/result` 监听 + `evidence_gate` 工具 | 4–5 | 把工具结果编成**索引**,断言按关键词回查索引;四级判定 + 反误杀阶梯 |
 | `XiaoOu2024/dsh-self-review` | `llm/stream`(扣住文本块) | 5 | 不进证据池:直接把草稿扣在流里,复核后才放行——**同一条命题的另一条实现路径** |
 
 ---
@@ -326,3 +326,21 @@ P1 不成立(见 §3.2 的机械规则)。P2 **成立**——`agent/turn-stoppin
 - [ ] `[OPEN]` 关键词索引能否升级为「可引用的 span」(带行号/偏移),从而让证据定位符与对账合并?这会同时解决 [`01`](./01-quality-chain.md) §4 的两个路线。
 - [ ] `[OPEN]` 「harness 没有机制拦截最终文本」是**有意**留给生态,还是缺口?若官方补上 `llm/stream` 之外的一道闸,这一层会怎样重组?
 - [ ] `[OPEN]` 三个样本都用同一模型做判官。若判官与被判者是不同厂商的模型,误报率会升还是降?
+
+---
+
+## 证据与边界
+
+> 核对时点 2026-11-01；宿主固定 `@deepseek-ai/dsh@0.2.1-rc.3`。样本机制按其 README/自述，未逐样本做固定版本源码复核。
+
+| 主张 | 标签 | 来源/核对方式 | 边界 |
+|---|---|---|---|
+| `agent/turn-stopping` 在边界提交前被 await，监听者可 `steer` 让机器再跑一步 | `[SRC-DSH]` | `dsh-agent/lib/types/runtime-types.d.ts:387-405` | 是 turn 级、不是 token 级；已流出的文本不能撤回 |
+| `agent/assistant-stream` 按有序帧（start/chunk/end）发布 | `[SRC-DSH]` | 同文件 `:366-372` | 只证明帧事件；不证明能改写已提交文本 |
+| `tools/result` 可监听工具结果 | `[SRC-DSH]` | `dsh-tools/lib/types/index.d.ts:92` | 监听 ≠ 保存为可检索证据池 |
+| 工具结果可用 `concludesTurn` 提前结束 turn | `[SRC-DSH]` | 同 turn-stopping 文档段 | 是数据控制，不是监听器顺序控制 |
+| “系统提示 section（order 550）” | `[OPEN]` | 宿主未见 `systemPrompt.section` seam；只有 `system-prompt/assemble` waterfall（`dsh-system-prompt/lib/types/index.d.ts:27`） | 该表述可能是样本自有封装；引用前需核样本 |
+| 本轮工具输出可作“证据池”，断言可回查 | `[OBS]` | 本章机制推论 + 样本 README | 关键词回查的误杀/漏杀率未测 |
+| P2：“文本已流出，只能 steer 修正” | `[SRC-DSH]`/`[OBS]` | turn-stopping 时序 + 本章推理 | 对非流式通道（如 API 一次性返回）可能不成立 |
+
+**未验证**：样本的判定规则与四级反误杀阶梯、`systemPrompt.section` 的真实来源、真实误杀率，均 `[OPEN]`。

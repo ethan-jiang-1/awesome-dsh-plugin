@@ -320,3 +320,17 @@ updated: 2026-10-31
 - [ ] `[OPEN]` 生态默认值集体偏软(remind / fail-open / requireStamp 关)。若某个发行版搞一个「默认硬」的 profile,采纳率会怎样?这是 `lever-reshape-product` 的默认值问题,但答案会决定本域结论的可用性。
 - [ ] `[OPEN]` 本域目前只把 `tools/pre-execute` 当「门禁位置」引用,具体的权限词汇与强制点属 `lever-draw-limit`。若那一半的研究结论变化,本卡 §1 的接缝表需要同步吗?(契约允许各自独立,但需要一次对表。)
 - [ ] `[OPEN]` 八张深挖卡里 `observed` 与 `inferred` 混在一起。若把「每个 `observed` 必须注源码行号」升级为硬要求(借用 `doublecheck` 的写法),本域有几条会掉级?
+
+---
+
+## 证据与边界
+
+> 核对时点 2026-11-01；本章是横向 playbook，不引入新的宿主断言。
+
+| 主张 | 标签 | 来源/核对方式 | 边界 |
+|---|---|---|---|
+| 门禁可装在 pre-execute / post-execute / turn-stopping / checkpoint 四类位置 | `[SRC-DSH]` | 前文各章已列的 `dsh-tools`、`dsh-agent`、`dsh-session-checkpoint-policy` 类型 | 只列接缝；组合效果需逐方案验证 |
+| “先证明后放行”优于“先放行后补救” | `[OBS]` | 本册多案例归纳 | 有反例（晚拦可避免死锁），需按任务定 |
+| 各样本的门禁成熟度 | `[DOC]` | 各样本卡与 memo | 未做统一基准测试 |
+
+**未验证**：playbook 在真实团队上的收益、误杀率，均 `[OPEN]`。

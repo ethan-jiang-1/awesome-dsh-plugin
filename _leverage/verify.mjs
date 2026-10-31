@@ -341,6 +341,50 @@ for (const lever of ['plugin', 'profile', 'shell']) {
   }
 }
 
+// ---------- 杠杆册：14 张合作样本必须链接其固定版本 memo ----------
+{
+  const sampleMemo = {
+    '01-NanmiCoder-dsh-agent-teams.md': '01-agent-teams-源码复核.md',
+    '02-toolclub-dsh-agent-team-gui.md': '02-team-gui-源码复核.md',
+    '03-omdsh-dev-dsh_workflow.md': '03-dsh_workflow-源码复核.md',
+    '04-limuyang2-agent-team.md': '04-agent-team-源码复核.md',
+    '05-Mlte0907-dsh-teams-x.md': '05-teams-x-源码复核.md',
+    '06-zbzbhs-dsh-remote-agent.md': '06-remote-agent-源码复核.md',
+    '07-Nwflower-dsh-file-claim.md': '07-file-claim-源码复核.md',
+    '08-Chinesezjc-dsh-interconnect.md': '08-interconnect-源码复核.md',
+    '09-IKEASven69-dsh-takeover.md': '09-takeover-源码复核.md',
+    '10-Asher-2000-dsh-expert-mode.md': '10-expert-mode-源码复核.md',
+    '11-february2015-dsh-taskswarm.md': '11-taskswarm-源码复核.md',
+    '12-2507483326-dsh-eteams.md': '12-eteams-源码复核.md',
+    '13-Noelune-dsh-agent-relay.md': '13-agent-relay-源码复核.md',
+    '14-PerryLink-dsh-team-rooms.md': '14-team-rooms-源码复核.md',
+  };
+  const dir = `${LEVERAGE_PREFIX}lever-cross-boundary/samples/`;
+  const memoDir = `${LEVERAGE_PREFIX}lever-cross-boundary/_证据/`;
+  for (const [card, memo] of Object.entries(sampleMemo)) {
+    const rel = dir + card;
+    if (!mdFiles.includes(rel)) { fail(rel, null, '样本文件不存在'); continue; }
+    const text = textsByFile.get(rel) ?? '';
+    if (!mdFiles.includes(memoDir + memo)) fail(rel, null, `缺少固定版本证据 memo：${memo}`);
+    else if (!text.includes(memo)) fail(rel, null, `样本卡未链接其 memo：${memo}`);
+  }
+}
+
+// ---------- 杠杆册：机制卡/playbook 必须有“证据与边界”节（≥3 条） ----------
+{
+  for (const rel of mdFiles) {
+    if (!rel.startsWith(LEVERAGE_PREFIX)) continue;
+    const text = textsByFile.get(rel) ?? '';
+    const fm = parseFrontmatter(text);
+    if (fm.error) continue;
+    if (fm.meta.kind !== 'card' && fm.meta.kind !== 'playbook') continue;
+    const m = text.match(/^## 证据与边界[^\n]*\n([\s\S]*?)(?=^## |$(?![\s\S]))/m);
+    if (!m) { fail(rel, null, '机制卡/playbook 缺少 `## 证据与边界`'); continue; }
+    const rows = m[1].split('\n').filter((line) => /^\s*\|.*\|\s*$/.test(line)).length;
+    if (rows < 5) fail(rel, null, '`证据与边界` 表至少 header+divider+3 行');
+  }
+}
+
 // ---------- 产品线：卡头影响力必须过门槛，或标“机制例外” ----------
 {
   const mapPath = PRODUCT_ROOT + '00-map.md';

@@ -2,31 +2,32 @@
 title: "PerryLink/dsh-team-rooms"
 domain: cross-boundary
 kind: sample
-positioning: "`PerryLink/dsh-team-rooms`：房间存储是跨会话权威，每个成员的日志是自己的重建副本。"
-takeaway: "房间存储为跨会话权威；单写链 + 逐成员游标。"
+positioning: "`PerryLink/dsh-team-rooms@1.0.8`（已 archived，npm deprecated）：房间存储是权威；但成员日志重建依赖 rc.3 禁止的 `team-room/fact`。"
+takeaway: "房间存储为权威 + 单写链；但重建副本在 rc.3 不可用，游标是“入 inbox 后前进”，catchUp 会跳过丢失段。"
 read_when: "团队要跨会话活着，且最关心「消息会不会丢、重启后还在不在」。"
 status: observed
 updated: 2026-10-31
 ---
 # 14 · `PerryLink/dsh-team-rooms`
 
-> **一句话**:**房间存储是跨会话权威,每个成员的日志是自己的重建副本**——用「单写链 + 逐成员游标」把持久化做成一等公民。
+> **一句话**：房间存储是跨会话权威，但“每个成员的日志是重建副本”只在能写 `team-room/fact` 的宿主成立；**0.2.1-rc.3 明确禁止该事件，`teamRoom` 投影退化为空**。该项目已于 2026-10-05 退役（仓库 archived、npm deprecated）。
 > **边界**:2 同工作区多成员(**以会话为成员单位**,跨会话持久) · **定位**:**持久化流派**代表:本域唯一把「重启后还在不在」当核心命题的样本 · **证据级别**:`observed`(源码逐文件读过)
 > **影响力**(2026-10-31 实时采样):**3★** / npm **2,099 次/月**——**本域旁支里下载量最高的一个**;唯一 Apache-2.0
 > **什么时候找它**:团队要跨会话活着,且你最关心「消息会不会丢、重启后还在不在」
 
 > 导航:[样本索引](../03-sample-encyclopedia.md) · [域章程](../README.md) · [三笔税机制谱](../02-coordination-mechanisms.md) · [四道边界](../01-collab-topology.md)
+> **证据链**：npm/tag/commit 对齐（`1.0.8`=`c1c485e`），但仓库已 archived、npm 已 deprecated；`team-room/fact` 在 rc.3 被禁、游标语义见[`14 源码复核`](../_证据/14-team-rooms-源码复核.md)。
 
 ## 设计思路
 
 **它的核心命题只有一句**:`The room store is the cross-session authority; the session projection is each member's own reconstructed copy.` 房间存储是**跨会话权威**,每个成员看到的是自己那份**重建出来的副本**。这句话把「状态归属」这笔税一次性钉死了。
 
-**四条机制保证它「重启后还在」**:
+**四条机制保证它“重启后还在”**（但需限定宿主能力）：
 
 1. **单写链排序** —— 每一次房间变更(create / join / leave / post / 任务状态)都**排在唯一一条 hub 写链**上;`team_rooms` 域的写链就是**排序权威**,所以并发发帖永远不会交错。
 2. **「模型可见 ⟺ 已记录」** —— 投递的room消息就是一次官方的 inbox 投递:`agent.followup` 唤醒活着的成员,`agent.inject` 在成员下次启动时把积压交给它。**所以它落成了一条持久的 `user/message`**,而不是只活在内存里。
-3. **共享时间线镜像成 log-only 事件** —— 时间线写进每个成员日志时带 `team-room/fact` 事件与**规范存储的 `timelineSeq`**;`teamRoom` 投影折每个成员自己的日志,所以视图能从日志重建。
-4. **至少一次 + 有序** —— 逐成员游标(`lastDeliveredSeq` / `lastFactSeq`)**只在投递落地后才前进**,所以「提交与投递之间」崩溃会**重投而不是丢**。
+3. **共享时间线镜像成 log-only 事件** —— 时间线写进每个成员日志时带 `team-room/fact` 事件与规范存储的 `timelineSeq`；`teamRoom` 投影折每个成员自己的日志。**但 rc.3 禁止该事件写入，投影因此为空**——这一条在当前宿主上不成立。
+4. **至少一次 + 有序** —— 逐成员游标 `lastDeliveredSeq` 在 live 路径上是**入 inbox 后前进**（不是 `user/message` 落地后）；`lastFactSeq` 依赖 fact。`catchUp` 在 agent 缺失、fact 被跳过、bus 已过留存窗时仍把游标推到末尾，会跳过丢失段。
 
 **安全边界写得异常清楚**(本域最规范的样本):
 
@@ -52,7 +53,7 @@ inbound:
 |---|---|
 | **仓库** | [`PerryLink/dsh-team-rooms`](https://github.com/PerryLink/dsh-team-rooms) |
 | **npm 包名** | `dsh-team-rooms` |
-| **版本(本次读)** | `1.0.8` |
+| **版本(本次读)** | `1.0.8` @ tag `v1.0.8` = commit `c1c485e`（npm 同 SHA）；**仓库 archived、npm deprecated（2026-10-05）** |
 | **License** | **Apache-2.0**——本域唯一非 MIT 的样本 |
 | **npm 近 30 天** | **2,099 次**——旁支里最高,接近 `agent-team` 的 2,416 |
 | **安装** | `npm i -g dsh1024`(CLI 名与包名不同)→ 装进 profile;或从 npm 已发布版本装 |
@@ -66,7 +67,7 @@ inbound:
 |---|---|---|
 | 状态归属 | **房间存储是跨会话权威**,成员日志是重建副本;单写链排序 | 强依赖 `dsh-storage-domain`,缺域则整插件禁用 |
 | 冲突裁决 | **成员身份即授权边界**;交接走 approval,拒绝则 fail closed | **不调度、不跨机**,成员必须是本部署进程内会话 |
-| 失败收敛 | **至少一次 + 有序**:游标只在投递落地后前进,崩溃则重投 | 成本/用量统计**明确声明不在范围内**(「报告结构,不报告花费」) |
+| 失败收敛 | 至少一次 + 有序：live 游标入 inbox 后前进；catchUp 会为跳过段推进游标 | 重建副本依赖 rc.3 禁止的 fact 事件；成本统计不在范围内 |
 
 ## 借用指南
 

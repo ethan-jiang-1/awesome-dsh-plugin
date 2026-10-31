@@ -2,20 +2,21 @@
 title: "Noelune/dsh-agent-relay"
 domain: cross-boundary
 kind: sample
-positioning: "`Noelune/dsh-agent-relay`：只绑回环地址的 HTTP Broker，把 dsh / Codex / Claude Code / Python 连成对等链路。"
-takeaway: "只绑回环的 HTTP broker；跨异构运行时，只投消息不发令牌。"
+positioning: "`dsh-agent-relay`：HTTP broker 连 dsh/Codex/Claude；源码 0.8.1 有 wake，但 npm latest 0.5.0 没有，回环只是默认不是强制。"
+takeaway: "broker 默认回环但无强制校验；0.6–0.8 均未发布到 npm，装着 0.5.0 就没有 wake/长轮询。"
 read_when: "要让不是 DSH 的 agent 和 DSH 成员通信。"
 status: observed
 updated: 2026-10-31
 ---
 # 13 · `Noelune/dsh-agent-relay`
 
-> **一句话**:一个**只绑回环地址的 HTTP Broker** 当消息总线,把 dsh / Codex / Claude Code / Python 客户端连成一条对等链路——**不发令牌,只投消息**。
+> **一句话**：一个 HTTP broker 当消息总线，把 dsh/Codex/Claude Code/Python 连成对等链路。**默认绑回环，但 broker 侧没有回环校验**；`wake_command` 与长轮询只存在于未发布的 0.6–0.8 源码，npm 最新 0.5.0 没有。
 > **边界**:3 跨进程(跨**异构 agent 运行时**,不限于 DSH) · **定位**:**broker 流派**代表:本域唯一「跨生态」的样本 · **证据级别**:`observed`(源码逐文件读过)
 > **影响力**(2026-10-31 实时采样):**4★** / npm **1,048 次/月**;星标低但月下载四位数
 > **什么时候找它**:要让**不是 DSH 的** agent(Codex / Claude Code / Python)和 DSH 成员通信
 
 > 导航:[样本索引](../03-sample-encyclopedia.md) · [域章程](../README.md) · [三笔税机制谱](../02-coordination-mechanisms.md) · [四道边界](../01-collab-topology.md)
+> **证据链**：源码 pin tag `v0.8.1`=`7e43c54`；npm latest 却是 **0.5.0**（无 wake/长轮询、仍含 v1）；回环是默认非强制，见[`13 源码复核`](../_证据/13-agent-relay-源码复核.md)。
 
 ## 设计思路
 
@@ -23,13 +24,13 @@ updated: 2026-10-31
 
 **Broker 只做路由,不做编排。** README 反复强调「通信与编排解耦」:它不是 DAG 引擎,不驱动控制流,只保证消息投到。
 
-**鉴权**:所有调用走 **HMAC-SHA256 签名**,内置 **300 秒时间戳重放窗口**与常量时间比较。签名串是 **canonical JSON**(v3 在第二段插入 `keyId`);rate limit 与鉴权失败锁定**属于已删除的 v1 世代,现在没有**——README 如实写了「边界由只绑回环承担」。
+**鉴权**：源码 0.8.1 的调用走 HMAC-SHA256 签名、300 秒时间戳窗口与常量时间比较；但 npm 0.5.0 还带 v1 整代（rate limit/锁定/旧 store）。签名串是 **canonical JSON**(v3 在第二段插入 `keyId`);rate limit 与鉴权失败锁定**属于已删除的 v1 世代,现在没有**——README 如实写了「边界由只绑回环承担」。
 
 **投递语义是本域最完整的一套**:请求默认**留存 7 天**、SQLite 单一路径持久化、**租约投递 + 令牌化确认**、服务端**长轮询唤醒**(落库即达)、失败/过期由服务端定时扫描**自动回发未送达通知**,并以**幂等键去重**。
 
-**`wake_command` 是它最独特的一招**:轮询模型要求接收方一直有进程活着,这在个人机器上经常不成立。给成员声明 `wake_command` 后,消息落库时若它 **90 秒内没取过件**,broker 会**按需启动一次**工作进程。作者写得很清楚:「它**真的会跑一次该成员的 CLI 并产生 API 费用**」,所以开关单独成一条命令、**默认只预演**;而且唤醒是**兜底而非竞争**——成员 90 秒内取过件就不会另起进程,避免同一消息被处理两次。
+**`wake_command` 是源码 0.8.x 最独特的一招**（npm 0.5.0 没有）：轮询模型要求接收方一直有进程活着，这在个人机器上经常不成立。给成员声明 `wake_command` 后,消息落库时若它 **90 秒内没取过件**,broker 会**按需启动一次**工作进程。作者写得很清楚:「它**真的会跑一次该成员的 CLI 并产生 API 费用**」,所以开关单独成一条命令、**默认只预演**;而且唤醒是**兜底而非竞争**——成员 90 秒内取过件就不会另起进程,避免同一消息被处理两次。
 
-**它注册 5 个模型工具**:`agent_relay_send` / `status` / `history` / `peers` / `retry`。
+**它注册 6 个模型工具**（README 自身 5/6 矛盾）：`agent_relay_send` / `status` / `history` / `peers` / `retry` 等；以固定 commit 的工具表为准。
 
 **它删掉了自己的一半**(本域最值得学的一节):v1 世代(`X-Relay-*` 头、`/register`、`/messages` 游标轮询)**已于 2026-09-19 移除**,理由是审计显示 **v1 队列表自 2026-08-15 起再无任何消息,且没有任何现役客户端注册过**。协议规范只维护在 `docs/PROTOCOL-V2.md` 一处,README 明确写「此处不再复制一份等着漂移」;跨语言字节一致性由 `test/protocol_v2_golden.py` 与 `test/protocol-v2-python.test.mjs` **两个测试锁住**。
 
@@ -41,12 +42,12 @@ updated: 2026-10-31
 |---|---|
 | **仓库** | [`Noelune/dsh-agent-relay`](https://github.com/Noelune/dsh-agent-relay) |
 | **npm 包名** | `dsh-agent-relay` |
-| **版本(本次读)** | `0.8.1` |
+| **版本(本次读)** | 源码 tag `v0.8.1`=`7e43c54`；**npm latest 仍是 0.5.0**（0.6–0.8 未发布；0.5.0 无 wake/长轮询且仍含 v1） |
 | **License** | MIT |
 | **npm 近 30 天** | **1,048 次**(2026-09-30 ~ 10-29) |
-| **安装** | `dsh plugin --profile web add dsh-agent-relay`;另装 `npm i -g dsh1024` 之外的 CLI 见仓库 `adapters/cli/` |
+| **安装** | `dsh plugin --profile web add dsh-agent-relay` 装到 npm 0.5.0（旧代）；要 0.8.1 只能 GitHub 安装。`dsh1024` 是无关包，别混 |
 | **接线方式** | `main: lib/index.js`;`dsh.bundle.patch` + **有 client 注入** |
-| **默认端口** | `127.0.0.1:19121`(**只绑回环**) |
+| **默认端口** | `127.0.0.1:19121`，**默认回环但 broker 侧无校验**；唯一的远端地址检查在插件状态路由 |
 | **成员配置** | `~/.dsh/agent-relay.json`——**只记 vault 条目名,不记明文密钥** |
 | **凭据来源** | 环境变量 `AGENT_RELAY_*` / `DSH_RELAY_*`,或指向已有 dotenv,或 DPAPI 保管库(`AGENT_RELAY_SECRET_REF` + `AGENT_RELAY_VAULT_MODULE`) |
 | **自检** | `node setup/doctor.mjs`,或 `node adapters/cli/relay.mjs doctor` |
@@ -58,7 +59,7 @@ updated: 2026-10-31
 |---|---|---|
 | 状态归属 | broker 侧 **SQLite 单一路径**持久化,请求留存 7 天 | 真相源在 broker,不在任何 agent 侧;broker 挂了链路就断 |
 | 冲突裁决 | 不适用(只投消息,不动文件) | — |
-| 失败收敛 | **租约投递 + 令牌化确认 + 幂等键去重 + 超期自动回发未送达通知** | v1 的 rate limit 与鉴权失败锁定已删除,暴力破解只剩回环这道边界 |
+| 失败收敛 | 租约投递 + 令牌确认 + 幂等键去重 + 超期通知；DSH 侧 reply 无会话映射时 ack 后丢弃 | v1 限流/锁定已删；回环是默认边界，不是代码强制 |
 
 ## 借用指南
 

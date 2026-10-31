@@ -334,3 +334,18 @@ The gate is red. Re-open the work in plan mode to re-check the open items before
 - [ ] `[OPEN]` 多个门禁同时装(`goalloop` + `quality-gate` + `doublecheck`)时,deny/throw 的路由会不会互相吞掉?goalloop 已为此写过注释,但生态没有统一的 deny 协议。
 - [ ] `[OPEN]` fork 子代理能否换成**另一个厂商的模型**做对抗评审?这会是 [`06`](./06-judge-placement.md) 里「换模型」独立性的最强实现。
 - [ ] `[OPEN]` 本卡借用了 `Observed from <file:line>` 的写法。本域是否应把「每个 `observed` 断言都注出处行号」升级为硬要求?
+
+---
+
+## 证据与边界
+
+> 核对时点 2026-11-01；宿主固定 `@deepseek-ai/dsh@0.2.1-rc.3`。
+
+| 主张 | 标签 | 来源/核对方式 | 边界 |
+|---|---|---|---|
+| 检查点在模型/工具副作用边界 fail-closed | `[SRC-DSH]` | `dsh-session-checkpoint-policy/lib/types/index.d.ts:12-16` | 不覆盖样本自己的纪律状态 |
+| `agent/turn-stopping` 可 steer 修正，但不能撤回已流出内容 | `[SRC-DSH]` | `dsh-agent/lib/types/runtime-types.d.ts:387-405` | 只对 turn 边界生效 |
+| 审批与工具拦截是两条不同接缝 | `[SRC-DSH]` | `dsh-user-approval/lib/types/types.d.ts:81`；`dsh-tools` pre-execute | 方案选择取决于“早拦/晚拦”的代价 |
+| “纪律环路 = 计划-执行-对账-修正” | `[OBS]` | 本章命题 | 经验框架；无对照实验 |
+
+**未验证**：纪律环路在长任务上的漂移、样本的完成判据，均 `[OPEN]`。

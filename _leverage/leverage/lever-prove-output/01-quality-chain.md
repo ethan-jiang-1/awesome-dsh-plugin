@@ -292,3 +292,18 @@ updated: 2026-10-31
 - [ ] `[OPEN]` 检查点把幂等责任推给工具作者——生态里有多少工具真的转发了 `exec.callId`?
 - [ ] `[OPEN]` **规格独立性**(本轮新增):所有验收契约(JSON spec / AC 命令 / SOP 目录)都可能由被判定者自己写。生态只有 `dsh-verify` 明说「review the spec separately」。`[`07`](./07-foreign-runtime-acceptance.md) §10`
 - [ ] `[OPEN]` **多个门禁同时装**时,deny 的路由与可见性没有统一协议。`[`02`](./02-goal-gate-hard-floor.md) §9` 已记录 `goalloop` 为避混淆而"绝不 throw",但那只解决了一种冲突。
+
+---
+
+## 证据与边界
+
+> 核对时点 2026-11-01；宿主固定 `@deepseek-ai/dsh@0.2.1-rc.3`。样本机制按其 README/自述，未逐样本固定版本复核。
+
+| 主张 | 标签 | 来源/核对方式 | 边界 |
+|---|---|---|---|
+| 模型请求与顶层工具副作用前有语义检查点，失败 fail-closed | `[SRC-DSH]` | `dsh-session-checkpoint-policy/lib/types/index.d.ts:12-16` | 只覆盖这两个边界，不覆盖样本自己的账本 |
+| `tools/pre-execute` 可 deny/ask，`tools/post-execute` 可检查/替换结果 | `[SRC-DSH]` | `dsh-tools/lib/types/index.d.ts:47,92` | 接缝存在 ≠ 质量门覆盖全部路径 |
+| `agent/turn-stopping` 可在提交前 steer，但已流出文本不能撤回 | `[SRC-DSH]` | `dsh-agent/lib/types/runtime-types.d.ts:387-405` | 只对 turn 边界生效 |
+| “质量链 = 事前/事中/事后三段” | `[OBS]` | 本章归纳 | 经验框架，不是宿主保证 |
+
+**未验证**：样本质量门在真实失败集上的误杀/漏杀、跨样本的门禁差异，均 `[OPEN]`。

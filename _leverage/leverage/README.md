@@ -111,7 +111,9 @@ node _leverage/verify.mjs # frontmatter / 链接 / 锚点
 
 ## 7. 证据、坐标与深度
 
-**四个标签**(每条结论都标):
+> **证据规矩的单一源**：[`EVIDENCE.md`](./EVIDENCE.md)。它把本节四个标签细化为 `[DOC]`/`[SRC-TARGET]`/`[SRC-DSH]`/`[TEST]`/`[CI]`/`[RUN]`/`[OBS]`，并规定样本必须有固定版本 memo、机制卡必须有“证据与边界”。审计进度见 [`AUDIT.md`](./AUDIT.md)。
+
+**四个基础标签**(每条结论至少标一个):
 
 | 标签 | 含义 |
 |---|---|

@@ -263,3 +263,20 @@ P1 不成立:`own-session → 输出关键词 → 跨会话(子代理)→ 存在
 - [ ] `[OPEN]` 400 条上限是按什么定的?有没有会话长度分布的观测数据支撑?
 - [ ] `[OPEN]` `converted` 指标能否反过来度量**门禁的价值**:长期 converted=0 的门应该被下掉吗?
 - [ ] `[OPEN]` 这类「只判出处」的机制若被官方吸收,应该长在 `tools/result` 还是 `agent/turn-stopping`?
+
+---
+
+## 证据与边界
+
+> 核对时点 2026-11-01；宿主固定 `@deepseek-ai/dsh@0.2.1-rc.3`。样本侧（`AaronandWork/dsh-evidence-gate` 等）未做固定版本源码复核。
+
+| 主张 | 标签 | 来源/核对方式 | 边界 |
+|---|---|---|---|
+| 会话持久化把事件作为 event-sourced log，header 元数据不可重放 | `[SRC-DSH]` | `dsh-session-persistence/lib/types/index.d.ts:1-7` | 只证明存储模型；不证明某样本真的索引了这些事件 |
+| `append` 只保证被接受/有序/本实例可读；**只有 `flush` 解析后才承诺崩溃后仍存在** | `[SRC-DSH]` | `dsh-session-persistence/lib/types/handle.d.ts:80-98` | 引用会话日志做证据时若不 flush，崩溃可能丢最后一批 |
+| `tools/result` 可监听工具结果 | `[SRC-DSH]` | `dsh-tools/lib/types/index.d.ts:92` | 监听 ≠ 建立可检索索引 |
+| 宿主系统提示装配 seam 是 `system-prompt/assemble`（waterfall） | `[SRC-DSH]` | `dsh-system-prompt/lib/types/index.d.ts:27` | 本章出现的 `systemPrompt.section(order 550)` 未在宿主找到，可能是样本自有封装 |
+| 五级反误杀阶梯、三个反向指标、400 条索引 | `[DOC]` | 样本 README/自述 | 未核实现与误杀率 |
+| “多数证据插件只记日志、不核对声明” | `[OBS]` | 本章目录检索 + 判断 | 归纳性判断，不是抽样实验 |
+
+**未验证**：`systemPrompt.section` 的真实来源、阶梯各级的真实转换率、跨压缩持久化的实现路径，均 `[OPEN]`。

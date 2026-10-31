@@ -309,3 +309,18 @@ attest-chain 有一节叫 **Kill criteria**:若 DSH 出了一等公民的签名�
 - [ ] `[OPEN]` 全库只有 2 个仓库做会话级可验证账本,需求是被低估了还是不存在?真实的追责场景在 DSH 里出现过吗?
 - [ ] `[OPEN]` 归因到密钥而不是人,对合规场景够吗?(强制性属 `lever-draw-limit`,本域只记录问题。)
 - [ ] `[OPEN]` attest-chain 的 kill criteria 是生态里唯一一条自退役声明。若将来某个样本没写退役条件,是否应视为「承诺过久」?
+
+---
+
+## 证据与边界
+
+> 核对时点 2026-11-01；宿主固定 `@deepseek-ai/dsh@0.2.1-rc.3`。
+
+| 主张 | 标签 | 来源/核对方式 | 边界 |
+|---|---|---|---|
+| 会话是 event-sourced log，header 元数据单独存放、不可重放 | `[SRC-DSH]` | `dsh-session-persistence/lib/types/index.d.ts:1-7` | 只证明存储模型；不证明内容未被篡改 |
+| `append` 只保证有序/可读；`flush` 才承诺崩溃后仍存在 | `[SRC-DSH]` | `dsh-session-persistence/lib/types/handle.d.ts:80-98` | 保管链若依赖“已 append”会丢最后一批 |
+| 宿主没有内建哈希链/签名/公证原语 | `[OBS]` | 本机安装树未见 custody/notary 类服务 | “不可否认”需外接签名或第三方时间戳 |
+| 样本的 custody chain 设计 | `[DOC]` | 样本 README/自述 | 未核实现与攻击面 |
+
+**未验证**：样本的链式哈希范围、密钥保管、离线验证器，均 `[OPEN]`。

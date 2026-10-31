@@ -2,24 +2,25 @@
 title: "zbzbhs/dsh-remote-agent"
 domain: cross-boundary
 kind: sample
-positioning: "`zbzbhs/dsh-remote-agent`：一个包双角色，副机本地跑完整 DSH 与 Agent 循环，凭证永不出机。"
-takeaway: "副机自主跑完整 loop；把跨机从传输问题降级为信任问题。"
+positioning: "`zbzbhs/dsh-remote-agent`：一个包双角色（hub/worker），副机跑完整 loop；凭证不走协议，但 hub 有 exec/read 能力。"
+takeaway: "副机跑完整 loop（in-process 或 spawn headless）；插件不要求凭证过线，但 hub 可 exec/read；跨机最终是信任问题。"
 read_when: "要跨机，且不能被网络拖死——链路断了工作照常继续。"
 status: observed
 updated: 2026-10-31
 ---
 # 06 · `zbzbhs/dsh-remote-agent`
 
-> **一句话**:一个包双角色,副机**本地跑完整 DSH 与完整 Agent 循环**,凭证永不出机;主机只收摘要与产物清单。
+> **一句话**：一个包双角色，副机**本地跑完整 loop**（优先 in-process，否则 spawn `dsh headless`）；**凭证不过协议**，但 hub 可 `exec`/`remote_read`——最终是信任边界，不是“永不出机”的绝对保证。
 > **边界**:3 跨进程/跨机 · **过了哪些门**:F + G · **证据级别**:`observed`(源码逐文件读过)
 > **影响力**(2026-10-31 实时采样):**4★**
 > **什么时候找它**:要跨机,且**不能被网络拖死** ——链路断了工作照常继续
 
 > 导航:[样本索引](../03-sample-encyclopedia.md) · [域章程](../README.md) · [三笔税机制谱](../02-coordination-mechanisms.md) · [四道边界](../01-collab-topology.md)
+> **证据链**：pin `main@cc356e1`（0.9.11，无 tag）；双角色、两种 worker 后端、配对/鉴权与偏差见[`06 源码复核`](../_证据/06-remote-agent-源码复核.md)。
 
 ## 设计思路
 
-**一句话设计思路**:一个包双角色(`hub|worker|both|auto`),副机**本地跑完整 DSH 与完整 Agent 循环**,模型凭证永不出机;主机只收回 handoff 摘要与产物清单。
+**一句话设计思路**:一个包双角色(`hub|worker|both|auto`),副机**本地跑完整 loop**（两种后端之一），模型凭证**不经协议传输**；主机只收回 handoff 摘要与产物清单，但可按权限执行 shell/读 roots。
 
 **为什么它把跨机从传输问题降级为信任问题**:工作的所有者本来就是副机,所以**链路断了不丢工作**。这是本域最重要的一条架构判断——只要把「谁在执行」和「谁在持有连接」解耦,跨机的可靠性就不再依赖网络。
 
@@ -45,11 +46,11 @@ updated: 2026-10-31
 |---|---|
 | **仓库** | [`zbzbhs/dsh-remote-agent`](https://github.com/zbzbhs/dsh-remote-agent) |
 | **npm 包名** | `dsh-remote-agent` |
-| **版本(本次读)** | `0.9.11` |
+| **版本(本次读)** | `0.9.11` @ `main cc356e1`（仓库无 `v0.9.11` tag；npm latest 已是 0.9.12，同树） |
 | **License** | MIT |
 | **npm 近 30 天** | **3,103 次**(2026-09-30 ~ 10-29)——**是 4★ 完全看不出来的体量** |
 | **安装** | `dsh plugin add github:zbzbhs/dsh-remote-agent`;或 `npm install -g dsh-remote-agent`(增强/worker 端可独立装) |
-| **接线方式** | `main: ./lib/index.js`;**零外部运行时依赖**(README:629 明说 `npm install` 只为验 lockfile) |
+| **接线方式** | `main: ./lib/index.js`；**无第三方运行时依赖**（`dependencies` 只有宿主提供的 `@deepseek-ai/schemastery`；README 的 “零外部依赖/验 lockfile” 说法被 CI 注释否定：仓库 `.npmrc` 无 package-lock） |
 | **复现要点** | hub 与 worker 是**同一个包的两个角色**;worker 端必须在**它自己的机器**上装好完整 DSH |
 
 ## 借用指南
@@ -63,5 +64,5 @@ updated: 2026-10-31
 
 ### 别照抄
 
-- 把配对码当安全边界——`dshra1://` 只是**不过期、不核验**的配置打包串,真正的凭证是长活 `nodeToken` 与 hub 的 ed25519 身份 + TOFU pin(`hubfp1-`);`nt_` 一旦泄漏就是永久访问。
+- 把配对码当安全边界——`dshra1://` 只是**不过期、不核验**的配置打包串（但它携带 hub 指纹，是 TOFU 的分发渠道），真正的凭证是长活 `nodeToken` 与 hub 的 ed25519 身份 + TOFU pin；`nt_` 泄漏即长期访问。
 - 也别抄 `ok = !timedOut && !aborted` 这种「没超时就算成功」的判据。

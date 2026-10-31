@@ -209,3 +209,20 @@ updated: 2026-10-31
 - [ ] 「检测而非执法」意味着它永远不能单独构成边界。那么**检测层的价值如何计量**?现有的 27/28 基准只测规则命中率,不测「拦下之后模型是否绕路」。
 - [ ] 一个被冻结但「范围更宽」的实现,与一个活跃但「范围更窄」的实现,哪一个在 6 个月后覆盖率更高?这是本域可证伪的经验问题。
 - [ ] 「零配置下的防护水平」能否成为本域的评分维度?若能,它比规则条数、缝数量都更能预测采用率。
+
+---
+
+## 证据与边界
+
+> 核对时点 2026-11-01；宿主固定 `@deepseek-ai/dsh@0.2.1-rc.3`。样本 `dsh-defend` 只回读 README/源码自述，未做固定版本复核。
+
+| 主张 | 标签 | 来源/核对方式 | 边界 |
+|---|---|---|---|
+| `agent/pre-step` 是 waterfall，可 `reject` 或替换进入该 step 的消息；`reject` 的 decision **只有 kind，没有理由字段** | `[SRC-DSH]` | `dsh-agent/lib/types/runtime-types.d.ts:92-97`（`PreStepDecision = {kind:'reject'} | {kind:'enter',messages}`）与 `:304-310` | 只证明接缝表达力；不证明样本用它拦住了什么 |
+| `agent/request` 在 system prompt 与用户批次提交前运行，**不能修改消息**；模型可见内容必须走 logged channel | `[SRC-DSH]` | 同文件 `:317-330` | 想“解释拒绝原因”不能靠这条缝直接写 |
+| `tools/pre-execute` 可返回 deny/ask/allow 与理由 | `[SRC-DSH]` | `dsh-tools/lib/types/index.d.ts:47` | 只能看见调用，看不见“模型已被说服” |
+| `tools/post-execute` 可检查/替换结果并附加上下文 | `[SRC-DSH]` | 同文件工具流水线声明（`post-result`/`post-execute`） | 属事后纠偏，不是阻止意图 |
+| 样本的 25 条注入规则 / 25 条越狱 / Aho-Corasick / 27-of-28 基准 | `[DOC]` | 样本 README/测试自述 | 未核实现与基准口径；“已冻结”是作者声明 |
+| “pre-step 只能静默拒绝” | `[SRC-DSH]`+`[OBS]` | 由 PreStepDecision 形状推出 | 若样本把理由写进日志/下一轮提示，对模型仍是静默 |
+
+**未验证**：样本 reject 后是否另写审计事件、`defend/*` 事件是否被宿主接受、真实绕过来（Unicode/多步）在 rc.3 的表现，均 `[OPEN]`。

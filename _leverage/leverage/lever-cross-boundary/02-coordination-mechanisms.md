@@ -130,7 +130,7 @@ updated: 2026-10-31
 锁    :单写者。同一 workspace 只允许一个宿主进程持有写权(用 workspace 级独占文件,不是进程内 promise)
 ```
 
-**为什么这么选**:官方 `dsh-experimental-agent-team` 的设计前提是「持久日志、派生状态」——日志权威才换来重放与并发安全。生态里把磁盘升成真相源的(`agent-teams`/`teams-x`)都付出了同一笔代价:**锁只能做到进程内,多进程即覆盖写**(`second-process-lost-update`)。
+**为什么这么选**:官方 `dsh-experimental-agent-team` 的设计前提是「持久日志、派生状态」——日志权威才换来重放与并发安全。生态里把磁盘升成真相源的样本都要自己解决并发：`agent-teams` 只有进程内 promise 链，多进程即覆盖写；`teams-x` 默认加了跨进程文件锁，但只串行化写入、不提供跨进程归属（见各自样本 memo）。
 
 **如果你偏要磁盘权威**(为了面板直读、为了不与会话日志耦合),那你必须同时做三件事,少一件都会出事:
 
@@ -234,3 +234,21 @@ updated: 2026-10-31
 - [ ] `[OPEN]` 为什么生态里没有一个样本给自己的租约加 **epoch/fencing**?是成本问题,还是宿主没给「拒绝写」的通用钩子（只有 `tools/pre-execute`,而 shell 一绕就没）?
 - [ ] `[OPEN]` `limuyang2/agent-team` 的「schema 有、代码无」(leases/dependencyIds)是个案,还是生态里“设计先行、实现未跟上”的普遍现象?需要更大样本的盘点。
 - [ ] `[OPEN]` 若官方把 Agent Teams 的成员配置（每成员模型/权限/技能包）补上,三家自建 roster 的存在理由还剩几条?
+
+---
+
+## 证据与边界
+
+> 核对时点 2026-11-01；宿主固定 `@deepseek-ai/dsh@0.2.1-rc.3`。样本级断言待各自 memo 固定版本后回填；这里先钉住宿主侧机制。
+
+| 主张 | 标签 | 来源/核对方式 | 边界 |
+|---|---|---|---|
+| `kick()` 吞掉 turn 内错误，只留 `agent/error` 事件出口 | `[SRC-DSH]` | `dsh-agent-loop/lib/index.js:887-890`（`try { while (await this.turn()); } catch (_error) {}`） | 只证明错误不会从 kick 返回；是否有其它出口需看调用方 |
+| 工具执行前有 `tools/pre-execute` waterfall，可返回 deny | `[SRC-DSH]` | `dsh-tools/lib/types/index.d.ts:47,515-519` | 只证明接缝存在；样本的 deny 覆盖面需逐样本核 |
+| `agent/created`/`agent/status` 是可用的事件边沿 | `[OBS]` | 本章转述样本实现；未在宿主类型里逐字核 | 事件名与负载随版本可能变化，引用前重核 |
+| `agent-teams` 把磁盘升为真相源、锁只在进程内 | `[SRC-TARGET]` | `_证据/01-agent-teams-源码复核.md`（固定 0.1.28） | 只覆盖单进程串行；跨进程会覆盖 |
+| `teams-x` 默认跨进程文件锁，但只串行写、不提供归属 | `[SRC-TARGET]` | `_证据/05-teams-x-源码复核.md`（固定 `9c56100`） | 锁 stale 30s、获取超时 10s |
+| `file-claim` 用租约 + 服务端 deny，但无 fencing/epoch | `[SRC-TARGET]` | `_证据/07-file-claim-源码复核.md`（固定 `42f07e2`） | 只覆盖四工具；pid 是宿主进程粒度 |
+| 生态样本普遍“三笔税只交一笔” | `[OBS]` | 本章 14 样本横向归纳 | 归纳性判断，不是可证伪实验 |
+
+**未验证**：`agent/status` 的精确负载与空闲语义、各样本 `pre-execute` 的实际覆盖、多进程覆盖写的复现路径，均标 `[OPEN]`。

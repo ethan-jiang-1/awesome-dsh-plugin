@@ -360,3 +360,20 @@ README 自己给了三层叠放关系(**直接引用,不依赖任何其他文档
 - [ ] `[OPEN]` `BLOCKED` 冻结的真实体验如何?宿主有没有可能把它做成「暂停并等待」而不是「错误」?
 - [ ] `[OPEN]` gungnir 的 E0/E2/E3 分臂能否被第三方用公开任务重放?若不能,这类「自建实验」应当降为 `inferred` 并写清——本卡已如此处理。
 - [ ] `[OPEN]` 官方原生的硬约束全部朝向「不许放弃」——这是对模型能力的信任,还是对「放弃」这种失败更敏感?补上「不许自宣成功」需要什么前提?
+
+---
+
+## 证据与边界
+
+> 核对时点 2026-11-01；宿主固定 `@deepseek-ai/dsh@0.2.1-rc.3`。本章样本（`samirliu/dsh-goalloop-agentteams` 等）只回读 README/源码自述，未做固定版本复核。
+
+| 主张 | 标签 | 来源/核对方式 | 边界 |
+|---|---|---|---|
+| `tools/pre-execute` 可在工具执行前返回 deny/ask | `[SRC-DSH]` | `dsh-tools/lib/types/index.d.ts:47` | 只证明可拦；不证明样本拦得住所有完成路径 |
+| `ctx.tools.guard` 是 pre-execute 之后的单调否决 | `[SRC-DSH]` | 同文件 `:512-524` | 不能用来做需要读文件/询问的判断 |
+| 语义检查点在模型请求与顶层工具副作用前 fail-closed | `[SRC-DSH]` | `dsh-session-checkpoint-policy/lib/types/index.d.ts:12-16`（“Checkpoint failures are fail-closed at the model and tool side-effect boundaries”） | 只覆盖模型/工具边界，不覆盖样本自己的账本/完成判定 |
+| 样本用 pre-execute 拦 `update_goal(complete)` 与任务板完成 | `[DOC]` | 样本 README/自述 | 未核实现与绕过路径；属产品声明 |
+| “早拦 vs 晚拦”的质量分水岭 | `[OBS]` | 本章命题 | 经验判断；可证伪条件是找到晚拦但无损的实现 |
+| 样本的账本 HMAC/digest/冻结/预算/冷席位判官 | `[DOC]` | 样本 README 能力清单 | 未逐项核；不能据此称已实现 |
+
+**未验证**：样本四条 deny 分支的真实覆盖、账本 HMAC 的密钥与重放防护、`update_goal` 之外的完成路径（如直接停止调用），均 `[OPEN]`。

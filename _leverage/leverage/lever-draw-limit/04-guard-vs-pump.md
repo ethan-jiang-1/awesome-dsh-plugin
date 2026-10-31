@@ -219,3 +219,19 @@ updated: 2026-10-31
 - [ ] 「事实闸门」会让首次编辑必然失败一次,这个往返成本在长任务里占多少?
 - [ ] 如果官方给 `ctx.tools.guard` 加异步版本,整个生态的失效方向会不会集体改变?
 - [ ] 「已知边界」一节在生态里有多普遍?若只有少数实现愿意写,能否把「有边界表」作为准入要求?
+
+---
+
+## 证据与边界
+
+> 核对时点 2026-11-01；宿主固定 `@deepseek-ai/dsh@0.2.1-rc.3`。样本 `JayYuen666/dsh-danger-guard` 只回读 README，未做固定版本源码复核。
+
+| 主张 | 标签 | 来源/核对方式 | 边界 |
+|---|---|---|---|
+| `ctx.tools.guard` 是 `tools/pre-execute` 之后、工具体之前的**单调**谓词；返回 reason 即拒绝，返回 `undefined` 不改变结果；没有 allow 结果，监听器顺序无法翻案 | `[SRC-DSH]` | `dsh-tools/lib/types/index.d.ts:512-524`（`ToolGuard` 注释原文） | 只证明接缝语义；不证明 guard 内做重活的实际后果 |
+| pre-execute 与 guard 是两道不同接缝：前者可 allow/deny/ask 且可 `next()` 委托，后者只能否决 | `[SRC-DSH]` | 同文件 `:47`（pre-execute waterfall）与 `:512-524` | 审批是否在 guard 前重跑，需看审批服务与调度器组合，未逐行核 |
+| “用户点了 Allow 仍可能被 guard 拒” | `[OPEN]` | 本章推论；未在宿主调度器路径上验证审批与 guard 的先后 | 若审批在 guard 之后，该表述不成立 |
+| 样本 `rmrf` 让位条件读四条来源（工作区根/additionalWritableRoots/tmp/平台临时目录），任一缺失即不让位 | `[DOC]` | 样本 README 254 行 | 未核实现；属于产品声明 |
+| 把“需读文件/询问/跨调用记忆”的判断放进 guard 是结构性陷阱 | `[OBS]` | 本章论证 + guard 同步语义 | 经验判断；可证伪条件是找到反例实现 |
+
+**未验证**：`ctx.tools.guard` 在真实审批流中的执行次数与顺序、样本规则的实际覆盖与误杀率，均 `[OPEN]`。

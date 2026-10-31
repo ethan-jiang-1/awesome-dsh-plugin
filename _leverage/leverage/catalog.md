@@ -23,6 +23,8 @@ updated: 2026-10-31
 | [`00-map.md`](./00-map.md) | charter | 研究宪章：杠杆阶梯、命名约定、证据协议、文件约定与基线。 | — | 要判断一个插件占的是哪一级位置；或要新增卡/新域、改口径时。 | living |
 | [`horizon.md`](./horizon.md) | charter | 规则单一源：A/B/C/D/E/F/G 准入门、S/A/B/C 分级、每条必写的六项。 | — | 要把一个新样本立成卡；或质疑某条样本凭什么在场时。 | observed |
 | [catalog.md（本文件）](./catalog.md) | index | 全部 Markdown 的 kind、定位、能拿走什么、什么时候读（本文件手工维护）。 | — | 想一次看全所有文件，或按关键词找入口。 | living |
+| [`EVIDENCE.md`](./EVIDENCE.md) | guide | 本册证据规程：分源标签、样本 memo 要求、机制卡「证据与边界」节、校验门。 | 新增/修订样本或卡前先读；判断一条断言该标什么。 | living |
+| [`AUDIT.md`](./AUDIT.md) | guide | 审计基线与分批：46 篇的起始缺口、批次与完成标准。 | 接续证据化工作；查哪些样本/章节已升级。 | living |
 
 ## CROSS · 协作边界 ｜ `cross-boundary`
 
@@ -46,6 +48,26 @@ updated: 2026-10-31
 | [`12-2507483326-dsh-eteams.md`](./lever-cross-boundary/samples/12-2507483326-dsh-eteams.md) | sample | `2507483326/dsh-eteams`：领队拆任务、派给跑在各自子会话里的成员；证明 persona 的合法路径是请求参数。 | persona 的合法路径是请求参数；成员=真 continuable 子代理。 | 要成员异构，但又不想放弃子代理的 spawn/interrupt/wait。 | observed |
 | [`13-Noelune-dsh-agent-relay.md`](./lever-cross-boundary/samples/13-Noelune-dsh-agent-relay.md) | sample | `Noelune/dsh-agent-relay`：只绑回环地址的 HTTP Broker，把 dsh / Codex / Claude Code / Python 连成对等链路。 | 只绑回环的 HTTP broker；跨异构运行时，只投消息不发令牌。 | 要让不是 DSH 的 agent 和 DSH 成员通信。 | observed |
 | [`14-PerryLink-dsh-team-rooms.md`](./lever-cross-boundary/samples/14-PerryLink-dsh-team-rooms.md) | sample | `PerryLink/dsh-team-rooms`：房间存储是跨会话权威，每个成员的日志是自己的重建副本。 | 房间存储为跨会话权威；单写链 + 逐成员游标。 | 团队要跨会话活着，且最关心「消息会不会丢、重启后还在不在」。 | observed |
+
+
+## CROSS · 样本证据（固定版本）
+
+| 文件 | kind | 定位 | 能拿走什么 | 什么时候读 | 状态 |
+|---|---|---|---|---|---|
+| [`01-agent-teams-源码复核.md`](./lever-cross-boundary/_证据/01-agent-teams-源码复核.md) | evidence | 固定 0.1.28 的源码复核：成员签名/邮箱租约、maxMembers 语义、四个具名失效与 CI。 | 证据强度与未验证项见文末 `[OPEN]`。 | 复核对应样本的机制断言或版本坐标。 | observed |
+| [`02-team-gui-源码复核.md`](./lever-cross-boundary/_证据/02-team-gui-源码复核.md) | evidence | 固定 v1.3.0 的源码复核：它就是 runtime：8 表/2 工具/pre-step；on-demand 非默认；轮询更新。 | 证据强度与未验证项见文末 `[OPEN]`。 | 复核对应样本的机制断言或版本坐标。 | observed |
+| [`03-dsh_workflow-源码复核.md`](./lever-cross-boundary/_证据/03-dsh_workflow-源码复核.md) | evidence | 固定 main 0.1.2 的源码复核：胶囊+缓存回放；12+1 禁用规则；版本门硬编码；无 CI。 | 证据强度与未验证项见文末 `[OPEN]`。 | 复核对应样本的机制断言或版本坐标。 | observed |
+| [`04-agent-team-源码复核.md`](./lever-cross-boundary/_证据/04-agent-team-源码复核.md) | evidence | 固定 0.1.4 的源码复核：独立根 Agent；脚本门非 CI；leases 空壳；peer 排除 rc.3。 | 证据强度与未验证项见文末 `[OPEN]`。 | 复核对应样本的机制断言或版本坐标。 | observed |
+| [`05-teams-x-源码复核.md`](./lever-cross-boundary/_证据/05-teams-x-源码复核.md) | evidence | 固定 9c56100 的源码复核：0.11.5 未发布；跨进程文件锁但无归属；pinned CI 红。 | 证据强度与未验证项见文末 `[OPEN]`。 | 复核对应样本的机制断言或版本坐标。 | observed |
+| [`06-remote-agent-源码复核.md`](./lever-cross-boundary/_证据/06-remote-agent-源码复核.md) | evidence | 固定 0.9.11 的源码复核：hub/worker 双后端；共享密钥/TOFU；relay 可降级为明文。 | 证据强度与未验证项见文末 `[OPEN]`。 | 复核对应样本的机制断言或版本坐标。 | observed |
+| [`07-file-claim-源码复核.md`](./lever-cross-boundary/_证据/07-file-claim-源码复核.md) | evidence | 固定 42f07e2 的源码复核：四工具 deny；fail-open 面更宽；pid 进程粒度；无 epoch。 | 证据强度与未验证项见文末 `[OPEN]`。 | 复核对应样本的机制断言或版本坐标。 | observed |
+| [`08-interconnect-源码复核.md`](./lever-cross-boundary/_证据/08-interconnect-源码复核.md) | evidence | 固定 0.13.0 的源码复核：两条 socket/共享 token/无幂等无队列；对齐闸已退役。 | 证据强度与未验证项见文末 `[OPEN]`。 | 复核对应样本的机制断言或版本坐标。 | observed |
+| [`09-takeover-源码复核.md`](./lever-cross-boundary/_证据/09-takeover-源码复核.md) | evidence | 固定 afbc55c 的源码复核：只替换会话；tag↔树错位；入站子路由；无自动回滚。 | 证据强度与未验证项见文末 `[OPEN]`。 | 复核对应样本的机制断言或版本坐标。 | observed |
+| [`10-expert-mode-源码复核.md`](./lever-cross-boundary/_证据/10-expert-mode-源码复核.md) | evidence | 固定 HEAD ed9a19d 的源码复核：17 工具别名非成员；preset 死目录；persona.text 过时。 | 证据强度与未验证项见文末 `[OPEN]`。 | 复核对应样本的机制断言或版本坐标。 | observed |
+| [`11-taskswarm-源码复核.md`](./lever-cross-boundary/_证据/11-taskswarm-源码复核.md) | evidence | 固定 v0.2.38 的源码复核：npm 全下架；worktree 每 lane；resume 非原子；_orch 重置风险。 | 证据强度与未验证项见文末 `[OPEN]`。 | 复核对应样本的机制断言或版本坐标。 | observed |
+| [`12-eteams-源码复核.md`](./lever-cross-boundary/_证据/12-eteams-源码复核.md) | evidence | 固定 0.2.21 的源码复核：persona 仅 0.1.x 成立；rc.3 无 startContinuable；版本漂移。 | 证据强度与未验证项见文末 `[OPEN]`。 | 复核对应样本的机制断言或版本坐标。 | observed |
+| [`13-agent-relay-源码复核.md`](./lever-cross-boundary/_证据/13-agent-relay-源码复核.md) | evidence | 固定 v0.8.1 的源码复核：npm 0.5.0 旧代；wake/长轮询未发布；回环默认非强制。 | 证据强度与未验证项见文末 `[OPEN]`。 | 复核对应样本的机制断言或版本坐标。 | observed |
+| [`14-team-rooms-源码复核.md`](./lever-cross-boundary/_证据/14-team-rooms-源码复核.md) | evidence | 固定 1.0.8 的源码复核：已 archived/deprecated；fact 在 rc.3 被禁；游标会跳过。 | 证据强度与未验证项见文末 `[OPEN]`。 | 复核对应样本的机制断言或版本坐标。 | observed |
 
 ## PROVE · 质量门禁 ｜ `prove-output`
 

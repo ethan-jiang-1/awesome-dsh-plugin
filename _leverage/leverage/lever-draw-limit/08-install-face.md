@@ -281,3 +281,18 @@ critical=10  high=5  medium=2  low=1
 - [ ] gating-hub 的自动禁用是「修复」还是「治疗症状」?它禁掉的是不兼容的插件,不是坏插件。
 - [ ] 安装面的两道门都依赖「人看报告」或「有确证证据」;有没有可能做成**默认拒绝 + 白名单**?那样会不会把生态变成封闭市场?这条与 `lever-reshape-product` 相邻,但失效数据归本域。
 - [ ] 组合特征的四条形状已经足够稳定,能否做成**跨插件共享的规则集**?目前每家都各自维护一份。
+
+---
+
+## 证据与边界
+
+> 核对时点 2026-11-01；宿主固定 `@deepseek-ai/dsh@0.2.1-rc.3`。
+
+| 主张 | 标签 | 来源/核对方式 | 边界 |
+|---|---|---|---|
+| 安装期会按 peer/engines 评估插件兼容性 | `[SRC-DSH]` | `dsh-app-boot` 的插件兼容判定（本册多份 memo 引用） | 只证明门存在；不同宿主版本判定字段不同 |
+| 存在显式版本豁免（allow-version），可绕过精确 peer | `[SRC-DSH]` | `dsh-plugin-manager` 的 allow-version 路径（本册多份 memo） | 豁免是显式风险接受，不是兼容证明 |
+| bundle 安装与 profile 行启用是两层 | `[SRC-DSH]` | `plugin_manager installBundle` 写 `dsh.profile.bundles` | 装上 ≠ 启用；patch 行可被禁用 |
+| “安装面也是攻击面” | `[OBS]` | 本章命题 | 经验判断；需按供应链逐项核 |
+
+**未验证**：rc.3 上各样本的真实安装结果、豁免后的运行时行为，均 `[OPEN]`。
