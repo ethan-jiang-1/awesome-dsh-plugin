@@ -106,6 +106,7 @@ budget: 420
 - **拿到**：repo / npm / 版本 / commit / 锚点文件 / 一条可复跑的 `curl`。
 - **必问**：你用 `main` 还是短 SHA？用 `main` 打开的代码三个月后是另一份（PROVE-00 的纪律）。
 - **反例**：没记 commit 的抓取 = 没抓（PROVE-00 §2 的两条自曝）。
+- **本册证据链**：14 张样本卡头部都有“证据链”指向 `_证据/NN-*-源码复核.md`（固定 npm/tag/commit 与偏差表）；15 张机制卡与 6 篇 playbook 末尾有“证据与边界”（`[DOC]/[SRC-TARGET]/[SRC-DSH]/[OBS]/[OPEN]`）。**引用任何机制断言前先读对应 memo/证据节**；README 主张不等于实现（见 [`EVIDENCE.md`](./EVIDENCE.md)）。
 
 ## 2. 四个方向各自的最小充分集
 
