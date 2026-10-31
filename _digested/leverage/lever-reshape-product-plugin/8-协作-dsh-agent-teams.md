@@ -151,7 +151,7 @@ updated: 2026-10-31
 
 **机制依据(可直接引用)**:`[DSH]` `dsh-app-boot/lib/index.js:279-331`——若包声明了自有 `engines.dsh`,**该范围单独决定,所有 peer 被忽略**;否则**每一个** `@deepseek-ai/dsh*` peer 都必须满足;通配键 `@deepseek-ai/*` 会被静默 `continue`(等于没写);比较用 `semver.satisfies(..., { includePrerelease: true })`;不满足即 `ManagementFailure('incompatible-version')`。
 
-> 这是本域对"版本税"最成熟的一次回应:**把"支持"从枚举改成下界,把"验证"从声明改成 CI 矩阵**。对照 [`厚工作台`](./1-厚工作台-better-sidebar.md) 的 7 行对照表,和 [`冻结 fork`](./9-冻结fork-better-sidebar-N23.md) 的 0.1.x 死锁。
+> 这是本域对"版本税"最成熟的一次回应:**把"支持"从枚举改成下界,把"验证"从声明改成 CI 矩阵**。对照 [`厚工作台`](./1-厚工作台-better-sidebar.md) 的 7 行对照表,和 [`冻结 fork`](../lever-reshape-product-shell/9-冻结fork-better-sidebar-N23.md) 的 0.1.x 死锁。
 
 ---
 

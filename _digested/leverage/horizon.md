@@ -127,7 +127,8 @@ grep -rl "owner/repo" data/plugins | head
 
 | 域 | 入口条件之上,还要求 | 明确不收 |
 |---|---|---|
-| `lever-reshape-product` | 必须能指到**表层/身份/首启/分发**中的一层;只改槽位的,要能证明它把槽位变成了**注册表**(`ctx.workbench` 那一路) | 换皮主题、单页面板、只加设置项的 |
+| `lever-reshape-product-plugin` | 必须能指到**身份/首启/分发**中的一层;只改槽位的,要能证明它把槽位变成了**注册表**(`ctx.workbench` 那一路);且**装进任何 profile 都不用改宿主** | 换皮主题、单页面板、只加设置项的、换表层的(去 shell) |
+| `lever-reshape-product-shell` | 必须**换掉表层(第 2 层)**或**自带宿主**;并写清首启/分发/降级三条怎么补(规律 A) | 能 `dsh plugin add` 装进别人 profile 的客人(留在 plugin 侧) |
 | `lever-cross-boundary` | 必须跨**边界 1/2/3** 中可命名的一道;能说出**状态归谁、冲突谁裁、崩了谁收敛** | 子代理模型路由(那是 policy 钩子,只做旁支)、纯看板/活动球 |
 | `lever-prove-output` | 必须能指到**六环**中的一环,且**门禁位置可命名**(pre-execute / post-execute / pre-step / 持久化 flush / 独立验收器) | 提示词里写「请检查」的技能包、只统计不拦截的面板 |
 | `lever-draw-limit` | 必须落在**安装面/运行面/数据面**,且**强制点可命名**;纯披露的只能当旁证 | 密码保管类工具(除非它改了授权边界)、安全检查清单 |
@@ -143,7 +144,7 @@ grep -rl "owner/repo" data/plugins | head
 | **B** | 只在某个维度上与 A 不同 | 卡的对照行,**不立卡** |
 | **C** | 明指不可共存,或同一接缝取反 | 失败模式表一行 |
 
-**域级入口**:[RESHAPE](./lever-reshape-product/README.md) · [CROSS](./lever-cross-boundary/README.md) · [PROVE](./lever-prove-output/README.md) · [LIMIT](./lever-draw-limit/README.md)。**全量文件**(kind / status / 定位)见 [catalog](./catalog.md)。
+**域级入口**:[RESHAPE-plugin](./lever-reshape-product-plugin/README.md) · [RESHAPE-shell](./lever-reshape-product-shell/README.md) · [CROSS](./lever-cross-boundary/README.md) · [PROVE](./lever-prove-output/README.md) · [LIMIT](./lever-draw-limit/README.md)。**全量文件**(kind / status / 定位)见 [catalog](./catalog.md)。
 
 ## 7. 现役研究的已知缺口
 

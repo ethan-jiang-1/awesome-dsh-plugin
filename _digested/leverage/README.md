@@ -55,7 +55,7 @@ DSH 的扩展面是有限、可枚举的:seam(fs/shell/sandbox/llm/subagent/work
 | kind | 是什么 | 例子 |
 |---|---|---|
 | `index` | 目录/索引 | 本文件、catalog、[CROSS-03](./lever-cross-boundary/03-sample-encyclopedia.md)、[PROVE-00](./lever-prove-output/00-sample-lineage.md) |
-| `charter` | 规则页:收什么、怎么判 | 00-map、horizon、四域 README、[RESHAPE-0](./lever-reshape-product/0-领域模型-七层与命名约定.md) |
+| `charter` | 规则页:收什么、怎么判 | 00-map、horizon、四域 README、[RESHAPE-0](./lever-reshape-product-plugin/0-领域模型-七层与命名约定.md) |
 | `guide` | 借用总入口 | [BORROW](./BORROW.md) |
 | `playbook` | 横向框架/手册 | [CROSS-01](./lever-cross-boundary/01-collab-topology.md)、[PROVE-10](./lever-prove-output/10-quality-control-playbook.md)、[LIMIT-09](./lever-draw-limit/09-control-budget.md) |
 | `card` | 一个机制/环节/控制点一篇 | [PROVE-05](./lever-prove-output/05-custody-chain.md)、[LIMIT-03](./lever-draw-limit/03-second-model.md) |
@@ -64,11 +64,12 @@ DSH 的扩展面是有限、可枚举的:seam(fs/shell/sandbox/llm/subagent/work
 
 ## 4. 四个域:四个并列的问题
 
-**分析单位不同**——这正是四个目录长得不一样的原因,不是混乱。
+**分析单位不同**——这正是各目录长得不一样的原因,不是混乱；产品形态一个域按「插件侧 / 宿主侧」拆成两个目录。
 
 | 域 | 一句话问题 | 分析单位 |
 |---|---|---|
-| [RESHAPE](./lever-reshape-product/README.md) | 不改上游,DSH 能被组装成什么产品 | 一个产品改动(一插件一卡) |
+| [RESHAPE-plugin](./lever-reshape-product-plugin/README.md) | 不改上游,插件能装出什么产品 | 一个产品改动(一插件一卡) |
+| [RESHAPE-shell](./lever-reshape-product-shell/README.md) | 换掉表层,DSH 能变成什么独立产品 | 一个自带宿主的样本(一卡一样本) |
 | [CROSS](./lever-cross-boundary/README.md) | 协作跨到哪个边界,每跨一界多付什么 | 一个协作样本(一样本一文件)+ 横向卡 |
 | [PROVE](./lever-prove-output/README.md) | 门禁装在哪一环,产物凭什么算完成 | 一个门禁位置(一环一卡) |
 | [LIMIT](./lever-draw-limit/README.md) | 谁能碰什么,由谁强制,留下什么证据 | 一个控制点/预算(一卡一样本) |
@@ -81,8 +82,9 @@ DSH 的扩展面是有限、可枚举的:seam(fs/shell/sandbox/llm/subagent/work
 
 | 你要干什么 | 先读 |
 |---|---|
-| 写一个插件,不知道从哪下手 | [RESHAPE-0](./lever-reshape-product/0-领域模型-七层与命名约定.md) §4 接缝表 → [BORROW §2](./BORROW.md) 选域 |
-| 改产品形态 | [RESHAPE README](./lever-reshape-product/README.md) §2 的 18 条 |
+| 写一个插件,不知道从哪下手 | [RESHAPE-0](./lever-reshape-product-plugin/0-领域模型-七层与命名约定.md) §4 接缝表 → [BORROW §2](./BORROW.md) 选域 |
+| 改产品形态（装配件） | [RESHAPE-plugin](./lever-reshape-product-plugin/README.md) §2 的 18 条 |
+| 换表层做独立产品 | [RESHAPE-shell](./lever-reshape-product-shell/README.md) §4 的必抄 5 条 |
 | 做多 agent / 跨机 | [CROSS README](./lever-cross-boundary/README.md)「能借鉴什么」 |
 | 做质量门禁 | [PROVE-01](./lever-prove-output/01-quality-chain.md) 六环 → [PROVE-10](./lever-prove-output/10-quality-control-playbook.md) |
 | 做安全/权限 | [LIMIT README](./lever-draw-limit/README.md)「借法一览」→ [LIMIT-09](./lever-draw-limit/09-control-budget.md) |

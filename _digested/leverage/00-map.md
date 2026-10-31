@@ -25,12 +25,12 @@ DSH 的扩展面是有限的、可枚举的:seam(fs/shell/sandbox/llm/subagent/w
 
 | 目录 | 标语 | 见到它先问 |
 |---|---|---|
-| [lever-reshape-product](./lever-reshape-product/README.md) | *What product can DSH become without forking it?*<br>不改上游,DSH 能被组装成什么产品 | 产品栈是哪几层?哪些是配置,哪些必须 fork? |
+| [lever-reshape-product-plugin](./lever-reshape-product-plugin/README.md) · [shell](./lever-reshape-product-shell/README.md) | *What product can DSH become without forking it?*<br>不改上游,DSH 能被组装成什么产品（插件侧 / 宿主侧） | 产品栈是哪几层?**装进别人的 profile**,还是**换掉表层自己当宿主**? |
 | [lever-cross-boundary](./lever-cross-boundary/README.md) | *Which boundary does collaboration cross, and what does each crossing cost?*<br>协作跨到哪个边界,每跨一界多付什么 | 共享状态归谁?冲突谁裁决?崩溃后谁收敛? |
 | [lever-prove-output](./lever-prove-output/README.md) | *Where is the gate that turns "looks done" into "proven"?*<br>门禁装在哪一环,产物凭什么算完成 | 门禁在哪一环?证据能否重放?产物是否原子? |
 | [lever-draw-limit](./lever-draw-limit/README.md) | *Who can touch what, who enforces it, what evidence remains?*<br>谁能碰什么,由谁强制,留下什么证据 | 信任谁?边界由谁强制?留下了什么证据? |
 
-**卡片编号**:`<域>/NN-<slug>.md`(一样本一篇时放 `<域>/samples/NN-<owner>-<repo>.md`)。编号**域内递增、不复用、不重排**,只表示写作顺序,不表示优先级,也不跨域比较。退役保留编号,改 `status` 并注明替代者;新增永远追加。RESHAPE 是唯一例外:它用「首位 = 类别」的编号法,见 [该域的 0 号卡](./lever-reshape-product/0-领域模型-七层与命名约定.md)。
+**卡片编号**:`<域>/NN-<slug>.md`(一样本一篇时放 `<域>/samples/NN-<owner>-<repo>.md`)。编号**域内递增、不复用、不重排**,只表示写作顺序,不表示优先级,也不跨域比较。退役保留编号,改 `status` 并注明替代者;新增永远追加。RESHAPE 是唯一例外:它用「首位 = 类别」的编号法,见 [该域的 0 号卡](./lever-reshape-product-plugin/0-领域模型-七层与命名约定.md)。它还有一个域内拆分——**插件侧 / 宿主侧两个 lever**:`lever-reshape-product-plugin`(首位仍是类别)与 `lever-reshape-product-shell`(自带宿主,卡少但形态不同)。
 
 **为什么不用字母编号代号**:`L1–L4` 会让读者以为四域有强弱或先后,而它们实际是四种并列提问;`lift/link/lock/limit` 是为凑首字母造的近义词,彼此冗余。现在的后缀直接说动作,不需要额外解释。
 
@@ -54,7 +54,8 @@ DSH 的扩展面是有限的、可枚举的:seam(fs/shell/sandbox/llm/subagent/w
 
 | 域 | 一句话问题 | 分析单位 |
 |---|---|---|
-| [RESHAPE](./lever-reshape-product/README.md) | 不改上游,DSH 能被组装成什么产品 | 一个产品改动(一插件一卡) |
+| [RESHAPE-plugin](./lever-reshape-product-plugin/README.md) | 不改上游,插件能装出什么产品 | 一个产品改动(一插件一卡) |
+| [RESHAPE-shell](./lever-reshape-product-shell/README.md) | 换掉表层,能变成什么独立产品 | 一个自带宿主的样本(一卡一样本) |
 | [CROSS](./lever-cross-boundary/README.md) | 协作跨到哪个边界,每跨一界多付什么 | 一个协作样本(一样本一文件)+ 横向卡 |
 | [PROVE](./lever-prove-output/README.md) | 门禁装在哪一环,产物凭什么算完成 | 一个门禁位置(一环一卡) |
 | [LIMIT](./lever-draw-limit/README.md) | 谁能碰什么,由谁强制,留下什么证据 | 一个控制点/预算(一卡一样本) |

@@ -32,7 +32,7 @@
 
 | 域 | 状态 | 已有正文 | 证据来源 |
 |----|------|----------|----------|
-| [`lever-reshape-product`](../leverage/lever-reshape-product/README.md) | **成稿**;机制核过官方包 README,样本停在 catalog + 插件 README;已按「通用插件 / 自带宿主」分两桶 | 1 宪章 + 1 门 + 2 桶门 + 11 样本卡(`plugin/` 9 · `product/` 2) + 3 证据 | catalog + 插件 README |
+| [`lever-reshape-product-plugin`](../leverage/lever-reshape-product-plugin/README.md) · [shell](../leverage/lever-reshape-product-shell/README.md) | **成稿**;机制核过官方包 README,样本停在 catalog + 插件 README;按「通用插件 / 自带宿主」拆成两个 lever | 2 宪章(插件侧 9 卡 · 宿主侧 2 卡) + 1 共用门 + 3 证据 | catalog + 插件 README |
 | [`lever-cross-boundary`](../leverage/lever-cross-boundary/README.md) | **成稿**;14 样本源码逐文件读过,影响力用 2026-10-31 实时数据 | 1 宪章 + 3 横向卡 + 14 样本 | 2026-10-31 实时 GitHub/npm |
 | [`lever-prove-output`](../leverage/lever-prove-output/README.md) | **成稿**;12 样本,17 个仓库锁 `repo@commit` | 1 宪章 + 10 卡(含溯源卡/手册) | `repo@commit` + 实时抓取 |
 | [`lever-draw-limit`](../leverage/lever-draw-limit/README.md) | **成稿**;10 样本,多卡读过 src,坐标只锁版本 | 1 宪章 + 8 卡 + 1 手册 | npm 近 30 天 + `capabilities.json` |

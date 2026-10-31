@@ -19,7 +19,7 @@ updated: 2026-10-31
 > **repo**:`ccch1mneyyy/dsh-TUI` · **npm**:`@deepseek-harness-tui/dsh-tui`(全局 CLI 安装);`dsh` 侧走 profile bundle · **版本**:主兼容目标 DSH `0.2.1-rc.5`
 > **目录条目**:`data/plugins/ccch1mneyyy__dsh-TUI.yml`(`ui`)
 > **装法**:Windows 一键安装器;**或** `npm i -g @deepseek-ai/dsh @deepseek-harness-tui/dsh-tui` 后 `dsh-tui`;**不要用 git URL 装**
-> **已在本地挖掘**:`_证据/1-壳与工作台-原始挖掘.md` §三(TUI 的 8 小节,含 52 条降级原文)
+> **已在本地挖掘**:`../lever-reshape-product-plugin/_证据/1-壳与工作台-原始挖掘.md` §三(TUI 的 8 小节,含 52 条降级原文)
 > **再深挖去哪**:README 的 §Known Limitations / §Bounded update installation / §Keybindings & Mouse 三节;`compatibility.json` 与 `dsh-plugin.json` 在仓库根
 
 ---

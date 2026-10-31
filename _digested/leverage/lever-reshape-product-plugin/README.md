@@ -1,17 +1,18 @@
 ---
-title: "lever-reshape-product：产品形态"
+title: "lever-reshape-product-plugin：通用插件"
 domain: reshape-product
 kind: charter
-positioning: "本域宪章：只收改变「人怎么用它」的 0.2.x 样本；一卡一插件，卡卡要交借鉴食谱。"
-takeaway: "18 条可直接搬走的产品规则 + 11 个样本的七层坐标。"
-read_when: "要改产品形态（壳/槽位/首启/分发/多端/身份）；或判断某插件算不算产品化。"
+positioning: "插件侧宪章：什么算「装进任何 profile 都成立的客人」，以及 9 张卡各抄哪一行。"
+takeaway: "18 条可直接搬走的产品规则 + 9 个插件样本的七层坐标。"
+read_when: "要给现有 profile 加一块能力；或判断某插件算不算产品化、该不该分家。"
 status: observed
 updated: 2026-10-31
 budget: 240
 ---
-# lever-reshape-product · 不改上游，DSH 能被组装成什么产品
+# lever-reshape-product-plugin · 通用插件：不改上游，能装出什么产品
 
-> **标语**:*What product can DSH become without forking it?* —— 产品的单位不是插件，是 profile。
+> **标语**:*What can a plugin add without forking?* —— 宿主是别人的，它只在接缝上加东西。
+> **分工**:本 lever 只收**客人**（`dsh plugin --profile <任意> add` 装得上）；换表层的在 [`lever-reshape-product-shell`](../lever-reshape-product-shell/README.md)。**先分 lever，再看编号。**
 > **状态**:`observed`(机制已核) · **基线**:DSH `0.2.1-rc.3` · 名单 @ `efe602e7b` · **快照**:2026-08-19
 > **范围**:只收兼容 **DSH `0.2.x`** 的样本；0.1.x 时代的东西只作对照与反例。
 > **视角**:**用户体验**，并且**只做借鉴用途**:一卡一插件，每张卡要交代"它好在哪、为什么好、**别人具体抄哪一行**"。
@@ -44,11 +45,29 @@ budget: 240
 2. **"装坏了怎么回"比"一键装"更能定义一个分发产品。**
 3. **体验的护城河是降级路径,不是功能数量。**
 
+### 1.1 这个 lever 收什么（与 shell 的分界）
+
+**三条都成立**才算插件侧；少一条就去 [`lever-reshape-product-shell`](../lever-reshape-product-shell/README.md)。
+
+| # | 判据 | 会被赶去 shell 的反例 |
+|---|---|---|
+| P1 | `dsh plugin --profile <任意> add` 装得上，装完**不用改宿主** | 全局 CLI、独立安装器、forked 宿主 |
+| P2 | 不假设宿主还装了别的插件；能力探测式 UI（"装它才有，没装不显示"） | 硬 `inject` 一个只有自己知道的包 |
+| P3 | 缺服务 / 缺能力时**退化**并有交代，不是白屏 | 少一个包就整个界面起不来 |
+
+**三张看着像宿主、其实不是**（都留在本 lever）：
+
+- **`1-厚工作台`**：它"自己就是第一个插件"、把整套 IDE 塞进侧栏，但**没有换表层**——装的还是 `web` profile，首启/分发/降级仍由宿主回答。**厚客人，不是宿主。**
+- **`5-分发与救生页`**：救生页由进程外 helper 提供，看着像"越过宿主"；但插件本体仍是宿主里的客人，救生页是它替宿主做的兜底。
+- **`6-多端与远程`**：另起 3443 的 HTTPS 网关、还有 Android App；但宿主仍是 `dsh web`（被当回环上游），插件照样 `dsh plugin add` 进 profile。
+
+反过来：**只要它开始要求"先卸宿主 / 换启动命令 / 自己发安装包"，就挪去 shell。**
+
 ---
 
 ## 2. 可以直接搬走的 18 条(全卡片的公共产出)
 
-**如果你只读一节,读这一节。** 每条都在某张卡里被具体实现过,附"抄错的后果"。
+**如果你只读一节,读这一节。** 每条都在某张卡里被具体实现过,附"抄错的后果"。**这是两个 lever 的公共产出**——18 条从 11 张卡里抽出，其中第 16 条出自 shell 侧。
 
 | # | 规则 | 一句话说清 | 出处 | 抄错的后果 |
 |---|---|---|---|---|
@@ -67,13 +86,13 @@ budget: 240
 | 13 | **注册表方法必须是原型方法** | 自建 `ctx.myService.registerX` 只能写成 prototype 方法,不能写成实例箭头属性 | [`1-厚工作台`](./1-厚工作台-better-sidebar.md) · [`1-薄基座`](./1-薄基座-dock.md) | Cordis 服务代理会把 effect 绑到服务自己的 root → 插件卸载时注册项不回收,且只在卸载时暴露 |
 | 14 | **坏数据结构分两层校验** | schema 之外再加**引用完整性**(id 对 key、序号不越界、比例和为 1、无孤儿节点) | [`1-厚工作台`](./1-厚工作台-better-sidebar.md) | schema 过了不代表状态自洽 → 恢复出半个布局,点一下就崩 |
 | 15 | **降级链的终点是"人还能读的原文"** | 节点坏就丢节点,块坏就退回原始 Markdown/代码块,插件缺席也要历史不破 | [`2-生成式界面`](./2-生成式界面-dsh-genui.md) | 坏数据变空白块 → 用户连复制出来自己看都做不到 |
-| 16 | **每档能力都要一条"退化为 Y"** | 先列能力矩阵,再写每一档落点;最差档必须**不静默**(响铃 / 纯文本 / 不激活) | [`1-终端即产品`](./1-终端即产品-dsh-TUI.md) · [`1-薄基座`](./1-薄基座-dock.md) | 缺能力就什么都不做 → 用户当成 bug |
+| 16 | **每档能力都要一条"退化为 Y"** | 先列能力矩阵,再写每一档落点;最差档必须**不静默**(响铃 / 纯文本 / 不激活) | [`1-终端即产品`](../lever-reshape-product-shell/1-终端即产品-dsh-TUI.md) · [`1-薄基座`](./1-薄基座-dock.md) | 缺能力就什么都不做 → 用户当成 bug |
 | 17 | **三层否定** | 用户否掉的东西要同时挡住:当前轮次 / 重建路径 / **模型侧记忆** | [`8-协作`](./8-协作-dsh-agent-teams.md) | 只挡一层 → 系统在另一层复活它,用户反复否同一件事 |
 | 18 | **外部索引每次使用前再校验** | 规范形式、无凭据、无 fragment、不重复;并配超时/字节上限/`redirect:"error"`/同 URL 合并 | [`5-分发与救生页`](./5-分发与救生页-dsh-market.md) | 只在保存时校验 → settings / 环境变量绕过,schema 形同虚设 |
 
 **三条"别抄"**:
 
-- **[`9-冻结 fork`](./9-冻结fork-better-sidebar-N23.md)**:peer 上界钉死 (`< 0.2.0`) + 改到整个外壳 + 保留上游接口 → 分家是必然结局,而且用户会被推进"降级宿主 / 装回上游"的两难。**带显式上界的 peer 区间 = 主动设了一个死亡日期。**
+- **[`9-冻结 fork`](../lever-reshape-product-shell/9-冻结fork-better-sidebar-N23.md)**:peer 上界钉死 (`< 0.2.0`) + 改到整个外壳 + 保留上游接口 → 分家是必然结局,而且用户会被推进"降级宿主 / 装回上游"的两难。**带显式上界的 peer 区间 = 主动设了一个死亡日期。**
 - **`1-终端即产品`** 的教训:换表层不会让上面的层自动出现,**首启、分发、降级三件事从此归你**。
 - **`1-薄基座` 的反面**:用私有 DOM 锚点(`data-turn-navigator`)去挪别人的布局,锚点在 `0.2.1-rc.3` 已 0 命中——**可以这么干,但必须先写"找不到就什么都不做",并且优先找上游已约定好的量(CSS 变量)。**
 
@@ -108,11 +127,10 @@ budget: 240
 
 | 卡 | 插件 | ★ / 下载 | 一句话 | **能借鉴什么** |
 |---|---|---|---|---|
-| [`领域模型`](./0-领域模型-七层与命名约定.md) | — | — | 本域的门：四条口径、七层、编号法、证据级别 | **13 行上游接缝索引**：每层「改得动 / 改不动」以及该挂哪个服务 |
+| [`领域模型`](./0-领域模型-七层与命名约定.md) | — | — | **两个 lever 共用**的门：四条口径、七层、编号法、证据级别 | **13 行上游接缝索引**：每层「改得动 / 改不动」以及该挂哪个服务 |
 | **`1` 壳与工作台** | | | |
 | [`薄基座`](./1-薄基座-dock.md) | `AKS1st/dock` | 未采到 | 只给注册表、不给能力：六个 API + 六个兄弟包 | **一个服务面 + 零内部依赖 + 安装顺序不敏感**；UI 依赖写成可选 peer，缺失时"不激活"；任何隐藏都留两条逃生通道 |
 | [`厚工作台`](./1-厚工作台-better-sidebar.md) | `omdsh-dev/DSH-better-sidebar` | 2216 / 39,717 | 一个插件把自己做成 IDE，**自己就是第一个插件** | **一种扩展点形状 + 内置也走它**；原型方法注册表；`ns.v1.sessionId` 持久化 + 引用完整性；"先数扇出点再优化主路由" |
-| [`终端即产品`](./1-终端即产品-dsh-TUI.md) | `ccch1mneyyy/dsh-TUI` | 2009 / 16,959 | 换表层 + 自带四步首启，把 DSH 变成另一个应用 | **每档能力一条"退化为 Y"**；输入解析的 hold 窗口(不被延长 + 超界原样重放)；恢复不确定就报错退出；更新只看退出码 |
 | **`2` 内容形态** | | | |
 | [`生成式界面`](./2-生成式界面-dsh-genui.md) | `omdsh-dev/dsh-genui` | 224 / — | 回复本身变成可操作界面：本地优先、"诚实 UI" | **内容协议当扩展面**；节点级丢弃 + 块级退回原文；同轮纠错；无 `action` 渲染成 disabled；主题只暴露一层变量 |
 | **`3` 驾驶舱** | | | |
@@ -127,8 +145,8 @@ budget: 240
 | [`感官接入`](./7-感官接入-modlens.md) | `liustack/modlens` | 3152 / 63,829 | 给纯文本模型装上眼睛：粘贴即读、零配置 | **未确认就放过**("absent means unknown")；加元数据条目不换路由；`meta.attempts`/`warnings` 让回退不静默 |
 | **`8` 协作** | | | |
 | [`8-协作`](./8-协作-dsh-agent-teams.md) | `NanmiCoder/dsh-agent-teams` | 573 / 10,525 | 队长 + 任务 DAG + **执行前计划**，实时活动面板 | **计划先行 + 唯一授权点 + 三层否定**；完成时审计而非写入拦截；磁盘真相并坦白"不跨进程" |
-| **`9` 反例** | | | |
-| [`9-冻结 fork`](./9-冻结fork-better-sidebar-N23.md) | `All3nCN/dsh-better-sidebar-N23` | 未采到 | 0.1.x 冻结 fork：改得太深就只能分家 | **反食谱**：六条禁令 + 三条正确替代(只下界 + CI 矩阵 / 换接缝 / 别 fork) |
+
+**shell 侧那 2 张不在这张表里**：[`终端即产品`](../lever-reshape-product-shell/1-终端即产品-dsh-TUI.md) 与 [`冻结 fork`](../lever-reshape-product-shell/9-冻结fork-better-sidebar-N23.md)，见 [`lever-reshape-product-shell`](../lever-reshape-product-shell/README.md)。
 
 ---
 
@@ -140,7 +158,6 @@ budget: 240
 |---|---|---|---|---|---|---|
 | [`厚工作台`](./1-厚工作台-better-sidebar.md) | `omdsh-dev/DSH-better-sidebar` | `dsh-better-sidebar` | `omdsh-dev__DSH-better-sidebar.yml` (`ui`) | `dsh plugin --profile web add dsh-better-sidebar@latest` | `_证据/1-壳与工作台-原始挖掘.md` §一 | 版本对照表全表、`CHANGELOG`、`ctx.betterSidebar` 类型声明 |
 | [`薄基座`](./1-薄基座-dock.md) | `AKS1st/dock` | `dock-base` + 兄弟包 `dock-files`/`dock-editor`/`dock-images`/`dock-markdown`/`dock-git`/`dock-spreadsheet` | `AKS1st__dock.yml` + `AKS1st__dock-*.yml` (`ui`) | `dsh plugin --profile web add dock-base` 后逐条装 | `_证据/1-壳与工作台-原始挖掘.md` §二 | 仓库 `src/client/contract.ts`、0.2.x 实测(本卡 `[OPEN]`) |
-| [`终端即产品`](./1-终端即产品-dsh-TUI.md) | `ccch1mneyyy/dsh-TUI` | `@deepseek-harness-tui/dsh-tui`(全局 CLI) | `ccch1mneyyy__dsh-TUI.yml` (`ui`) | Windows 安装器;或 `npm i -g @deepseek-ai/dsh @deepseek-harness-tui/dsh-tui` 后 `dsh-tui`;**别用 git URL 装** | `_证据/1-壳与工作台-原始挖掘.md` §三 | `compatibility.json`、52 条降级里未展开的协议细节 |
 | [`生成式界面`](./2-生成式界面-dsh-genui.md) | `omdsh-dev/dsh-genui`(npm scope 是 `@changfenhuang`) | `@changfenhuang/dsh-genui` | `omdsh-dev__dsh-genui.yml` (`ui`) | `dsh plugin --profile web add @changfenhuang/dsh-genui` | 本轮直接读 README 全文(429 行),行号已内联 | **`SKILL.md` 字段级 schema**、`docs/map.md`、action payload 信封 |
 | [`驾驶舱`](./3-驾驶舱-dsh-context.md) | `bowenliang123/dsh-context` | `dsh-context` | `bowenliang123__dsh-context.yml` (`usage`) | GUI Add plugin,或 `dsh plugin --profile web add dsh-context` | 本轮直接读 README 全文(237 行)+ 上游 `dsh-token-meter` 源码 | git tag `v0.78.2` 快照、`docs/compatibility.md`、`docs/model-pricing-mapping.md` 与页脚两行 **0.2.2-alpha.2** 核实 |
 | [`首启推荐`](./4-首启推荐-dsh-bootstrap.md) | `why-sir/dsh-bootstrap` | 未采到 | `why-sir__dsh-bootstrap.yml` (`market`;**无 ★/下载计量**) | 目录内名称 `why-sir/dsh-bootstrap` | `_证据/4-5-首启与分发-原始挖掘.md` §一 | npm 包名、其目录快照的生成时间锚(2026-10-16) |
@@ -148,7 +165,6 @@ budget: 240
 | [`多端与远程`](./6-多端与远程-dsh-mobile.md) | `saya-ch/dsh-mobile` | `dsh-mobile`(+ Android App) | `saya-ch__dsh-mobile.yml` (`remote`) | 见卡 §3.1(Android App / 浏览器两条路) | `_证据/6-7-移动与视觉-原始挖掘.md` §一 | `compat.js` 的语法下限实测(Chromium 92 那档 `[OPEN]`) |
 | [`感官接入`](./7-感官接入-modlens.md) | `liustack/modlens` | `@liustack/modlens` | `liustack__modlens.yml` (`vision`) | `npx -y @deepseek-ai/dsh plugin --profile web add @liustack/modlens@3.27.2` | `_证据/6-7-移动与视觉-原始挖掘.md` §二 | 六个引擎各自的质量差异、`docs/security.md` 全文 |
 | [`协作`](./8-协作-dsh-agent-teams.md) | `NanmiCoder/dsh-agent-teams` | `@nanmicoder/dsh-agent-teams` | `NanmiCoder__dsh-agent-teams.yml` (`workflow`) | Plugins→Add plugin 填 `github:NanmiCoder/dsh-agent-teams` | 本轮直接读 README + `compatibility.json` + manifest | **三层否定的实现方式**(会话状态还是提示词)、`<workspace>/.agent-teams/` 实际文件格式 |
-| [`冻结 fork`](./9-冻结fork-better-sidebar-N23.md) | `All3nCN/dsh-better-sidebar-N23` | `@all3cn/dsh-better-sidebar-n23` | `All3nCN__dsh-better-sidebar-N23.yml` (`ui`) | **0.2.x 上装不上**(安装期 `incompatible-version`) | 目录条目 + upstream README 对照 | 同作者 `dsh-qa-suite-N23`;强行 `allow-version` 豁免后的实际表现 |
 
 **三条读这张表的规矩**:
 
@@ -156,15 +172,17 @@ budget: 240
 2. **目录条目文件名是 `owner__repo.yml`**,可直接 `cat data/plugins/<该文件>` 取到官方 `url` / `name` / `category` / 双语描述 —— 这是**最省事的二次核实入口**。
 3. **"已挖"那一列只写文件与节号**,不写人头结论;要复核任何 `[DSH]` / `[CAT]` 标注,先到这里找到原文,再去 `_证据/` 对行号。
 
+**shell 侧 2 张的坐标**（repo / npm / 装法 / 已挖）在 [`../lever-reshape-product-shell/README.md`](../lever-reshape-product-shell/README.md) §3，不在这张表里。
+
 ---
 
 ## 5. 边界
 
-**收**：兼容 `0.2.x`、改变了**人怎么用它**（入口 / 首屏 / 默认值 / 身份 / 界面 / 分发 / 上手路径）、有可复核的影响力证据。
+**收**：兼容 `0.2.x`、能 `dsh plugin --profile <任意> add` 装进现有 profile、且改变了**人怎么用它**（入口 / 首屏 / 默认值 / 身份 / 界面 / 分发 / 上手路径）、有可复核的影响力证据。
 
 **不收**：纯能力增强（多一个工具、多一个 provider）、只支持 `0.1.x` 的样本、目录里查不到也拿不到任何计量的条目（除非机制独特且写明理由）。
 
-**不碰**：上游代码本身的建议（那属于 `lever-cross-boundary` / `lever-draw-limit` / `lever-prove-output` 三个域）；本域只写"下游用上游装出了什么"。
+**不碰**：换表层 / 自带宿主的样本 → [`lever-reshape-product-shell`](../lever-reshape-product-shell/README.md)；上游代码本身的建议 → `lever-cross-boundary` / `lever-draw-limit` / `lever-prove-output` 三个域。本 lever 只写"下游把插件装进别人的产品里，装出了什么"。
 
 **共享文件只读**：`00-map.md`、`horizon.md`、`leverage/README.md`、`data/` 由别的会话维护，本域只调用、不写。
 
@@ -201,5 +219,5 @@ budget: 240
 - [ ] 第二梯队的 `6`/`7` 类候选：`shaobeichen/dsh-pocket`（10,411 下载）、`THEWOLFWALKER/dsh-notifier`（6,677）、`ysr666/dsh-vision-router`（21,679）、`Anionex/dsh-vision-toolkit`（17,248）——先判断它们是否**改变了交互契约**，只加能力的不成卡
 - [ ] `3` 类第二张候选：`feibi-mochi/deepseek-harness-control-center`（2,066 下载）
 - [ ] `4` 类第二张：安装器 / 向导候选未探；`dsh-bootstrap` 是目录外样本，说明这类可能被目录系统性漏掉
-- [ ] 口径外产品（桌面壳 `dataelement/dsh-desktop` 16,969★、`dsh-tauri` 3,379★）是否单独成 `5`/`6` 类卡
-- [ ] `9` 类可能还有第二张：被证伪 / 停更的高星样本，统一成"证伪记录"格式
+
+**搬到 shell 侧的待办**（口径外产品、证伪样本）见 [`../lever-reshape-product-shell/README.md`](../lever-reshape-product-shell/README.md) §5。

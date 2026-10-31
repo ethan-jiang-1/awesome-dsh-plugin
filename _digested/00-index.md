@@ -31,7 +31,7 @@
 
 | 目录 | 标语 | 回答什么 |
 |------|------|----------|
-| [lever-reshape-product](./leverage/lever-reshape-product/README.md) | 不改上游,DSH 能被组装成什么产品 | 产品栈七层;产品化的单位是 profile 不是插件 |
+| [lever-reshape-product-plugin](./leverage/lever-reshape-product-plugin/README.md) · [shell](./leverage/lever-reshape-product-shell/README.md) | 不改上游,DSH 能被组装成什么产品 | 产品栈七层;**插件侧**(装进任何 profile)与**宿主侧**(换掉表层)分开算 |
 | [lever-cross-boundary](./leverage/lever-cross-boundary/README.md) | 协作跨到哪个边界,每跨一界多付什么 | 四道边界与其各自的税(状态归属/冲突裁决/失败收敛) |
 | [lever-prove-output](./leverage/lever-prove-output/README.md) | 门禁装在哪一环,产物凭什么算完成 | 质量链六环;只有检查点与版本新鲜度是原生硬门禁 |
 | [lever-draw-limit](./leverage/lever-draw-limit/README.md) | 谁能碰什么,由谁强制,留下什么证据 | 信任三层;沙箱只覆盖文件,网络与进程无策略词汇 |

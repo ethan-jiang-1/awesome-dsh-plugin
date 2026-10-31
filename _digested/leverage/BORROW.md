@@ -30,7 +30,7 @@ budget: 420
 
 **答案**：先定接缝，再写机制。接缝决定它能改变什么，能力是次要的。
 
-- **先读**：[00-map](./00-map.md) 的杠杆阶梯 → [RESHAPE-0](./lever-reshape-product/0-领域模型-七层与命名约定.md) §4 的 13 行接缝表。
+- **先读**：[00-map](./00-map.md) 的杠杆阶梯 → [RESHAPE-0](./lever-reshape-product-plugin/0-领域模型-七层与命名约定.md) §4 的 13 行接缝表。
 - **再读**：§2 里选一个域的最小集；同类 `sample` 卡的「借用节」。
 - **拿到**：7 级位置、13 行「上游保证 / 不保证」、一份可抄清单。
 - **必问**：这条缝给不给我强制点？不给的话，我的保证上限是什么？
@@ -38,10 +38,10 @@ budget: 420
 
 ### 1.2 我要改产品形态（壳 / 槽位 / 首启 / 分发 / 多端）
 
-**答案**：产品化的单位是 profile，不是插件；换了表层，首启 / 分发 / 降级三件事就从此归你。
+**答案**：产品化的单位是 profile，不是插件；**先分「插件侧 / 宿主侧」**，再决定改哪一层、要不要 fork。
 
-- **先读**：[RESHAPE README](./lever-reshape-product/README.md) §2 的 18 条 → [RESHAPE-0](./lever-reshape-product/0-领域模型-七层与命名约定.md) §2 的七层。
-- **再读**：对应 `sample` 卡的「降级链」「救生页」「首启」三节；[RESHAPE-5](./lever-reshape-product/5-分发与救生页-dsh-market.md) 与 [RESHAPE-1 终端](./lever-reshape-product/1-终端即产品-dsh-TUI.md)。
+- **先读**：[RESHAPE-plugin](./lever-reshape-product-plugin/README.md)（装进别人的 profile）或 [RESHAPE-shell](./lever-reshape-product-shell/README.md)（换掉表层自己当宿主），再看 [RESHAPE-0](./lever-reshape-product-plugin/0-领域模型-七层与命名约定.md) §2 的七层。
+- **再读**：对应 `sample` 卡的「降级链」「救生页」「首启」三节；[RESHAPE-5](./lever-reshape-product-plugin/5-分发与救生页-dsh-market.md) 与 [RESHAPE-1 终端](./lever-reshape-product-shell/1-终端即产品-dsh-TUI.md)。
 - **拿到**：改第 2 层必须自己补 5/6 层（规律 A）；救生页必须活在插件栈之外；每档能力一条「退化为 Y」。
 - **必问**：起不来的时候，用户看到的是什么？那个东西依赖不依赖坏掉的 profile？
 - **反例**：换表层却没补首启 → 用户第一次打开就卡住（RESHAPE-0 规律 A）。
@@ -111,16 +111,17 @@ budget: 420
 
 > 每域只列「如果只记几件事」。完整论证在各域宪章，这里只给指针与一句话。
 
-### 2.1 [RESHAPE](./lever-reshape-product/README.md) · 产品形态
+### 2.1 [RESHAPE-plugin](./lever-reshape-product-plugin/README.md) / [RESHAPE-shell](./lever-reshape-product-shell/README.md) · 产品形态
 
-**只做一件事**：先定「改的是哪一层」，最后才决定要不要 fork。
+**只做一件事**：先分「插件侧 / 宿主侧」，再定「改的是哪一层」，最后才决定要不要 fork。
 
-1. **profile 是产品单位**，插件只是零件；不改上游也能组装产品（RESHAPE README）。
+1. **profile 是产品单位**，插件只是零件；不改上游也能组装产品（[RESHAPE-plugin](./lever-reshape-product-plugin/README.md)）。
 2. **换表层 ⇒ 自己补首启 / 分发 / 降级**（RESHAPE-0 规律 A）。
 3. **救生页必须活在插件栈之外**，否则它和坏掉的 profile 一起起不来（RESHAPE-5）。
 4. **降级链的终点是人能读的原文**，不是空白块（RESHAPE-2）。
 5. **同源出数**：用户已经见过的数字只允许上游那一份投影出数（RESHAPE-3）。
 6. **版本锁不到就跳过**，不装近似版本；环境码「未包含 = 保持现状」（RESHAPE-4）。
+7. **宿主侧没有"宿主兜底"**：换成独立产品后，首启 / 分发 / 降级全归你（[RESHAPE-shell](./lever-reshape-product-shell/README.md) §4）。
 
 ### 2.2 [CROSS](./lever-cross-boundary/README.md) · 协作边界
 
@@ -301,7 +302,7 @@ budget: 420
 
 ### 6.3 方法缺口
 
-- **RESHAPE 没有 commit 锚点**：只到 catalog + 插件 README；要源码级复核得先按版本找 tag（[RESHAPE README](./lever-reshape-product/README.md) §4.1）。
+- **RESHAPE 没有 commit 锚点**：只到 catalog + 插件 README；要源码级复核得先按版本找 tag（[RESHAPE README](./lever-reshape-product-plugin/README.md) §4.1）。
 - **A 门撞词噪声未清**：层级前 5 名至少 4 个是通用词（[horizon](./horizon.md) §4）。
 - **「少见 / 唯一」没有可重跑的计数**——这是刻意的；引用时带日期、标 `[OBS]`，接受它会过时（[horizon](./horizon.md) §7）。
 - **证据强度分域，不能互推**：PROVE 锁 commit；CROSS / LIMIT 读源码但只锁版本；RESHAPE 停在 catalog（[README](./README.md) §7 / [horizon](./horizon.md) §7）。

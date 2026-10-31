@@ -27,3 +27,8 @@ data/screenshots-live.json
 # Ethan research branch: python census artifacts
 __pycache__/
 _parse_errors.txt
+
+# Scratch workspace for mining sessions: third-party repo clones (each with its
+# own .git) plus one-off rewrite scripts. Never part of a commit — `git add -A`
+# would turn each clone into a gitlink and ship 43MB of vendored sources.
+.work/

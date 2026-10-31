@@ -109,7 +109,9 @@ function checkLink(fromRel, line, target) {
 // ---------- leverage：frontmatter 契约 ----------
 const LEVERAGE_PREFIX = '_digested/leverage/';
 const DOMAIN_BY_DIR = {
-  'lever-reshape-product': 'reshape-product',
+  // 产品形态一个域、两个 lever：plugin 侧（通用插件）与 shell 侧（自带宿主）。
+  'lever-reshape-product-plugin': 'reshape-product',
+  'lever-reshape-product-shell': 'reshape-product',
   'lever-cross-boundary': 'cross-boundary',
   'lever-prove-output': 'prove-output',
   'lever-draw-limit': 'draw-limit',
