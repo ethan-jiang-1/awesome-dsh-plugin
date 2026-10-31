@@ -1,79 +1,196 @@
-# `leverage/` — 影响面与杠杆(第二轴)
+---
+title: "leverage · 影响面与杠杆"
+domain: layer
+kind: index
+positioning: "本层唯一入口：说明这套研究回答什么、文件怎么分工、按目的怎么读。"
+read_when: "第一次进这个目录；或不确定该读哪一篇时。"
+status: living
+updated: 2026-10-31
+budget: 260
+---
+# `leverage/` · 影响面与杠杆(第二轴)
 
-> **状态**:2026-10-31 立骨;四域各一份宪章 + 1 张旗舰卡 + 一份准入门。
-> **先读**:[`horizon.md`](./horizon.md) —— **谁能进这份研究、按什么分级、每条必须交代什么**。不读它,下面的卡片都只是「看起来有道理」。
+> **一句话**:[`ecosystem/`](../ecosystem/00-map.md) 回答「有什么」;这一层回答「**它占了哪条缝、改到多深、代价是什么、什么时候会坏、别人能抄哪一行**」。
+> **不是**:插件推荐榜、功能分类、安装教程。它是**深读层**——7924 条里只研究过了准入门的那 51 条(0.6%)。
+> **状态**:四域成稿 ｜ 篇数以 [catalog](./catalog.md) 为准 ｜ 基线:名单 `efe602e7b`(2026-10-31) · DSH `0.2.1-rc.3`
 
-## 这一层做什么
+## 0. 三个入口
 
-`ecosystem/` 回答「有什么」——按场景和技术给 7924 条插件分类。本层回答第二组问题:
-
-> 这个插件**改了多大、改到多深、代价是什么、什么时候会坏**?
-
-分类回答不了这四个问题:两个同属「UI 类」的插件,一个只换配色,一个把整个产品形态改掉。所以本层按**扩展面的位置**组织,而不是按功能归类。
-
-## 准入:不是抓到一个就琢磨
-
-7924 条里过了门的是 **51 条(0.6%)**。这是刻意的——研究对象随收录量膨胀,是这类仓库最常见的腐坏方式。
-
-| 组 | 条件 | 谁判 |
+| 你要什么 | 去哪 | 你会拿到 |
 |---|---|---|
-| 影响力(四选一) | **A** 被目录内其他条目按名引用 ≥3 次 · **B** 自述替换/接管官方对象 · **C** 自述具名接缝 · **F** 全库同类机制 ≤3 条 | A/B/C 机器判,F 需附检索式 |
-| 深度(三选一) | **D** 能力披露 ≥2 个高杠杆能力(空披露也算) · **E** 被明指不可共存 / 同一接缝取反 · **G** 机制已核且能说出失效条件 | D 机器判,E/G 只能人工 |
+| **拿走东西**(写插件/评审/选型) | **[BORROW](./BORROW.md)** | 8 条任务路由 + 四域最小集 + 6 条跨域法则 + 7 问 + 陷阱 |
+| **查某一篇** | **[catalog](./catalog.md)** | 全部文件的 kind / 定位 / 能拿走什么 / 什么时候读,可直接 grep |
+| **知道凭什么** | **[horizon](./horizon.md)** | 准入门 A–G、分级 S/A/B/C、每条必写的六项 |
 
-**缺一不立卡。** 过门之后还要分级:
+**只读一次的话**:打开 [BORROW](./BORROW.md) §1,找到你那一行,按它给的出处读。**不要从目录树开始通读。**
 
-| 级 | 是什么 | 位置 |
+## 1. 为什么有这一层
+
+DSH 的扩展面是有限、可枚举的:seam(fs/shell/sandbox/llm/subagent/workflow…)、slot(sidebar/conversation/settings…)、layer(profile/bundle/patch)、policy、preset、protocol。**插件的影响面,取决于它占了哪类位置,而不取决于它提供了多少工具。**
+
+所以评估要问「它占了什么位置」,分类回答不了这个问题:同属 UI 类的两个插件,一个只换配色,一个把产品形态改掉。
+
+**本层的验收判据**:把任意一篇卡给一个没读过该插件的工程师,他能不能在半天内做出一个**形状对、细节对、知道哪里会塌**的实现。做不到就是深度不够。
+
+## 2. 读之前:五个最容易读错的地方
+
+1. **51 是过门数,不是卡片数/样本数。** 7924 条过门 51(0.6%);四域重叠 41–44%,一个样本可以同时出现在多个域。**四域是四个并列提问,不是分类树。**
+2. **`census.py --probe` 搜的是目录描述文本,不是代码。** 0 命中 = 没人这样自述,不等于没人做;宽口径(REVIEW / 验收 / 阈值)必须回读。
+3. **能力披露缺失 ≠ 安全,空披露 ≠ 无能力。** `capabilities.json` 是 2026-09-24 的静态扫描(join 47.5%);披露 / 策略 / 强制 / 判决是四件事。
+4. **星标、下载、实时 API 是三套数。** 引用必须带日期;星标 ≠ 使用量;npm 包名 ≠ 仓库名。
+5. **BORROW 的 `[OBS]` 法则是综合判断。** 引用请引一手卡片;`inferred` 的断言不要写成 `observed`。
+
+## 3. 目录长什么样
+
+目录里只有三种东西:
+
+| 层 | 是什么 | 会长吗 | 约束 |
+|---|---|---|---|
+| **骨架** | 本文件、[00-map](./00-map.md)、[horizon](./horizon.md)、[BORROW](./BORROW.md)、四域 README | **不随样本长** | 行数预算(frontmatter `budget`),超了要删/移 |
+| **叶子** | `card` / `sample` / `_证据/` | 随便长 | 每篇 frontmatter + 借用节 |
+| **生成物** | [catalog](./catalog.md) | 自动长 | 不手写,`--check` 防过期 |
+
+七种角色(frontmatter `kind`,数量随叶子增长,不在这里维护):
+
+| kind | 数量 | 是什么 | 例子 |
+|---|---|---|---|
+| `index` | 4 | 目录/索引 | 本文件、catalog、[CROSS-03](./lever-cross-boundary/03-sample-encyclopedia.md)、[PROVE-00](./lever-prove-output/00-sample-lineage.md) |
+| `charter` | 7 | 规则页:收什么、怎么判 | 00-map、horizon、四域 README、[RESHAPE-0](./lever-reshape-product/0-领域模型-七层与命名约定.md) |
+| `guide` | 1 | 借用总入口 | [BORROW](./BORROW.md) |
+| `playbook` | 6 | 横向框架/手册 | [CROSS-01](./lever-cross-boundary/01-collab-topology.md)、[PROVE-10](./lever-prove-output/10-quality-control-playbook.md)、[LIMIT-09](./lever-draw-limit/09-control-budget.md) |
+| `card` | 15 | 一个机制/环节/控制点一篇 | [PROVE-05](./lever-prove-output/05-custody-chain.md)、[LIMIT-03](./lever-draw-limit/03-second-model.md) |
+| `sample` | 25 | 一个样本一篇 | [CROSS-07](./lever-cross-boundary/samples/07-Nwflower-dsh-file-claim.md)、RESHAPE 的 11 张 |
+| `evidence` | 3 | 原始摘录,只作溯源 | RESHAPE `_证据/` |
+
+## 4. 四个域:四个并列的问题
+
+**分析单位不同**——这正是四个目录长得不一样的原因,不是混乱。
+
+| 域 | 一句话问题 | 分析单位 | 正文(当前) |
+|---|---|---|---|
+| [RESHAPE](./lever-reshape-product/README.md) | 不改上游,DSH 能被组装成什么产品 | 一个产品改动(一插件一卡) | 12 卡 + 3 证据 |
+| [CROSS](./lever-cross-boundary/README.md) | 协作跨到哪个边界,每跨一界多付什么 | 一个协作样本(一样本一文件)+ 3 张横向卡 | 3 + 14 |
+| [PROVE](./lever-prove-output/README.md) | 门禁装在哪一环,产物凭什么算完成 | 一个门禁位置(一环一卡) | 11 卡 |
+| [LIMIT](./lever-draw-limit/README.md) | 谁能碰什么,由谁强制,留下什么证据 | 一个控制点/预算(一卡一样本) | 9 卡 |
+
+四域没有先后,学习顺序由这张表固定。**样本重叠是正常的**:独立性靠「主读单一归属 + 不引用他域结论」保证,不靠样本不重叠。
+
+## 5. 怎么读
+
+**按目的路由**(详细版在 [BORROW §1](./BORROW.md),这里只给入口):
+
+| 你要干什么 | 先读 |
+|---|---|
+| 写一个插件,不知道从哪下手 | [RESHAPE-0](./lever-reshape-product/0-领域模型-七层与命名约定.md) §4 接缝表 → [BORROW §2](./BORROW.md) 选域 |
+| 改产品形态 | [RESHAPE README](./lever-reshape-product/README.md) §2 的 18 条 |
+| 做多 agent / 跨机 | [CROSS README](./lever-cross-boundary/README.md)「能借鉴什么」 |
+| 做质量门禁 | [PROVE-01](./lever-prove-output/01-quality-chain.md) 六环 → [PROVE-10](./lever-prove-output/10-quality-control-playbook.md) |
+| 做安全/权限 | [LIMIT README](./lever-draw-limit/README.md)「借法一览」→ [LIMIT-09](./lever-draw-limit/09-control-budget.md) |
+| 选一个装上 | catalog 的 `sample` 行 → 卡的失败模式/评估清单 |
+| 评审别人的方案 | [BORROW §4](./BORROW.md) 七问 + 各卡评估清单 |
+| 继续挖 / 回源 / 提缺口 | [BORROW §6](./BORROW.md) + [horizon](./horizon.md) §8 |
+
+**给 agent 的六条检索式**(不用读全目录):
+
+```sh
+sed -n '1,80p' _digested/leverage/catalog.md                 # 全量菜单
+grep -rl '^kind: sample' _digested/leverage --include='*.md' # 只要样本卡
+grep -rn '^read_when:.*冲突' _digested/leverage --include='*.md'
+grep -rn -E '^#{2,3} .*(借鉴|搬走|借用|照抄|食谱|配方|移植)' _digested/leverage
+python3 _digested/leverage/census.py --probe "<正则>"        # 复核稀缺
+node _digested/verify.mjs && node _digested/leverage/catalog.mjs --check
+```
+
+## 6. 文件约定
+
+**每一篇都有 frontmatter**,`verify.mjs` 校验九个键(`title` / `domain` / `kind` / `positioning` / `takeaway` / `read_when` / `status` / `updated` / `budget`)。完整定义与写入规则在 [00-map §文件约定](./00-map.md),这里只留三条:
+
+1. **不放会漂的数字**(星标/下载/版本/基线日期)——留在正文页头。
+2. **`card` / `sample` 必须有借用节**(标题含 借鉴/搬走/借用/照抄/食谱/配方/移植),否则 verify 失败。
+3. **规则只有一个源**:准入/分级看 [horizon](./horizon.md);四域 README 里的副本是摘要,冲突以源为准。
+
+**新增文件命名**:`<域>/NN-<ascii-slug>.md`;一样本一篇放 `<域>/samples/NN-<owner>-<repo>.md`。编号域内递增、不复用、不重排;退役保留编号改 `status`。**老文件不改名**(外部引用与锚点稳定)。
+
+## 7. 证据、坐标与深度
+
+**四个标签**(每条结论都标):
+
+| 标签 | 含义 |
+|---|---|
+| `[DSH]` | 原生机制,引用 `@deepseek-ai/<pkg>@<version>` 的 README/配置 |
+| `[CAT]` | 生态事实,引用 `owner/repo`;注明是 catalog 描述还是能力披露 |
+| `[OBS]` | 观察者判断(可争论),必须给反例或失效条件 |
+| `[OPEN]` | 未验证,留给下一轮 |
+
+**四套时间口径,不可互证**:
+
+| 口径 | 值 | 谁维护 |
 |---|---|---|
-| **S** 定义型 | 定义了机制或一类做法,后来者照它的形状写 | 单独一张卡 + 进域宪章骨架 |
-| **A** 代表型 | 该边界/层上目前最好的一个取法 | 卡片「标杆」表正例 |
-| **B** 对照型 | 只在某个维度上与 A 不同 | **不立卡**,卡片内一行对照 |
-| **C** 反例型 | 明指不可共存,或同一接缝取反 | 失败模式表一行 |
-| ✗ | 两项都没过门 | 最多一句脚注 |
+| 名单/分类 | 7924 条 @ `efe602e7b`(2026-10-31) | [`ecosystem/`](../ecosystem/00-map.md) |
+| 能力披露 | 2026-09-24 静态扫描,join 47.5% | `data/capabilities.json` |
+| 星标/下载 | 星标 2026-09-30、下载 2026-09-12 | `data/*.json`(历史锚点) |
+| 实时 GitHub / npm | CROSS / LIMIT 采样 2026-10-31 | 各域 README |
+| commit | PROVE 2026-10-31 14:00 CST | [PROVE-00](./lever-prove-output/00-sample-lineage.md) |
 
-**每条进入卡片的样本必须写齐六项**:它代表什么 / 为什么选它(过了哪些门的具体值)/ 影响力有多大(**给数、给检索式或给官方原文**)/ 主要特点 / 代价与失效条件 / 证据级别。缺一项退回。详见 [`horizon.md`](./horizon.md) §3。
+**证据强度分域,不能互推**:
+
+| 域 | 源码 | 坐标强度 | 影响力口径 |
+|---|---|---|---|
+| RESHAPE | 插件 README + 官方包 README | 无 commit | catalog + ★/下载快照 |
+| CROSS | 14 样本逐文件读过 | 版本 + 实时数据,无 commit | 2026-10-31 实时 |
+| PROVE | 读过(含打包产物) | **repo@commit** | 2026-10-31 抓取 |
+| LIMIT | 多卡读过 src | 版本(dist-tags),无 commit | npm 近 30 天 |
+
+**深度阶梯**(每级一跳,回源路径不会断):
+
+| 层 | 你要的 | 去哪 |
+|---|---|---|
+| L0 | 一句话结论 | [BORROW §2/§3](./BORROW.md);域 README 标语 |
+| L1 | 判断框架 | 域 README 骨架表 + 卡的「评估清单」 |
+| L2 | 机制怎么落 | 卡的机制节 / 样本的「设计思路」 |
+| L3 | 我该抄哪一行 | 卡的借用节 |
+| L4 | 凭什么信 | 页头 `[DSH]`/`[CAT]`/`[OBS]` + 坐标 + `--probe` |
+| L5 | 一手源 | `repo@commit` / npm / 官方包 |
+| L6 | 还没解决什么 | [BORROW §6](./BORROW.md) + 各域「待答」 |
+
+**回源五步**在 [BORROW §6.4](./BORROW.md)。
+
+## 8. 生长协议:加的是叶子,宪章不跟着长
+
+| 变化 | 写哪里 | 不要动 |
+|---|---|---|
+| 新样本过门,S/A | 新卡(frontmatter + 借用节);catalog 自动 | 所有骨架 |
+| 新样本只到 B | 不立卡;域表一行对照,或不写 | 所有骨架 |
+| C 级反例 | 对应卡失败模式表一行 | 所有骨架 |
+| 现有 S/A 掉门 / 退役 | 该卡 `status` + 域表一行;保留编号,不删不改名 | 所有骨架 |
+| 某条跨域法则被推翻 | [BORROW §3](./BORROW.md) 改一行 | 其他 |
+| 新域出现 | 必须满足:新位置 + ≥3 个过门样本 + 四域都装不下;才加目录/枚举/census 词表/README 一行/BORROW 一行 | 四域正文 |
+| 上游同步 | 只改受影响卡的 `updated` 与 `[DSH]` 断言 + 层级基线 | 其他 |
+| 数字口径变 | 该域 README 基线表 + 相关卡数字 | 其他 |
+
+**五条不变量**:① 骨架不随样本数增长(`budget` + 只列 S/A);② 全量索引导出(catalog);③ 借用层按任务分,不按样本分(BORROW 不随样本改);④ 一个样本只在一处完整论证;⑤ 编号域内递增、不复用、不重排。
+
+## 9. 校验
+
+```sh
+node _digested/verify.mjs                        # frontmatter / 链接 / 锚点 / 编码
+node _digested/leverage/catalog.mjs --check       # 全量清单是否新鲜
+node _digested/leverage/catalog.mjs --stats       # 角色分布、行数、超预算
+python3 _digested/leverage/census.py              # §9 准入门
+```
 
 ## 四域并行作业契约
 
-四个域会被**四个彼此独立的会话**分头研究。独立性不靠约定,靠结构。下面五条是硬约束。
+> **已归档**:四个域已经收工,本节只解释「为什么四份宪章的写法不一样」,并保留给引用它的域 README。日常阅读不需要它。
+
+四域曾由四个彼此独立的会话分头研究。独立性靠结构,不靠约定:
 
 | # | 约束 | 具体做法 |
 |---|---|---|
-| 1 | **自足** | 每个域的 `README.md` 自带完整准入规则、分级、本域基线数字与检索式。**不链接 `horizon.md`,不引用其他域的任何结论。** |
-| 2 | **不写共享件** | 域会话只写自己的 `lever-*/` 目录。`00-map.md`、`horizon.md`、本 `README.md`、`census.py`、`data/` 一律只读;要改共享件,先回到编排会话。 |
-| 3 | **主读单一归属** | 每份官方包、每个 S/A 级样本,在四份宪章里**只指定一个主读域**。其他域可以「借用一句」,但不得深读、不得立卡。清净集见 [`horizon.md`](./horizon.md) §5a。 |
-| 4 | **声明式分界** | 重叠情形由**本层**事先裁定归属,域内只写划给自己的那一半,另一半直接不写。不等、不代笔。 |
-| 5 | **冻结基线** | 每域数只引用 2026-10-31 快照。「稀缺」断言必须附一行 `census.py --probe` 及其命中数。 |
+| 1 | **自足** | 每个域的 README 自带准入、分级、本域基线数字与检索式;不引用其他域的结论 |
+| 2 | **不写共享件** | 域会话只写自己的 `lever-*/`;共享件只读 |
+| 3 | **主读单一归属** | 每份官方包、每个 S/A 样本只指定一个主读域;其他域可借一句,不深读、不立卡 |
+| 4 | **声明式分界** | 重叠情形由本层事先裁定;域内只写划给自己的那一半 |
+| 5 | **冻结基线** | 每域只引用 2026-10-31 快照 |
 
-**样本重叠是正常的,不需要消除。** 四域是**四个并列的提问**,不是互斥分类:RESHAPE 命中里 38.6% 也命中 PROVE,LIMIT 与 PROVE 互叠 44%。若为了「互不牵扯」去削样本,才是真正的损失。可验证的独立性来自上面五条,不来自样本不重叠。
-
-## 怎么用
-
-- **编排会话**(本对话):读 [`horizon.md`](./horizon.md)(准入门、分级、六项必写、**已知缺口**)+ [`00-map.md`](./00-map.md)(命名、杠杆阶梯、证据协议),再分派四域。
-- **域会话**:只需读该域自己的 `README.md` → 域内编号卡 → 该域宪章引用的原始出处。**不需要读其他三个域,也不需要读 `horizon.md`。**
-
-## 四个域
-
-| 目录 | 标语 | 一句话主张 |
-|---|---|---|
-| [lever-reshape-product](./lever-reshape-product/README.md) | *What product can DSH become without forking it?* | 产品化的单位不是插件,是 profile |
-| [lever-cross-boundary](./lever-cross-boundary/README.md) | *Which boundary does collaboration cross, and what does each crossing cost?* | 协作是状态问题,不是 spawn 问题 |
-| [lever-prove-output](./lever-prove-output/README.md) | *Where is the gate that turns "looks done" into "proven"?* | 质量是门禁位置,不是评审力度 |
-| [lever-draw-limit](./lever-draw-limit/README.md) | *Who can touch what, who enforces it, what evidence remains?* | 安全是从安装到动作的监管链 |
-
-四个域并列、无先后,因此目录名**不带数字**。前缀 `lever-` 表示「杠杆点」:占了哪个位置,就能撬动多大一片。
-
-## 数字从哪来
-
-```sh
-python3 _digested/leverage/census.py               # 8 节结构普查 + §9 准入门,约 8 秒
-python3 _digested/leverage/census.py --probe "<正则>"   # 复核任何稀缺性断言
-```
-
-复用 `ecosystem/census.py` 的 `.yml` 解析器(不重复实现)。**纪律**:这里的计数只用于「供给量级」与「准入判定」,`ecosystem/` 的分类、作者、下载/星标仍以它为准,不另立口径。
-
-## 维护
-
-- 本目录只增不涨:**`00-map`、`horizon`、各域 README 是宪章,不随卡片数量膨胀**;新内容进卡片。
-- 每张卡固定 9 节:命题 / 杠杆点 / 机制 / 标杆 / 体验 / 洞察 / 失败模式 / 评估清单 / 开放问题。
-- 证据打标 `[DSH]` / `[CAT]` / `[OBS]` / `[OPEN]`,含义见 [00-map](./00-map.md#证据协议所有卡片共同遵守)。
-- 上游同步后**必做**:重跑 §9,任何 A 级样本掉门都必须重审,不是「还能用」。
+**这条契约的代价**:四份宪章有重复的准入段、四种不同的卡片骨架。**消除它们不是目标**——正文已经带证据行号,重写只会掉信息。现在用「规则单一源(horizon)+ frontmatter + catalog」把差异收在检索层,而不是把内容抹平。

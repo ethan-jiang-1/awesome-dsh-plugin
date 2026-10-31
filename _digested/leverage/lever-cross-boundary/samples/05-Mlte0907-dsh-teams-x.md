@@ -1,3 +1,13 @@
+---
+title: "Mlte0907/dsh-teams-x"
+domain: cross-boundary
+kind: sample
+positioning: "`Mlte0907/dsh-teams-x`：与 agent-teams 同骨架但更贴官方，唯一主动做「官方限制逐条对照」的样本。"
+takeaway: "与官方三条限制逐条应战；质量门自动派生返工；两条自认未解决。"
+read_when: "想要质量门自动派生返工，且接受「软收敛，无硬超时」。"
+status: observed
+updated: 2026-10-31
+---
 # 05 · `Mlte0907/dsh-teams-x`
 
 > **一句话**:与 `agent-teams` 同骨架,但更轻、更贴官方包;唯一主动做「官方限制逐条对照」的样本。

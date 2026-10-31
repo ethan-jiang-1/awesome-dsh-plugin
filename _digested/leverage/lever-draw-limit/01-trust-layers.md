@@ -1,3 +1,13 @@
+---
+title: "信任三层：只有文件那一环是硬的"
+domain: draw-limit
+kind: playbook
+positioning: "安装面/运行面/数据面三层监管链，逐层指出原生强制点在哪、缺在哪。"
+takeaway: "披露≠策略≠强制≠判决；沙箱只覆盖文件，网络与进程无策略词汇。"
+read_when: "要判断一个安全插件属于哪一层；或要说明原生到底保证了什么。"
+status: observed
+updated: 2026-10-31
+---
 # 01 · 信任三层：只有文件那一环是硬的
 
 > **状态**:`observed` · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b` · **样本**:8 组,回读 catalog 原文

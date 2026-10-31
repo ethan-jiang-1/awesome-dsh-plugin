@@ -1,3 +1,13 @@
+---
+title: "薄基座 · dock"
+domain: reshape-product
+kind: sample
+positioning: "`AKS1st/dock`：只给注册表、不给能力的工作台基座，六个 API + 六个兄弟包。"
+takeaway: "服务面 + 零内部依赖 + 可选 peer；隐藏要留一条与被隐藏物无关的逃生口。"
+read_when: "要做平台型外壳/注册表；或要接别人的布局又不想改它。"
+status: observed
+updated: 2026-10-31
+---
 # 1-薄基座 · dock:把「槽位」做成一个薄基座
 
 > **状态**:`observed`(机制)/ `[OPEN]`(0.2.x 实测) · **基线**:DSH `0.2.1-rc.3` · **读于**:2026-10-31

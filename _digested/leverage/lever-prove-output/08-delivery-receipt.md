@@ -1,3 +1,13 @@
+---
+title: "交付回执：谁验收的 vs 文件是什么"
+domain: prove-output
+kind: card
+positioning: "交付回执：把「谁验收的」与「文件是什么」分开记。"
+takeaway: "回执=(文件版本,谁看见,谁说的)；模型侧无 decide；重检不替换基线。"
+read_when: "要做交付确认/用户验收；或要防止「重检顺手改基线」。"
+status: observed
+updated: 2026-10-31
+---
 # 08 · 交付回执：把「谁验收的」与「文件是什么」分开记
 
 > **状态**:`observed`(包级 README 已读) · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b`

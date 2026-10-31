@@ -35,6 +35,8 @@ const mdFiles = [];
 
 // ---------- 内容检查 ----------
 const headingsByFile = new Map(); // rel -> Set(slug)
+const textsByFile = new Map(); // rel -> 原文，供 leverage frontmatter 校验复用
+const warnings = [];
 
 function githubSlug(text) {
   return text
@@ -76,6 +78,7 @@ for (const rel of mdFiles) {
     }
   });
   headingsByFile.set(rel, slugs);
+  textsByFile.set(rel, text);
 }
 
 function checkLink(fromRel, line, target) {
@@ -103,6 +106,89 @@ function checkLink(fromRel, line, target) {
   }
 }
 
+// ---------- leverage：frontmatter 契约 ----------
+const LEVERAGE_PREFIX = '_digested/leverage/';
+const DOMAIN_BY_DIR = {
+  'lever-reshape-product': 'reshape-product',
+  'lever-cross-boundary': 'cross-boundary',
+  'lever-prove-output': 'prove-output',
+  'lever-draw-limit': 'draw-limit',
+};
+const KINDS = new Set(['index', 'charter', 'guide', 'playbook', 'card', 'sample', 'evidence']);
+const STATUSES = new Set(['observed', 'inferred', 'open', 'living']);
+const FM_REQUIRED = ['title', 'domain', 'kind', 'positioning', 'read_when', 'status', 'updated'];
+const TAKEAWAY_REQUIRED = new Set(['card', 'sample', 'playbook']);
+const BORROW_HEADING = /^#{2,3} .*(借鉴|搬走|借用|照抄|食谱|配方|移植)/m;
+
+function parseFrontmatter(text) {
+  if (!text.startsWith('---\n')) return { error: '缺 frontmatter（文件必须以 --- 开头）' };
+  const end = text.indexOf('\n---\n', 4);
+  if (end < 0) return { error: 'frontmatter 未闭合' };
+  const meta = {};
+  for (const line of text.slice(4, end).split('\n')) {
+    if (!line.trim()) continue;
+    const m = line.match(/^([A-Za-z_][A-Za-z0-9_]*):[ \t]*(.*)$/);
+    if (!m) return { error: `frontmatter 行无法解析：${line}` };
+    const [, key, raw] = m;
+    let value = raw.trim();
+    if (value.startsWith('"')) {
+      try {
+        value = JSON.parse(value);
+      } catch {
+        return { error: `${key} 的引号值转义非法` };
+      }
+    }
+    meta[key] = value;
+  }
+  return { meta };
+}
+
+for (const rel of mdFiles) {
+  if (!rel.startsWith(LEVERAGE_PREFIX)) continue;
+  const text = textsByFile.get(rel) ?? '';
+  const parsed = parseFrontmatter(text);
+  if (parsed.error) {
+    fail(rel, 1, parsed.error);
+    continue;
+  }
+  const meta = parsed.meta;
+
+  for (const key of FM_REQUIRED) {
+    if (!meta[key]) fail(rel, 1, `frontmatter 缺 ${key}`);
+  }
+  if (meta.title && meta.title.length > 80) fail(rel, 1, 'title 超过 80 字');
+  if (meta.positioning && meta.positioning.length > 120) fail(rel, 1, 'positioning 超过 120 字');
+  if (meta.read_when && meta.read_when.length > 80) fail(rel, 1, 'read_when 超过 80 字');
+
+  const rest = rel.slice(LEVERAGE_PREFIX.length);
+  const dir = rest.includes('/') ? rest.split('/')[0] : '';
+  const expectedDomain = DOMAIN_BY_DIR[dir] ?? 'layer';
+  if (meta.domain && meta.domain !== expectedDomain) {
+    fail(rel, 1, `domain=${meta.domain} 与路径不符（应为 ${expectedDomain}）`);
+  }
+  if (meta.kind && !KINDS.has(meta.kind)) fail(rel, 1, `kind 非法：${meta.kind}`);
+  if (meta.status && !STATUSES.has(meta.status)) fail(rel, 1, `status 非法：${meta.status}`);
+  if (meta.updated && !/^\d{4}-\d{2}-\d{2}$/.test(meta.updated)) {
+    fail(rel, 1, `updated 不是 YYYY-MM-DD：${meta.updated}`);
+  }
+
+  if (TAKEAWAY_REQUIRED.has(meta.kind) && !meta.takeaway) {
+    fail(rel, 1, `kind=${meta.kind} 必须有 takeaway`);
+  }
+  if ((meta.kind === 'card' || meta.kind === 'sample') && !BORROW_HEADING.test(text)) {
+    fail(rel, 1, 'card/sample 必须有借用节（标题含 借鉴/搬走/借用/照抄/食谱/配方/移植）');
+  }
+  if (meta.budget) {
+    const budget = Number(meta.budget);
+    if (!Number.isInteger(budget) || budget <= 0) {
+      fail(rel, 1, `budget 不是正整数：${meta.budget}`);
+    } else {
+      const lines = text.split('\n').length - (text.endsWith('\n') ? 1 : 0);
+      if (lines > budget) warnings.push(`${rel}: ${lines}/${budget} 行，超出预算`);
+    }
+  }
+}
+
 // ---------- 页内锚点 ----------
 for (const rel of mdFiles) {
   const raw = readFileSync(join(repoRoot, rel), 'utf8');
@@ -118,6 +204,10 @@ for (const rel of mdFiles) {
   });
 }
 
+if (warnings.length) {
+  console.warn(`⚠ ${warnings.length} 条提醒`);
+  for (const w of warnings) console.warn('  ' + w);
+}
 if (failures.length) {
   console.error(`✗ ${failures.length} 个问题`);
   for (const f of failures) console.error('  ' + f);

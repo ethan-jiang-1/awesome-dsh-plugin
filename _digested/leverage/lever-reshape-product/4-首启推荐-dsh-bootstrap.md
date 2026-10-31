@@ -1,3 +1,13 @@
+---
+title: "首启推荐 · dsh-bootstrap"
+domain: reshape-product
+kind: sample
+positioning: "`why-sir/dsh-bootstrap`：装完第一屏回答「我还该装什么」，用计划 + 环境码。"
+takeaway: "版本锁不到就跳过；环境码未包含 = 保持现状；写完读回磁盘自证。"
+read_when: "要做首启/推荐/一键配置；或要设计可导入导出的环境配置。"
+status: observed
+updated: 2026-10-31
+---
 # 4-首启推荐 · dsh-bootstrap:把「装什么」变成首启
 
 > **状态**:`observed` · **基线**:DSH `0.2.1-rc.3`(它只依赖 profile 层语义,不依赖具体 CLI 参数)· **读于**:2026-10-31

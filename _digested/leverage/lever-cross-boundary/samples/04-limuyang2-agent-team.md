@@ -1,3 +1,13 @@
+---
+title: "limuyang2/agent-team"
+domain: cross-boundary
+kind: sample
+positioning: "`limuyang2/agent-team`：先挑助手再建队，每个助手是一套完整配置；成员=独立根 Agent。"
+takeaway: "成员=独立根 Agent，为异构放弃子代理；入队冻结快照；全表唯一过旧 A 门。"
+read_when: "每个成员要用不同的模型/权限/技能包/MCP。"
+status: observed
+updated: 2026-10-31
+---
 # 04 · `limuyang2/agent-team`
 
 > **一句话**:先挑助手再建队,每个助手是一套完整配置;入队冻结快照。Leader 只在运行时分配任务,不生成成员。

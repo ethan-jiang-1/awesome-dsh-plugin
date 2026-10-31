@@ -1,3 +1,13 @@
+---
+title: "omdsh-dev/dsh_workflow"
+domain: cross-boundary
+kind: sample
+positioning: "`omdsh-dev/dsh_workflow`：把一次性调度升级成可生成、可保存、可治理、可恢复的 workflow 胶囊。"
+takeaway: "不可变胶囊 + 内容键缓存 → 卖可复现，不卖断点续跑。"
+read_when: "要一条可复现的多 agent 流水线，接受「不是断点续跑」。"
+status: observed
+updated: 2026-10-31
+---
 # 03 · `omdsh-dev/dsh_workflow`
 
 > **一句话**:把一次性多 Agent 调度升级成可生成、可保存、可治理、可观察、可恢复的 **workflow 胶囊**。

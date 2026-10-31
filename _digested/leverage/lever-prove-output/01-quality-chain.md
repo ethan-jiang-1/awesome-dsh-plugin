@@ -1,3 +1,13 @@
+---
+title: "质量链：六环里只有两环是硬的"
+domain: prove-output
+kind: playbook
+positioning: "质量链底盘：六环里只有检查点与版本新鲜度是原生硬门禁，验收整环缺席。"
+takeaway: "六环骨架 + 六条设计律；生态几乎全挤在⑥验收。"
+read_when: "要先知道上游到底保证了什么，再决定把门装在哪。"
+status: observed
+updated: 2026-10-31
+---
 # 01 · 质量链：六环里只有两环是硬的
 
 > **状态**:`observed` · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b` · **样本**:6 组,回读 catalog 原文

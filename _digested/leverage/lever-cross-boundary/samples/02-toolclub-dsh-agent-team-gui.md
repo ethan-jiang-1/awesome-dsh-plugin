@@ -1,3 +1,13 @@
+---
+title: "toolclub/dsh-agent-team-gui"
+domain: cross-boundary
+kind: sample
+positioning: "`toolclub/dsh-agent-team-gui`：小队是用户预存配置，默认由主 Agent 按需决定用不用，派工跑有界 DAG。"
+takeaway: "「默认不派活」写进 systemPrompt；成本借宿主 tokenUsage；有界 DAG。"
+read_when: "想省掉「先起一个规划器」的调用成本，并逐成员配模型/工具。"
+status: observed
+updated: 2026-10-31
+---
 # 02 · `toolclub/dsh-agent-team-gui`
 
 > **一句话**:小队是**用户预先存好的配置**,默认**由主 Agent 按需决定**用不用;派工跑一条有界 DAG,结果进 Run Center。

@@ -1,3 +1,13 @@
+---
+title: "守卫与泵：同步谓词只能回答一次"
+domain: draw-limit
+kind: card
+positioning: "守卫与泵：同步谓词只能回答一次，复杂策略必须搬去别处。"
+takeaway: "同步守卫四铁律 + 沙箱让位五道闸 + 边界表模板。"
+read_when: "要挂 ctx.tools.guard；或发现守卫里塞了重活。"
+status: observed
+updated: 2026-10-31
+---
 # 04 · 守卫与泵:同步谓词只能回答一次,复杂策略必须搬去别处
 
 > **状态**:`observed` · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b` · **样本**:`JayYuen666/dsh-danger-guard`(回读 254 行 README)+ 官方 `dsh-tools` 流水线语义

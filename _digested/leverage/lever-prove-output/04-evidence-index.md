@@ -1,3 +1,13 @@
+---
+title: "证据索引：把防误杀做成阶梯"
+domain: prove-output
+kind: card
+positioning: "证据索引：只判出处不判语义，并把防误杀做成五级阶梯。"
+takeaway: "五级反误杀阶梯 + converted/charity 反向指标；判决绑定输入。"
+read_when: "要给回答加「有没有出处」的硬门；或你的门禁误杀太多。"
+status: observed
+updated: 2026-10-31
+---
 # 04 · 证据索引：把「防误杀」做成阶梯，而不是阈值
 
 > **状态**:`observed`(机制与指标已核) · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b`

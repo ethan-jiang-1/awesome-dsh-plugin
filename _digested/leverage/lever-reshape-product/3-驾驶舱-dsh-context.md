@@ -1,3 +1,13 @@
+---
+title: "驾驶舱 · dsh-context"
+domain: reshape-product
+kind: sample
+positioning: "`bowenliang123/dsh-context`：把上下文、成本、编队做成可读可归因的五块面。"
+takeaway: "同源出数；估算与真实并列；兼容性写成 Rule/Limitation/Check/Procedure。"
+read_when: "要做用量/成本/上下文面板；或要避免面板数字与用户已知数字打架。"
+status: observed
+updated: 2026-10-31
+---
 # 3-驾驶舱 · dsh-context:给「智能体在扛什么」造一间驾驶舱
 
 > **状态**:`observed` · **基线**:DSH `0.2.1-rc.3` · **快照**:2026-08-19 · **版本**:`dsh-context@0.78.2`(读于 2026-10-31)

@@ -1,3 +1,13 @@
+---
+title: "第二模型：权威放在哪一侧"
+domain: draw-limit
+kind: card
+positioning: "第二模型：权威放在哪一侧，决定它是优化还是边界。"
+takeaway: "五条硬约束 + 3×2 决策矩阵 + 六个真实漏洞与修法；unavailable 即拒绝。"
+read_when: "要接一个模型做判定；或要判断「AI 审批」能不能当授权。"
+status: observed
+updated: 2026-10-31
+---
 # 03 · 第二模型:权威放在哪一侧,决定它是优化还是边界
 
 > **状态**:`observed` · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b` · **样本**:`PerryLink/dsh-auto-review`(回读 README/配置说明)+ 官方 `dsh-experimental-auto-review`(回读包 README)

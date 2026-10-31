@@ -1,3 +1,13 @@
+---
+title: "zbzbhs/dsh-remote-agent"
+domain: cross-boundary
+kind: sample
+positioning: "`zbzbhs/dsh-remote-agent`：一个包双角色，副机本地跑完整 DSH 与 Agent 循环，凭证永不出机。"
+takeaway: "副机自主跑完整 loop；把跨机从传输问题降级为信任问题。"
+read_when: "要跨机，且不能被网络拖死——链路断了工作照常继续。"
+status: observed
+updated: 2026-10-31
+---
 # 06 · `zbzbhs/dsh-remote-agent`
 
 > **一句话**:一个包双角色,副机**本地跑完整 DSH 与完整 Agent 循环**,凭证永不出机;主机只收摘要与产物清单。

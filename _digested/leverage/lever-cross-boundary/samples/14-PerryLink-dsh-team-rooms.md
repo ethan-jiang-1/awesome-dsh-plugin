@@ -1,3 +1,13 @@
+---
+title: "PerryLink/dsh-team-rooms"
+domain: cross-boundary
+kind: sample
+positioning: "`PerryLink/dsh-team-rooms`：房间存储是跨会话权威，每个成员的日志是自己的重建副本。"
+takeaway: "房间存储为跨会话权威；单写链 + 逐成员游标。"
+read_when: "团队要跨会话活着，且最关心「消息会不会丢、重启后还在不在」。"
+status: observed
+updated: 2026-10-31
+---
 # 14 · `PerryLink/dsh-team-rooms`
 
 > **一句话**:**房间存储是跨会话权威,每个成员的日志是自己的重建副本**——用「单写链 + 逐成员游标」把持久化做成一等公民。

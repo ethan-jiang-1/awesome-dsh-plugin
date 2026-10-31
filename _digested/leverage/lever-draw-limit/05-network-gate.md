@@ -1,3 +1,13 @@
+---
+title: "网络门：进程级出口闸门"
+domain: draw-limit
+kind: card
+positioning: "网络门：沙箱没有网络词汇，只能在沙箱外再造一道进程出口闸。"
+takeaway: "四步定位法 + 出口门三规则 + 一键放行四件套；明确写下代理管不到谁。"
+read_when: "要拦外联/做网络策略；或要给 shell 子进程加出口门。"
+status: observed
+updated: 2026-10-31
+---
 # 05 · 网络门:进程级出口闸门,以及一次「工程师的欲望」被明确拒绝
 
 > **状态**:`observed` · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b` · **样本**:`PerryLink/dsh-permission-rules`(回读 443 行 README · 网络策略 / 安全边界 / 已知限制 / 会话日志修复)

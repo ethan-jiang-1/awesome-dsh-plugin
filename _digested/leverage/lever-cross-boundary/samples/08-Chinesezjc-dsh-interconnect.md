@@ -1,3 +1,13 @@
+---
+title: "Chinesezjc/dsh-interconnect"
+domain: cross-boundary
+kind: sample
+positioning: "`Chinesezjc/dsh-interconnect`：每个对端一条持久 WebSocket，把文本投进对端 session 的 inbox。"
+takeaway: "每对端一条持久 WS + inbox；跨 DSH 实例，无幂等、无离线队列。"
+read_when: "要跨实例投消息或同步事件，且能接受无幂等、无离线队列。"
+status: observed
+updated: 2026-10-31
+---
 # 08 · `Chinesezjc/dsh-interconnect`
 
 > **一句话**:每个对端一条持久 WebSocket,把文本投进对端某个 session 的 inbox,并把本实例生命周期事件 fan-out。

@@ -1,3 +1,13 @@
+---
+title: "NanmiCoder/dsh-agent-teams"
+domain: cross-boundary
+kind: sample
+positioning: "`NanmiCoder/dsh-agent-teams`：把当前会话变成 captain，成员做成可续聊子代理，磁盘状态 + 事件驱动调度 + JSONL 邮箱。"
+takeaway: "磁盘 team.json 为真相源 + idle 边沿调度 + 消息 ack 在准入时。"
+read_when: "成员需要被反复追问、记住上一轮、人先批准再派工。"
+status: observed
+updated: 2026-10-31
+---
 # 01 · `NanmiCoder/dsh-agent-teams`
 
 > **一句话**:把当前会话变成 captain,成员做成**可续聊子代理**,用磁盘状态 + 事件驱动调度器 + JSONL 邮箱,不造 workflow 引擎。

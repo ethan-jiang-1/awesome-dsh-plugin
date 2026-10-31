@@ -1,3 +1,13 @@
+---
+title: "冻结 fork · dsh-better-sidebar-N23"
+domain: reshape-product
+kind: sample
+positioning: "`All3nCN/dsh-better-sidebar-N23`：0.1.x 冻结 fork，用一次失联证明「改得太深就只能分家」。"
+takeaway: "反食谱：peer 上界 = 死亡日期；只写下界 + CI 矩阵，或换接缝，别 fork。"
+read_when: "想 fork 上游；或要判断一个深改插件的升级风险。"
+status: observed
+updated: 2026-10-31
+---
 # 9-冻结 fork · dsh-better-sidebar-N23:改得太深,就只能分家
 
 > **状态**:`observed`(声明)/ `[OPEN]`(0.2.x 实测) · **基线**:`0.2.1-rc.3` 上**不适用** · **读于**:2026-10-31

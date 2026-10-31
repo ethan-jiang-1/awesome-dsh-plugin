@@ -1,3 +1,13 @@
+---
+title: "纪律环：默认值决定门是否存在"
+domain: prove-output
+kind: card
+positioning: "纪律环：把六环串成流程，让默认值决定它是否真实存在。"
+takeaway: "red 先于 green；默认 remind → 装上≠生效；对抗评审放进分叉子代理。"
+read_when: "要做流程型质量插件（TDD/评审环）；或要设置门禁默认档。"
+status: observed
+updated: 2026-10-31
+---
 # 09 · 纪律环：把质量写成流程，然后让默认值决定它是否真实存在
 
 > **状态**:`observed`(机制逐条有源码行号佐证) · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b`

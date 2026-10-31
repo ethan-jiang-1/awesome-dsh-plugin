@@ -1,3 +1,13 @@
+---
+title: "厚工作台 · better-sidebar"
+domain: reshape-product
+kind: sample
+positioning: "`omdsh-dev/DSH-better-sidebar`：一个插件把自己做成 IDE，且内置功能也走自己的扩展点。"
+takeaway: "一种扩展点形状 + 内置也走它；原型方法注册表；版本前缀 key + 引用完整性。"
+read_when: "要做厚工作台/多面板 IDE；或要设计第三方可扩展的注册表。"
+status: observed
+updated: 2026-10-31
+---
 # 1-厚工作台 · better-sidebar:一个插件,把自己做成了 IDE
 
 > **状态**:`observed` · **基线**:DSH `0.2.1-rc.3`(本卡主要引用 `0.28.x` 线,要求宿主 `0.2.1-rc.1+`)· **读于**:2026-10-31

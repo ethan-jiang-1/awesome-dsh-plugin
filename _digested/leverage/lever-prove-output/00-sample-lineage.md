@@ -1,3 +1,13 @@
+---
+title: "样本溯源卡：repo@commit 入口"
+domain: prove-output
+kind: index
+positioning: "每个样本的 repo@commit、锚点文件、重抓命令与陷阱，是全部断言的回源入口。"
+takeaway: "17 个仓库的 HEAD 已锁；没绑 commit 的抓取等于没抓。"
+read_when: "要复核某条断言；或三个月后重挖一个样本。"
+status: observed
+updated: 2026-10-31
+---
 # 样本溯源卡：精确到 repo@commit 的重新挖掘入口
 
 > **状态**:`observed` · **抓取时间**:2026-10-31 14:00 CST · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b`

@@ -1,7 +1,17 @@
+---
+title: "杠杆层总章：四个影响面领域"
+domain: layer
+kind: charter
+positioning: "研究宪章：杠杆阶梯、命名约定、证据协议、文件约定与基线。"
+read_when: "要判断一个插件占的是哪一级位置；或要新增卡/新域、改口径时。"
+status: living
+updated: 2026-10-31
+budget: 170
+---
 # 杠杆层 · 四个影响面领域(总章)
 
 > **这是什么**:围绕「DSH 里影响面大、强力扩充了 DSH 插件的机制」的深读层。目录前缀 `lever-` 是**第二轴**——`ecosystem/` 回答「有什么」,这里回答「改变了什么、改到多深、代价是什么、什么时候会坏」。
-> **状态**:骨架立成(2026-10-31)。四个域各有 1 张旗舰卡;卡片与数字随上游同步增量更新,本文件只做宪章与索引,不随内容膨胀。
+> **状态**:四域成稿(2026-10-31):7 份宪章/索引 + 6 份横向手册 + 15 张机制卡 + 25 张样本卡 + 3 份原始证据。本文件只做宪章,**不随卡片数量增长**;全量清单在 [catalog](./catalog.md),按任务借用看 [BORROW](./BORROW.md)。
 
 ## 为什么单独一层
 
@@ -20,7 +30,7 @@ DSH 的扩展面是有限的、可枚举的:seam(fs/shell/sandbox/llm/subagent/w
 | [lever-prove-output](./lever-prove-output/README.md) | *Where is the gate that turns "looks done" into "proven"?*<br>门禁装在哪一环,产物凭什么算完成 | 门禁在哪一环?证据能否重放?产物是否原子? |
 | [lever-draw-limit](./lever-draw-limit/README.md) | *Who can touch what, who enforces it, what evidence remains?*<br>谁能碰什么,由谁强制,留下什么证据 | 信任谁?边界由谁强制?留下了什么证据? |
 
-**卡片编号**:`<域>/NN-<slug>.md`。序号只在一个域内表示「先立骨、后加样本」的写作顺序,不表示优先级,也不跨域比较。题目变了就新开号,旧号改状态 `superseded` 并指向新号。
+**卡片编号**:`<域>/NN-<slug>.md`(一样本一篇时放 `<域>/samples/NN-<owner>-<repo>.md`)。编号**域内递增、不复用、不重排**,只表示写作顺序,不表示优先级,也不跨域比较。退役保留编号,改 `status` 并注明替代者;新增永远追加。RESHAPE 是唯一例外:它用「首位 = 类别」的编号法,见 [该域的 0 号卡](./lever-reshape-product/0-领域模型-七层与命名约定.md)。
 
 **为什么不用字母编号代号**:`L1–L4` 会让读者以为四域有强弱或先后,而它们实际是四种并列提问;`lift/link/lock/limit` 是为凑首字母造的近义词,彼此冗余。现在的后缀直接说动作,不需要额外解释。
 
@@ -38,16 +48,38 @@ DSH 的扩展面是有限的、可枚举的:seam(fs/shell/sandbox/llm/subagent/w
 
 **用法**:卡片里给每个标杆插件标一个级。**升级本身就是洞察**——同一个能力从 2 级升到 4 级(从 prompt 变成 policy)通常意味着它从「建议」变成了「保证」。
 
-## 四域的第一刀:各一张旗舰卡
+## 四域现在有什么
 
-| 卡 | 命题(本层最想验证的一句话) | 供给(条目,多标) | 新队列漂移 | 首选样本 |
-|---|---|---|---|---|
-| [01 · 产品栈](./lever-reshape-product/01-product-stack.md) | 产品化的单位不是插件,是 profile | 3104 (39.2%) | **+9.8pp**(最大) | `AKS1st/dock`、`hyperion2144/dsh-desktop-tauriapp`、`GDWhisper/dsh-web-startup-auth`、`All3nCN/dsh-better-sidebar-N23` |
-| [01 · 拓扑谱](./lever-cross-boundary/01-collab-topology.md) | 协作是状态问题,不是 spawn 问题 | 1865 (23.5%) | +1.3pp | `Mlte0907/dsh-teams-x`、`zbzbhs/dsh-remote-agent`、`IKEASven69/dsh-takeover`、`ANetResearch/ANet#dsh-anet` |
-| [01 · 质量链](./lever-prove-output/01-quality-chain.md) | 质量是门禁位置,不是评审力度 | 2888 (36.4%) | −0.7pp | `030611/qiushi-dsh-evidence-audit`、`4444wjt/dsh-plugin-veriscope`、`263311487-ux/dsh-verify`、`1687210989/agent-clinic` |
-| [01 · 信任三层](./lever-draw-limit/01-trust-layers.md) | 安全是从安装到动作的监管链 | 2798 (35.3%) | +0.9pp | `PerryLink/dsh-defend`、`IamNewHands/dsh-approval-gate`、`BotonJ/dsh-plugin-sentinel`、`DevilSpiderX/dsh-workspace-only-plugin` |
+四个域是**四个并列的提问**,不是互斥分类,所以样本会重叠(41–44%)。它们的「分析单位」不同——这正是四个目录长得不一样的原因:
 
-数字口径见 [`census.py`](./census.py) 与下文「证据协议」;漂移为「新队列(2026-09-12 起首录 4418 条)相对存量」的百分点差,**是供给构成差异,不是需求趋势**。
+| 域 | 一句话问题 | 分析单位 | 正文 |
+|---|---|---|---|
+| [RESHAPE](./lever-reshape-product/README.md) | 不改上游,DSH 能被组装成什么产品 | 一个产品改动(一插件一卡) | 12 卡 + 3 份证据 |
+| [CROSS](./lever-cross-boundary/README.md) | 协作跨到哪个边界,每跨一界多付什么 | 一个协作样本(一样本一文件)+ 3 张横向卡 | 3 + 14 |
+| [PROVE](./lever-prove-output/README.md) | 门禁装在哪一环,产物凭什么算完成 | 一个门禁位置(一环一卡) | 11 卡 |
+| [LIMIT](./lever-draw-limit/README.md) | 谁能碰什么,由谁强制,留下什么证据 | 一个控制点/预算(一卡一样本) | 9 卡 |
+
+供给数字(3104 / 1865 / 2888 / 2798)只说明候选池大小,不是研究对象数;`census.py` 重跑会漂,**卡片数不随名单涨**。全量文件清单见 [catalog](./catalog.md),按任务借用见 [BORROW](./BORROW.md)。
+
+## 文件约定:frontmatter 与生长
+
+**每一篇 Markdown 都有 frontmatter**,由 `verify.mjs` 校验。九个键:
+
+| 键 | 必填 | 取值 |
+|---|---|---|
+| `title` | 是 | 短标题,不含编号 |
+| `domain` | 是 | `layer` / `reshape-product` / `cross-boundary` / `prove-output` / `draw-limit`(与路径绑定) |
+| `kind` | 是 | `index` `charter` `guide` `playbook` `card` `sample` `evidence` |
+| `positioning` | 是 | ≤120 字:它是什么、在整套研究里占哪一格 |
+| `takeaway` | card/sample/playbook | ≤80 字:能拿走什么 |
+| `read_when` | 是 | ≤80 字:任务词触发(冲突/审批/回滚/多端…) |
+| `status` | 是 | `observed` / `inferred` / `open` / `living` |
+| `updated` | 是 | `YYYY-MM-DD`,上次核对日期 |
+| `budget` | 骨架类 | 行数上限;超了 `catalog --stats` 提醒 |
+
+**三条铁律**:① **不放会漂的数字**(星标/下载/版本/基线日期),它们留在正文页头;② `card`/`sample` 必须有**借用节**(标题含 借鉴/搬走/借用/照抄/食谱/配方/移植);③ **规则只有一个源**——准入/分级看 [`horizon.md`](./horizon.md),四域 README 里的副本是摘要,冲突以源为准。
+
+**生长方式**:新样本 → 过门 → 新卡(frontmatter + 借用节)→ `catalog` 自动 → 域 README 只在「本域最佳取法变了」时改一行。**加的是叶子,宪章不跟着长。**
 
 ## 研究方法:先过门,再分级
 
@@ -81,7 +113,7 @@ DSH 的扩展面是有限的、可枚举的:seam(fs/shell/sandbox/llm/subagent/w
 1. **披露 ≠ 策略 ≠ 强制 ≠ 判决。** 描述文本讲「作者声称」;`capabilities.json` 讲「会碰什么」;两者都不讲「安全吗」。四者混用是 `lever-draw-limit` 最常见的错误。
 2. **不写必装/神器/推荐榜。** 只写「占了哪个位置、为什么有效、代价是什么、什么条件下失效」。
 3. **不重复 ecosystem。** 分类计数、下载/星标、作者结构归 `ecosystem/`;这里只引用并使用带日期的口径,不自行重算。
-4. **样本要回读。** `[CAT]` 的样本至少回读一条 catalog 描述原文;旗舰卡的首选样本要求能说明其接缝位置(自述 `ctx.*` / seam / preset / bundle 即可,不必读源码)。
+4. **样本要回读。** `[CAT]` 的样本至少回读一条 catalog 描述原文;首选样本要求能说明其接缝位置(自述 `ctx.*` / seam / preset / bundle 即可,不必读源码)。
 
 ## 当前基线与数据边界
 
@@ -94,16 +126,20 @@ DSH 的扩展面是有限的、可枚举的:seam(fs/shell/sandbox/llm/subagent/w
 
 DSH 包的事实来自本机安装目录(`dsh --version` 与各包 README),不是上游源码 checkout;包版本变化时,`[DSH]` 条目需复核。
 
-## 维护规则(增量,不改本文件)
+## 维护规则(增量,不改骨架)
 
-- **新增一张卡**:按 `<域>/<NN>-<slug>.md` 建文件 → 在域 `README.md` 的索引行加一行 → 需要新样本/新数字时跑 `python3 _digested/leverage/census.py`。
-- **收窄/拆分域**:域 `README.md` 自己有准入标准;标准变了就改域 README,不动本文件。
-- **同步上游后**:只复核卡片页头的 `基线` 与 `[DSH]` 包版本;`ecosystem/` 与 `_coverage/` 各自按原流程更新。
-- **口径变化**:只有本文件的「证据协议」或「前缀图例」变化时才改本文件,并在 `_change_log/` 记一笔。
-- **验证**:`node _digested/verify.mjs`(链接/锚点/编码)。
+- **新增一个样本**:过门 → 建卡(照抄同类 `card`/`sample` 的 frontmatter 与骨架,含借用节)→ 跑 `node _digested/leverage/catalog.mjs` → 域 README **只在「本域最佳取法变了」时**加一行。不要改本文件 / `horizon` / `BORROW`。
+- **B 级不立卡、C 级只一行**:B 只出现在卡的对照行,C 只出现在失败模式表。
+- **退役/被替代**:保留文件与编号,改 `status`,在 `takeaway` 里写明被谁替代;**不删、不改名**。
+- **新域**:必须同时满足「新位置(seam/slot/layer)+ ≥3 个过门样本 + 四域都装不下」;才加目录、`domain` 枚举、`census.py` 词表、README 域表一行、BORROW 一行。
+- **同步上游**:只改受影响卡的 `updated` 与 `[DSH]` 断言 + 本文件「基线」行;`ecosystem/`、`_coverage/` 按原流程。
+- **口径变化**:准入/分级只改 [`horizon.md`](./horizon.md)(单一源);四域 README 的副本是摘要,不必同步改。本文件的证据协议若变,在 `_change_log/` 记一笔。
+- **验证**:`node _digested/verify.mjs`(frontmatter/链接/锚点/编码)+ `node _digested/leverage/catalog.mjs --check`(清单新鲜度)。
 
 ## 待回答问题
 
-- [ ] 四域是否有足够的**反例样本**?目前每张卡的首选样本偏向「做对了的」,`[OBS]` 的失效条件有待真实事故/缺陷样本支撑。
-- [ ] `lever-reshape-product` 的 +9.8pp 漂移是「真产品化」还是「工作台类描述词」的正则放大?下一轮抽 30 条人工复核。
-- [ ] `[DSH]` 证据目前只有本机安装目录,是否需要一份上游 `deepseek-harness` 源码 checkout 做逐行核验?
+完整清单(含给上游的)在 [BORROW §6](./BORROW.md#6-还没解决的事);这里只留三条层级问题:
+
+- [ ] 四域的**反例样本**仍不足:E 级只有 2 条真判,其余失败模式多来自官方限制推演。
+- [ ] RESHAPE 的 +9.8pp 漂移是「真产品化」还是「工作台类描述词」的正则放大?下一轮抽 30 条人工复核。
+- [ ] `[DSH]` 证据来自本机安装目录;是否需要一份上游 `deepseek-harness` 源码 checkout 做逐行核验?

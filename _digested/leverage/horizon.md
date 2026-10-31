@@ -1,6 +1,16 @@
+---
+title: "研究对象怎么选：准入与分级"
+domain: layer
+kind: charter
+positioning: "规则单一源：A/B/C/D/E/F/G 准入门、S/A/B/C 分级、每条必写的六项。"
+read_when: "要把一个新样本立成卡；或质疑某条样本凭什么在场时。"
+status: observed
+updated: 2026-10-31
+budget: 230
+---
 # 研究对象怎么选:准入与分级
 
-> **状态**:`observed`(门禁已用 7924 条跑过) · **更新**:2026-10-31 · **基线**:名单 `main@efe602e7b` · DSH `0.2.1-rc.3`
+> **状态**:`observed`(门禁已用 7924 条跑过) · **更新**:2026-10-31 · **基线**:名单 `main@efe602e7b` · DSH `0.2.1-rc.3` · **已记录域级修正**:CROSS 的 A 门改用实时数据(见 §4)
 > **一句话**:**不是抓到一个插件就琢磨。**能进这份研究的条目必须先证明自己「有影响力」,再证明自己「有深度」,然后才排等级;排不进 S/A 的,只配当反面教材或旁支脚注。
 
 ## 0. 纪律:为什么要有这道门
@@ -92,6 +102,10 @@ python3 _digested/leverage/census.py    # §9b 输出前 12 名 + 被谁提到
 
 **纪律**:A 只能在**回读 `citers` 之后**才写进卡片。撞词的高分不是影响力,是噪声。
 
+**已记录的域级修正(2026-10-31)**:`lever-cross-boundary` 用 `citation_counts()` 复核九个样本,只有 `limuyang2/agent-team` 达 A 门(3 次),其余为 0——目录 `description` 极少互相点名,样本之间是**功能竞争**而非引用关系。该域因此改用**实时 GitHub + npm 数据**论证影响力,以 C/F/G 立卡。
+
+**层的裁定**:A 门保留,但它只适用于「目录内确实互引」的域。任何域要换替代口径,必须①在域 README 写明原因与采样日;②结论只在本域成立;③不得写成层规则。CROSS 符合这三条,记为**域级口径修正**,不是层规则变更。
+
 ### 口径二 · 替代了哪个官方对象(B)
 
 最强的信号,因为它指得出具体被替换掉的东西:
@@ -148,67 +162,35 @@ python3 _digested/leverage/census.py --probe "hash.?chain|哈希链"       # 3/7
 | `lever-prove-output` | 必须能指到**六环**中的一环,且**门禁位置可命名**(pre-execute / post-execute / pre-step / 持久化 flush / 独立验收器) | 提示词里写「请检查」的技能包、只统计不拦截的面板 |
 | `lever-draw-limit` | 必须落在**安装面/运行面/数据面**,且**强制点可命名**;纯披露的只能当旁证 | 密码保管类工具(除非它改了授权边界)、安全检查清单 |
 
-## 6. 每域现役研究对象(按分级)
+## 6. 现役研究对象(分级清单不在这里维护)
 
-只列 S/A。**B 级以下是刻意不列的**——它们出现在卡片的对照行与失败模式里,不该有独立条目。
+**分级清单随样本变,放在各域 README 与 [catalog](./catalog.md) 里。** 本文件只保留判据,避免两份清单漂移:
 
-### `lever-reshape-product`
+| 级 | 判据 | 落位 |
+|---|---|---|
+| **S** | 定义了一个机制/一类做法,后来者照它的形状写 | 单独卡 + 域 README「骨架」表 |
+| **A** | 所在边界/层上目前最好的一个取法 | 域 README 表 + 卡的「标杆」节 |
+| **B** | 只在某个维度上与 A 不同 | 卡的对照行,**不立卡** |
+| **C** | 明指不可共存,或同一接缝取反 | 失败模式表一行 |
 
-| 级 | 仓库 | 过了哪些门 | 影响力证据(可复核) | 一句话特点 |
-|---|---|---|---|---|
-| **S** | `AKS1st/dock` | C+D | 自述 `ctx.workbench` 注册表;零能力披露(纯前端);6 个 dock-* 兄弟包跟随 | 不提供界面而提供**注册表**,把 3 层槽位变成 6 层平台 |
-| **S** | `hyperion2144/dsh-desktop-tauriapp` | F+G | **F**:桌面壳场景里少见的「页面内半区 + 宿主外壳」双段设计;壳在 DSH **之外** | 证明「真正的产品改造发生在插件系统外面」 |
-| **A** | `GDWhisper/dsh-web-startup-auth` | B+D | B:自述替换 `dsh web` 启动器;D:7 项能力含 host-runtime | 2 层唯一一种**在 DSH 内部**改产品的办法 |
-| **A** | `All3nCN/dsh-better-sidebar-N23` | B+D+**E** | B:完整 fork;E:明指与同类共享 `/git` 路由前缀而互斥 | fork 路线的成本样本,同时是**反面教材** |
-| **A** | `HiSeax/dsh-better-model-setting` | B+D | B:替换官方 Models 设置页 | 「官方页面可整体替换」的实证 |
-
-### `lever-cross-boundary`
-
-| 级 | 仓库 | 过了哪些门 | 影响力证据 | 一句话特点 |
-|---|---|---|---|---|
-| **S** | 官方 `dsh-experimental-agent-team` | G | 不是生态条目,是全域的**约束源**;三条已知限制定义了边界 2 的税 | 变量不在它自己,而在它留下的三个空白 |
-| **A** | `Mlte0907/dsh-teams-x` | D+G | 9 项能力含 `subagent`/`dynamic-code`;自述 captain + 依赖感知 DAG + 持久邮箱 | 生态自建 roster,与官方 Team 并存两套语义 |
-| **A** | `zbzbhs/dsh-remote-agent` | F+G | **F**:「副机跑完整 DSH、断链继续」在 62 条 remote 类里罕见 | 把跨机从**传输问题**降级为**信任问题** |
-| **A** | `IKEASven69/dsh-takeover` | F | **F**:同步盘 + 消费即弃卡片 + 四态账本,全库少见 | 最省事的跨机:**没有协议,只有文件** |
-
-### `lever-prove-output`
-
-| 级 | 仓库 | 过了哪些门 | 影响力证据 | 一句话特点 |
-|---|---|---|---|---|
-| **S** | 官方 `dsh-session-checkpoint-policy` | G | 全库唯一 fail-closed 的**副作用前**持久化屏障 | 保证「至少知道发生了什么」,不保证「只发生一次」 |
-| **S** | 官方 `dsh-fs-observation-policy` | G | 唯一把「读过」变成**版本约束**的机制;生态里大量「首次编辑」守卫是它的回声 | 策略只做决策不做 I/O 的范式 |
-| **A** | `030611/qiushi-dsh-evidence-audit` | F+C | **F**:`hash.?chain\|哈希链` 全库 **3/7924** | 只证「发生过、顺序、未被篡改」,不存内容 |
-| **A** | `4444wjt/dsh-plugin-veriscope` | F+G | `REVIEW`/待复核检索式宽泛(756 条),需回读后择真;它的独特点是 **REVIEW 永不转 PASS** | 不确定性不允许被自动消解 |
-| **A** | `263311487-ux/dsh-verify` | F | **F**:换运行时(真 Chromium)做验收,全库少见 | 判定与执行分离 |
-| **A** | `1687210989/agent-clinic` | F | **F**:22 项具名诊断 + 稳定**证据定位符**(如 `session.v4.jsonl.zstd#L101-L110`) | 诊断与判决分离,可复核性来自定位符 |
-
-### `lever-draw-limit`
-
-| 级 | 仓库 | 过了哪些门 | 影响力证据 | 一句话特点 |
-|---|---|---|---|---|
-| **S** | 官方 `dsh-sandbox-policy` | G | 唯一有策略词汇的维度;原文「网络和进程策略不在其词汇中」 | 权限状态是**日志事实**,不是实时开关 |
-| **S** | 官方 `dsh-experimental-auto-review` | G | 唯一的「模型判模型」;默认关闭、明说会误放行、留有 `run_code` 绕过通道 | 智能审批是**体验优化**,不是安全边界 |
-| **A** | `PerryLink/dsh-defend` | C | 同时挂 `agent/pre-step` 与 `tools/pre|post-execute`;**零能力披露** | 想防注入必须挂 pre-step,挂 tools 层永远防不了「模型已被说服」 |
-| **A** | `DevilSpiderX/dsh-workspace-only-plugin` | F | **F**:把**所有**沙箱模式的文件访问收进会话工作区,原生无此词汇 | 在策略之上再套一层自己的策略 |
-| **A** | `IamNewHands/dsh-approval-gate` | D+**E** | D:含 network/llm;E:判定器不可用时**自动放行**(fail-open)——与本域其他样本相反 | 显式 fail-open 的诚实样本,同时是对照 |
-| **A** | `BotonJ/dsh-plugin-sentinel` | F | **F**:安装前 tarball 内存解析、零落盘;仅 `fs-read`+`env` 两项能力 | 替官方补「安装面没有自动检查」这一格 |
+**域级入口**:[RESHAPE](./lever-reshape-product/README.md) · [CROSS](./lever-cross-boundary/README.md) · [PROVE](./lever-prove-output/README.md) · [LIMIT](./lever-draw-limit/README.md)。**全量文件**(kind / status / 定位)见 [catalog](./catalog.md)。
 
 ## 7. 现役研究的已知缺口
 
-**这一节是给自己上刑的,不许删。**
+**这一节是给自己上刑的,不许删。** 完整缺口清单(含给上游的)在 BORROW §6。
 
-1. **E 级(反面教材)目前只有 2 条真判**:`All3nCN/dsh-better-sidebar-N23` 的路由互斥、`IamNewHands/dsh-approval-gate` 的 fail-open。其余「失败模式」表的行多数来自**官方限制文档的推演**,不是真实事故。
-2. **F 级的检索式只覆盖了 4 条判断**,其余「稀缺」表述尚无可重跑证据。
-3. **`hyperion2144/dsh-desktop-tauriapp` 过不了机器门**:它既无 in-degree、也不自述接缝、能力边车也没有它。它现在靠 **F+G 人工认定**进来——这是本表最弱的一格,若下一轮仍找不到可复核证据,应降级为 B 或删除。
-4. **A 的撞词噪声**未清除:前 5 名里至少 4 个是通用词(`terminal`/`notification`/`schedule`/`calendar`)。要么加白名单,要么改口径,下一轮决定。
-5. **所有样本的证据级别停在「catalog 自述 + 官方包 README」**,未读插件源码。任何「它真的做到了」的断言都是 `inferred`,不是 `observed`。
+1. **E 级(反面教材)只有 2 条真判**:`All3nCN/dsh-better-sidebar-N23` 的路由互斥、`IamNewHands/dsh-approval-gate` 的 fail-open。其余「失败模式」多来自**官方限制文档的推演**,不是真实事故。
+2. **F 级检索式已覆盖 CROSS / PROVE / LIMIT 的主要稀缺断言**(各自 README 的「自用检索式」节),但 RESHAPE 的稀缺/漂移断言仍无可重跑探针。
+3. **A 的撞词噪声**未清除:层级 in-degree 前 5 名至少 4 个是通用词(`terminal`/`notification`/`schedule`/`calendar`)。CROSS 已改用实时数据绕开;其余域引用 A 时必须先回读 `citers`。
+4. **证据强度分域,不能互推**:PROVE 锁 `repo@commit`;CROSS/LIMIT 读过源码但只锁版本;RESHAPE 停在 catalog + 插件 README。引用任何断言前,先看该域 README 的坐标表与页头状态。
 
 ## 8. 怎么复核这份准入
 
 ```sh
 python3 _digested/leverage/census.py              # 看 §9 通过数与证据分布
 python3 _digested/leverage/census.py --probe "<正则>"   # 复核任何稀缺性断言
-node _digested/verify.mjs                         # 文档本身的一致性
+node _digested/verify.mjs                         # frontmatter / 链接 / 锚点 / 编码
+node _digested/leverage/catalog.mjs --check        # 全量清单是否新鲜
 ```
 
 **每次上游同步后必做**:重跑 §9,若某个 A 级样本**掉了门**(被引跌到 3 以下、描述改了口径),它不是「还能用」,而是**必须重审**——这正是分级表存在的意义:它让「这条样本凭什么在这儿」变成一个每次都能重问的问题。

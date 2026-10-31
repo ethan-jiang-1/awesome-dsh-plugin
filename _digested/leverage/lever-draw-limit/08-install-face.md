@@ -1,3 +1,13 @@
+---
+title: "安装面：装前看形状、装后可回滚"
+domain: draw-limit
+kind: card
+positioning: "安装面：事前看「组合形状」，事后只做可回滚的隔离。"
+takeaway: "组合形状四规则 + 五步自救 + 判据选择法；可逆性优于预测。"
+read_when: "要做装前审计/升级回滚；或要判断一个扫描器是不是装后才跑。"
+status: observed
+updated: 2026-10-31
+---
 # 08 · 安装面:事前审计「组合特征」,事后只做「可回滚的隔离」
 
 > **状态**:`observed` · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b` · **样本**:`BotonJ/dsh-plugin-sentinel`(回读 README + `src/rules.js` / `src/audit.js`)+ `Noob-stupid/dsh-plugin-gating-hub`(回读 README 升级/门控/自救章节)

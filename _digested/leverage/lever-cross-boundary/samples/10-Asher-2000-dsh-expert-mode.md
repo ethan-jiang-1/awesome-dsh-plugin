@@ -1,3 +1,13 @@
+---
+title: "Asher-2000/dsh-expert-mode"
+domain: cross-boundary
+kind: sample
+positioning: "`Asher-2000/dsh-expert-mode`：不用写插件也能写协作——团队落在静态 composition 的 17 条工具行里。"
+takeaway: "不用插件写协作（preset 路线）；证明 persona 配置键已被宿主移除。"
+read_when: "想用 preset/配置而不是运行时插件做多 agent。"
+status: observed
+updated: 2026-10-31
+---
 # 10 · `Asher-2000/dsh-expert-mode`
 
 > **一句话**:**不用写插件也能写协作**——团队结构全部落在静态 composition 的 17 条 `dsh-tool-subagent` 工具行里。

@@ -1,3 +1,13 @@
+---
+title: "Nwflower/dsh-file-claim"
+domain: cross-boundary
+kind: sample
+positioning: "`Nwflower/dsh-file-claim`：认领与被保护文件同目录的边车，pre-execute 返回 deny——唯一在写路径上真拦住写的样本。"
+takeaway: "同目录边车 + pre-execute deny；租约必须自己加 epoch，否则静默失锁。"
+read_when: "怕两个人改同一个文件（写冲突）——只有这条路真拦得住。"
+status: observed
+updated: 2026-10-31
+---
 # 07 · `Nwflower/dsh-file-claim`
 
 > **一句话**:认领与被保护文件同目录的边车,`tools/pre-execute` 返回 deny——全生态唯一在**写路径上真拦住写**的样本。

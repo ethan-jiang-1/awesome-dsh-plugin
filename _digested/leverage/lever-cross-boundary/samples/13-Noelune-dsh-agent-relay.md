@@ -1,3 +1,13 @@
+---
+title: "Noelune/dsh-agent-relay"
+domain: cross-boundary
+kind: sample
+positioning: "`Noelune/dsh-agent-relay`：只绑回环地址的 HTTP Broker，把 dsh / Codex / Claude Code / Python 连成对等链路。"
+takeaway: "只绑回环的 HTTP broker；跨异构运行时，只投消息不发令牌。"
+read_when: "要让不是 DSH 的 agent 和 DSH 成员通信。"
+status: observed
+updated: 2026-10-31
+---
 # 13 · `Noelune/dsh-agent-relay`
 
 > **一句话**:一个**只绑回环地址的 HTTP Broker** 当消息总线,把 dsh / Codex / Claude Code / Python 客户端连成一条对等链路——**不发令牌,只投消息**。

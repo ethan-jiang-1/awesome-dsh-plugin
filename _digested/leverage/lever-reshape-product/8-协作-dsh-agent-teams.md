@@ -1,3 +1,13 @@
+---
+title: "协作 · dsh-agent-teams"
+domain: reshape-product
+kind: sample
+positioning: "`NanmiCoder/dsh-agent-teams`：把多代理变成一张可批准的计划，队长 + 任务 DAG + 磁盘真相。"
+takeaway: "计划先行 + 唯一授权点 + 三层否定；完成时审计而非写入拦截。"
+read_when: "要做团队/编排 UI；或要设计「人批准后才开跑」的交互。"
+status: observed
+updated: 2026-10-31
+---
 # 8-协作 · dsh-agent-teams:把一个会话变成一支团队
 
 > **状态**:`observed` · **基线**:DSH `0.2.1-rc.3`(推荐配对 `0.2.1-rc.2` + 插件 `0.1.28`)· **读于**:2026-10-31

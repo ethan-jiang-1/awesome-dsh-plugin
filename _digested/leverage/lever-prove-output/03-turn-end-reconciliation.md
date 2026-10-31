@@ -1,3 +1,13 @@
+---
+title: "轮末对账：我说我读了 vs 本轮真读过什么"
+domain: prove-output
+kind: card
+positioning: "轮末对账：把「我说我读了」与「本轮真读过什么」摆在一起。"
+takeaway: "本轮工具输出做证据池；对账永不拦、动作可拦；否决权按确定性分配。"
+read_when: "要防止模型声称读过/做过但实际没有；或要设计 turn-stopping 钩子。"
+status: observed
+updated: 2026-10-31
+---
 # 03 · 轮末对账：把「我说我读了」与「本轮真读过什么」摆在一起
 
 > **状态**:`observed`(机制已核 + 作者公开评测数据) · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b`

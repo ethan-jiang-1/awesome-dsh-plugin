@@ -25,7 +25,7 @@
 
 只回答评估要用的三个问题:名单数据可信吗 / 会不会烂 / 什么量级。**到此为止即可**;其下六个子目录(`system`、`registry-data`、`submission-gates`、`readme-pipeline`、`site-surface`、`probes-and-decay`)是逐行机制档案,投稿者或复现构建时才需要。
 
-### 第三站 · [`leverage/00-map.md`](./leverage/00-map.md) — 影响面与杠杆(第二轴)
+### 第三站 · [`leverage/`](./leverage/README.md) — 影响面与杠杆(第二轴)
 
 `ecosystem/` 按「是什么」分类;这一层按「**改了多大、多深、留了什么代价**」提问,四个域并列、无先后:
 
@@ -36,7 +36,7 @@
 | [lever-prove-output](./leverage/lever-prove-output/README.md) | 门禁装在哪一环,产物凭什么算完成 | 质量链六环;只有检查点与版本新鲜度是原生硬门禁 |
 | [lever-draw-limit](./leverage/lever-draw-limit/README.md) | 谁能碰什么,由谁强制,留下什么证据 | 信任三层;沙箱只覆盖文件,网络与进程无策略词汇 |
 
-每域一份宪章(`README.md`,准入/不收/选择要求/复核触发)+ 若干编号卡。**入口先读 [`horizon.md`](./leverage/horizon.md)**:准入条件(A/B/C 影响力 + D/E/G 深度)、S/A/B/C 分级、每条必写的六项。7924 条里过门的是 **51 条(0.6%)**——对象不随名单膨胀,`B` 级以下不立卡。数字可重跑:`python3 _digested/leverage/census.py`(§9 即准入门);复核任何稀缺性断言用 `--probe "<正则>"`。
+**入口**:[`leverage/README.md`](./leverage/README.md) 首屏有三条路——拿走东西去 [BORROW.md](./leverage/BORROW.md),查某一篇去 [catalog.md](./leverage/catalog.md),知道凭什么去 [horizon.md](./leverage/horizon.md)。四域成稿共 **61 篇**;7924 条里过门的是 **51 条(0.6%)**——对象不随名单膨胀,`B` 级以下不立卡。数字可重跑:`python3 _digested/leverage/census.py`(§9 即准入门);复核任何稀缺性断言用 `--probe "<正则>"`。
 
 ## 横切目录
 

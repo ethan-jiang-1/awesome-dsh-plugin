@@ -1,3 +1,13 @@
+---
+title: "分发与救生页 · dsh-market"
+domain: reshape-product
+kind: sample
+positioning: "`dsh-market/dsh-market`：把发现与安装搬进产品，并给「起不来」留救生页。"
+takeaway: "救生页活在插件栈外；界面只做一个决定；外部索引每次使用前再校验。"
+read_when: "要做分发/市场/安装器；或要设计「装坏了怎么回」。"
+status: observed
+updated: 2026-10-31
+---
 # 5-分发与救生页 · dsh-market:分发本身就是一个产品
 
 > **状态**:`observed` · **基线**:DSH `0.2.1-rc.3` · **读于**:2026-10-31

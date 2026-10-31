@@ -1,8 +1,22 @@
+---
+title: "lever-prove-output：质量门禁"
+domain: prove-output
+kind: charter
+positioning: "本域宪章：六环质量链、六条设计律、12 个样本坐标与按用途的阅读导览。"
+takeaway: "64 条编号原则 + 八问评估 + 12 个样本的坐标与 commit。"
+read_when: "要做质量/门禁/验收；或评审一个质量插件。"
+status: observed
+updated: 2026-10-31
+budget: 320
+---
 # lever-prove-output · 门禁装在哪一环，产物凭什么算完成
 
 > **标语**:*Where is the gate that turns "looks done" into "proven"?* —— 质量是门禁位置，不是评审力度。
 > **状态**:`observed`(机制已核) · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b`
 > **作业区**:**本目录自足、可独立开工**。只读共享件,不写共享件;不引用其他域的结论,不等待其他域的进度。四域并行契约见 [`../README.md`](../README.md#四域并行作业契约)。
+> **借阅入口**:想抄 → [64 条原则](./10-quality-control-playbook.md#7-可借鉴可搬走的原则总表本域的核心产出) · 想选型 → [选择要求](#选择要求) · 想评审 → [八问检查顺序](./10-quality-control-playbook.md#8-一份可执行的检查顺序) · 想回源 → [精确坐标](#精确坐标重新挖掘的入口) · 跨域 → [BORROW](../BORROW.md)
+> **规则源**:准入/分级以 [`horizon`](../horizon.md) 为准;本域的准入副本是摘要。
+> **全量卡片**:本表是精选;全部文件(kind/定位/能拿走什么/何时读)见 [`catalog`](../catalog.md)。
 
 ## 怎么用这份材料(先读这里)
 

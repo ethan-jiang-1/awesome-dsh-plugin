@@ -1,3 +1,13 @@
+---
+title: "质量控制手册：64 条原则总表"
+domain: prove-output
+kind: playbook
+positioning: "质量控制手册：十二个生态样本的横向结论与 64 条编号原则。"
+takeaway: "Q/V/F/A/E/R/P/C 八组 64 条原则 + 八问评估顺序；只想记七条在 §7.9。"
+read_when: "要写/评审质量插件；或要把原则贴进设计文档引用（「按 Q3 处理」）。"
+status: observed
+updated: 2026-10-31
+---
 # 10 · 质量控制手册：十二个生态样本的横向结论
 
 > **状态**:`observed`(横切 [02](./02-goal-gate-hard-floor.md)–[09](./09-discipline-loop.md) 八张卡 + [01](./01-quality-chain.md) 原生层) · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b`

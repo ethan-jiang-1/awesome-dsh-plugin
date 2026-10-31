@@ -1,3 +1,13 @@
+---
+title: "缝的位置：挂 pre-step 才看得见"
+domain: draw-limit
+kind: card
+positioning: "缝的位置：挂 pre-step 才能看见「模型已经被说服」。"
+takeaway: "接缝选型表；能拦≠能解释≠能协商；范围×默认值×装得上。"
+read_when: "要做注入防护/提示词防线；或要在两条缝之间选一条。"
+status: observed
+updated: 2026-10-31
+---
 # 06 · 缝的位置:挂 `pre-step` 才能看见「模型已经被说服」
 
 > **状态**:`observed` · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b` · **样本**:`PerryLink/dsh-defend`(回读 README 全文,含「已知限制」)+ 其自我替代记录

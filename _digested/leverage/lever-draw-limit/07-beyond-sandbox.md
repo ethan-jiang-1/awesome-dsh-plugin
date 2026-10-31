@@ -1,3 +1,13 @@
+---
+title: "沙箱之外：收紧与放松成本不对称"
+domain: draw-limit
+kind: card
+positioning: "沙箱之外：同一个缺口的收紧与放松，两者成本不对称。"
+takeaway: "重新围栏四规则 + 放绿灯五匹配 + 状态存放决策表。"
+read_when: "要在沙箱外再围一道，或要自动批准某类操作。"
+status: observed
+updated: 2026-10-31
+---
 # 07 · 沙箱之外:同一个缺口的两种利用——收紧与放松
 
 > **状态**:`observed` · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b` · **样本**:`DevilSpiderX/dsh-workspace-only-plugin`(回读 README/配置)+ `Fleey/dsh-workspace-folders`(回读 README + `src/approval.ts` 源码)

@@ -1,3 +1,13 @@
+---
+title: "february2015/dsh-taskswarm"
+domain: cross-boundary
+kind: sample
+positioning: "`february2015/dsh-taskswarm`：每 lane 一个 git worktree（不是每成员），按依赖分波并行，失败时刻意不清理。"
+takeaway: "每 lane 一个 worktree；失败时刻意不清理，留下真实故障档案。"
+read_when: "想知道 worktree 到底怎么用，或要一份真实的故障档案。"
+status: observed
+updated: 2026-10-31
+---
 # 11 · `february2015/dsh-taskswarm`
 
 > **一句话**:**每 lane 一个 git worktree**(不是每成员一个),按依赖分波并行,失败时**刻意什么都不清理**。

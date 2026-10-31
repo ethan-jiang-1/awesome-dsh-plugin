@@ -1,3 +1,13 @@
+---
+title: "多端与远程 · dsh-mobile"
+domain: reshape-product
+kind: sample
+positioning: "`saya-ch/dsh-mobile`：把手机当一台要配对的设备，用回环上游 + 独立 HTTPS 网关。"
+takeaway: "配对码 + 可撤销（删哈希）+ 回环准入；撤销与显示解耦。"
+read_when: "要做多端/远程访问；或要给会话开一个网络入口。"
+status: observed
+updated: 2026-10-31
+---
 # 6-多端与远程 · dsh-mobile:让「多一个屏幕」变成一个产品
 
 > **状态**:`observed` · **基线**:DSH `0.2.1-rc.3` · **读于**:2026-10-31

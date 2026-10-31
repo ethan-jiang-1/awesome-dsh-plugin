@@ -1,3 +1,13 @@
+---
+title: "感官接入 · modlens"
+domain: reshape-product
+kind: sample
+positioning: "`liustack/modlens`：给纯文本模型装上眼睛，粘贴即读、零配置。"
+takeaway: "未确认就放过；加元数据条目而不换路由；attempts/warnings 让回退不静默。"
+read_when: "要补模型能力缺口（视觉/语音/搜索）；或要接管别人的路由而不改它。"
+status: observed
+updated: 2026-10-31
+---
 # 7-感官接入 · modlens:给纯文本模型装上眼睛
 
 > **状态**:`observed` · **基线**:DSH `0.2.1-rc.3` · **读于**:2026-10-31

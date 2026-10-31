@@ -1,3 +1,13 @@
+---
+title: "生成式界面 · dsh-genui"
+domain: reshape-product
+kind: sample
+positioning: "`omdsh-dev/dsh-genui`：把回复本身变成可操作界面，用内容协议当扩展面。"
+takeaway: "内容协议当扩展面；节点级丢弃 + 块级退回原文；无 action 渲染成 disabled。"
+read_when: "要让模型输出可交互组件；或要设计容错的内容协议。"
+status: observed
+updated: 2026-10-31
+---
 # 2-生成式界面 · dsh-genui:把回复本身变成产品界面
 
 > **状态**:`observed`(机制已核) · **基线**:DSH `0.2.1-rc.3`(该包自述覆盖 `^0.2.0-rc.1 || ^0.2.1-rc.1 || ^0.2.2-alpha.2`)· **读于**:2026-10-31

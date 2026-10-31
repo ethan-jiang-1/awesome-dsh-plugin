@@ -1,3 +1,13 @@
+---
+title: "终端即产品 · dsh-TUI"
+domain: reshape-product
+kind: sample
+positioning: "`ccch1mneyyy/dsh-TUI`：换表层并把首启、降级、更新一起接管的终端产品。"
+takeaway: "每档能力一条「退化为 Y」；hold 窗口不被延长；恢复不确定就报错退出。"
+read_when: "要换表层做独立应用；或要设计降级链与首启向导。"
+status: observed
+updated: 2026-10-31
+---
 # 1-终端即产品 · dsh-TUI:把 DSH 变成另一个应用
 
 > **状态**:`observed`(机制已核) · **基线**:DSH `0.2.1-rc.3`(本卡引用其自称主兼容目标 `0.2.1-rc.5`)· **读于**:2026-10-31

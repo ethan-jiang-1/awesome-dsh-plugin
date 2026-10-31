@@ -1,3 +1,13 @@
+---
+title: "三笔税的机制谱"
+domain: cross-boundary
+kind: playbook
+positioning: "九家协作样本在三笔税上各选了什么机制，以及 §5.5 的三张可落地配方。"
+takeaway: "配方 A/B/C：状态归属、冲突裁决（含 epoch）、失败收敛的三层。"
+read_when: "要动手写协作机制；或要比较两种协作实现的失效条件。"
+status: observed
+updated: 2026-10-31
+---
 # 02 · 三笔税的机制谱：状态归谁、冲突谁裁、崩了谁收敛
 
 > **状态**:`observed` · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b` · **样本**:9 个协作插件逐条回读源码(见 [03](./03-sample-encyclopedia.md))

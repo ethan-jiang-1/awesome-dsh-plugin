@@ -1,3 +1,13 @@
+---
+title: "审批预算：问几次是可耗尽资源"
+domain: draw-limit
+kind: card
+positioning: "审批预算：把「问几次」当成可耗尽的资源，硬拒免费、确认有额度。"
+takeaway: "八层管道模板 + 额度折算四前提 + 三条验收测试。"
+read_when: "要做审批/放行/免打扰；或你的审批已经让人开始无脑点同意。"
+status: observed
+updated: 2026-10-31
+---
 # 02 · 审批预算：把「问几次」当成可耗尽的资源
 
 > **状态**:`observed` · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b` · **样本**:`IamNewHands/dsh-approval-gate`(回读 README/`docs/GUIDE.md`/CHANGELOG)

@@ -1,3 +1,13 @@
+---
+title: "完成声明门禁：副作用后唯一能说不的位置"
+domain: prove-output
+kind: card
+positioning: "完成声明门禁：唯一能在副作用后说「不」的位置（tools/pre-execute）。"
+takeaway: "只拦 4 种完成声明、门禁自己重跑 AC、假完成 2 次冻结、契约改动即失效。"
+read_when: "要让「做完了」变成可验证的声明；或要设计一个 deny 分支。"
+status: observed
+updated: 2026-10-31
+---
 # 02 · 完成声明门禁：唯一能在副作用后说「不」的位置
 
 > **状态**:`observed`(源码已核,非仅自述) · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b`
