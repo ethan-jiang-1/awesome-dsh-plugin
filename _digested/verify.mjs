@@ -211,6 +211,91 @@ for (const rel of mdFiles) {
   });
 }
 
+// ---------- 产品线 catalog：全量 Markdown 必须一行不多一行不少 ----------
+const PRODUCT_ROOT = '_digested/leverage-reshape-product/';
+const PRODUCT_CATALOG = PRODUCT_ROOT + 'catalog.md';
+if (mdFiles.includes(PRODUCT_CATALOG)) {
+  const text = readFileSync(join(repoRoot, PRODUCT_CATALOG), 'utf8');
+  const listed = new Set();
+  for (const m of text.matchAll(/\]\((\.\/[^)#\s]+\.md)\)/g)) {
+    listed.add(m[1].replace(/^\.\//, ''));
+  }
+  const files = mdFiles
+    .filter((f) => f.startsWith(PRODUCT_ROOT))
+    .map((f) => f.slice(PRODUCT_ROOT.length));
+  for (const f of files) if (!listed.has(f)) fail(PRODUCT_CATALOG, null, `catalog 缺行：${f}`);
+  for (const f of listed) if (!files.includes(f)) fail(PRODUCT_CATALOG, null, `catalog 多行：${f}`);
+}
+
+// ---------- 产品线 lever README：卡表必须覆盖本 lever 的全部卡片 ----------
+for (const lever of ['plugin', 'profile', 'shell']) {
+  const readme = `${PRODUCT_ROOT}${lever}/README.md`;
+  if (!mdFiles.includes(readme)) continue;
+  const text = readFileSync(join(repoRoot, readme), 'utf8');
+  const linked = new Set();
+  for (const m of text.matchAll(/\]\((\.\/\d{2}_[^)#\s]+\.md)\)/g)) {
+    linked.add(m[1].replace(/^\.\//, ''));
+  }
+  const actual = mdFiles
+    .filter((f) => f.startsWith(`${PRODUCT_ROOT}${lever}/`) && !f.includes('/_证据/'))
+    .map((f) => f.slice(`${PRODUCT_ROOT}${lever}/`.length))
+    .filter((f) => /^\d{2}_/.test(f));
+  for (const f of actual) if (!linked.has(f)) fail(readme, null, `卡表缺行：${f}`);
+  for (const f of linked) if (!actual.includes(f)) fail(readme, null, `卡表多行：${f}`);
+}
+
+// ---------- 产品线门槛：00-map §7 与顶部/三个 lever README 必须同数 ----------
+{
+  const mapPath = PRODUCT_ROOT + '00-map.md';
+  if (mdFiles.includes(mapPath)) {
+    const mapText = readFileSync(join(repoRoot, mapPath), 'utf8');
+    const rowRe = /\| `(plugin|profile|shell)` \| ★ ≥ ([\d,]+) 或 npm 近 30 天 ≥ ([\d,]+)/g;
+    const top = PRODUCT_ROOT + 'README.md';
+    for (const m of mapText.matchAll(rowRe)) {
+      const [, lever, star, npm] = m;
+      const targets = [top, `${PRODUCT_ROOT}${lever}/README.md`];
+      for (const t of targets) {
+        if (!mdFiles.includes(t)) { fail(mapPath, null, `门槛目标缺失：${t}`); continue; }
+        const text = readFileSync(join(repoRoot, t), 'utf8');
+        if (!text.includes(`★ ≥ ${star}`)) fail(t, null, `门槛与 00-map 不一致：缺 ★ ≥ ${star}`);
+        if (!text.includes(`npm 近 30 天 ≥ ${npm}`)) fail(t, null, `门槛与 00-map 不一致：缺 npm ≥ ${npm}`);
+      }
+    }
+  }
+}
+
+// ---------- 产品线：卡头影响力必须过门槛，或标“机制例外” ----------
+{
+  const mapPath = PRODUCT_ROOT + '00-map.md';
+  if (mdFiles.includes(mapPath)) {
+    const mapText = readFileSync(join(repoRoot, mapPath), 'utf8');
+    const thresholds = new Map();
+    for (const m of mapText.matchAll(/\| `(plugin|profile|shell)` \| ★ ≥ ([\d,]+) 或 npm 近 30 天 ≥ ([\d,]+)/g)) {
+      const n = (v) => Number(v.replace(/,/g, ''));
+      thresholds.set(m[1], [n(m[2]), n(m[3])]);
+    }
+    const num = (v) => Number(String(v).replace(/,/g, '')) || 0;
+    for (const rel of mdFiles) {
+      if (!rel.startsWith(PRODUCT_ROOT)) continue;
+      const parts = rel.slice(PRODUCT_ROOT.length).split('/');
+      if (parts.length !== 2 || !thresholds.has(parts[0]) || !/^\d{2}_/.test(parts[1])) continue;
+      const text = readFileSync(join(repoRoot, rel), 'utf8');
+      const head = text.split('\n').slice(0, 36).join('\n');
+      const starM = head.match(/★\s*\**\s*([\d,]+)/);
+      let npm = 0;
+      for (const pat of [/npm 月下载\s*\**\s*([\d,]+)/, /npm 近 30 天\s*\**\s*([\d,]+)/, /npm\s*\**\s*([\d,]+)\**/]) {
+        const m = head.match(pat);
+        if (m) { npm = num(m[1]); break; }
+      }
+      const [starMin, npmMin] = thresholds.get(parts[0]);
+      const ok = (starM && num(starM[1]) >= starMin) || npm >= npmMin;
+      if (!ok && !text.includes('机制例外')) {
+        fail(rel, null, `影响力未过 ${parts[0]} 门槛（★${starM ? starM[1] : 0} / npm ${npm}），且未标“机制例外”`);
+      }
+    }
+  }
+}
+
 if (warnings.length) {
   console.warn(`⚠ ${warnings.length} 条提醒`);
   for (const w of warnings) console.warn('  ' + w);

@@ -125,7 +125,7 @@ grep -rl "owner/repo" data/plugins | head
 
 ## 5. 三域的专项条件(概括性优先)
 
-> **产品线另册**：它的准入条件在 [`../leverage-reshape-product/00_map.md`](../leverage-reshape-product/00_map.md) §7/§8，不在此表。
+> **产品线另册**：它的准入条件在 [`../leverage-reshape-product/00-map.md`](../leverage-reshape-product/00-map.md) §7/§8，不在此表。
 
 | 域 | 入口条件之上,还要求 | 明确不收 |
 |---|---|---|

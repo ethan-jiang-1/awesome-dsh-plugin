@@ -12,10 +12,11 @@ budget: 185
 # 终端工作区 · SeekTTY:表层是自己的,状态是别人的
 
 > **状态**:`observed`(README 级核过) · **基线**:DSH `0.2.0-rc.2`(其声明的**已测宿主**;声明下限也是 `0.2.0-rc.2`) · **读于**:2026-10-31
-> **类**:`1` 壳与工作台 · **层**:2(表层)+ 6(首启)+ 7(分发/更新) · **★ 194 / forks 22 / open issues 8**(GitHub API,2026-10-31)/ **下载 1,296**(仓库快照,2026-08-19)
+> **类**:`1` 壳与工作台 · **层**:2(表层)+ 6(首启)+ 7(分发/更新) · **★ 194 / forks 22 / open issues 8**(GitHub API,2026-10-31)/ **npm 月下载 1,296**(2026-09-30 ~ 10-29)
 > **一句话**:它是本 lever 里**分寸感最好**的一张:换掉整个表层、自带 profile 与更新器,但明确宣布"**Harness remains the owner of runtime state**"——不抢运行时的所有权,只抢交互的所有权。
 > **借鉴价值**:**① "表层归我、状态归你"是一条可以写进合同的边界;② 更新器 **self-first**:先检查自己,再检查宿主,一次只装一个兼容组件,绝不跨过未验证版本;③ pnpm 11 的 Global Virtual Store 会**在应用启动前**把 loader 弄挂,适配只作用于"自己发起的变更";④ 双渲染模式:全屏模式与**终端原生 scrollback** 模式,后者把历史交给终端,自己不重绘;⑤ 首启 API key **不回读、不付费校验、Escape 可推迟且不丢草稿**。**
 
+> **证据深度**:README 级（未读源码）（2026-10-31）
 > **样本档案**
 > **repo**:[`Hilbert-beinghappy/seektty`](https://github.com/Hilbert-beinghappy/seektty) · **npm**:`seektty`(TUI 侧);全局 launcher 也叫 `seektty` · **许可证**:MIT
 > **目录条目**:`data/plugins/Hilbert-beinghappy__seektty.yml`(`ui`)
@@ -144,7 +145,7 @@ Clarify 的问答、选项、预览、refine 反馈留在 Host 内存,**默认 1
 
 - **影响力**:★ 194 / forks 22 / open issues 8(GitHub API 2026-10-31);npm 近 30 天 **1,296** 次下载（2026-09-30 ~ 10-29）。★ 与下载都**高于**同类的 `dsh-TUI Pro`（★ 1，旧快照下载 2,113）,说明"克制的终端表层"有真实用户。
 - **机制证据**:README 全文(2026-10-31 抓取);摘录见 [`../_证据/01_桌面与终端-原始挖掘.md`](./_证据/01_桌面与终端-原始挖掘.md) §二.4。
-- **口径警告**:1,296 为 2026-08-19 快照,与 ★ 不同源。
+- **口径警告**:npm 月下载含 CI 与镜像,≠ 用户数;与 ★ 不同源。
 - **已核（2026-10-31）**：`dsh-TUI` 用的是 **`dsh-tui`** profile（其 README："`dsh plugin --profile dsh-tui add …`"、"`dsh --profile dsh-tui`"），与 SeekTTY 的 `tui` **不同名**，不存在 profile 撞车。真正的冲突面在 **patch 行 id**：两者都覆盖 `system-prompt`、`hmr`、`session-query-sqlite` 等宿主行（各自 `cordis.patch.yml` 开头即说明按 id 覆盖），所以**装进同一个 profile 才会打架**。
 - `[OPEN]` 已测宿主是 `0.2.0-rc.2`,比本线基线 `0.2.1-rc.3` 落后一个 rc;`0.2.1-rc.3` 上未验证。
 

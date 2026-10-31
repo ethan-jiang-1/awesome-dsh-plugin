@@ -15,6 +15,7 @@ updated: 2026-10-31
 > **一句话**:`1` 类三张卡在改"壳",它改的是**壳里的内容由谁生产**——**模型说的每一句,都可能是一个可以直接操作的组件**。
 > **借鉴价值**:**① 用"内容协议"而不是 API 当扩展面(` ```dsh-ui ` + 严格 JSON),换来零 patch、零 `node_modules` 改动;② 两级容错:坏节点单独丢弃、整块不可解析就退回原始 Markdown;③ 校验失败**同轮**把诊断回灌给模型自纠,并给关断阀;④ 无 `action` 的控件渲染成 disabled,用渲染态消灭死点击;⑤ 表面色只暴露一层可覆盖变量;⑥ 重型引擎按节点类型懒加载。**
 
+> **证据深度**:源码级（上游接缝 + README 全文）（2026-10-31）
 > **样本档案**
 > **repo**:[`omdsh-dev/dsh-genui`](https://github.com/omdsh-dev/dsh-genui)(目录条目);npm scope 是 `@changfenhuang` · **npm**:`@changfenhuang/dsh-genui` · **版本**:自述覆盖 `^0.2.0-rc.1 || ^0.2.1-rc.1 || ^0.2.2-alpha.2`
 > **目录条目**:`data/plugins/omdsh-dev__dsh-genui.yml`(`ui`)

@@ -15,6 +15,7 @@ updated: 2026-10-31
 > **一句话**:不换表层、不碰官方布局,只在右侧栏"旁边"和"下面"各加一层,然后把文件、编辑器、终端、Git、任务、侧聊全塞进去。
 > **借鉴价值**:**① 扩展点只留一种形状 `registerX(descriptor) => disposer`,且内置功能走同一条路;② 自建注册表的方法必须是原型方法,否则插件卸载不回收;③ 持久化的"版本前缀 key + 三道回落 + 引用完整性校验";④ 让第三方能力"装它才有、没装不显示";⑤ 把 40 MB 会话的冷读从 6 次全读压到 1 次 header 读的那套扇出修复。**
 
+> **证据深度**:源码级（上游接缝 + 仓库 README）（2026-10-31）
 > **样本档案**
 > **repo**:[`omdsh-dev/DSH-better-sidebar`](https://github.com/omdsh-dev/DSH-better-sidebar) · **npm**:`dsh-better-sidebar` · **版本**:`0.28.2`(本卡引用线)
 > **目录条目**:`data/plugins/omdsh-dev__DSH-better-sidebar.yml`(`ui`)

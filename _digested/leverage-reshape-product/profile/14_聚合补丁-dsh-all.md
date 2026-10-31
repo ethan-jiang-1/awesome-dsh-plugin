@@ -16,6 +16,7 @@ budget: 150
 > **一句话**:它把"全家桶"还原成**最小技术形态**——一个共享库 + 11 个插件 + **一个只做挂载的聚合包**,而那个聚合包的全部内容就是**一条 bundle patch**;它甚至把"管理 profile"也做成了一张卡片。
 > **借鉴价值**:**① 聚合包应该是"纯数据":一个 patch + 一份 bundles 列表,不带业务逻辑;② 共享库把宿主半体的工具收在一处(回环围栏/托管区块/服务读取);③ 每个插件动到哪一层要写成表(模型工具 / systemPrompt / 界面);④ 兼容写成 11 档显式枚举,"最新五档零宿主差异";⑤ Profile 管理卡片:创建/复制/改名/删除 + 逐 profile 端口 + 可复制的启动命令。**
 
+> **证据深度**:README 级（未读源码）（2026-10-31）
 > **样本档案**
 > **repo**:[`hyzyn/dsh-plugin-kit`](https://github.com/hyzyn/dsh-plugin-kit) · **npm**:`@hyzyn/dsh-all`(聚合包)+ 11 个插件 + `@hyzyn/dsh-kit`(共享库) · **许可证**:Apache-2.0
 > **目录条目**:`data/plugins/hyzyn__dsh-plugin-kit--packages-*.yml`(每个子包一条;`profile` 卡片在 `packages/profile`)

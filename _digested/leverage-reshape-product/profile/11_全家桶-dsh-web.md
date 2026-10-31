@@ -11,11 +11,12 @@ budget: 170
 ---
 # 全家桶 · dsh-web：一个 profile 就是一个产品
 
-> **状态**:`observed`(README 级核过) · **基线**:DSH `0.2.1-rc.3`(其 README 自述 `DSH >=0.2.1-rc.3`) · **读于**:2026-10-31
+> **状态**:`observed`(源码级：patch 形态已核) · **基线**:DSH `0.2.1-rc.3`(其 README 自述 `DSH >=0.2.1-rc.3`) · **读于**:2026-10-31
 > **类**:`1` 壳与工作台 · **层**:2(表层)+ 3(槽位)+ 5(默认值)+ 6(首启)+ 7(分发) · **★ 9,865**(GitHub API,2026-10-31)/ **npm 月下载 99,694**(2026-09-30 ~ 10-29);仓库旧快照(2026-08-19)为 ★ 4,661 / 59,648
 > **一句话**:它证明了一件事——**发一个 profile 里的一整套 bundle,浏览器里就能长出一个新产**;而且它有**自己的商店、皮肤中心、预设中心、更新器**,连"从哪装皮肤"都不再用官方的那一套。
 > **借鉴价值**:**① 发货单位是 bundle(带 `dsh.bundle.patch`),不是"一个功能插件";② 聚合包替用户把 20+ 个子包一次装齐,同时保留单装;**③ 装失败会 `exit 0` 但 `dsh.profile.bundles` 为空——必须读回挂载,不能信退出码**;④ 内置了别人的插件就必须处理共存(只隐藏按钮不够,会留下重复路由/服务);⑤ 默认皮肤/默认预设就是产品身份;⑥ 桌面端要单独走:官方 `desktop` profile 是应用内专管。**
 
+> **证据深度**:源码级（`dsh.bundle.patch` 与 25 条 insert 已核；运行未实测）（2026-10-31）
 > **样本档案**
 > **repo**:[`zhu1090093659/dsh-web`](https://github.com/zhu1090093659/dsh-web) · **npm**:`@linxin666/dsh-web-all`(聚合包)+ 20 个 `@linxin666/dsh-*` 子包 · **许可证**:Apache-2.0
 > **目录条目**:`data/plugins/zhu1090093659__dsh-web-ui--packages-dsh-web-ui-all.yml`(`ui`)
@@ -130,7 +131,7 @@ budget: 170
 
 - **影响力**:**★ 9,865 / forks 608 / issues 3**(GitHub API,2026-10-31);**npm 近 30 天 99,694 次下载**(2026-09-30 ~ 10-29)。仓库 `stars.json` 的 2026-08-19 快照只有 4,661★ / 59,648 下载——**同一产品在两个口径下差一倍**,引用时必须写清用的是哪一个。它是**唯一一个"以聚合包形态"进本线影响力前列**的产品。
 - **机制证据**:README 全文(2026-10-31 抓取),原文见 [`_证据/01_产品聚合-原始挖掘.md`](./_证据/01_产品聚合-原始挖掘.md) §二。
-- **口径警告**:59,648 是下载量快照,与 ★ 不同源。
+- **口径警告**:59,648 是仓库 `downloads.json` 的 2026-08-19 快照（仅作历史对照）,与 ★ / npm 近 30 天不同源。
 - **已核（2026-10-31）**：入口 bundle 只有 **1 个**（根 `package.json` 的 `dsh.bundle.patch` 指向 `./packages/dsh-web-all/cordis.patch.yml`）；patch 内是 **25 条纯 `insert:`**，id 全部带 `web-ui-` 前缀，**没有一条**改 `@deepseek-ai/dsh-web-app` 的行。文件头自述 "AUTO-GENERATED … Rows are namespaced web-ui-* so the bundle can coexist with standalone installs."
 
 ## 5. 借鉴食谱

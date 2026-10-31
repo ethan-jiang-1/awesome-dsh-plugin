@@ -11,10 +11,13 @@ budget: 170
 ---
 # 内置运行时 · dsh-desktop-tauriapp:把运行时一起打包
 
-> **状态**:`observed`(README 级核过) · **基线**:DSH `0.2.1-rc.3`(其内置版本由脚本 pin,README 未给具体号) · **读于**:2026-10-31
+> **状态**:`observed`(README 级；上游接缝已实测) · **基线**:DSH `0.2.1-rc.3`(其内置版本由脚本 pin,README 未给具体号) · **读于**:2026-10-31
 > **类**:`1` 壳与工作台 · **层**:2(表层)+ 5(默认值)+ 6(首启)+ 7(分发) · **★ 1 / open issues 25**(GitHub API,2026-10-31)
 > **一句话**:它是三条宿主路线里**最"自成一体"的一条**:Node sidecar + dsh 依赖树随包分发,**双击即用、零前置依赖**,并且把"运行时版本"做成应用内的可换件。
 > **借鉴价值**:**① 内置运行时把"装 Node / 装 dsh / 配 PATH"三个失败点一次性消掉;② 健康探测是**连接级**的(TCP 连不上才算异常),不靠进程存在;③ 自愈要**封顶 + 冷却重置**(3 次封顶,持续健康 ≥2 分钟才重置);④ 桌面 chrome **局部注入**,不禁用 stock `ui-layout`;⑤ 依赖状态**只提示、不自动重建**(#124 的教训)。**
+
+> **证据深度**:README 级 + 上游接缝**实测**（未读其全部源码）（2026-10-31）
+> **影响力**：机制例外——唯一的"内置运行时"样本，证明这条路线可行（门槛见 [`00-map` §7](../00-map.md)）。
 
 > **样本档案**
 > **repo**:[`hyperion2144/dsh-desktop-tauriapp`](https://github.com/hyperion2144/dsh-desktop-tauriapp) · **npm**:`dsh-desktop-tauriapp`(插件半区) · **许可证**:GitHub API 报 `NOASSERTION`(仓库内有 LICENSE,读前先核)
@@ -132,7 +135,7 @@ budget: 170
 - **影响力**:**★ 1 / open issues 25**(GitHub API 2026-10-31)——**本 lever 里影响力最弱的样本**,但它有**最独特的机制**(内置运行时 + 运行时版本管理),按本线"机制独特可例外"的口径成卡,并在标题里标明。
 - **血缘**:fork 自 `happpsee/dsh-desktop-app`(下载快照 352),说明这条"内置运行时"路线至少有两代实现。
 - **机制证据**:README 全文(2026-10-31 抓取);摘录见 [`../_证据/01_桌面与终端-原始挖掘.md`](./_证据/01_桌面与终端-原始挖掘.md) §二.3。
-- **口径警告**:★ 1 与下载快照不可互证;**本卡不足以证明"内置运行时"是主流选择**,只能证明它可行。
+- **口径警告**:★ 1 只说明社区可见度极低，**本卡不足以证明"内置运行时"是主流选择**，只能证明它可行。
 - **已实测（2026-10-31）**：上游 CLI **三条路都拒绝 `desktop`**——`dsh --profile desktop --dump-config`、`dsh plugin --profile desktop add …`、以及加 `--from-default-profile web`，全部返回 `error: profile "desktop" is managed exclusively by the Electron application`。它能跑，是因为 launcher **直调内部 `runProfile` API、不经 CLI**（`desktop/src-tauri/src/runtime/builtin/launcher.mjs:1`），并用自有参数 `--init-from-default` 从 `web` 模板初始化（同文件 :25）。**代价**：它会在 `$DSH_HOME/profiles/desktop` 建 profile——与官方 Electron 应用**同名同目录**。
 
 ## 5. 借鉴食谱

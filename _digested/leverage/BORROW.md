@@ -30,7 +30,7 @@ budget: 420
 
 **答案**：先定接缝，再写机制。接缝决定它能改变什么，能力是次要的。
 
-- **先读**：[00-map](./00-map.md) 的杠杆阶梯 → [RESHAPE-0](../leverage-reshape-product/01_领域模型-七层与命名约定.md) §4 的 13 行接缝表。
+- **先读**：[00-map](./00-map.md) 的杠杆阶梯 → [RESHAPE-0](../leverage-reshape-product/horizon.md) §4 的 13 行接缝表。
 - **再读**：§2 里选一个域的最小集；同类 `sample` 卡的「借用节」。
 - **拿到**：7 级位置、13 行「上游保证 / 不保证」、一份可抄清单。
 - **必问**：这条缝给不给我强制点？不给的话，我的保证上限是什么？
@@ -40,7 +40,7 @@ budget: 420
 
 **答案**：产品化的单位是 profile，不是插件；**先分「插件侧 / 宿主侧」**，再决定改哪一层、要不要 fork。
 
-- **先读**：[RESHAPE-plugin](../leverage-reshape-product/plugin/README.md)（装进别人的 profile）、[RESHAPE-profile](../leverage-reshape-product/profile/README.md)（发一套 bundle 在浏览器里交付）或 [RESHAPE-shell](../leverage-reshape-product/shell/README.md)（换掉表层自己当宿主），再看 [RESHAPE-0](../leverage-reshape-product/01_领域模型-七层与命名约定.md) §2 的七层。
+- **先读**：[RESHAPE-plugin](../leverage-reshape-product/plugin/README.md)（装进别人的 profile）、[RESHAPE-profile](../leverage-reshape-product/profile/README.md)（发一套 bundle 在浏览器里交付）或 [RESHAPE-shell](../leverage-reshape-product/shell/README.md)（换掉表层自己当宿主），再看 [RESHAPE-0](../leverage-reshape-product/horizon.md) §2 的七层。
 - **再读**：对应 `sample` 卡的「降级链」「救生页」「首启」三节；[RESHAPE-5](../leverage-reshape-product/plugin/51_分发与救生页-dsh-market.md) 与 [RESHAPE-1 终端](../leverage-reshape-product/shell/14_终端即产品-dsh-TUI.md)。
 - **拿到**：改第 2 层必须自己补 5/6 层（规律 A）；救生页必须活在插件栈之外；每档能力一条「退化为 Y」。
 - **必问**：起不来的时候，用户看到的是什么？那个东西依赖不依赖坏掉的 profile？
@@ -302,10 +302,10 @@ budget: 420
 
 ### 6.3 方法缺口
 
-- **RESHAPE 没有 commit 锚点**：只到 catalog + 插件 README；要源码级复核得先按版本找 tag（[RESHAPE README](../leverage-reshape-product/plugin/README.md) §4.1）。
+- **RESHAPE 没有 commit 锚点**：证据深度逐卡标注（源码级 / README 级），多数只锁版本、少数实测，未锁 `repo@commit`；要逐字复核得按版本找 tag（[RESHAPE README](../leverage-reshape-product/plugin/README.md) §4.1）。
 - **A 门撞词噪声未清**：层级前 5 名至少 4 个是通用词（[horizon](./horizon.md) §4）。
 - **「少见 / 唯一」没有可重跑的计数**——这是刻意的；引用时带日期、标 `[OBS]`，接受它会过时（[horizon](./horizon.md) §7）。
-- **证据强度分域，不能互推**：PROVE 锁 commit；CROSS / LIMIT 读源码但只锁版本；RESHAPE 停在 catalog（[README](./README.md) §7 / [horizon](./horizon.md) §7）。
+- **证据强度分域，不能互推**：PROVE 锁 commit；CROSS / LIMIT 读源码但只锁版本；RESHAPE 分卡标注、未锁 commit（[README](./README.md) §7 / [horizon](./horizon.md) §7）。
 
 ### 6.4 回源五步
 

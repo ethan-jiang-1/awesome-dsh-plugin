@@ -13,7 +13,7 @@ budget: 170
 
 > **标语**:*If you replace the surface, you own the product.* —— 换掉表层，首启、分发、降级就没人替你回答。
 > **分工**:本 lever 收**换表层/自带宿主**的样本；能 `dsh plugin --profile <任意> add` 装进别人 profile 的客人在 [`plugin` 侧](../plugin/README.md)，**装进 web profile 在浏览器里成套出产品**的在 [`profile` 侧](../profile/README.md)。**先分 lever，再看编号。**
-> **状态**:`observed`(机制已核) · **基线**:DSH `0.2.1-rc.3` · 名单 @ `efe602e7b` · **快照**:2026-08-19
+> **状态**:`observed`(机制已核) · **基线**:DSH `0.2.1-rc.3` · 名单 @ `efe602e7b` · **指标**:2026-10-31 重采
 > **范围**:兼容 **DSH `0.2.x`**；`0.1.x` 的冻结 fork 只作反例。
 > **借阅入口**:想判归属 → [§2 判据](#2-入桶判据) · 想抄 → [§4 必抄 9 条](#4-宿主侧必抄-9-条) · 想回源 → [§3 坐标](#3-六张卡)
 
@@ -21,7 +21,7 @@ budget: 170
 
 ## 1. 为什么要单开一个 lever
 
-**因为改第 2 层，5/6/7 层就归你。** 这是本线的门（[`01_领域模型`](../01_领域模型-七层与命名约定.md)）里那条**规律 A**：
+**因为改第 2 层，5/6/7 层就归你。** 这是本线的门（[`horizon`](../horizon.md)）里那条**规律 A**：
 
 | 层 | 名字 | 插件侧 | 宿主侧 |
 |---|---|---|---|
@@ -48,23 +48,23 @@ budget: 170
 | 路线 | 做法 | 样本 |
 |---|---|---|
 | **复用 `web`** | 只补壳,profile 仍走 `web`(与用户自跑 `dsh web` 共数据) | `windowos` |
-| **换一块屏** | 用终端,profile 取 `tui`(自己的名字,不碰 `desktop`) | `SeekTTY`、`dsh-TUI` |
-| **自带运行时** | 内置 Node + dsh,profile 自选(但 `desktop` 仍可能撞名) | `tauriapp` |
-| **待判定** | README 未写用哪个 profile | `DSH Desktop`(`[OPEN]`) |
+| **自有 DSH_HOME + `web`** | 自带一套数据根(如 Electron userData 下),正常只开 `web` profile | `DSH Desktop`(已核) |
+| **换一块屏** | 用终端,profile 取自己的名字(`tui` / `dsh-tui`,不碰 `desktop`) | `SeekTTY`、`dsh-TUI` |
+| **自带运行时 + 借 `desktop` 名** | 内置 Node + dsh;**绕开 CLI** 用内部 API 建 `desktop` profile——与官方应用同名同目录 | `tauriapp`(已实测) |
 
 **抄之前先回答**:你打算用哪个 profile 名?这个名字会不会和官方桌面应用、或用户自己跑的 `dsh web` 撞车?
 
 ## 2. 入桶判据
 
-命中**一条**就进这一桶；一条都不中就留在 [`plugin` 侧](../plugin/README.md)。**注意分界**：如果一个东西装进 `web` 就能在**浏览器**里成套交付（自带默认值/首启/分发），它属于 [`profile` 侧](../profile/README.md)，不是这里。
+**与 [`00-map` §8](../00-map.md) 是同一套三步判定。** 本桶 = 三步判定的 **Q1「非浏览器表层 / 自带运行时 / 安装包」** 分支。
 
-| # | 判据 | 为什么它决定归属 |
-|---|---|---|
-| H1 | **换掉表层**（第 2 层）：终端的壳、桌面的框、另一块屏的入口 | 换了"应用"，就没人替你回答"第一次打开什么样"（规律 A） |
-| H2 | **不是 profile 里的客人**：全局 CLI、独立安装器、forked 宿主 | `dsh plugin add` 装不进去，或装进去也没意义 |
-| H3 | **自带一条完整的装-坏-回链路**：更新器 / 卸载器 / 救生页 / 安装包 | 这条链一旦归它，它就已经是产品而不是零件 |
+- **主问**：用户必须启动终端、桌面应用或安装包，才能用到它？
+- **门槛**：★ ≥ 100 或 npm 近 30 天 ≥ 1,000；机制例外每 lever ≤ 2 张（见 [`00-map` §7](../00-map.md)）。
+- **边界**：能不能 `dsh plugin add` **不作数**（`14_终端即产品` / `15_终端工作区` 都能 add）；**插件半区不改变归属**（`12_单文件桌面壳` 的插件只是安装器）。
 
 > **三张边界样本为什么不在这一桶**：`12_厚工作台` 没换表层（还是 `web` profile）、`51_分发与救生页` 的救生页是替宿主兜底、`61_多端与远程` 把 `dsh web` 当回环上游——它们都是**厚客人**。逐条理由见 [plugin 侧 §1.1](../plugin/README.md)。
+
+> **怎么加卡**：过 00-map §11.1 快筛且门槛达标 → 确认它怎么补 5/6/7 层 → 按 00-map §5 建卡 → catalog 与本表各补一行 → `node _digested/verify.mjs`。
 
 ## 3. 六张卡
 
@@ -94,7 +94,7 @@ budget: 170
 | `内置运行时` | `hyperion2144/dsh-desktop-tauriapp` | `dsh-desktop-tauriapp`（插件半区） | `hyperion2144__dsh-desktop-tauriapp.yml` (`ui`) | 插件装；**应用本体**从 Releases 下 dmg/msi | `_证据/01_桌面与终端-原始挖掘.md` §二.3 | `desktop` profile 在当前上游能否创建；包体与内置版本 |
 | `冻结 fork` | `All3nCN/dsh-better-sidebar-N23` | `@all3cn/dsh-better-sidebar-n23` | `All3nCN__dsh-better-sidebar-N23.yml` (`ui`) | **0.2.x 上装不上**（安装期 `incompatible-version`） | 目录条目 + upstream README 对照 | 同作者 `dsh-qa-suite-N23`；强行 `allow-version` 豁免后的实际表现 |
 
-> **口径**：★ / issue 为 **GitHub API 2026-10-31** 实测；下载为仓库 `downloads.json` 的 **2026-08-19** 快照。两者**不同源、不可互证**；`—` 表示该口径没有值（不是 0）。
+> **口径**：★ / issue 为 **GitHub API 2026-10-31** 实测；npm 下载为 **2026-09-30 ~ 10-29** 的近 30 天（含 CI 与镜像）。两者**不同源、不可互证**；`—` 表示该口径没有值（不是 0）。
 
 ## 4. 宿主侧必抄 9 条
 
@@ -147,4 +147,4 @@ budget: 170
 
 **不收**：能 `dsh plugin add` 装进别人 profile 的插件（去 [`plugin` 侧](../plugin/README.md)）；只加能力的工具类插件。
 
-**共享文件只读**：`00_map.md`、`horizon.md`、`leverage/README.md`、`data/` 由别的会话维护，本 lever 只调用、不写。
+**共享文件只读**：`00-map.md`、`horizon.md`、`leverage/README.md`、`data/` 由别的会话维护，本 lever 只调用、不写。

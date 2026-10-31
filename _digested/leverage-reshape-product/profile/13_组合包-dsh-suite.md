@@ -16,6 +16,7 @@ budget: 145
 > **一句话**:它不是"一个新产品",而是**把 18 个独立插件变成一件可交付物**:固定版本、统一默认配置、一条命令、整包更新——**组合包卖的是策展,不是界面**。
 > **借鉴价值**:**① 组合包是"策展 + 钉死版本"的产品,不是把包堆在一起;② 共享默认配置用一条补丁注入,组件仍可单装;③ 扁平化(无 git 子依赖)让安装可复现;④ 更新走整包,何时重启由用户决定;⑤ 多 profile 支持:desktop 与 web 同一条命令换 profile 名。**
 
+> **证据深度**:README 级（未读源码）（2026-10-31）
 > **样本档案**
 > **repo**:[`STARDUSTLC666/dsh-suite`](https://github.com/STARDUSTLC666/dsh-suite) · **npm**:`@stardustlc/dsh-suite` · **许可证**:MIT
 > **目录条目**:`data/plugins/STARDUSTLC666__dsh-suite.yml`(`workflow`)

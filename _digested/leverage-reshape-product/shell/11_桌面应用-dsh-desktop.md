@@ -16,6 +16,7 @@ budget: 180
 > **一句话**:它不是"给 Web GUI 加个窗口",而是**把运行时、安装包、更新通道、恢复面、手机通道一起当产品做**:安装即用、数据在应用目录外、坏了进 Safe Mode。
 > **借鉴价值**:**① "Safe Mode = 只挂官方 core bundle 的隔离 profile",把插件故障变成可退出的状态而不是白屏;② 安装包按**目标平台各自构建**,签名/公证是分发的一部分;③ 更新**先问再下、装完再重启**,并且允许"跳过这一版";④ 手机是**独立配对桥**,不是把 127.0.0.1 打个洞;⑤ 渲染器**无 Node + 上下文隔离 + 沙箱**,壳的安全基线不靠自觉。**
 
+> **证据深度**:README 级 + `docs/architecture.md`（未读源码）（2026-10-31）
 > **样本档案**
 > **repo**:[`dataelement/dsh-desktop`](https://github.com/dataelement/dsh-desktop) · **npm**:无(桌面发行版,不走 `dsh plugin add`) · **许可证**:MIT
 > **目录条目**:**无**(口径外样本:它不在插件目录里,这正是"宿主侧会被目录系统性漏掉"的实例)
@@ -137,7 +138,7 @@ profiles / plugins / workspaces / sessions / 模型设置都放在 Electron 的 
 
 ## 4. 证据与边界
 
-- **影响力**:GitHub API 2026-10-31:`stargazers_count=16973`、`forks=586`、`open_issues=136`、`pushed_at=2026-10-30`。这是本 lever **唯一一个有万级 ★ 的样本**,也是"宿主侧被插件目录系统性漏掉"的最好证据(**它不在** `data/plugins`)。
+- **影响力**:GitHub API 2026-10-31:`stargazers_count=16,975`、`forks=586`、`open_issues=136`、`pushed_at=2026-10-30`。这是本 lever **唯一一个有万级 ★ 的样本**,也是"宿主侧被插件目录系统性漏掉"的最好证据(**它不在** `data/plugins`)。
 - **机制证据**:README 全文(2026-10-31 抓取);上游接缝行号见 [`../_证据/01_桌面与终端-原始挖掘.md`](./_证据/01_桌面与终端-原始挖掘.md) §一。
 - **口径警告**:★ 是 **GitHub API 时点值**,与仓库 `data/stars.json` 的 2026-08-19 快照**不同源**,不可互证,引用时必须带日期。
 - **已核（2026-10-31）**：`docs/architecture.md` 写明 DSH_HOME 在 **Electron userData 下**（`harness/ DSH_HOME`，:42），启动时"**inspecting the web Profile**"（:29），正常状态是"the normal **web profile**"（:72）；Safe Mode 是**另一个只含官方 core bundle 的 profile**（:35）。所以它既不占 `desktop`，也不碰用户的 `~/.dsh`——**自带一套宿主数据根**。

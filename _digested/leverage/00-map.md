@@ -11,7 +11,7 @@ budget: 170
 # 杠杆层 · 四个影响面领域(总章)
 
 > **这是什么**:围绕「DSH 里影响面大、强力扩充了 DSH 插件的机制」的深读层。目录前缀 `lever-` 是**第二轴**——`ecosystem/` 回答「有什么」,这里回答「改变了什么、改到多深、代价是什么、什么时候会坏」。
-> **状态**:三域成稿(2026-10-31):5 份宪章 + 4 份索引 + 1 份借用指南 + 6 份横向手册 + 15 张机制卡 + **14 张样本卡** + 0 份原始证据,共 **45 篇**。**产品线另册**:[`../leverage-reshape-product/`](../leverage-reshape-product/README.md)(32 篇,19 张样本卡),不参与本层统计。本文件只做宪章,**不随卡片数量增长**;全量清单在 [catalog](./catalog.md),按任务借用看 [BORROW](./BORROW.md)。
+> **状态**:三域成稿(2026-10-31):5 份宪章 + 4 份索引 + 1 份借用指南 + 6 份横向手册 + 15 张机制卡 + **14 张样本卡** + 0 份原始证据,共 **45 篇**。**产品线另册**:[`../leverage-reshape-product/`](../leverage-reshape-product/README.md)(33 篇,19 张样本卡),不参与本层统计。本文件只做宪章,**不随卡片数量增长**;全量清单在 [catalog](./catalog.md),按任务借用看 [BORROW](./BORROW.md)。
 
 ## 为什么单独一层
 
@@ -92,7 +92,7 @@ DSH 的扩展面是有限的、可枚举的:seam(fs/shell/sandbox/llm/subagent/w
 
 每条进入卡片的样本必须写齐六项:代表什么 / 为什么选它(过的是哪几条证据)/ **影响力证据(被谁提到、替换了哪个对象、或官方原文;不接受形容词,也不要求计数)** / 主要特点 / 代价与失效条件 / 证据级别。缺一项退回。
 
-完整规则、三域专项条件、分级落位与已知缺口 → [`horizon.md`](./horizon.md)。产品线的准入条件在 [`../leverage-reshape-product/README.md`](../leverage-reshape-product/README.md)。
+完整规则、三域专项条件、分级落位与已知缺口 → [`horizon.md`](./horizon.md)。产品线的准入条件在 [`../leverage-reshape-product/horizon.md`](../leverage-reshape-product/horizon.md)。
 
 ## 证据协议:所有卡片共同遵守
 

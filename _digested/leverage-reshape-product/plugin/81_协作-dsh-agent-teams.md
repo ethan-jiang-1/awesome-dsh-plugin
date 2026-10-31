@@ -12,10 +12,11 @@ updated: 2026-10-31
 
 > **状态**:`observed` · **基线**:DSH `0.2.1-rc.3`(推荐配对 `0.2.1-rc.2` + 插件 `0.1.28`)· **读于**:2026-10-31
 > **类**:`8` 协作 · **层**:**4**(身份:队长 + 队员)→ 3(实时面板)→ 5(质量门选项) · MIT
-> **★ 2,597 / npm 50,995** · `@nanmicoder/dsh-agent-teams@0.1.28`
+> **★ 2,597 / npm 50,995**（2026-10-31 实时） · `@nanmicoder/dsh-agent-teams@0.1.28`
 > **一句话**:它把"多代理"从一个**运行时能力**变成一张**可批准的计划**:先出花名册和任务 DAG,**你点头才开始跑**。
 > **借鉴价值**:**① 三层否定的"停车位",让否掉的东西不会自己长回来;② 只有唯一一个按钮能开启调度;③ 质量门放在完成时而非写入时;④ 一个进程内串行的磁盘真相底盘;⑤ 版本声明从"枚举"改成"下界 + CI 矩阵"。**
 
+> **证据深度**:源码级（README + manifest + compatibility）（2026-10-31）
 > **样本档案**
 > **repo**:[`NanmiCoder/dsh-agent-teams`](https://github.com/NanmiCoder/dsh-agent-teams) · **npm**:`@nanmicoder/dsh-agent-teams` · **版本**:`0.1.28`
 > **目录条目**:`data/plugins/NanmiCoder__dsh-agent-teams.yml`(`workflow`)

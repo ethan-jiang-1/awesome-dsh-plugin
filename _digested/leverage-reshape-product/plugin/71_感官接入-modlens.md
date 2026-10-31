@@ -16,6 +16,7 @@ updated: 2026-10-31
 > **一句话**:它没有发明新技术,只解决一件极具体的事——**我用的是不能看图的模型,但我想直接 Ctrl+V 粘一张截图**,然后把这件事做到"一次都不用配置"。
 > **借鉴价值**:**① 只在"上游以元数据正面确认"的能力缺位上动手,`absent means unknown` 一律放过;② 接管方式是"**加一个元数据包装条目**"——不换底层路由、不起代理、不拦 hook;③ `meta.attempts` + `meta.warnings`,回退永不静默、配额归属永远可见;④ 复用别家登录必须逐项显式同意并标出"花的是谁的额度";⑤ 密钥轮换按**错误族**分流。**
 
+> **证据深度**:源码级（上游模型/附件接缝 + README）（2026-10-31）
 > **样本档案**
 > **repo**:[`liustack/modlens`](https://github.com/liustack/modlens) · **npm**:`@liustack/modlens` · **版本**:`3.27.2`(README 示例用的精确版本)
 > **目录条目**:`data/plugins/liustack__modlens.yml`(`vision`)

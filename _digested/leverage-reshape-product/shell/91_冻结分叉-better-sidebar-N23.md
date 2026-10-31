@@ -16,6 +16,7 @@ updated: 2026-10-31
 > **一句话**:本 lever 最好的一张**反证**:同一个作者、同一套代码,只因为**绑定了一个小版本**,在 `0.2.x` 的世界里彻底失联。
 > **借鉴价值**:**① 什么时候该 fork(以及为什么"功能更多"救不了它);② peer 区间写 `>= X < Y` 是一种延迟死亡;③ 深改的插件必须有"上游一升级我怎么活"的预案;④ fork 的运维成本与它替代的东西不成比例。**
 
+> **证据深度**:README 级（目录条目 + upstream README 对照）（2026-10-31）
 > **样本档案**
 > **repo**:[`All3nCN/dsh-better-sidebar-N23`](https://github.com/All3nCN/dsh-better-sidebar-N23) · **npm**:`@all3cn/dsh-better-sidebar-n23` · **版本**:钉 `0.1.x`(peer `>= 0.1.0-rc.6 < 0.2.0`)
 > **目录条目**:`data/plugins/All3nCN__dsh-better-sidebar-N23.yml`(`ui`)
