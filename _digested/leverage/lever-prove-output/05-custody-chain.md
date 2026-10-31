@@ -10,7 +10,7 @@ updated: 2026-10-31
 ---
 # 05 · 保管链：哈希链能证什么、不能证什么
 
-> **状态**:`observed`(检测边界表双方都公开,已核) · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b`
+> **状态**:`observed`(检测边界表双方都公开,已核) · **基线**:DSH `0.2.1-rc.3` · 名单 @ `efe602e7b`
 > **样本**:2 组(`030611/qiushi-dsh-evidence-audit` 主标杆 · `zhengqiuyang/dsh-attest-chain` 对照)
 
 ④ 证据环里最容易被高估的一格。两个插件都诚实地列出了**自己检测不到什么**,而那张表比任何宣传语都值钱。本卡的核心结论是:**哈希链证明的是「这份文件没被改过」,不是「记录的事是真的」;而它连「这份文件被整个删掉了」都证不了。**
@@ -103,15 +103,11 @@ attest-chain 有一节叫 **Kill criteria**:若 DSH 出了一等公民的签名�
 
 | 对象 | ★ / fork | 建库 → 推送 | 检索式命中 | 署名方式 |
 |---|---|---|---|---|
-| `030611/qiushi-dsh-evidence-audit` | 3 / 0 | 2026-08-13 → 08-14 | `hash.?chain\|哈希链` **3/7924** | 无签名 |
-| `zhengqiuyang/dsh-attest-chain` | 0 / 0 | 2026-10-12 → 10-19 | `ed25519` **3/7924** · `hash.?chain` 3 条之一 | 每条 ed25519 |
+| `030611/qiushi-dsh-evidence-audit` | 3 / 0 | 2026-08-13 → 08-14 | `hash.?chain\|哈希链` **很少** | 无签名 |
+| `zhengqiuyang/dsh-attest-chain` | 0 / 0 | 2026-10-12 → 10-19 | `ed25519` **很少** · `hash.?chain` 3 条之一 | 每条 ed25519 |
 
-```sh
-python3 _digested/leverage/census.py --probe "hash.?chain|哈希链"   # 3
-python3 _digested/leverage/census.py --probe "ed25519"              # 3
-```
 
-**关键读法**:`hash.?chain` 全库 **3 条**,其中 1 条是与证据无关的 `beijingwahw/dsh-nuke-plugin`;`ed25519` 也是 **3 条**,其中只有 attest-chain 把签名用于会话证据(另两条是源码管理与 MCP 凭据)。**这意味着:整条「会话级可验证账本」的供给是 2 个仓库、合计 3 个 star。** 这不是因为它们做得差,而是因为**几乎没人认为需要**——直到有人需要。
+**关键读法**:`hash.?chain` 全库很少,其中一条是与证据无关的 `beijingwahw/dsh-nuke-plugin`;`ed25519` 也很少,其中只有 attest-chain 把签名用于会话证据(另两条是源码管理与 MCP 凭据)。**这意味着:整条「会话级可验证账本」的样本只有两个仓库,星标合计也很低。** 这不是因为它们做得差,而是因为**几乎没人认为需要**——直到有人需要。
 
 ---
 
@@ -122,8 +118,8 @@ python3 _digested/leverage/census.py --probe "ed25519"              # 3
 | 必答项 | 内容 |
 |---|---|
 | **代表什么典型** | 「最小留存」路线:**不签名、不存内容、不设锚点**,只证「发生过、顺序、未被静默修改」,并且把**检测不到的情形逐条列出来** |
-| **为什么选它** | 过 **F**(`hash.?chain` 3/7924)+ **C/D**(`tools/result` + `session/event` 双接缝;空披露:能力仅 `fs-write`/`fs-read`/`env`,无 network/llm/shell——**它确实只写本地文件**)+ **G**(检测边界表已核) |
-| **影响力多大** | ★3;`hash.?chain` 全库 3 条之一;建库 2026-08-13,次日 08-14 推完(小工具,收敛快) |
+| **为什么选它** | 过 **F**（同类机制少见，人工判断）+ **C/D**(`tools/result` + `session/event` 双接缝;空披露:能力仅 `fs-write`/`fs-read`/`env`,无 network/llm/shell——**它确实只写本地文件**)+ **G**(检测边界表已核) |
+| **影响力多大** | ★3;`hash.?chain` 同类之一;建库 2026-08-13,次日 08-14 推完(小工具,收敛快) |
 | **主要特点** | ①只存哈希不存明文;②默认落 `DSH_HOME` 而非 cwd,`0700/0600`;③两进程写同一文件**不阻止**但事后会拒绝重复/陈旧 seq;④测试覆盖「双进程真并发追加」「精确的截断/篡改边界」「明文不泄漏」;⑤自带 publint / pack list / tarball 安装 / 字节级一致的官方 `applyEntryPatches` 复现测试 |
 | **代价 / 失效** | ①**删整文件 = 检测不到**;②**删尾部 = 检测不到**;③**重写并重链 = 检测不到**;④无作者身份;⑤`writeSync` ≠ `fsync`,断电丢最后一条;⑥启动校验与文件长度线性,**长会话会拖慢启动**;⑦POSIX 模式不表达 Windows ACL |
 | **证据级别** | `[CAT]` 自述 + 检测边界表 + 能力披露 · 状态 **`observed`** |
@@ -148,7 +144,7 @@ python3 _digested/leverage/census.py --probe "ed25519"              # 3
 | 必答项 | 内容 |
 |---|---|
 | **代表什么典型** | 「可归因」路线:签名 + 仓库历史绑定 + 可定位的坏点 + 导出 API |
-| **为什么选它** | 过 **F**(`ed25519` 3/7924)+ **C**(`tools/result`)+ **D**(签名、canonical JSON、git SHA 提取、`verifyChain`、`sign:false` 降级、面板消费)+ **G**(机制已核,自己写了 kill criteria) |
+| **为什么选它** | 过 **F**（同类机制少见，人工判断）+ **C**(`tools/result`)+ **D**(签名、canonical JSON、git SHA 提取、`verifyChain`、`sign:false` 降级、面板消费)+ **G**(机制已核,自己写了 kill criteria) |
 | **影响力多大** | ★0;建库 2026-10-12、10-19 推;**同作者 `dsh-trust-panel` 直接调 `verifyChain` 实时显示**——这是生态里少见的「证据被另一个插件消费」的实证 |
 | **主要特点** | ①每条记录 ed25519 签名;②从 shell 输出提取 commit SHA,把工作绑到 git 历史;③`verifyChain()` 返回第一个坏点及三因;④`sign:false` 可退化;⑤自带 kill criteria(原生一出就冻结) |
 | **代价 / 失效** | ①**删尾部仍需比对已发布 head**,签名本身挡不住;②密钥在仓库目录内,`gitignore` 写错就泄漏私钥;③仍不能证明命令跑对;④归因到**密钥**而非人;⑤验收只在「有人真去验」时发生 |

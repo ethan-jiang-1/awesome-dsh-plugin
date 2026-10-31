@@ -180,9 +180,6 @@ ctx.effect(() => ctx.workbench.registerSetting({
 | peer | `cordis ^4.0.0-rc.7`;`react` / `react-dom ^18.2.0` **可选** |
 | **已知偏差** | ① **无版本对照表**,只有一条最低版本,也没写不匹配会怎样;② 依赖 `data-turn-navigator` 私有锚点,0.2.x 已 0 命中 → 该偏移功能在 0.2.x 上**实际不生效**;③ 契约靠 5 份手工同步副本,不同步 = 类型漂移(编译期可见,运行时无感) |
 
-```sh
-python3 _digested/leverage/census.py --probe "dock|workbench|activity bar|工作台"
-```
 
 ---
 

@@ -182,9 +182,6 @@ updated: 2026-10-31
 | 兼容姿态 | **保留宿主依赖声明,但不凭版本号拦装**;逐版本验证矩阵写明"已验证范围"与"未验收项"(如"未将 Chromium 92 真机写成已验收") |
 | 已知偏差 | ① 推送"**不是保证送达的警报服务**";② 历史窗口与分页由 DSH 决定,"**插件无法提高服务商限额**";③ `?frontend=stock` **不是**无插件对照页 |
 
-```sh
-python3 _digested/leverage/census.py --probe "mobile|phone|remote access|手机|远程"
-```
 
 ---
 

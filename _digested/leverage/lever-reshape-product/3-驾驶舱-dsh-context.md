@@ -177,9 +177,6 @@ updated: 2026-10-31
 | 兼容 | `engines.dsh` 地板 `0.2.0-rc.2`;`dshReleases` 逐版本枚举 `0.2.0-rc.2` / `0.2.1-rc.2` |
 | **已知偏差** | ① 分类数字是估算,**与计费总量不等是设计**;② CJK / JSON schema 被低估(四字符一 token);③ 节假日按工作日计价;④ 成本按列表价,第三方网关可能差很远;⑤ 镜像 6 处官方实现,上游移动即需重拟合 |
 
-```sh
-python3 _digested/leverage/census.py --probe "context (dashboard|insight|panel)|上下文(洞察|仪表)"
-```
 
 ---
 

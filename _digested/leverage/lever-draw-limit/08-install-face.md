@@ -10,7 +10,7 @@ updated: 2026-10-31
 ---
 # 08 · 安装面:事前审计「组合特征」,事后只做「可回滚的隔离」
 
-> **状态**:`observed` · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b` · **样本**:`BotonJ/dsh-plugin-sentinel`(回读 README + `src/rules.js` / `src/audit.js`)+ `Noob-stupid/dsh-plugin-gating-hub`(回读 README 升级/门控/自救章节)
+> **状态**:`observed` · **基线**:DSH `0.2.1-rc.3` · 名单 @ `efe602e7b` · **样本**:`BotonJ/dsh-plugin-sentinel`(回读 README + `src/rules.js` / `src/audit.js`)+ `Noob-stupid/dsh-plugin-gating-hub`(回读 README 升级/门控/自救章节)
 > **坐标**:`BotonJ/dsh-plugin-sentinel`(GitHub:`BotonJ/dsh-plugin-sentinel` · 仓库 **0.1.0** · ⚠️ npm 同名包属于 `dushaobindoudou`,勿混)+ `Noob-stupid/dsh-plugin-gating-hub`(GitHub 同名 · npm `@noob-stupid/dsh-plugin-console` **0.5.98**)
 > **一句话**:安装面没有「运行期强制点」可用,只有两个动作:**装之前看一眼**,和**装坏之后退回去**。前者正确的判据不是「有没有危险 API」,而是**「危险 API 的组合形状」**;后者正确的判据不是「预测哪个插件会坏」,而是**「坏了能不能一条命令回到上一版」**。
 
@@ -132,7 +132,7 @@ gating-hub 的升级链是一条**先建立退路、再动手**的顺序:
 |---|---|
 | **代表什么典型** | 安装面的两端:**装前的形状判断**与**装后的可逆性**;后者是本域唯一「失败时仍然成立」的保证 |
 | **为什么选它** | 过 **B 替代**(自述接管框架升级与插件页,自带市场)、**C 接缝**(patch 层写入 / `/toggle` 路由)、**D 能力**(披露含 `shell` / `network` / `fs-write`);`G` 已核(证据三条件、永不禁用的两类行、闭包判据、超时与回滚顺序均可回读) |
-| **影响力多大** | gating-hub:npm `@noob-stupid/dsh-plugin-console` 月下载 **15,638**(2026-09-30→10-29),**本域最高**;星标 93(2026-09-30)。sentinel:⚠️ npm 包名 `dsh-plugin-sentinel` 在 registry 里属于 **`dushaobindoudou`**(`latest` 0.0.1,自述「name reserved」),**月下载 423 是那个包的**;`BotonJ/dsh-plugin-sentinel`(仓库 0.1.0)未发布,无下载数。两者按名引用均为 0(`--probe "dsh-plugin-gating-hub"` → 0/7924;`--probe "dsh-plugin-sentinel"` → 0/7924) |
+| **影响力多大** | gating-hub:npm `@noob-stupid/dsh-plugin-console` 月下载 **15,638**(2026-09-30→10-29),**本域最高**;星标 93(2026-09-30)。sentinel:⚠️ npm 包名 `dsh-plugin-sentinel` 在 registry 里属于 **`dushaobindoudou`**(`latest` 0.0.1,自述「name reserved」),**月下载 423 是那个包的**;`BotonJ/dsh-plugin-sentinel`(仓库 0.1.0)未发布,无下载数。两者按名引用均为 0 |
 | **主要特点** | ①升级前契约预检 ②全树回滚点 + 自动回滚 + 版本校验防假成功 ③15 分钟硬超时 + 卡死检测 ④**只禁有确证证据的行**,框架行永不禁用 ⑤每次禁用留可读恢复命令 ⑥非 registry 来源物化为 `link:`,除非 registry 真能解析到 ⑦闭包判据(误报 237 → 0) |
 | **代价与失效条件** | ①**控制台自己跑在 dsh 里**——dsh 起不来它从未加载,所以必须有一条进程外的自救脚本(`scripts/fw-preflight.mjs`)②服务打不开时只能靠命令行,不能靠界面 ③「绝不 spawn 进程」意味着它不能替用户重启 ④宿主代码变更仍需重启 ⑤面板只在官方插件页存在时显示(老框架上「老界面 + 完整功能」) |
 | **证据级别** | `[CAT]`(自述 + 真机事故事后记录)+ `[DSH]`(安装流程与构建脚本批准);状态 `observed` |

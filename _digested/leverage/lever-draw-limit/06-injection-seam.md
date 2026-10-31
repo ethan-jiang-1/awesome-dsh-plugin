@@ -10,7 +10,7 @@ updated: 2026-10-31
 ---
 # 06 · 缝的位置:挂 `pre-step` 才能看见「模型已经被说服」
 
-> **状态**:`observed` · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b` · **样本**:`PerryLink/dsh-defend`(回读 README 全文,含「已知限制」)+ 其自我替代记录
+> **状态**:`observed` · **基线**:DSH `0.2.1-rc.3` · 名单 @ `efe602e7b` · **样本**:`PerryLink/dsh-defend`(回读 README 全文,含「已知限制」)+ 其自我替代记录
 > **坐标**:`PerryLink/dsh-defend`(GitHub:`PerryLink/dsh-defend` · npm `dsh-defend` **0.3.25**)
 > **一句话**:同样的规则库,挂在 `tools/pre-execute` 只能看见「调用」,挂在 `agent/pre-step` 才能看见「进入模型的文本」。但**看见之后能不能拦**,取决于那条缝给不给理由字段——`pre-step` 的 reject **没有理由字段**,于是它只能静默拒绝。**这是接缝形状决定策略表达力的典型:不是作者不想解释,是缝没有那个口。**
 
@@ -98,7 +98,7 @@ updated: 2026-10-31
 |---|---|
 | **代表什么典型** | 「挂对缝」这一课的最佳样本:三条缝、同一套决策模型、三种表达力;同时是**被替代**的样本(冻结并推荐竞品) |
 | **为什么选它** | 过 **C 接缝**(自述点名三条缝)+ **D 零披露**(`capabilities.json` 无此条);`G` 已核(决策模型、失败关闭、有界性、审计门全部写自述);`E` 成立(与「只在 tools 层拦截」的实现构成对照) |
-| **影响力多大** | npm 月下载 **4,511**(2026-09-30→10-29);星标 20(2026-09-30);快照下载 2,702(2026-09-12);**已冻结**。本域按名引用 0(`census.py --probe "dsh-defend"` → 0/7924;`--probe "cc-safety-net"` → 1/7924,命中的是 `drscrewdriver/dsh-perm-gate`,即**竞品被引用、本包没有**) |
+| **影响力多大** | npm 月下载 **4,511**(2026-09-30→10-29);星标 20(2026-09-30);快照下载 2,702(2026-09-12);**已冻结**。本域按名引用几乎为零（命中的是 `drscrewdriver/dsh-perm-gate`,即**竞品被引用、本包没有**) |
 | **主要特点** | ①三个拦截点共用一套 allow/ask/block ②`critical` 级密钥**无视配置一律 block**(上游「见即中断」语义)③每次放行都 `next()`,下游策略插件永不被短路 ④不落盘、无网络、无子进程 ⑤报告从不含匹配文本 |
 | **代价与失效条件** | ①**无模型级判定**,无法理解全新意图 ②新式措辞 / 形近 Unicode / 多步攻击可绕(基准把实测下限 27/28 钉进测试)③`pre-step` 的 reject **静默**,模型不知道为什么 ④规则库来自上游资产,不是为 DSH 定制 ⑤**已冻结**,规则不再增长 |
 | **证据级别** | `[CAT]`(全自述 + 下载数)+ `[DSH]`(接缝语义);状态 `observed` |
@@ -199,7 +199,7 @@ updated: 2026-10-31
 | 名字 | 坐标(2026-10-31) | 本卡用它做什么 |
 |---|---|---|
 | `cc-safety-net` | npm `cc-safety-net` **2.7.1**;GitHub `kenryu42/cc-safety-net` | §3.4 的「更窄但采用度高一个数量级」对照(周下载 13,087 vs `dsh-defend` 937) |
-| `drscrewdriver/dsh-perm-gate` | GitHub `drscrewdriver/dsh-perm-gate` | **目录内唯一引用 `cc-safety-net` 的条目**(`census.py --probe "cc-safety-net"` → 1/7924)——「竞品被引、本域样本未被引」的证据 |
+| `drscrewdriver/dsh-perm-gate` | GitHub `drscrewdriver/dsh-perm-gate` | **目录内唯一引用 `cc-safety-net` 的条目**——「竞品被引、本域样本未被引」的证据 |
 
 > 若要深挖「窄而有效」这条线,从 `kenryu42/cc-safety-net` 入手;但它面向**编程 Agent 的 CLI hook**,不是 DSH 接缝,**机制不能直接平移**。
 

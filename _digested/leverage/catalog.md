@@ -2,16 +2,15 @@
 title: "catalog · 全量文件清单"
 domain: layer
 kind: index
-positioning: "全部 Markdown 的 kind、定位、能拿走什么、什么时候读（本文件由脚本生成）。"
+positioning: "全部 Markdown 的 kind、定位、能拿走什么、什么时候读（本文件手工维护）。"
 read_when: "想一次看全所有文件，或按关键词找入口。"
 status: living
 updated: 2026-10-31
 ---
 # catalog · 全量文件清单
 
-> **这是生成物，不要手改。** 改任何一个文件的 frontmatter 之后运行 `node _digested/leverage/catalog.mjs`。
-> 校验：`--check`（过期即失败） · 统计：`--stats`（角色分布、行数、超预算）。
-> **共 61 篇**：charter 7 · index 4 · guide 1 · playbook 6 · card 15 · sample 25 · evidence 3。
+> **手工维护。** 新增 / 改名文件时补一行；数量不在这里统计（名单和卡片都还在长）。
+> 用法：按 `read_when` 的任务词 grep，或按 `kind` 过滤。
 
 **六列怎么用**：`定位`答「它是什么」，`能拿走什么`答「值不值得打开」，`什么时候读`用任务词写，能直接 grep。
 
@@ -23,7 +22,7 @@ updated: 2026-10-31
 | [`BORROW.md`](./BORROW.md) | guide | 跨域借用总入口：按需求路由到具体章节，并给出四域最小集、跨域法则与陷阱。 | 8 条任务路由 + 6 条跨域法则 + 7 个必答问题 + 19 个陷阱 + 回源五步。 | 要写插件/做产品/做协作/做质量/做安全；或要评审、选型、回源、给官方提缺口。 | living |
 | [`00-map.md`](./00-map.md) | charter | 研究宪章：杠杆阶梯、命名约定、证据协议、文件约定与基线。 | — | 要判断一个插件占的是哪一级位置；或要新增卡/新域、改口径时。 | living |
 | [`horizon.md`](./horizon.md) | charter | 规则单一源：A/B/C/D/E/F/G 准入门、S/A/B/C 分级、每条必写的六项。 | — | 要把一个新样本立成卡；或质疑某条样本凭什么在场时。 | observed |
-| [catalog.md（本文件）](./catalog.md) | index | 全部 Markdown 的 kind、定位、能拿走什么、什么时候读（本文件由脚本生成）。 | — | 想一次看全所有文件，或按关键词找入口。 | living |
+| [catalog.md（本文件）](./catalog.md) | index | 全部 Markdown 的 kind、定位、能拿走什么、什么时候读（本文件手工维护）。 | — | 想一次看全所有文件，或按关键词找入口。 | living |
 
 ## RESHAPE · 产品形态 ｜ `reshape-product`
 

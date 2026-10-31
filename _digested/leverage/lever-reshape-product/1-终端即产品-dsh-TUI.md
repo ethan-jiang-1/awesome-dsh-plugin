@@ -213,9 +213,6 @@ dsh profile → dsh-base → dsh-TUI Cordis patch → agent preset + DSH service
 | 构建/运行 | CI 用 Node 24 + pnpm 11;包支持 Node `^22.19 || >=24` |
 | **已知偏差** | ① "SSH 永不写远端原生剪贴板";② SIGKILL / native abort / 事件循环完全阻塞**无法保证**进程内清理,恢复交给终端或外部监管;③ `/thinking` **不持久化**;④ "只有初始化的会话不落盘,重启即全新";⑤ **git URL 安装不支持** |
 
-```sh
-python3 _digested/leverage/census.py --probe "terminal|tui|cli|终端"
-```
 
 ---
 

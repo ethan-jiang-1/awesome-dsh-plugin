@@ -10,7 +10,7 @@ updated: 2026-10-31
 ---
 # 04 · 守卫与泵:同步谓词只能回答一次,复杂策略必须搬去别处
 
-> **状态**:`observed` · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b` · **样本**:`JayYuen666/dsh-danger-guard`(回读 254 行 README)+ 官方 `dsh-tools` 流水线语义
+> **状态**:`observed` · **基线**:DSH `0.2.1-rc.3` · 名单 @ `efe602e7b` · **样本**:`JayYuen666/dsh-danger-guard`(回读 254 行 README)+ 官方 `dsh-tools` 流水线语义
 > **坐标**:`JayYuen666/dsh-danger-guard`(GitHub:`JayYuen666/dsh-danger-guard` · npm `@jayyuen66/dsh-danger-guard` **0.1.10**)+ 官方 `@deepseek-ai/dsh-tools` 流水线语义
 > **一句话**:`ctx.tools.guard` 是**同步、单调、不可推翻**的一票否决——正因为不可推翻,它只能装价值高却极便宜的那种、立刻答得上来的判断;需要看文件内容、需要询问、需要跨调用记忆的守卫,必须换成 `tools/pre-execute` 的 deny/ask 分支。**这一条把「防灾难」与「控复杂度」的边界画得很清楚:复杂度不在策略里,而在接缝选择上。**
 
@@ -100,7 +100,7 @@ updated: 2026-10-31
 |---|---|
 | **代表什么典型** | 「同步守卫 + 异步证据收集」这一路线的完整样本:**不可推翻的便宜判断**在前面,贵判断搬去 post-execute/pre-execute 的理由里 |
 | **为什么选它** | 过 **C 接缝**(自述 `ctx.tools.guard`);**G 已核**(同步/单调、审批后重跑、沙箱让位四条判据、三处「判不了」都可回读);`E` 成立(与**同步守卫不可 `ask`** 的官方语义构成对照) |
-| **影响力多大** | npm 包名 `@jayyuen66/dsh-danger-guard`,注册表 `latest 0.1.10`,发布记录起自 2026-09-30、至 2026-10-29 共 16 个版本——**迭代密度**本身是采用信号;`api.npmjs.org` 对该 scoped 包未返回月下载数(**不可得,不估**)。本域按名引用 0(`census.py --probe "dsh-danger-guard"` → 0/7924) |
+| **影响力多大** | npm 包名 `@jayyuen66/dsh-danger-guard`,注册表 `latest 0.1.10`,发布记录起自 2026-09-30、至 2026-10-29 共 16 个版本——**迭代密度**本身是采用信号;`api.npmjs.org` 对该 scoped 包未返回月下载数(**不可得,不估**)。本域按名引用几乎为零 |
 | **主要特点** | ①**全文没有一处允许清单**——每个 `extra*` 配置只能收紧,误报只有三条出路:临时关闸、额度释放(`maxDenies` 默认 2)、按拒绝文本改写命令 ②按**参数键形状**识别凭据,不按工具名(工具名随 provider 漂移) ③按权限档位给不同规则表,类型层把「同一个键同时属于写入档与询问档」做成**编译错误** |
 | **代价与失效条件** | ①规则是启发式,新写法可漏 ②事实闸门会在「没读过就改」时拒绝,提高往返次数 ③`preflightEnabled` 无界面控件,只能改 settings 行 ④`extraSecretPatterns` 里的病态正则由配置者自负 ⑤机制移植自 ECC(MIT),不是为 DSH 原生设计 |
 | **证据级别** | `[CAT]` + `[DSH]`(流水线与 guard 语义);状态 `observed` |

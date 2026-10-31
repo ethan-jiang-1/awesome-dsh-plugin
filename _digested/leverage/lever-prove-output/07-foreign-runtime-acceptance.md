@@ -10,7 +10,7 @@ updated: 2026-10-31
 ---
 # 07 · 换运行时验收：判官不在会话里
 
-> **状态**:`observed`(机制、退出码、能力边界已核) · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b`
+> **状态**:`observed`(机制、退出码、能力边界已核) · **基线**:DSH `0.2.1-rc.3` · 名单 @ `efe602e7b`
 > **样本**:3 组(`263311487-ux/dsh-verify` 主标杆 · `4444wjt/dsh-plugin-veriscope` 对照 ·
 > `Jonah-Wu23/dsh-gungnir#dsh-plugin` 的离线复核器借用一句)
 
@@ -108,15 +108,10 @@ P2 不成立——见 §6.1:`REVIEW` 是把「机器判不了」这一事实**�
 
 | 对象 | ★ / fork | 建库 → 推送 | 检索式命中 | 退出码约定 |
 |---|---|---|---|---|
-| `263311487-ux/dsh-verify` | 2 / 0 | 2026-08-16 → 10-28 | `真(实)?浏览器\|real.?browser\|chromium` **34/7924** | **0 / 1**(+ 结构化判决) |
-| `4444wjt/dsh-plugin-veriscope` | 0 / 0 | 2026-10-17 → 10-18 | `通过／失败／待复核\|PASS…FAIL…REVIEW` **1/7924** · `永不转` **1/7924** | PASS / FAIL / **REVIEW** |
-| `Jonah-Wu23/dsh-gungnir` | 6 / 0 | 2026-09-01 → 10-27 | `false complete` **2/7924** 之一 | 0 / 1 / 2 |
+| `263311487-ux/dsh-verify` | 2 / 0 | 2026-08-16 → 10-28 | `真(实)?浏览器\|real.?browser\|chromium` **不少** | **0 / 1**(+ 结构化判决) |
+| `4444wjt/dsh-plugin-veriscope` | 0 / 0 | 2026-10-17 → 10-18 | `通过／失败／待复核\|PASS…FAIL…REVIEW` **很少** · `永不转` **很少** | PASS / FAIL / **REVIEW** |
+| `Jonah-Wu23/dsh-gungnir` | 6 / 0 | 2026-09-01 → 10-27 | `false complete` **很少** 之一 | 0 / 1 / 2 |
 
-```sh
-python3 _digested/leverage/census.py --probe "永不转"                                   # 1
-python3 _digested/leverage/census.py --probe "通过／失败／待复核|PASS.{0,10}FAIL.{0,10}REVIEW"   # 1
-python3 _digested/leverage/census.py --probe "真(实)?浏览器|real.?browser|chromium"          # 34
-```
 
 **读法**:「真浏览器」有 34 条供给(多为 Playwright 类工具),但**把判决做成三值并声明「待复核永不升级」的只有 1 条**。同样是「换运行时」,**判决模型的严谨度差异比运行时差异大得多**。
 
@@ -153,7 +148,7 @@ python3 _digested/leverage/census.py --probe "真(实)?浏览器|real.?browser|c
 | 必答项 | 内容 |
 |---|---|
 | **代表什么典型** | 「不重新评测的判定」:把已经跑完的评测导出,用纯阈值 + 精确比较做三值判决,并让回执绑定输入 |
-| **为什么选它** | 过 **F**(`永不转` 1/7924;三值组合 1/7924)+ **C/D**(`GatePolicyV1/V2`、`row_threshold`、精确十进制比较、回执失效、MCP 跨宿主工具)+ **G**(机制已核) |
+| **为什么选它** | 过 **F**（同类机制少见，人工判断）+ **C/D**(`GatePolicyV1/V2`、`row_threshold`、精确十进制比较、回执失效、MCP 跨宿主工具)+ **G**(机制已核) |
 | **影响力多大** | ★0;2026-10-17 → 10-18;全库唯一一条「待复核永不转 PASS」 |
 | **主要特点** | ①**不调用模型**:判定是纯阈值;②**不重新评测**:只判既有导出,成本 O(1);③`REVIEW` 是**终态**,不会因为重跑而被升级为 PASS;④输入/策略/环境任一变更 → 回执失效;⑤`veriscope_gate_complete` 只在**当前有效** PASS 时出现 |
 | **代价 / 失效** | ①**判的是别人给的数字**:导出来源不可信时,阈值再严也无意义;②需人工配阈值;③`REVIEW` 是终态意味着**必须有人接手**,否则流水线会卡住;④生态内几乎无人使用(★0),阈值口径无共识 |

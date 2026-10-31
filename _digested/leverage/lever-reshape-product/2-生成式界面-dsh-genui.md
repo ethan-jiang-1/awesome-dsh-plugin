@@ -225,9 +225,6 @@ Host --streams Markdown prose & ```dsh-ui fence--> DOM --检测 fence 并按白�
 | 性能口径 | 滑杆"60 FPS 重绘"、本地交互"sub-millisecond"(**作者断言,无复算方法**) |
 | **已知偏差** | ① `30+` 与 `14` 两个口径并存;② README **没有** CSP/iframe/sandbox/origin 白名单/速率限制;③ 字段级 schema 不在 README(外链 `./SKILL.md`);④ 重型引擎加载失败只能靠**硬刷新/重装**运维,没有降级占位;⑤ `echart` 失败即空白,没有"退回表格" |
 
-```sh
-python3 _digested/leverage/census.py --probe "genui|generative ui|组件|dsh-ui"
-```
 
 ---
 

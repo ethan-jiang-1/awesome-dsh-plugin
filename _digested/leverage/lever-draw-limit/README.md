@@ -12,7 +12,7 @@ budget: 320
 # lever-draw-limit · 谁能碰什么，由谁强制，留下什么证据
 
 > **标语**:*Who can touch what, who enforces it, what evidence remains?* —— 安全是从安装到动作的监管链，最弱的一环决定整体。
-> **状态**:`observed`(机制已核) · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b`
+> **状态**:`observed`(机制已核) · **基线**:DSH `0.2.1-rc.3` · 名单 @ `efe602e7b`
 > **作业区**:**本目录自足、可独立开工**。只读共享件,不写共享件;不引用其他域的结论,不等待其他域的进度。四域并行契约见 [`../README.md`](../README.md#四域并行作业契约)。
 > **借阅入口**:想抄 → [借法一览](#借法一览八张卡各能抄走什么) · 想选型 → [样本坐标](#样本坐标要精确挖掘时去哪里) · 想评审 → [选择要求](#选择要求) · 想回源 → [名字坑](#三个名字会骗人的坑重挖前必读) · 跨域 → [BORROW](../BORROW.md)
 > **规则源**:准入/分级以 [`horizon`](../horizon.md) 为准;本域的准入副本是摘要。
@@ -47,16 +47,16 @@ budget: 320
 
 ## 准入(本域自带副本,不依赖任何其他文档)
 
-**不是抓到一个就琢磨。** 全层 7924 条里过门的是 **51 条(0.6%)**,本域 2798 条候选中过门 16 条。对象不随名单膨胀。
+**不是抓到一个就琢磨。** 研究对象不随名单膨胀:**卡片数不随收录量涨,只随「机制被验证」涨**。
 
-| 组 | 条件(四选一 / 三选一) | 谁判 |
+| 组 | 证据 | 怎么判 |
 |---|---|---|
-| 影响力 | **A** 被目录内其他条目按名引用 ≥3 次 · **B** 自述替换/接管官方对象 · **C** 自述具名接缝(`ctx.*` / `waterfall` / `pre-step` / `pre\|post-execute`) · **F** 全库同类机制 ≤3 条 | A/B/C 机器判,**F 须附检索式** |
-| 深度 | **D** 能力披露 ≥2 个高杠杆能力(空披露也算) · **E** 明指不可共存 / 同一接缝取反 · **G** 机制已核且能给出具名失效条件 | D 机器判,**E/G 只能人工** |
+| 影响力 | **A** 被目录内其他条目按名提到 · **B** 自述替换/接管官方对象 · **C** 自述具名接缝 · **F** 全库同类机制少见 | A/B/C 回读原文;**F 人工判断,标 `[OBS]`,不计数** |
+| 深度 | **D** 能力披露 · **E** 明指不可共存 / 同缝取反 · **G** 机制已核且有具名失效条件 | D 查 capabilities;**E/G 人工** |
 
 **缺一不立卡。** 分级:**S** 定义型(后来者的模板)→ 单独卡片 · **A** 代表型(当前优解)→ 卡片「标杆」正例 · **B** 对照型 → **不立卡**,只作一行对照 · **C** 反例型 → 失败模式表一行。
 
-每条进入卡片的样本必须写齐六项:**代表什么典型 / 为什么选它(过门的具体值)/ 影响力多大(给数、给检索式或给官方原文)/ 主要特点(机制层)/ 代价与失效条件(具名)/ 证据级别**。缺一项退回。
+每条进入卡片的样本必须写齐六项:**代表什么典型 / 为什么选它(过的哪几条证据)/ 影响力证据(被谁提到、替换了哪个官方对象、或官方原文;不要求计数)/ 主要特点(机制层)/ 代价与失效条件(具名)/ 证据级别**。缺一项退回。
 
 ### 本域专项加分项
 
@@ -185,12 +185,12 @@ curl -s "https://api.npmjs.org/downloads/point/last-month/@jayyuen66%2Fdsh-dange
 | **A** | `JayYuen666/dsh-danger-guard` | C + E(同步守卫) | 注册表 16 个版本 / 1 个月;月下载不可得(**不估**) | 同步谓词只能回答一次,复杂策略必须搬到别的缝 | [04](./04-guard-vs-pump.md) |
 | **A** | `PerryLink/dsh-permission-rules` | C + D + E | 月下载 6,420;本族最高 | 网络不在沙箱词汇里,只能在沙箱外再造一道进程出口门 | [05](./05-network-gate.md) |
 | **A** | `Noob-stupid/dsh-plugin-gating-hub` | B + C + D | 月下载 **15,638**;本域最高 | 安装面的防灾难 = 可逆性,不是预测 | [08](./08-install-face.md) |
-| **B** | `DevilSpiderX/dsh-workspace-only-plugin` + `Fleey/dsh-workspace-folders` | **E**(同缝反向)+ C + G | 星标/下载快照与 npm 均无记录(新入库);名引 0 | 同一缺口的两种利用:收紧 vs 放松 | [07](./07-beyond-sandbox.md) |
+| **B** | `DevilSpiderX/dsh-workspace-only-plugin` + `Fleey/dsh-workspace-folders` | **E**(同缝反向)+ C + G | 星标/下载快照与 npm 均无记录(新入库);按名引用几乎为零 | 同一缺口的两种利用:收紧 vs 放松 | [07](./07-beyond-sandbox.md) |
 | **B** | `BotonJ/dsh-plugin-sentinel` | C + G | ⚠️ npm 同名包属 `dushaobindoudou`(月下载 423 是它的);`BotonJ` 版仓库 0.1.0,**未发布** | 安装前看**组合形状**,不看单个危险 API | [08](./08-install-face.md) |
 
 > 七张新卡(02–08)+ 一张横切卡(09)覆盖 **10 个样本**。**月下载口径**:`curl -s api.npmjs.org/downloads/point/last-month/<包名>`,区间 2026-09-30→2026-10-29,包名以各仓 `package.json` 为准(`dsh-plugin-gating-hub` 的包名是 `@noob-stupid/dsh-plugin-console`)。
 
-**准入自检留档(2026-10-31)**:每个包名逐一跑过 `--probe`,**命中数为 0 或仅命中自身**——`dsh-permission-rules` 0 · `dsh-auto-review` 0(宽松式 `auto-review` 5,其中 4 条是同类竞品)· `dsh-danger-guard` 0 · `dsh-approval-gate` 1(= 自身)· `dsh-defend` 0 · `dsh-plugin-sentinel` 0 · `dsh-workspace-only-plugin` 0 · `dsh-workspace-folders` 0 · `dsh-plugin-gating-hub` 0;旁证 `cc-safety-net` 1(`drscrewdriver/dsh-perm-gate`)——**竞品被引,本族未被引**。结论:**本域的「影响力」只能靠安装量与迭代密度论证,不能靠目录内互引**;A 门在本域普遍不成立,准入主要靠 **C / D / E / G**。这本身是一条域级发现(见 [09](./09-control-budget.md) §9)。
+**准入自检(2026-10-31)**：本域样本按名互引基本为 0 或仅命中自身，反而竞品 `cc-safety-net` 被第三方条目提到。结论：**本域的「影响力」只能靠安装量与迭代密度论证，不能靠目录内互引**；A 门在本域不成立，准入主要靠 **C / D / E / G**。这本身是一条域级发现（见 [09](./09-control-budget.md) §9）。
 
 **借用但非主读**(只可一句引用,不深读、不立卡):`GDWhisper/dsh-web-startup-auth`(主读在 `lever-reshape-product`,本域只当 HTTP 网关旁证)、`dsh-fs-observation-policy`(主读在 `lever-prove-output`)。
 
@@ -240,31 +240,15 @@ curl -s "https://api.npmjs.org/downloads/point/last-month/@jayyuen66%2Fdsh-dange
 
 ## 本域基线(冻结)
 
-> 快照 **2026-10-31** · 名单 7924 条 @ `efe602e7b` · DSH `0.2.1-rc.3`。**本域只引用这一份数,不随其他域重跑漂移。**
+> 快照 **2026-10-31** · 名单 @ `efe602e7b` · DSH `0.2.1-rc.3`。**本域只引用这份快照读到的事实,不维护统计口径。**
 
-| 口径 | 值 |
-|---|---|
-| 描述命中(正则,多标) | **2798** 条 / 7924(35.3%) |
-| 官方类别 Top4 | `tools` 384 · `ui` 280 · `usage` 252 · `model` 198 |
-| 能力披露 join | **1338** 条(47.8%) |
-| 六项高杠杆能力占比 | credentials 16.5% · network 60.7% · shell 45.7% · fs-write 64.3% · host-runtime 8.7% · dynamic-code 8.6% · subagent 2.8% |
-| 子主题 | credential 凭据/密钥 1054 · permission 权限/审批 802 · data 数据/注入 619 · network 网络/暴露面 582 · supply 供应链 318 · sandbox 沙箱 235 |
+**本域另用一份「安装量」口径**(catalog 不含此数据,故单列):npm 月下载数,**区间 2026-09-30 → 2026-10-29**,取法 `curl -s api.npmjs.org/downloads/point/last-month/<包名>`,包名以各仓 `package.json` 的 `name` 为准。已入卡样本:`@noob-stupid/dsh-plugin-console` 15,638 · `dsh-auto-review` 7,216 · `dsh-permission-rules` 6,420 · `dsh-defend` 4,511 · `dsh-approval-gate` 3,709 · `dsh-plugin-sentinel` 423(**同名不同人**,见样本坐标表) · `@jayyuen66/dsh-danger-guard`(API 不返回,**不估**)。此口径只作历史锚点,与冻结的名单不是同一时间点,引用时必须带日期。
 
-**本域另用一份「安装量」口径**(catalog 不含此数据,故单列):npm 月下载数,**区间 2026-09-30 → 2026-10-29**,取法 `curl -s api.npmjs.org/downloads/point/last-month/<包名>`,包名以各仓 `package.json` 的 `name` 为准。已入卡样本:`@noob-stupid/dsh-plugin-console` 15,638 · `dsh-auto-review` 7,216 · `dsh-permission-rules` 6,420 · `dsh-defend` 4,511 · `dsh-approval-gate` 3,709 · `dsh-plugin-sentinel` 423(**同名不同人**,见样本坐标表) · `@jayyuen66/dsh-danger-guard`(API 不返回,**不估**)。此口径只作历史锚点,与冻结的 2026-10-31 名单不是同一时间点,引用时必须带日期。
+四域重叠是正常的:本域与 RESHAPE / CROSS / PROVE 都有样本交集。四域是**四个并列的提问**,不是互斥分类——独立性靠「编辑权 + 主读归属 + 不依赖他域结论」保证,不靠样本不重叠。
 
-**四域重叠是正常的**:本域与 `RESHAPE` 43.5%、`CROSS` 28.6%、`PROVE` 44.0%(行内占比)。四域是**四个并列的提问**,不是互斥分类——独立性靠「编辑权 + 主读归属 + 不依赖他域结论」保证,不靠样本不重叠。
+## 复核方式
 
-## 本域自用检索式
-
-```sh
-# 本域自足数字(只读,不改任何共享件)
-python3 _digested/leverage/census.py --domain LIMIT
-# 强制点与失效方向
-python3 _digested/leverage/census.py --probe "auto-review|自动审查"
-python3 _digested/leverage/census.py --probe "fail.?open|fail.?closed|自动放行"
-```
-
-『稀缺』类断言必须附其中一行及其命中数;写不出检索式的「稀缺」视为未证。
+**不设计数门。** 影响力看 npm 安装量、迭代密度与实时采样(带日期);「少见 / 唯一」是人工回读判断,标 `[OBS]`,不附命中数。
 
 ## 复核触发条件
 
@@ -275,7 +259,6 @@ python3 _digested/leverage/census.py --probe "fail.?open|fail.?closed|自动放�
 
 ## 待答问题
 
-- [ ] 生态 44 条安装前扫描器里，有多少真的在**安装前**运行（能拿到 tarball），多少只是装后体检？
-  - 复核 2026-10-31:`--probe "安装前|装前|pre-?install|before install"` → **31/7924**;`--probe "supply.?chain|供应链|SBOM|provenance|完整性|integrity"` → 51/7924。**「44 条」这一数在本轮无法复现,暂按 31 条为准**,并把它拆成「能拿到 tarball 的」与「只做装后体检的」两类(08 卡的 `sentinel` 与 `gating-hub` 分属两类)。
+- [ ] 生态里做「安装前扫描」的样本，有多少真的在**安装前**运行（能拿到 tarball），多少只是装后体检？**复核方式**：逐个回读 08 卡的 `sentinel` 与 `gating-hub`——前者是装前、后者偏装后；**不靠计数**。
 - [ ] 网络出口完全无强制，是否意味着所有“防外传”插件都只能是启发式？
 - [ ] 安全插件自身的能力披露（57% 用 shell、32% 联网）是必要成本还是设计懒？有没有“零能力”实现的可能？

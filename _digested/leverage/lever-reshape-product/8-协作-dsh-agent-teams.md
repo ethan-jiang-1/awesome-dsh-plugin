@@ -197,9 +197,6 @@ updated: 2026-10-31
 | 版本声明 | `engines.dsh: ">=0.1.2-alpha.2"` + `dsh.compatibility.dshReleases` + CI 矩阵 |
 | **已知偏差** | ① 磁盘锁**只在一个进程内**有效,两个 DSH 进程对同一 workspace 无协调;② 质量门默认关,大多数用户会**从没开过**它;③ `memberMaxDepth` 默认 0 = **成员不再生成员**,想要层级必须调;④ 面板语言实时切换,但**归档历史里的渲染**取决于当时的 locale |
 
-```sh
-python3 _digested/leverage/census.py --probe "agent-teams|agent teams"
-```
 
 **读法**:10,525 下载对"需要先理解多代理才用得上"的插件不算低,说明**把编排做成界面确实降低了门槛**;573★ 相对偏低——它还没成为"人人都会装"。
 

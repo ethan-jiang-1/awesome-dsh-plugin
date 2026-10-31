@@ -12,7 +12,7 @@ budget: 420
 # 怎么借：从这套研究里拿走东西
 
 > **这一层不是插件导购。** 它挖的是「谁占了哪条缝、机制长什么样、代价是什么、什么时候坏」。所以你能拿走的不是结论，是**机制形状 + 失效条件**。
-> **先记住四条引用规则**：① 引卡片，不引本文件（本文件的法则标 `[OBS]`，是综合判断）；② 每个数字带日期；③ 四域不是分类，一个插件可以同时在四个域里出现（重叠 41–44%）；④ 找不到出处的「稀缺」不算稀缺，用 `census.py --probe` 复核。
+> **先记住四条引用规则**：① 引卡片，不引本文件（本文件的法则标 `[OBS]`，是综合判断）；② 每个数字带日期；③ 四域不是分类，一个插件可以同时在四个域里出现（重叠 41–44%）；④ 「稀缺 / 唯一」是人工判断，标 `[OBS]`，不写命中数。
 
 ## 0. 三条读法
 
@@ -113,7 +113,7 @@ budget: 420
 
 ### 2.1 [RESHAPE](./lever-reshape-product/README.md) · 产品形态
 
-**只做一件事**：先定「改的是哪一层」，再决定要不要 fork。
+**只做一件事**：先定「改的是哪一层」，最后才决定要不要 fork。
 
 1. **profile 是产品单位**，插件只是零件；不改上游也能组装产品（RESHAPE README）。
 2. **换表层 ⇒ 自己补首启 / 分发 / 降级**（RESHAPE-0 规律 A）。
@@ -269,7 +269,7 @@ budget: 420
 | 「星标 = 使用量」 | 4★ 有 3,103 次月下载、0★ 根本没上 npm；星标是滞后指标 | CROSS README · LIMIT README |
 | 「npm 包名 = 仓库名」 | 三个同名不同人的坑；装之前先核 `package.json` 的 `repository` | LIMIT README |
 | 「目录内被引 = 影响力」 | A 门有撞词噪声（terminal / notification / schedule / calendar） | horizon §4 |
-| 「`--probe` 0 命中 = 没人做」 | 它只搜目录描述文本，不搜代码；0 命中 = 没人这样自述 | [census.py](./census.py) 口径 |
+| 「全库只有 N 条 / 命中率 0.x%」 | 名单一直在涨，这个数明天就变；它只说明**当时的描述文本**，不证明能力 | [horizon](./horizon.md) §4 |
 
 ### 5.5 假门禁
 
@@ -303,7 +303,7 @@ budget: 420
 
 - **RESHAPE 没有 commit 锚点**：只到 catalog + 插件 README；要源码级复核得先按版本找 tag（[RESHAPE README](./lever-reshape-product/README.md) §4.1）。
 - **A 门撞词噪声未清**：层级前 5 名至少 4 个是通用词（[horizon](./horizon.md) §4）。
-- **F 级探针只覆盖部分「稀缺」断言**：RESHAPE 的漂移断言仍无可重跑证据（[horizon](./horizon.md) §7）。
+- **「少见 / 唯一」没有可重跑的计数**——这是刻意的；引用时带日期、标 `[OBS]`，接受它会过时（[horizon](./horizon.md) §7）。
 - **证据强度分域，不能互推**：PROVE 锁 commit；CROSS / LIMIT 读源码但只锁版本；RESHAPE 停在 catalog（[README](./README.md) §7 / [horizon](./horizon.md) §7）。
 
 ### 6.4 回源五步
@@ -311,7 +311,7 @@ budget: 420
 1. **拿坐标**：在卡的「精确坐标」或域 README 的坐标表里取 `repo` + `npm` + `version`；PROVE 的样本取 **commit**。
 2. **锁到那一份**：`git clone` 后按版本 tag 或短 SHA 打开；不要用 `main`。
 3. **按符号读**：用卡里给出的函数名 / 常量 / 字段去 grep，不要按章节通读。
-4. **复核稀缺**：`python3 _digested/leverage/census.py --probe "<正则>"`；数字用文中给的接口重取，标日期。
+4. **人工判断唯一性**：回读同域与相邻域的样本表；找不到同类机制才写「少见 / 唯一」，标 `[OBS]` 与日期。**不要写命中数**——名单在涨，数字会过期。
 5. **回报差异**：结论变了就改卡的 `status` / 数字，并在域 README 对应行标注；若推翻分级，按 [horizon](./horizon.md) §8 重审。
 
 ## 7. 借用记录模板
@@ -326,7 +326,7 @@ budget: 420
 
 1. **先写失效条件，再写功能**。写不出失效条件的方案，不是工程，是信仰。
 2. **一个机制只在一处有完整论证**。引用时给文件 + 节号，不复制论证。
-3. **升级后重跑**：`node _digested/verify.mjs` + `node _digested/leverage/catalog.mjs --check`；若样本掉门，按 horizon §8 重审。
+3. **升级后重跑**：`node _digested/verify.mjs`；catalog 手工补一行。若样本掉门，按 [horizon](./horizon.md) §8 重审。
 
 ---
 

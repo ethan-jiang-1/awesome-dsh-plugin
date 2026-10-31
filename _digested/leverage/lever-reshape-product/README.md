@@ -12,7 +12,7 @@ budget: 240
 # lever-reshape-product · 不改上游，DSH 能被组装成什么产品
 
 > **标语**:*What product can DSH become without forking it?* —— 产品的单位不是插件，是 profile。
-> **状态**:`observed`(机制已核) · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b` · **快照**:2026-08-19
+> **状态**:`observed`(机制已核) · **基线**:DSH `0.2.1-rc.3` · 名单 @ `efe602e7b` · **快照**:2026-08-19
 > **范围**:只收兼容 **DSH `0.2.x`** 的样本；0.1.x 时代的东西只作对照与反例。
 > **视角**:**用户体验**，并且**只做借鉴用途**:一卡一插件，每张卡要交代"它好在哪、为什么好、**别人具体抄哪一行**"。
 > **借阅入口**:想抄 → [18 条](#2-可以直接搬走的-18-条全卡片的公共产出) · 想选型 → [卡表](#4-卡表) · 想评审 → [边界](#5-边界) · 想回源 → [样本坐标](#41-样本坐标总表要精确复现再深挖从这里开始) · 跨域 → [BORROW](../BORROW.md)
@@ -166,16 +166,16 @@ budget: 240
 
 **不碰**：上游代码本身的建议（那属于 `lever-cross-boundary` / `lever-draw-limit` / `lever-prove-output` 三个域）；本域只写"下游用上游装出了什么"。
 
-**共享文件只读**：`census.py`、`00-map.md`、`horizon.md`、`leverage/README.md`、`data/` 由别的会话维护，本域只调用、不写。
+**共享文件只读**：`00-map.md`、`horizon.md`、`leverage/README.md`、`data/` 由别的会话维护，本域只调用、不写。
 
 ---
 
 ## 6. 计量口径
 
 - ★ / npm 下载：`data/stars.json` / `data/downloads.json`，**快照 2026-08-19**；值形如 `{url: {stars|downloads, checkedAt}}`。
-- 名单内被引：`python3 _digested/leverage/census.py --probe "<pattern>"`，输出为 `命中 N/7924`，**只搜条目自述文本**。
-- **三种口径不可互证**：★/下载按 GitHub URL 映射；`census` 按自述文本；GitHub API 是另一套时点。引用时写明用的是哪一种。
-- **已知偏差**：① 插件目录**只收能 `dsh plugin add` 的东西**，桌面壳 / 手机 App 不在其中 → 按目录统计会系统性低估 2/7 层；② 短名召回差（`TUI`、`dock`），被引数只作下界；③ 下载量含 CI 与镜像，不等于用户数。
+- **两种口径不可互证**：★/下载按 GitHub URL 映射；GitHub API 是另一套时点。引用时写明用的是哪一种，并带日期。
+- **不做全库计数**：名单在涨，`N / 总数` 没有稳定真值；「少见 / 唯一」只写人工回读判断，标 `[OBS]`。
+- **已知偏差**：① 插件目录**只收能 `dsh plugin add` 的东西**，桌面壳 / 手机 App 不在其中 → 按目录看会系统性低估 2/7 层；② 短名召回差（`TUI`、`dock`）；③ 下载量含 CI 与镜像，不等于用户数。
 
 ---
 

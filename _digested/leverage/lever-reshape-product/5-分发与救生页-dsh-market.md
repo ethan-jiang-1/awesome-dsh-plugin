@@ -187,9 +187,6 @@ updated: 2026-10-31
 | 硬依赖 | `dsh web 0.1.0-rc.6` 起 |
 | **已知偏差** | ① 只认精选 registry = **中心化**,新源需进白名单;② 桌面壳自带 dsh 可能比 npm 版旧(#139);③ **`config:` 是整块替换,不是深合并**——写 `config:` 会覆盖该行原有 config;④ 坏 patch 文件**启动即失败**,不静默跳过(这是对的,但用户会看到"起不来") |
 
-```sh
-python3 _digested/leverage/census.py --probe "market|registry|商店|marketplace"
-```
 
 ---
 

@@ -10,7 +10,7 @@ updated: 2026-10-31
 ---
 # 10 · 质量控制手册：十二个生态样本的横向结论
 
-> **状态**:`observed`(横切 [02](./02-goal-gate-hard-floor.md)–[09](./09-discipline-loop.md) 八张卡 + [01](./01-quality-chain.md) 原生层) · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b`
+> **状态**:`observed`(横切 [02](./02-goal-gate-hard-floor.md)–[09](./09-discipline-loop.md) 八张卡 + [01](./01-quality-chain.md) 原生层) · **基线**:DSH `0.2.1-rc.3` · 名单 @ `efe602e7b`
 > **样本**:12 个生态仓库 + 5 个官方包 · **本卡不新立样本**,只做横切;六个必答字段在各源卡
 > **一句话**:质量控制不是选一个更严的评审,是回答四个问题——**门装在哪、判什么、错了怎么办、谁有权说「过了」**。十二个样本给出了四种截然不同的答案,而它们的**共同失败**比共同成功更有信息量。
 
@@ -45,15 +45,10 @@ updated: 2026-10-31
 
 1. **`agent/turn-stopping` 拿不到本轮草稿,也不能改已发送的文本。** `[DSH]` `dsh-agent/README.md` 原文:`agent/turn-stopping` **runs before an otherwise completed turn closes and can steer to keep it open**——它能**阻止关闭**,不能**改写**。`self-review` 的 README 独立复述了同一事实(载荷只有 `{agent, turn, signal}`)。
 2. **DSH 没有拦截最终文本的机制。** `[CAT]` `evidence-gate` 自己写的:「harness 没有任何机制能拦截最终文本」。要真拦,只有 `llm/stream` 扣留这一条路。
-3. **`llm/stream` 全库只有 7 条自述**(`--probe "llm/stream"`),`agent/turn-stopping` 只有 **2 条**。**最硬的两个接缝,是生态用得最少的两个。**
+3. **`llm/stream` 全库只有 7 条自述**(),`agent/turn-stopping` 只有 **2 条**。**最硬的两个接缝,是生态用得最少的两个。**
 
-```sh
-python3 _digested/leverage/census.py --probe "llm/stream"             # 7
-python3 _digested/leverage/census.py --probe "agent/turn-stopping"    # 2
-python3 _digested/leverage/census.py --probe "tools/pre-execute|pre-execute"  # 13(多数是权限/拦截类)
-```
 
-**推论**:生态的「质量」供给(1887 条门禁/验收类 `[CAT]`)**绝大多数挤在「轮末再问一次模型」这一格**,而这一格恰好是**最不能改变结果**的一格。这不是懒,是接缝知识的分层:`turn-stopping` 有官方文档、名字直白、示例多;`llm/stream` 是传输层,没有「质量」的语义,要想清楚才知道该去那里。
+**推论**:生态的「质量」供给(门禁/验收类样本很多 `[CAT]`)**绝大多数挤在「轮末再问一次模型」这一格**,而这一格恰好是**最不能改变结果**的一格。这不是懒,是接缝知识的分层:`turn-stopping` 有官方文档、名字直白、示例多;`llm/stream` 是传输层,没有「质量」的语义,要想清楚才知道该去那里。
 
 ---
 

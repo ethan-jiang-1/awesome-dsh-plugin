@@ -179,9 +179,6 @@ DSHB1z.<base64url(deflateRaw(JSON))>   # 压缩(默认取更短的那个)
 | 数据来源 | 官方插件目录(与 `[CAT]` 同源)+ GitHub Star + npm 近月下载 |
 | **已知偏差** | ① Star/下载是"人气代理",不等于"适合新手";② 种子快照固定 2026-10-16,离线必然过期;③ 环境码只覆盖 profile 层,**不含** `$DSH_HOME/cordis.patch.yml` 与 `--patch`;④ 目录外 ⇒ 无口径内影响力指标,本域对它的采纳度不可测 |
 
-```sh
-python3 _digested/leverage/census.py --probe "bootstrap|onboard|first.?run|首启"
-```
 
 ---
 

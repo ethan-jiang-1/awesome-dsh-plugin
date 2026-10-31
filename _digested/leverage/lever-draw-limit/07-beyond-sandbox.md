@@ -10,7 +10,7 @@ updated: 2026-10-31
 ---
 # 07 · 沙箱之外:同一个缺口的两种利用——收紧与放松
 
-> **状态**:`observed` · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b` · **样本**:`DevilSpiderX/dsh-workspace-only-plugin`(回读 README/配置)+ `Fleey/dsh-workspace-folders`(回读 README + `src/approval.ts` 源码)
+> **状态**:`observed` · **基线**:DSH `0.2.1-rc.3` · 名单 @ `efe602e7b` · **样本**:`DevilSpiderX/dsh-workspace-only-plugin`(回读 README/配置)+ `Fleey/dsh-workspace-folders`(回读 README + `src/approval.ts` 源码)
 > **坐标**:`DevilSpiderX/dsh-workspace-only-plugin`(仓库 **0.2.6**,npm 未发布)+ `Fleey/dsh-workspace-folders`(仓库 **0.1.0**,npm 未发布)
 > **一句话**:官方沙箱每会话只有一个工作区根,而「额外可写根」不在策略词汇里。同一个缺口,一个插件往里收(任何模式下越界都要裁决),一个往外放(读写目录的 `write`/`edit` **自动批准沙箱提权**)。两者都不是错的——**它们共同证明:缺一块策略词汇,既让收紧变贵,也让放松变得极其便宜。**
 
@@ -106,7 +106,7 @@ updated: 2026-10-31
 |---|---|
 | **代表什么典型** | 「在沙箱之外补一层」与「在沙箱之上放一马」这对**同缝反向**样本 |
 | **为什么选它** | 过 **E 反面**(同一缺口的两种相反取法,人工认定)+ **C 接缝**(workspace-only 自述拦截工具面;workspace-folders 自述 `tools/execute` + `approval/request`);`G` 已核(默认 120 s 拒绝、无应答者失败关闭、五条匹配条件可读源码) |
-| **影响力多大** | 两者在 2026-09-30 星标快照与 2026-09-12 下载快照中**均无记录**(新入库);npm 上 `dsh-workspace-only-plugin` / `dsh-workspace-folders` 均未发布(registry 查无)。本域按名引用均为 0(`--probe "dsh-workspace-only-plugin"` → 0/7924;`--probe "dsh-workspace-folders"` → 0/7924)。**因此本卡的入选依据是 E(同缝反向)与 G(机制已核),不是影响力 A/B/C/D**——这正是准入设计里「E 只能人工认定」的用途 |
+| **影响力多大** | 两者在 2026-09-30 星标快照与 2026-09-12 下载快照中**均无记录**(新入库);npm 上 `dsh-workspace-only-plugin` / `dsh-workspace-folders` 均未发布(registry 查无)。本域按名引用均为 0。**因此本卡的入选依据是 E(同缝反向)与 G(机制已核),不是影响力 A/B/C/D**——这正是准入设计里「E 只能人工认定」的用途 |
 | **主要特点** | ①workspace-only:三键卡 + 默认拒绝 + 敏感路径永远询问 + 重复升权不跳过 + 会话级白名单 ②workspace-folders:五条匹配 + `allowed-once`(不是永久授权)+ 只覆盖 `write`/`edit` + 存储损坏时拒绝加载 |
 | **代价与失效条件** | ①workspace-folders 的目录列表可被手改(改完重启才生效),等于把边界写进一个 JSON ②`bash` 写入两边都不覆盖/只部分覆盖 ③workspace-only 的路径判定是启发式,符号链接与 `..` 需要规范化 ④两者都在「工具层」,直连 Node 的插件不受约束 |
 | **证据级别** | `[CAT]`(自述 + 源码)+ `[DSH]`(沙箱单根与提权语义);状态 `observed` |

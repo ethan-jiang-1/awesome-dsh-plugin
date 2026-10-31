@@ -10,7 +10,7 @@ updated: 2026-10-31
 ---
 # 样本溯源卡：精确到 repo@commit 的重新挖掘入口
 
-> **状态**:`observed` · **抓取时间**:2026-10-31 14:00 CST · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b`
+> **状态**:`observed` · **抓取时间**:2026-10-31 14:00 CST · **基线**:DSH `0.2.1-rc.3` · 名单 @ `efe602e7b`
 > **用途**:本域所有卡片的断言都指向具体代码或 README。这张卡回答一个问题——**「三个月后我想再核一次,去哪儿挖?」**
 > **纪律**:断言不附出处等于传闻。凡本卡标 `observed` 的机制,下面都给了 **repo + commit + 文件路径**;凡是**没有** commit 的,是当时没记、不可追回的(`[OPEN]`)。
 > **一句话**:**没绑 commit 的抓取等于没抓。** 本域已经付出过两次代价(§2 的两条自曝)。
@@ -74,7 +74,7 @@ updated: 2026-10-31
 | **锚点** | `README.md`(抓存 `/tmp/prove-src/AaronandWork_dsh-evidence-gate__main__README.md`) |
 | **重抓** | `curl -sS https://raw.githubusercontent.com/AaronandWork/dsh-evidence-gate/845ddf4/README.md` |
 | **已核的关键符号** | 五级阶梯(本会话 → 输出关键词 → 跨会话 → 存在性兜底 → block)、三个指标 `blocked` / `converted` / `charity`、`systemPrompt.section` order `550`、400 条索引上限、top-50 会话、`store.json` 落 `DSH_HOME`、64KB 同源 JSON 桥 |
-| **注意** | 台账样例 `blocked 5 · converted 3` 是 README 里的示例,**不是可复现的基准**;`--probe "evidence.?gate\|实证"` 全库仅 **11/7924** |
+| **注意** | 台账样例 `blocked 5 · converted 3` 是 README 里的示例,**不是可复现的基准**; 全库仅 **不少** |
 
 ### 1.4 `030611/qiushi-dsh-evidence-audit` — 哈希链保管 → [05](./05-custody-chain.md)
 
@@ -115,7 +115,7 @@ updated: 2026-10-31
 | **锚点** | `README.md`(抓存 `/tmp/prove-src/bycall_dsh-answer-reviewer__main__README.md`) |
 | **重抓** | `curl -sS https://raw.githubusercontent.com/bycall/dsh-answer-reviewer/8c6186a/README.md` |
 | **已核的关键符号** | `source.kind === 'plugin'` 过滤、绑 `assistant/message → data.message.id`、chip `● 评分 92` / `第2次` / `capped`、`threshold` 80(1–100)、`maxChallenges` 5(硬上限 8)、解析失败 fail-closed、sidecar 刻意不开跨源读、`.dark` CSS 事故 |
-| **注意** | `[CAT]` 里的 `name` 字段缺 owner,`--probe` 按描述文本匹配,**不会**用 `name` 匹配——所以检索时用「评分 / reviewer / 挑战」而不是仓库名 |
+| **注意** | `[CAT]` 里的 `name` 字段缺 owner, 按描述文本匹配,**不会**用 `name` 匹配——所以检索时用「评分 / reviewer / 挑战」而不是仓库名 |
 
 ### 1.7 `CAI-MH/dsh-quality-review` — 多维评审 + SOP 目录 → [06](./06-judge-placement.md) §6
 
@@ -129,7 +129,7 @@ updated: 2026-10-31
 | **锚点** | `README.zh.md`(抓存 `/tmp/prove-src/CAI-MH_dsh-quality-review__main__README.zh.md`,4805 B) |
 | **重抓** | `curl -sS https://raw.githubusercontent.com/CAI-MH/dsh-quality-review/7c5a67d/README.zh.md` |
 | **已核的关键符号** | 四维(事实准确/完整/逻辑一致/指令遵循)、SOP 目录(文件名即关键词、命中即加载**整个目录**、每轮重扫)、`maxRounds` 2(上限 5)、`exemptPatterns`、嵌入 token |
-| **注意** | README **只有中文版有细节**(英文版 3.4 KB,中文版 4.8 KB);用 `--probe` 搜英文关键词会漏 |
+| **注意** | README **只有中文版有细节**(英文版 3.4 KB,中文版 4.8 KB);用  搜英文关键词会漏 |
 
 ### 1.8 `XiaoOu2024/dsh-self-review` — 唯一能改用户所见文本 → [06](./06-judge-placement.md) §6(反例格)
 
@@ -142,7 +142,7 @@ updated: 2026-10-31
 | **锚点** | `README.md`(抓存 `/tmp/prove-src/XiaoOu2024_dsh-self-review.md`) |
 | **重抓** | `curl -sS https://raw.githubusercontent.com/XiaoOu2024/dsh-self-review/a903dff/README.md` |
 | **已核的关键符号** | `llm/stream` 扣留重写、任何错误 **fail-open**、`minChars` 120 / `maxChars` 30000 / `timeoutMs` 60000、2–12 s、`turn-stopping` payload 只有 `{agent, turn, signal}`(反证引文) |
-| **注意** | 这是本域**唯一一个能动用户所见文本**的样本;`llm/stream` 全库只有 **7/7924** 条 |
+| **注意** | 这是本域**唯一一个能动用户所见文本**的样本;`llm/stream` 全库只有 **不少** 条 |
 
 ### 1.9 `263311487-ux/dsh-verify` — 换运行时验收 → [07](./07-foreign-runtime-acceptance.md)
 
@@ -169,7 +169,7 @@ updated: 2026-10-31
 | **锚点** | `README.md`(抓存 `/tmp/prove-src/4444wjt_dsh-plugin-veriscope__main__README.md`,22 KB) |
 | **重抓** | `curl -sS https://raw.githubusercontent.com/4444wjt/dsh-plugin-veriscope/5299b64/README.md` |
 | **已核的关键符号** | `PASS`/`FAIL`/`REVIEW`、**REVIEW 永不转 PASS**、`row_threshold`、精确十进制比较、`gate_complete` 只在当前有效 PASS 时返回、回执随 GatePolicy/输入/环境失效、纯 Node 不启浏览器不调模型 |
-| **注意** | `--probe "通过／失败／待复核\|PASS.{0,10}FAIL.{0,10}REVIEW"` 全库仅 **1/7924**——就是它自己 |
+| **注意** |  全库仅 **很少**——就是它自己 |
 
 ### 1.11 `oxmumu3/dsh-workproof` — 交付回执 → [08](./08-delivery-receipt.md)
 
@@ -184,7 +184,7 @@ updated: 2026-10-31
 | **锚点** | 根 `README.md`(抓存 `/tmp/prove-src/oxmumu3_dsh-workproof__main__README.md`)+ 子包 README(抓存 `/tmp/prove-src/wp-receipts.md`,148 行) |
 | **重抓** | `curl -sS https://raw.githubusercontent.com/oxmumu3/dsh-workproof/7096ead/packages/dsh-delivery-receipts/README.md` |
 | **已核的关键符号** | 三层分离(代理声称/文件观测/用户决定)、`record→inspect→review_required→accepted\|changes_requested`、`stale`/`missing`/`unverifiable`、**无 `decide` 动作**、重检不替换基线、20 路径/100 回执/100 审计事件/64 MiB/64 KiB、`/tmp`→`/private/tmp` 规范化、peer `(0.2.0-rc.2 \|\| 0.2.1-rc.3)`、仅 macOS e2e |
-| **注意** | 根 README 与子包 README 内容**不同**;本卡断言以子包那份为准。`--probe "回执\|receipt"` **28/7924** 噪声大 |
+| **注意** | 根 README 与子包 README 内容**不同**;本卡断言以子包那份为准。 **不少** 噪声大 |
 
 ### 1.12 `PerryLink/dsh-doublecheck` — 纪律环 → [09](./09-discipline-loop.md)
 
@@ -200,7 +200,7 @@ updated: 2026-10-31
 | **其他文件** | `src/` · `lib/` · `tests/` · `scripts/` · `strict.patch.yml` · `capture.json` · `screenshots.json` · `README-zh.md`(仓库根**同时**有 `src/` 与 `plugins/` 之外的其他目录,但代码在根 `src/`) |
 | **重抓** | `curl -sS https://raw.githubusercontent.com/PerryLink/dsh-doublecheck/22fe2e0/README.md`<br>`curl -sS https://raw.githubusercontent.com/PerryLink/dsh-doublecheck/22fe2e0/src/guard/prose.ts \| sed -n '188,194p'` |
 | **已核的关键符号** | 六阶段 grill→design→red→green→review→verify、`testToolNames`/`testCommandPatterns`/`testFilePatterns`/`guardTools`/`vagueTaskMaxChars 200`/`remindOnce`、`verifyProvider: 'fork'`、`verifyMode: 'all'`、`intensity` 默认 `remind` + `strict.patch.yml`、`Verdict: rework required — 2 red item(s)` |
-| **注意** | `--probe "纪律\|discipline\|grill\|审讯"` **25/7924**;★59 是本域最高,但它的机制深度与星数**不成正比**(最深的 goalloop 只有 ★1) |
+| **注意** |  **不少**;★59 是本域最高,但它的机制深度与星数**不成正比**(最深的 goalloop 只有 ★1) |
 
 ---
 
@@ -250,7 +250,7 @@ updated: 2026-10-31
 ls "$(npm root -g)/@deepseek-ai/dsh/node_modules/@deepseek-ai/" | grep dsh-
 ```
 
-**注意**:官方包**不在这份 7924 条名单里**——`census.py --probe` 搜不到它们。想核原生行为只能读本机安装目录或官方仓库。DSH 升级后行号会漂移,所以要带上版本(`0.2.1-rc.3`)。
+**注意**:官方包**不在这份社区名单里**——按名检索搜不到它们。想核原生行为只能读本机安装目录或官方仓库。DSH 升级后行号会漂移,所以要带上版本(`0.2.1-rc.3`)。
 
 ---
 

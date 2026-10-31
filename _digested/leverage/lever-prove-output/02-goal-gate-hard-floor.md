@@ -10,7 +10,7 @@ updated: 2026-10-31
 ---
 # 02 · 完成声明门禁：唯一能在副作用后说「不」的位置
 
-> **状态**:`observed`(源码已核,非仅自述) · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b`
+> **状态**:`observed`(源码已核,非仅自述) · **基线**:DSH `0.2.1-rc.3` · 名单 @ `efe602e7b`
 > **样本**:4 组(`samirliu/dsh-goalloop-agentteams` 主标杆 · `Jonah-Wu23/dsh-gungnir` 对照 ·
 > `JayYuen666/dsh-quality-gate` 对照 + 反例格 · 官方 `dsh-tool-goal` 借用一句)
 
@@ -132,15 +132,10 @@ if (state.approval && state.approval.stamp !== currentStamp) {
 
 | 对象 | ★ / fork | 创建 → 最后推送 | 名单内命中(检索式) | 改了多少份完成声明 |
 |---|---|---|---|---|
-| `samirliu/dsh-goalloop-agentteams` | **1** / 0 | 2026-10-09 → 10-19 | `update_goal` **1/7924** · `false complete\|虚假完成\|假完成\|虚报` **2/7924** | 4 个(goal 级 1 + 任务级 3) |
+| `samirliu/dsh-goalloop-agentteams` | **1** / 0 | 2026-10-09 → 10-19 | `update_goal` **很少** · `false complete\|虚假完成\|假完成\|虚报` **很少** | 4 个(goal 级 1 + 任务级 3) |
 | `Jonah-Wu23/dsh-gungnir` | **6** / 0 | 2026-09-01 → 10-27 | 同上 false-complete 2 条中的另一条 | 同上接缝,另一套组织 |
-| `JayYuen666/dsh-quality-gate` | **0** / 0 | 2026-09-20 → 10-29 | `agent/turn-stopping` **2/7924** | 不拦声明,拦轮末 |
+| `JayYuen666/dsh-quality-gate` | **0** / 0 | 2026-09-20 → 10-29 | `agent/turn-stopping` **很少** | 不拦声明,拦轮末 |
 
-```sh
-python3 _digested/leverage/census.py --probe "update_goal"                          # 1
-python3 _digested/leverage/census.py --probe "false complete|虚假完成|假完成|虚报"     # 2
-python3 _digested/leverage/census.py --probe "agent/turn-stopping"                  # 2
-```
 
 **必须说清的一件事:这三条的星标都接近 0。** 它们的影响力不在「有多少人 star」,而在 **F 稀缺**——全库只有 2 条描述里出现「假完成」,只有 1 条提到 `update_goal`,只有 2 条自述 `agent/turn-stopping`。**这是「这类机制几乎没人做」的证据,不是「这个实现最好」的证据。** 本域把这一点写死在影响力栏里,是为了让读者不会把稀缺误读成优秀。
 
@@ -151,8 +146,8 @@ python3 _digested/leverage/census.py --probe "agent/turn-stopping"              
 | 必答项 | 内容 |
 |---|---|
 | **代表什么典型** | 「完成声明门禁」这一格的**最完整形态**:确定性判定 + 内容摘要绑定 + 假完成计数 + 冻结 + 预算 + 分级治理,五种机制同时在场 |
-| **为什么选它** | 过 **C**(自述 `tools/pre-execute` 接缝 + 全部工具/命令名单排开)+ **D**(≥2 高杠杆能力:账本锁、digest 绑定、冻结、预算、冷席位判官、grill)+ **F**(`update_goal` 全库 1 条)+ **G**(源码已读:四条 deny 分支、计数器、digest 重判逻辑全部落到 `lib/index.js`) |
-| **影响力多大** | ★1 / fork0;`update_goal` **1/7924**、`false complete` **2/7924**;2026-10-09 建库,10-19 仍在推 |
+| **为什么选它** | 过 **C**(自述 `tools/pre-execute` 接缝 + 全部工具/命令名单排开)+ **D**(≥2 高杠杆能力:账本锁、digest 绑定、冻结、预算、冷席位判官、grill)+ **F**（同类机制少见，人工判断）+ **G**(源码已读:四条 deny 分支、计数器、digest 重判逻辑全部落到 `lib/index.js`) |
+| **影响力多大** | ★1 / fork0;`update_goal` **很少**、`false complete` **很少**;2026-10-09 建库,10-19 仍在推 |
 | **主要特点** | 只拦 4 种完成声明、读写全放行;判定的命令由门禁自己重跑;假完成 2 次冻结;契约改动 → 批准失效;`calib:` 用已知好坏夹具自证判官;七种 deny code 各自标明谁解 |
 | **代价 / 失效** | ①**绕过**:不调 `update_goal` 就不触发——它管「声明」不管「事实」;②**假完成计数可被预算耗尽误伤**(预算耗尽也 deny,agent 可能把「没钱了」读成「我错了」);③需要 `goal_gate_staff/judge` 创建任务才有闭环,单装工具集只拿到判定面;④与官方 Agent Teams 共用写域,`writeScopes` 只是**提示**(官方:`Bash`、格式化器可绕过文件版本检查 `[DSH]`) |
 | **证据级别** | `[OBS]` 源码 `lib/index.js` 已读 + `[CAT]` 描述 · 状态 **`observed`** |

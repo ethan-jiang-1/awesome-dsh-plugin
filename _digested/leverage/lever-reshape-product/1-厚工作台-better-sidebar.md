@@ -213,9 +213,6 @@ export function apply(ctx: Context) {
 | peer 面 | **13 个 DSH peer floor 全部抬到 `^0.2.1-rc.1`** |
 | **已知偏差** | ① 走槽位 → 宿主改布局最坏是"tab 不上",但两处例外会**硬崩**(未注册 panel key、`root` 槽重复注册);② 浏览器侧代码改动**必须硬刷新**——页面保留自己的 module bootstrap,替换必须整页重载;③ 不做 push/pull/fetch,不是完整 IDE |
 
-```sh
-python3 _digested/leverage/census.py --probe "sidebar|workbench|workbench.?panel|侧边栏|工作台"
-```
 
 ---
 

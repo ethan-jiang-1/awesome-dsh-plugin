@@ -10,7 +10,7 @@ updated: 2026-10-31
 ---
 # 06 · 判官装在哪：五种位置，五种调解不了的风险
 
-> **状态**:`observed`(机制已核,评测与限制均来自作者原文) · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b`
+> **状态**:`observed`(机制已核,评测与限制均来自作者原文) · **基线**:DSH `0.2.1-rc.3` · 名单 @ `efe602e7b`
 > **样本**:5 组(`bycall/dsh-answer-reviewer` 主标杆 · `CAI-MH/dsh-quality-review` 对照 ·
 > `XiaoOu2024/dsh-self-review` 对照 · `PerryLink/dsh-doublecheck` 对照 · 官方 `dsh-experimental-auto-review` 借用一句)
 
@@ -118,15 +118,11 @@ P2 不成立:answer-reviewer 自己说「**cap is a leak guard, not the real gat
 |---|---|---|---|---|
 | `bycall/dsh-answer-reviewer` | **10** / **5** | 2026-09-08 → 09-29 | `评审\|review` 类极宽,须回读 | 无(有 `test/smoke.mjs` 覆盖各分支) |
 | `CAI-MH/dsh-quality-review` | 2 / 1 | 2026-09-04 → 09-10 | 同上 | 无 |
-| `XiaoOu2024/dsh-self-review` | 0 / 0 | 2026-10-25 → 10-25 | `llm/stream` **7/7924** | 无(给延迟区间 2–12 s) |
-| `PerryLink/dsh-doublecheck` | **59** / 0 | 2026-08-14 → 10-26 | `红绿\|red.?green\|测试证据` **6/7924** | 无,但有**逐条 `Observed from <file:line>` 的例证** |
+| `XiaoOu2024/dsh-self-review` | 0 / 0 | 2026-10-25 → 10-25 | `llm/stream` **不少** | 无(给延迟区间 2–12 s) |
+| `PerryLink/dsh-doublecheck` | **59** / 0 | 2026-08-14 → 10-26 | `红绿\|red.?green\|测试证据` **不少** | 无,但有**逐条 `Observed from <file:line>` 的例证** |
 
-```sh
-python3 _digested/leverage/census.py --probe "red.?green|红绿|测试证据|test evidence"   # 6
-python3 _digested/leverage/census.py --probe "llm/stream"                             # 7
-```
 
-**读法**:评审类供给极多(`gate 门禁/验收 1887 条` `[CAT]`),而**真正换了接缝**的极少——`llm/stream` 只有 7 条。**供给的多少不代表方法的多样**:1887 条里绝大多数用的是同一个接缝(`turn-stopping`)+ 同一个手段(再调一次模型)。
+**读法**:评审类供给极多(`gate 门禁/验收` `[CAT]`),而**真正换了接缝**的极少——`llm/stream` 尤其少。**供给的多少不代表方法的多样**:绝大多数用的是同一个接缝(`turn-stopping`)+ 同一个手段(再调一次模型)。
 
 ---
 

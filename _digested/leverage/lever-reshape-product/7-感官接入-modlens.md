@@ -183,9 +183,6 @@ updated: 2026-10-31
 | 引擎 | 六个视觉读取引擎,任一可用即可(含 Claude Code / Codex / OpenCode / Pi / Gemini CLI / Antigravity CLI 等 CLI 车道) |
 | **已知偏差** | ① 图被转成**证据**而非原文——细节取决于上游引擎的读取质量;② **无逐版本矩阵**(只说"在真机上验证过 Claude Code/Codex/Pi/OpenCode");③ **不接受 PR**(单作者逐行 review,贡献方式是 issue 或 fork);④ 精确超时毫秒数、临时文件清理时机、脱敏字段清单**未披露** |
 
-```sh
-python3 _digested/leverage/census.py --probe "vision|image|ocr|视觉|看图"
-```
 
 ---
 

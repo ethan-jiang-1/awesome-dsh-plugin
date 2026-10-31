@@ -10,7 +10,7 @@ updated: 2026-10-31
 ---
 # 03 · 轮末对账：把「我说我读了」与「本轮真读过什么」摆在一起
 
-> **状态**:`observed`(机制已核 + 作者公开评测数据) · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b`
+> **状态**:`observed`(机制已核 + 作者公开评测数据) · **基线**:DSH `0.2.1-rc.3` · 名单 @ `efe602e7b`
 > **样本**:3 组(`rootsbymenda/dsh-second-angle` 主标杆 · `AaronandWork/dsh-evidence-gate` 对照 ·
 > `XiaoOu2024/dsh-self-review` 反例格,它证明了这条路的天花板在哪)
 
@@ -101,14 +101,10 @@ P1 不成立(见 §3.2 的机械规则)。P2 **成立**——`agent/turn-stoppin
 
 | 对象 | ★ / fork | 创建 → 推送 | 检索式命中 | 公开评测 |
 |---|---|---|---|---|
-| `rootsbymenda/dsh-second-angle` | **0** / 0 | 2026-10-24 → 10-27 | `agent/turn-stopping` **2/7924** | **24 例,含失败清单** |
+| `rootsbymenda/dsh-second-angle` | **0** / 0 | 2026-10-24 → 10-27 | `agent/turn-stopping` **很少** | **24 例,含失败清单** |
 | `AaronandWork/dsh-evidence-gate` | **8** / 0 | 2026-09-11 → 09-12 | `证据定位符\|locator` 邻域;描述含「证据」类命中 **621** 条 | 无(只给机制) |
-| `XiaoOu2024/dsh-self-review` | **0** / 0 | 2026-10-25 → 10-25 | `llm/stream` **7/7924** | 无(给延迟区间 2–12 s) |
+| `XiaoOu2024/dsh-self-review` | **0** / 0 | 2026-10-25 → 10-25 | `llm/stream` **不少** | 无(给延迟区间 2–12 s) |
 
-```sh
-python3 _digested/leverage/census.py --probe "agent/turn-stopping"   # 2
-python3 _digested/leverage/census.py --probe "llm/stream"            # 7
-```
 
 **读法**:三条的星标都在 0–8 之间。`turn-stopping` 全库只有 2 条自述,`llm/stream` 只有 7 条——**这两个接缝的稀缺不是因为难用,是因为「能用它们的人已经知道该拦什么」**。反过来,621 条声称做「证据」的样本,绝大多数只是记录日志,不是对账。
 
@@ -121,8 +117,8 @@ python3 _digested/leverage/census.py --probe "llm/stream"            # 7
 | 必答项 | 内容 |
 |---|---|
 | **代表什么典型** | 轮内对账的**最完整实现**:证据池 + 四个判决等级 + 引用可验证的 steer + 同步/异步延迟兑换 + 动作守卫分级 + 公开评测与失败清单 |
-| **为什么选它** | 过 **C**(自述三处具名接缝:`agent/turn-stopping`、`agent/assistant-stream`、`ctx.tools.guard()`)+ **D**(证据池、steer、双重判定通道、host 允许列表、有界 shell 扫描、SARIF 之外的结构化判决)+ **F**(`agent/turn-stopping` 全库 2 条)+ **G**(机制已核;失效条件作者自己列了 4 条,本卡再补 3 条) |
-| **影响力多大** | ★0;`agent/turn-stopping` **2/7924**;建库 2026-10-24,4 天内推到 10-27——**新**是这个样本的风险,也是它的价值(它是在 `0.2.1-rc.3` 的接缝上写的) |
+| **为什么选它** | 过 **C**(自述三处具名接缝:`agent/turn-stopping`、`agent/assistant-stream`、`ctx.tools.guard()`)+ **D**(证据池、steer、双重判定通道、host 允许列表、有界 shell 扫描、SARIF 之外的结构化判决)+ **F**（同类机制少见，人工判断）+ **G**(机制已核;失效条件作者自己列了 4 条,本卡再补 3 条) |
+| **影响力多大** | ★0;`agent/turn-stopping` **很少**;建库 2026-10-24,4 天内推到 10-27——**新**是这个样本的风险,也是它的价值(它是在 `0.2.1-rc.3` 的接缝上写的) |
 | **主要特点** | ①对账**永不拦**、动作**可拦**:否决权按结论确定性分配;②steer 必须引用能在输出中找到的原文;③一轮只审一次,steer 后不重复审;④`sync` 等判定(`maxLatencyMs` 上限),`async` 不等;⑤守卫覆盖子代理且在人批准之后仍生效 |
 | **代价 / 失效** | ①**答案已经流出去了**:`turn-stopping` 触发时用户已看到原文,steer 只能产生「同一轮内可见的修订」,**标记无法收回任何话**——要真拦住必须去 `llm/stream`(见 §6 反例);②**共用模型**:默认是同一个模型的又一次调用,延迟与成本都加在共享服务器上;③**读的是不可信的工具输出**:构造过的输出可以带偏判决,steer 消息本身也是一条注入面;④扫描是**有界静态分析**,`pwsh`/`terminal_send` 不覆盖 |
 | **证据级别** | `[OBS]` 机制 + 评测表 + 明确限制 · 状态 **`observed`**(数值为作者自测,未经第三方复现 → 数值部分 `inferred`) |
