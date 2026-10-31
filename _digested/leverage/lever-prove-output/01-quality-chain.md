@@ -14,7 +14,7 @@
 | 环 | 门禁位置 | 阶梯级 | 供给(证据) |
 |---|---|---|---|
 | ⑥ 验收 | 外部判定器 / 独立浏览器 | 5(seam backend) | gate 子主题 1887 条 `[CAT]` |
-| ③ 动作 | `tools/execute` waterfall | 4(policy) | 与 `lever-draw-limit` 重叠,归那边计 |
+| ③ 动作 | `tools/execute` waterfall | 4(policy) | 强制点归属 `lever-draw-limit`,本域只当门禁位置引用 |
 | ④ 证据 | `llm/stream` + `tools/execute` 包装 + 日志 | 4(policy) | evidence 子主题 621 条 `[CAT]` |
 | ⑤ 产物 | `atomic-write` / present / 回滚 | 3–5 | artifact 子主题 564 条 `[CAT]` |
 | ② 计划 | 纯文本约束 | **2(skill)** | plan 类样本 235 条(含大量误命中)`[CAT]` |
@@ -119,7 +119,7 @@
 
 ## 5. 标杆
 
-**配额**:本卡只深读 **1 个主标杆 + 2 个对照**。其余 S/A 级样本的过门证据在 [`../horizon.md`](../horizon.md) §6。
+**配额**:本卡只深读 **1 个主标杆 + 2 个对照**。其余 S/A 级样本见本域 [`README.md`](./README.md#本域研究对象主读单一归属)。
 
 ### 主标杆 · 官方 `dsh-session-checkpoint-policy`(S 级)
 

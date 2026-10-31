@@ -5,7 +5,9 @@
 披露了什么」。与 ecosystem/census.py 共用同一份 YAML 子集解析器(直接 import,
 避免两份解析口径漂移),但统计口径是本目录自己的。
 
-用法:python3 _digested/leverage/census.py
+用法:python3 _digested/leverage/census.py                  # 全量 8 节 + 准入门
+     python3 _digested/leverage/census.py --domain CROSS      # 只打某一域的自足字(只读)
+     python3 _digested/leverage/census.py --probe "<正则>"    # 复核稀缺性断言
 依赖:仅标准库。
 
 口径纪律(引用本脚本任何数字前必读):
@@ -315,8 +317,63 @@ def probe(pattern):
     return hit
 
 
+def domain_brief(key):
+    """`--domain <k>`:只打本域那一段,供四域并行会话各自取自足数字。
+
+    key 取 RESHAPE / CROSS / PROVE / LIMIT。**只读**:不写任何文件,不影响
+    其他域的重跑结果。
+    """
+    entries = eco.load_entries()
+    N = len(entries)
+    hits = {}
+    for e in entries:
+        text = " ".join(
+            [e.get("description.en", ""), e.get("description.zh", "")])
+        per = {}
+        for d, subs in COMPILED.items():
+            matched = [k for k, rx in subs.items() if rx.search(text)]
+            if matched:
+                per[d] = matched
+        hits[e["url"]] = per
+    by_url = {e["url"]: e for e in entries}
+    passed, *_ = gate(entries, hits)
+
+    dom = next((d for d in DOMAINS if d.startswith(key.upper())), None)
+    if dom is None:
+        print(f"未知域 {key!r};可选:" +
+              " / ".join(d.split()[0] for d in DOMAINS))
+        return
+    urls = [u for u, p in hits.items() if dom in p]
+    joined = [u for u in urls if u in CAP]
+    print(f"── {dom} · 自足快照(名单 {N} 条 @ 2026-10-31)──")
+    print(f"描述命中 {len(urls)} ({len(urls)*100/N:.1f}%) · "
+          f"能力 join {len(joined)} ({len(joined)*100/max(1,len(urls)):.1f}%) · "
+          f"过准入门 {sum(1 for u in urls if u in passed)}")
+    print("\n子主题:")
+    for k in DOMAINS[dom]:
+        n = sum(1 for u in urls if k in hits[u][dom])
+        print(f"  {k:<28}{n:>7}{n*100/N:>7.1f}%")
+    print("\n官方类别 Top5:" +
+          " · ".join(f"{c} {n}" for c, n in Counter(
+              by_url[u].get("category", "?") for u in urls).most_common(5)))
+    caps = Counter()
+    for u in joined:
+        for c in CAP[u].get("capabilities", []):
+            caps[c] += 1
+    den = max(1, len(joined))
+    print("能力占比:" + " · ".join(
+        f"{k} {caps[k]*100/den:.1f}%" for k in HIGH_LEVERAGE
+        if caps[k] or k in ("credentials", "network", "subagent")))
+    print("\n过门样本(在域内):")
+    for u in sorted(urls):
+        if u in passed:
+            print(f"  {','.join(passed[u]):28} {short(u)}")
+
+
 if __name__ == "__main__":
     if len(sys.argv) >= 3 and sys.argv[1] == "--probe":
         probe(sys.argv[2])
+    elif len(sys.argv) >= 3 and sys.argv[1] == "--domain":
+        domain_brief(sys.argv[2])
     else:
         main()

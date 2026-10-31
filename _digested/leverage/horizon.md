@@ -116,6 +116,29 @@ python3 _digested/leverage/census.py --probe "hash.?chain|哈希链"       # 3/7
 
 `data/capabilities.json`(2026-09-24 静态扫描,URL join 3787/7922)。它说的是「会碰什么」,**不是「安不安全」,也不是「强不强」**。空披露要分两种情况写明:零依赖库/纯前端,还是扫描器没覆盖到。
 
+## 5a. 并行作业:主读单一归属
+
+四域将由四个独立会话分头研究,因此**每份官方包、每个 S/A 级样本只能有一个主读域**。其他域可以「借用一句」写进自己的卡片,但不得深读、不得立卡。
+
+| 官方包 / 样本 | 主读域 | 借用方(只许一句) |
+|---|---|---|
+| `dsh-experimental-agent-team` | `lever-cross-boundary` | PROVE(完成标准)、LIMIT(成员权限) |
+| `dsh-subagent` / `dsh-subagents` | `lever-cross-boundary` | RESHAPE(产品形态里怎么呈现) |
+| `dsh-sandbox-policy` | `lever-draw-limit` | RESHAPE(默认档)、CROSS(远端是否仍生效)、PROVE(拦截) |
+| `dsh-experimental-auto-review` | `lever-draw-limit` | PROVE(判定器与验收器之别) |
+| `dsh-session-checkpoint-policy` | `lever-prove-output` | CROSS(崩了谁收敛)、LIMIT(留下了什么痕迹) |
+| `dsh-fs-observation-policy` | `lever-prove-output` | LIMIT(首次编辑守卫) |
+| `dsh-plan-mode` | `lever-prove-output` | — |
+| `dsh-atomic-write` / `dsh-present` | `lever-prove-output` | — |
+| `dsh-web` 启动与 profile / bundle / patch | `lever-reshape-product` | LIMIT(启动器鉴权那一半) |
+| `AKS1st/dock` · `All3nCN/dsh-better-sidebar-N23` · `HiSeax/dsh-better-model-setting` | `lever-reshape-product` | CROSS(团队面板是否承载状态) |
+| `GDWhisper/dsh-web-startup-auth` | `lever-reshape-product` | LIMIT(当 HTTP 网关旁证) |
+| `Mlte0907/dsh-teams-x` · `zbzbhs/dsh-remote-agent` · `IKEASven69/dsh-takeover` | `lever-cross-boundary` | LIMIT(跨机鉴权) |
+| `qiushi-dsh-evidence-audit` · `dsh-plugin-veriscope` | `lever-prove-output` | LIMIT(证据链的强制性) |
+|  `PerryLink/dsh-defend` · `IamNewHands/dsh-approval-gate` | `lever-draw-limit` | PROVE(拒绝消息的写法) |
+
+**「借用」的写法**:在自己卡片里直接引 `[DSH]`/`[CAT]` 原文,**不写「见某域」**。这样任何一域停更都不会让另一域的理由失效。
+
 ## 5. 四域的专项条件(概括性优先)
 
 | 域 | 入口条件之上,还要求 | 明确不收 |
