@@ -51,6 +51,24 @@
       "pushed_at": "2026-10-17T06:50:58Z",
       "npm_last_month": null
     },
+    "42_环境搬家-dsh-config-manager": {
+      "repo": "xiajiajun516/dsh-config-manager",
+      "npm_pkg": "dsh-config-manager",
+      "stars": 277,
+      "forks": 11,
+      "open_issues": 5,
+      "pushed_at": "2026-10-30T12:58:04Z",
+      "npm_last_month": 19723
+    },
+    "43_会话搬家-dsh-chat-import": {
+      "repo": "Nwflower/dsh-chat-import",
+      "npm_pkg": "dsh-chat-import",
+      "stars": 270,
+      "forks": 41,
+      "open_issues": 8,
+      "pushed_at": "2026-10-28T04:57:00Z",
+      "npm_last_month": 15185
+    },
     "51_分发与救生页-dsh-market": {
       "repo": "dsh-market/dsh-market",
       "npm_pkg": "dshmarket",
@@ -59,6 +77,15 @@
       "open_issues": 50,
       "pushed_at": "2026-10-30T18:43:34Z",
       "npm_last_month": 813066
+    },
+    "52_装坏自愈-dsh-plugin-health": {
+      "repo": "EasonMWS/dsh-plugin-health",
+      "npm_pkg": "dsh-plugin-health",
+      "stars": 4,
+      "forks": 1,
+      "open_issues": 0,
+      "pushed_at": "2026-10-31T05:12:40Z",
+      "npm_last_month": 4377
     },
     "61_多端与远程-dsh-mobile": {
       "repo": "saya-ch/dsh-mobile",

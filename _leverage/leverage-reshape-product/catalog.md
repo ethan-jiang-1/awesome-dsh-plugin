@@ -2,7 +2,7 @@
 title: "catalog · 产品线全量文件"
 domain: reshape-product
 kind: index
-positioning: "产品线 33 篇文档与 1 份指标快照的 kind、定位、能拿走什么、什么时候读（随文件手工维护）。"
+positioning: "产品线 36 篇文档与 1 份指标快照的 kind、定位、能拿走什么、什么时候读（随文件手工维护）。"
 read_when: "想一次看全产品线所有文件，或按关键词找入口。"
 status: living
 updated: 2026-10-31
@@ -16,7 +16,7 @@ updated: 2026-10-31
 
 | lever | 收什么 | 卡数 | 入口 |
 |---|---|---|---|
-| `plugin/` | 装进任何 profile 的客人 | 9 | [README](./plugin/README.md) |
+| `plugin/` | 装进任何 profile 的客人 | 11 | [README](./plugin/README.md) |
 | `profile/` | 一套 bundle 装进 profile，浏览器启动 | 4 | [README](./profile/README.md) |
 | `shell/` | 换表层 / 自带宿主 | 6 | [README](./shell/README.md) |
 
@@ -30,23 +30,27 @@ updated: 2026-10-31
 | [`BORROW.md`](./BORROW.md) | guide | 跨 lever 借用总入口：按需求路由 + 18 条可搬走规则 + 三条"别抄"。 | 18 条 + 每条出处 + 抄错后果；4 条需求路由。 | 只读一节就走；或评审方案时逐条对照。 | observed |
 | [`BACKLOG.md`](./BACKLOG.md) | index | 候选池：过了门槛待深挖的、和没过门槛的，各留一行。 | 少走弯路：某产品为什么还没成卡。 | 要补新样本；或想知道某产品为什么没卡。 | living |
 | [`catalog.md（本文件）`](./catalog.md) | index | 全量文件清单（手工维护）。 | — | 想一次看全，或按关键词找。 | living |
-| [`_证据/指标快照-2026-10-31.json`](./_证据/指标快照-2026-10-31.json) | evidence | 18 张卡 + 1 观察样本的 ★ / forks / issues / npm 月下载原始响应（跨 lever 共用，可复算）。 | 复算卡片影响力数字；核对取数时点与口径。 | 引用或更新任何卡片指标前。 | observed |
+| [`_证据/指标快照-2026-10-31.json`](./_证据/指标快照-2026-10-31.json) | evidence | 21 张卡 + 1 观察样本的 ★ / forks / issues / npm 月下载原始响应（跨 lever 共用，可复算）。 | 复算卡片影响力数字；核对取数时点与口径。 | 引用或更新任何卡片指标前。 | observed |
 
-### `plugin/` · 通用插件（9）
+### `plugin/` · 通用插件（11）
 
 | 文件 | kind | 定位 | 能拿走什么 | 什么时候读 | 状态 |
 |---|---|---|---|---|---|
-| [`README.md`](./plugin/README.md) | charter | **插件侧宪章**：只收能 `dsh plugin --profile <任意> add` 的 0.2.x 样本；一卡一插件，卡卡要交借鉴食谱。 | 8 个插件样本的七层坐标 + 一张可照抄的接缝表。 | 要装配件；或判断一个插件是「厚客人」还是「宿主」。 | observed |
+| [`README.md`](./plugin/README.md) | charter | **插件侧宪章**：只收能 `dsh plugin --profile <任意> add` 的 0.2.x 样本；一卡一插件，卡卡要交借鉴食谱。 | 11 个插件样本的七层坐标 + 一张可照抄的接缝表。 | 要装配件；或判断一个插件是「厚客人」还是「宿主」。 | observed |
 | [`11_薄基座-dock.md`](./plugin/11_薄基座-dock.md) | sample | `AKS1st/dock`：只给注册表、不给能力的工作台基座，六个 API + 六个兄弟包。 | 服务面 + 零内部依赖 + 可选 peer；隐藏要留一条与被隐藏物无关的逃生口。 | 要做平台型外壳/注册表；或要接别人的布局又不想改它。 | observed |
 | [`12_厚工作台-better-sidebar.md`](./plugin/12_厚工作台-better-sidebar.md) | sample | `omdsh-dev/DSH-better-sidebar`：一个插件把自己做成 IDE，且内置功能也走自己的扩展点。 | 一种扩展点形状 + 内置也走它；原型方法注册表；版本前缀 key + 引用完整性。 | 要做厚工作台/多面板 IDE；或要设计第三方可扩展的注册表。 | observed |
 | [`21_生成式界面-dsh-genui.md`](./plugin/21_生成式界面-dsh-genui.md) | sample | `omdsh-dev/dsh-genui`：把回复本身变成可操作界面，用内容协议当扩展面。 | 内容协议当扩展面；节点级丢弃 + 块级退回原文；无 action 渲染成 disabled。 | 要让模型输出可交互组件；或要设计容错的内容协议。 | observed |
 | [`31_驾驶舱-dsh-context.md`](./plugin/31_驾驶舱-dsh-context.md) | sample | `bowenliang123/dsh-context`：把上下文、成本、编队做成可读可归因的五块面。 | 同源出数；估算与真实并列；兼容性写成 Rule/Limitation/Check/Procedure。 | 要做用量/成本/上下文面板；或要避免面板数字与用户已知数字打架。 | observed |
+| [`42_环境搬家-dsh-config-manager.md`](./plugin/42_环境搬家-dsh-config-manager.md) | sample | `xiajiajun516/dsh-config-manager`：把整套环境导出成 ZIP，在另一台机器上先出计划再还原。 | 十二步导入流水线（写入放最后）；外部来源翻译成标准包再走同一路径；逐条冲突；写前快照 + 失败回滚。 | 要做首启/迁移/配置导入；或要设计「一次写很多文件」的确认流程。 | observed |
+| [`43_会话搬家-dsh-chat-import.md`](./plugin/43_会话搬家-dsh-chat-import.md) | sample | `Nwflower/dsh-chat-import`：把 13+ 家 agent 的对话搬成可续聊的会话，能预览、能撤回、能搬回去。 | 发现/保真/可撤销三件套；预览是只读 dry-run；解析失败给「下一步」而不是一句不支持。 | 要做数据导入/会话迁移；或要设计不可逆操作前的只读预览。 | observed |
 | [`04_首启观察-dsh-bootstrap.md`](./plugin/_证据/04_首启观察-dsh-bootstrap.md) | evidence | 观察样本：★1 / npm 763 的社区首启插件；保留"推荐 + 计划 + 环境码"机制分析，不占卡位。 | 机制参考；为什么它还不值得当卡。 | 要核对首启机制；或问"它为什么没卡"。 | open |
 | [`51_分发与救生页-dsh-market.md`](./plugin/51_分发与救生页-dsh-market.md) | sample | `dsh-market/dsh-market`：把发现与安装搬进产品，并给「起不来」留救生页。 | 救生页活在插件栈外；界面只做一个决定；外部索引每次使用前再校验。 | 要做分发/市场/安装器；或要设计「装坏了怎么回」。 | observed |
+| [`52_装坏自愈-dsh-plugin-health.md`](./plugin/52_装坏自愈-dsh-plugin-health.md) | sample | `EasonMWS/dsh-plugin-health`：升级后被静默拒载的插件，先在一次性 home 里真启动，再决定放不放行。 | 静态检查只是第一层，隔离预演才是修复前提；顺序即安全；宿主起不来时工具在宿体外还能跑。 | 要做安装/升级后的兼容检查；或要设计「修复前先证明」的写操作。 | observed |
 | [`61_多端与远程-dsh-mobile.md`](./plugin/61_多端与远程-dsh-mobile.md) | sample | `saya-ch/dsh-mobile`：把手机当一台要配对的设备，用回环上游 + 独立 HTTPS 网关。 | 配对码 + 可撤销（删哈希）+ 回环准入；撤销与显示解耦。 | 要做多端/远程访问；或要给会话开一个网络入口。 | observed |
 | [`71_感官接入-modlens.md`](./plugin/71_感官接入-modlens.md) | sample | `liustack/modlens`：给纯文本模型装上眼睛，粘贴即读、零配置。 | 未确认就放过；加元数据条目而不换路由；attempts/warnings 让回退不静默。 | 要补模型能力缺口（视觉/语音/搜索）；或要接管别人的路由而不改它。 | observed |
 | [`81_协作-dsh-agent-teams.md`](./plugin/81_协作-dsh-agent-teams.md) | sample | `NanmiCoder/dsh-agent-teams`：把多代理变成一张可批准的计划，队长 + 任务 DAG + 磁盘真相。 | 计划先行 + 唯一授权点 + 三层否定；完成时审计而非写入拦截。 | 要做团队/编排 UI；或要设计「人批准后才开跑」的交互。 | observed |
 | [`1-01_壳与工作台-原始挖掘.md`](./plugin/_证据/01_壳与工作台-原始挖掘.md) | evidence | 三张壳卡（better-sidebar / dock / dsh-TUI）的原始摘录与上游行号，只作溯源。 | — | 要核对壳类卡片的 [DSH]/[CAT] 原文；或重挖这三个样本。 | observed |
+| [`05_上手与修复-原始挖掘.md`](./plugin/_证据/05_上手与修复-原始挖掘.md) | evidence | 三张“装完之后”样本（环境搬家 / 会话搬家 / 装坏自愈）的 README 原文摘录与取数时点。 | — | 要核对 42/43/52 三张卡的原文；或重挖这三个样本。 | observed |
 | [`4-5-02_首启与分发-原始挖掘.md`](./plugin/_证据/02_首启与分发-原始挖掘.md) | evidence | dsh-bootstrap 与 dsh-market 的原始摘录，含 A/B 两档证据强度标注。 | — | 要核对首启/分发卡片的原文与行号。 | observed |
 | [`6-7-03_移动与视觉-原始挖掘.md`](./plugin/_证据/03_移动与视觉-原始挖掘.md) | evidence | dsh-mobile 与 modlens 的原始摘录与上游行号。 | — | 要核对多端/感官卡片的原文与行号。 | observed |
 

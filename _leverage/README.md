@@ -29,6 +29,7 @@
 ```text
 _leverage/
 ├── README.md                        ← 本文件(两册共同入口,固定名)
+├── verify.mjs                       ← 自包含校验器(只读本目录)
 ├── leverage/                        ← 三域:协作 / 门禁 / 权限
 │   ├── README.md  00-map.md  horizon.md  BORROW.md  catalog.md
 │   ├── lever-cross-boundary/  lever-prove-output/  lever-draw-limit/
@@ -46,11 +47,15 @@ _leverage/
 3. **先过门,再立卡**:卡片数随「机制被验证」涨,不随名单涨。两册的准入分开写——`leverage/horizon.md` 管三域,`leverage-reshape-product/00-map.md` §7 管三个 lever 的影响力门槛。
 4. **骨架不随样本长**:固定名(`README` / `00-map` / `horizon` / `BORROW` / `BACKLOG` / `catalog`)+ 卡片 `NN_` 编号;新增的是叶子。
 
-## 与仓库其他目录的边界
+## 自包含边界
 
-- `_digested/` 收**生态事实**(有什么、结构怎么变)与**上游机制**(名单数据、投稿门禁、探针衰减);`_leverage/` 收**影响面判断**。两边**各自独立**:目录、规则源、校验器都不共用。
-- 两册都**不重复分类计数**:引用 `_digested/ecosystem/` 的数字时带日期与口径,不重算。
-- 跨目录的引用只写成文档里的链接;`_leverage/` 的运行与校验**不依赖** `_digested/` 的任何脚本或数据。
+**这一层是自包含的**:两册的骨架(`README` / `00-map` / `horizon` / `BORROW` / `catalog` / `BACKLOG`)、规则源、证据与校验器全部在这棵树里。唯一的运行入口是 `node _leverage/verify.mjs`,它只读 `_leverage/` 内的 Markdown——**不 import 外部脚本,不读外部数据文件**。
+
+它与仓库同级的 `_digested/` 是两层并列的研究,不是上下游:
+
+- `_digested/` 收**生态事实**(有什么、结构怎么变)与**上游机制**(名单数据、投稿门禁、探针衰减);`_leverage/` 收**影响面判断**。
+- 两册都**不重复分类计数**:引用外部数字时带日期与口径,不重算。
+- 跨目录只写文档链接;链接失效不会影响本层的校验与阅读。
 
 ## 验证
 

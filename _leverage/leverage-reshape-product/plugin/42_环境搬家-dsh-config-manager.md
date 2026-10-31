@@ -21,6 +21,7 @@ updated: 2026-10-31
 > **repo**:[`xiajiajun516/dsh-config-manager`](https://github.com/xiajiajun516/dsh-config-manager) · **npm**:`dsh-config-manager` · **版本**:`0.2.2`
 > **目录条目**:`data/plugins/xiajiajun516__dsh-config-manager.yml`（`tools`）
 > **装法**:`dsh plugin --profile web add dsh-config-manager@latest` → 重启 → 设置里出现「Backup & Migration」
+> **转正**:2026-10-31 从 [`BACKLOG`](../BACKLOG.md) 候选池转正,类别定为 `4` 上手(此前记为「待判 4 还是 5」)
 > **已在本地挖掘**:`_证据/05_上手与修复-原始挖掘.md` §一（导出/导入流水线、30 来源、冲突、密钥、路径映射的原文摘录）
 > **再深挖去哪**:`dcm` CLI 子命令；「migration consult」的判决种类；market 配置包的签名/来源校验
 

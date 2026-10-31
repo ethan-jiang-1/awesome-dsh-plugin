@@ -2,8 +2,8 @@
 title: "plugin · 通用插件"
 domain: reshape-product
 kind: charter
-positioning: "插件侧宪章：什么算「装进任何 profile 都成立的客人」，以及 8 张卡各抄哪一行。"
-takeaway: "8 个插件样本的七层坐标 + 一张可照抄的接缝表。"
+positioning: "插件侧宪章：什么算「装进任何 profile 都成立的客人」，以及 11 张卡各抄哪一行。"
+takeaway: "11 个插件样本的七层坐标 + 一张可照抄的接缝表。"
 read_when: "要给现有 profile 加一块能力；或判断某插件算不算产品化、该不该分家。"
 status: observed
 updated: 2026-10-31
@@ -109,10 +109,15 @@ budget: 240
 | **`3` 驾驶舱** | | | |
 | [`驾驶舱`](./31_驾驶舱-dsh-context.md) | `bowenliang123/dsh-context` | 3,909 / 264,177 | 五块面回答"它吃了什么、为什么变笨、钱花在哪" | **同源出数**；估算与真实并列；兼容性写成 `Rule/Limitation/Check/Procedure`；"mirror, don't import" |
 | **`4` 上手** | | | |
-> **本类暂无达标卡**：`dsh-bootstrap` 未过门槛（★1 / npm 763），降级为观察样本（见 [`_证据/04_首启观察`](./_证据/04_首启观察-dsh-bootstrap.md)）；候选池见 [`BACKLOG`](../BACKLOG.md)。
+| [`环境搬家`](./42_环境搬家-dsh-config-manager.md) | `xiajiajun516/dsh-config-manager` | 277 / 19,723 | 装完第一件事：把整套环境从旧机器/旧 agent 搬过来，先出计划再写 | **十二步导入流水线，写入放最后**；外部来源先翻译成标准包再走同一条路径；冲突必须逐条裁决；写前快照 + 失败回滚；读不到写"读失败"不写 0 |
+| [`会话搬家`](./43_会话搬家-dsh-chat-import.md) | `Nwflower/dsh-chat-import` | 270 / 15,185 | 把 13+ 家 agent 的对话搬成**可续聊**的会话，能预览、能撤回、能搬回去 | **发现/保真/可撤销三件套**；预览=真解析的只读 dry-run（跳过插件注入）；解析失败列出每个解析器放弃的原因并给一条可发给 agent 的任务说明 |
 | **`5` 分发** | | | |
+| [`环境搬家`](./42_环境搬家-dsh-config-manager.md) | `xiajiajun516/dsh-config-manager` | `dsh-config-manager` | `xiajiajun516__dsh-config-manager.yml` (`tools`) | `dsh plugin --profile web add dsh-config-manager@latest` → 重启 | `_证据/05_上手与修复-原始挖掘.md` §一 | `dcm` CLI 子命令、migration consult 判决枚举、market 配置包校验 |
+| [`会话搬家`](./43_会话搬家-dsh-chat-import.md) | `Nwflower/dsh-chat-import` | `dsh-chat-import` | `Nwflower__dsh-chat-import.yml` (`session`) | `dsh plugin --profile web add dsh-chat-import` → 重启 | `_证据/05_上手与修复-原始挖掘.md` §二 | `docs/USAGE.md` 行级规则、13+ 来源的保真分级 |
 | [`分发与救生页`](./51_分发与救生页-dsh-market.md) | `dsh-market/dsh-market` | 9,902 / 813,066 | 把发现与安装搬进产品，并给"起不来"留救生页 | **救生页由进程外 helper 在原地址提供**；只给一个决定；外部索引每次使用前校验；自动重启先问"会不会杀死自己" |
+| [`装坏自愈`](./52_装坏自愈-dsh-plugin-health.md) | `EasonMWS/dsh-plugin-health` | 4 / 4,377 | 升级后插件被静默拒载：先在一次性的 home 里真启动一次，再决定放不放行 | **静态检查只是第一层，隔离预演才是修复的前提**；只写一条可撤销的官方豁免；顺序即安全（先测后写）；宿主起不来时工具必须在宿主体外还能跑 |
 | **`6` 多端** | | | |
+| [`装坏自愈`](./52_装坏自愈-dsh-plugin-health.md) | `EasonMWS/dsh-plugin-health` | `dsh-plugin-health`（CLI）+ 同名 bundle | `EasonMWS__dsh-plugin-health.yml` (`dev`) | CLI `npm i -g dsh-plugin-health`；或 `dsh plugin --profile web add dsh-plugin-health` | `_证据/05_上手与修复-原始挖掘.md` §三 | `compatibility.json` 键结构、隔离预演的实现、top-120 扫描口径 |
 | [`多端与远程`](./61_多端与远程-dsh-mobile.md) | `saya-ch/dsh-mobile` | 690 / 21,057 | 手机是**一台要配对的设备**，不是一个断点 | **配对码 + 可撤销(删哈希)+ 回环准入**；二进制供应链四项固定；`purge --yes` 式卸载清理 |
 | **`7` 感官与模型** | | | |
 | [`感官接入`](./71_感官接入-modlens.md) | `liustack/modlens` | 4,667 / 176,983 | 给纯文本模型装上眼睛：粘贴即读、零配置 | **未确认就放过**("absent means unknown")；加元数据条目不换路由；`meta.attempts`/`warnings` 让回退不静默 |
@@ -190,6 +195,7 @@ budget: 240
 
 - [ ] 第二梯队的 `6`/`7` 类候选：`shaobeichen/dsh-pocket`（10,411 下载）、`THEWOLFWALKER/dsh-notifier`（6,677）、`ysr666/dsh-vision-router`（21,679）、`Anionex/dsh-vision-toolkit`（17,248）——先判断它们是否**改变了交互契约**，只加能力的不成卡
 - [ ] `3` 类第二张候选：`feibi-mochi/deepseek-harness-control-center`（2,066 下载）
-- [ ] `4` 类：目前无达标卡；`dsh-bootstrap` 只作观察样本，`dsh-config-manager`（★277 / 月 19,723）已过门槛、**优先补一张"配置迁移"卡**（类别待定 4/5）
+- [ ] `4` 类已补两张（`42_环境搬家` / `43_会话搬家`）；**仍未成卡的两条支线**：①「就地索引」（`vshulcz/deja-vu`，★1,342 / DSH 包 `dsh-deja` 月 6,089，先判它算 4 类还是 7 类）；②「引导推荐」（`dsh-bootstrap` 仍是观察样本，★1/763 不过门槛）
+- [ ] `5` 类已补第二张（`52_装坏自愈`）；下一个候选 `sjh9714/dsh-win32`（★151 / 月 4,721，安装 + 实机验收 + 修复，Windows-only）
 
 **搬到 shell 侧的待办**（口径外产品、证伪样本）见 [`../shell/README.md`](../shell/README.md) §5。
