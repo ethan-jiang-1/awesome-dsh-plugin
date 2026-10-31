@@ -1,11 +1,13 @@
 # 01 · 拓扑谱：四道边界与它们各自的税
 
-> **状态**:`observed` · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b` · **样本**:8 组,回读 catalog 原文
+> **状态**:`observed` · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b` · **样本**:9 组深读 + 5 组旁支,回读仓库源码
 > **一句话**:从“一个 agent”到“一支团队”要跨四道边界。**每跨一道，新增的不是能力，而是三笔税：状态归属、冲突裁决、失败收敛。**
+
+> **2026-10-31 修订**:官方「已知限制」按原话逐字核对(7 条,不是 4 条);子代理深度/容量/权限三条税补上源码行号;影响力口径从「目录自述」改为「实时 GitHub + npm 数据 + census 探针」;新增失败模式「假成功 / 重启归零 / 静默失锁」。样本深读见 [02](./02-coordination-mechanisms.md) 与 [03](./03-sample-encyclopedia.md)。
 
 ## 1. 命题
 
-> 协作的难点不在派活，在**状态放在哪一层、失败在哪一层收敛**。官方在边界 2（同工作区多成员）留下的三条限制——共享 checkout、单进程、owner 不自动释放——是生态插件真正在赛跑的对象，而不是它们补上的空白。
+> 协作的难点不在派活，在**状态放在哪一层、失败在哪一层收敛**。官方在边界 2（同工作区多成员）留下的 7 条已知限制里最要命的三条——共享 checkout、单进程、owner 不自动释放——是生态插件真正在赛跑的对象；但生态的选择不是「填坑」，而是**换一张表重画**：谁要成员异构配置，谁就必须自己造 roster。
 
 可证伪点：如果存在一批插件**根本不需要回答状态归属**就实现了稳定协作，命题不成立。
 
@@ -14,9 +16,11 @@
 | 边界 | 跨越的东西 | 阶梯级 | 供给(证据) |
 |---|---|---|---|
 | 0 同 agent | 无 | — | 全部 |
-| 1 同进程父子 | 上下文 + 结果 | 5(seam backend)+6(preset) | `subagent` 文件名 49 条 `[CAT]` |
-| 2 同工作区多成员 | 文件 + 任务 + 消息 | 6(bundle) | `team` 36 条、`dispatch` 8 条、`roster/mailbox` 5 条 `[CAT]` |
-| 3 跨进程/跨机 | 身份 + 传输 + 信任 | 7(protocol) | `remote` 62 条、`relay` 18 条、`a2a` 6 条、`handoff/worktree` 各 14 条 `[CAT]` |
+| 1 同进程父子 | 上下文 + 结果 | 5(seam backend)+6(preset) | `subagent` 259 条、`子代理` 189 条 `[CAT]` |
+| 2 同工作区多成员 | 文件 + 任务 + 消息 | 6(bundle) | `team` 102 条、`团队` 59 条、`captain` 5 条 `[CAT]` |
+| 3 跨进程/跨机 | 身份 + 传输 + 信任 | 7(protocol) | `relay` 81 条、`handoff` 73 条、`worktree` 45 条、`mailbox` 8 条 `[CAT]` |
+
+> 检索式:`python3 _digested/leverage/census.py --probe "<词>"`(2026-10-31 冻结基线,单标、描述原文命中)。旧稿的「`subagent` 文件名 49 条 / `team` 36 条 / `remote` 62 条」是文件名口径,与本表描述口径不可比,已整表替换。
 
 **关键不对称**:边界 1 是 DSH **免费给的**（一个 config 就开）；边界 2 官方只给实验原型且写明三条硬限制；边界 3 官方只给**协议原语**（网关、ACP、worktree），不给你任何现成的“跨机团队”。
 
@@ -30,36 +34,46 @@
 
 | 税 | 具体 | 出处 |
 |---|---|---|
-| 深度 | `maxDepth` 默认 **1**——只有直接子代理，子代理不能再雇人 | `dsh-subagent` |
-| 容量 | `maxActiveSubagents` 默认 **8**，每棵 activation 树共享；**耗尽不排队**，直接 `ACTIVATION_LIMIT_REACHED` | `dsh-subagent` |
-| 权限 | 子代理的权限范围**在启动时固定，会话内不能扩大**；需要审批的操作**自动拒绝** | `subagent:delegation` 运行时上下文原文 |
+| 深度 | `maxDepth` 默认 **1**——只有直接子代理，子代理不能再雇人。深度以父 session header 为**单调下限**,被 resume 的子代理不能从零重新计深度 | `dsh-subagent` README:49;`lib/index.js:104-116` |
+| 容量 | `maxActiveSubagents` 默认 **8**，每棵 activation 树共享;根父不占槽;创建与冷恢复**先预留再物化**;**耗尽不排队**,直接 `ACTIVATION_LIMIT_REACHED`(浏览器侧转 `subagent/delivery-unavailable`) | `dsh-subagent` README:53/57;`lib/index.js:1047` |
+| 权限 | 子代理的权限范围**在启动时固定，会话内不能扩大**;`approval` 被钉为 `never`——需要审批的操作**自动拒绝**是机制强制,不只是提示词 | `dsh-subagent` README:181;`lib/index.js:363,400-414` |
 
-容量不排队这一条值得单独说：官方给的理由是“避免等待子代理的父代理又等待自己占用的名额”。这是一个**死锁规避**设计，代价是**父代理必须自己实现重试与排队**——生态里那一批“模型路由 / 名额监控”插件，本质上都是在补这层调度。
+容量不排队这一条值得单独说：官方给的理由是「**Admission does not queue, because a parent waiting for descendants must not wait for its own occupied slot.**」这是一个**死锁规避**设计，代价是**父代理必须自己实现重试与排队**——生态里那一批“模型路由 / 名额监控”插件，本质上都是在补这层调度。
 
-**结果怎么回**:`delivery: 'parent'` 发一条 user-role 完成通知（含 `Structured result: <JSON>`）；`delivery: 'caller'` 不发通知，由工作流收集。**父代理看到的是子代理的最终文本，不是过程**。
+“可续”也不是容器属性而是**后端能力**:只有当 provider 暴露 `prepareContinuable` 时,`startActivation` 才接受保留的 `childId`,`dsh-subagent` 直接抛 `UNSUPPORTED_CAPABILITY`(“reserved child ids require a local backend”)。ACP / DSH SDK / Codex / Claude Code 这类进程外 provider 因此只有一次性执行,`interrupt_agent` 的描述逐字写着「External executions stop permanently and cannot receive follow-ups」。
+
+**结果怎么回**:`delivery: 'parent'` 在**结算之后**发一条 user-role 完成通知（含子代理非空最终文本块与 `Structured result:` 结构化输出块,reasoning 与非文本块被排除）；`delivery: 'caller'` 不发通知，由工作流 await 收集。**父代理看到的是子代理的最终文本，不是过程**——正因为过程不可读,dsh-agent-teams 才要求成员把报告**写进队长的邮箱与任务记录**,而不是靠“读子代理最后一句话”。
 
 ### 边界 2 · 同工作区多成员 `[DSH]`
 
 官方 `dsh-experimental-agent-team` 给了 roster + inbox + 持久任务板。它的设计理念是三条：“持久日志、派生状态”“进程内归属”“显式权限”。
 
-**但它的「已知限制」把边界 2 的三笔税全部点名了**：
+**它的「已知限制」一共 7 条**(README:203-207，逐字核对过)，其中**三条正好是边界 2 的三笔税**:
 
-| 官方原话(意译) | 这意味着什么 |
-|---|---|
-| **单进程、共享 checkout**：成员共享 cwd，修改立即可见；不提供 worktree、远端成员、merge 或文件锁 | 文件冲突**没有任何机制裁决** |
-| **write scope 仅作提示**：Bash、formatter、代码生成器与直接外部写入可绕过文件版本检查 | 唯一的写范围声明是**建议，不是强制** |
-| **不会自动释放 owner**：不活动、interrupt、进程退出、工作失败都不释放 | 任务卡住后**无人回收**，只能 Lead 手动协调 |
-| **无发送重试保证**：不保留新尝试、不去重；不支持多进程同时操作一个 Team | 消息可能静默丢失 |
+| 官方原话(逐字) | 中译 | 这意味着什么 |
+|---|---|---|
+| **One process and one shared checkout** — members share cwd and observe edits immediately; this package provides no worktree, remote member, merge, or filesystem lock. | 一个进程、一个共享 checkout——成员共享 cwd 并即时看到彼此的修改;本包不提供 worktree、远端成员、合并或文件系统锁 | 文件冲突**没有任何机制裁决**;冲突裁决这一笔税原样留给生态 |
+| **Advisory write scopes** — Bash, formatters, code generators, and direct external writers can bypass filesystem version checks. | 写范围只是建议性的——Bash、格式化器、代码生成器以及直接的外部写入者可以绕过文件版本检查 | 唯一的写范围声明是**建议，不是强制** |
+| **No automatic ownership release** — inactivity, interruption, process exit, and failed work do not release a task owner. | 没有自动的归属释放——不活跃、被中断、进程退出与失败的工作都不会释放任务归属 | 任务卡住后**无人回收**,失败收敛这一笔税留给生态 |
+| **No send retry guarantee** — Team does not retain or deduplicate new attempts; **concurrent processes over one Team are unsupported**. | 无发送重试保证——不保留也不去重新尝试;同一个 Team 上的并发进程不被支持 | 消息可能静默丢失;状态归属锁死在单进程 |
 
-同时它给了两件很硬的东西：任务用**完整版本快照 + `expectedRevision`**，陈旧调用方拿 `TEAM_TASK_STALE_REVISION` 而不是覆盖；已删除任务保留 tombstone 维持 id 稳定。这是 CAS 的教科书实现。
+> **勘误**:旧稿把「no cross-process mailbox」当成官方的一条限制,这不准确。官方把 `cross-process mailbox transactions` 写在 Dev Note 的**未定方向**里(README:223,且该段自述 non-authoritative),限制清单里对应的事实是「concurrent processes over one Team are unsupported」。写引用时两者不能合并成一条 README 限制。
 
-**所以边界 2 的真实图景**:官方把**协作元数据**做得很硬（CAS、日志派生），把**工作区与生命周期**留成空白。生态插件的分工因此非常清楚——
+同时它给了两件很硬的东西：任务用**完整版本快照 + `expectedRevision`**，陈旧调用方拿 `TEAM_TASK_STALE_REVISION` 而不是覆盖；已删除任务保留 tombstone 维持 id 稳定(`get()` 仍返回墓碑,`list()` 与 `maxTasks` 不数它),id 空间耗尽报 `TEAM_TASK_LIMIT` 而不是复用末号。这是 CAS 的教科书实现。
 
-- 一拨人补**文件隔离**:45 条 worktree 类样本（`february2015/dsh-taskswarm` 等）
-- 一拨人补**调度与回收**:任务板/邮箱类 100 条
-- 一拨人干脆**绕过官方团队**,自己实现 roster:`limuyang2/agent-team`（助手独立模型、独立上下文、共享工作区）、`2507483326/dsh-eteams`（领队派任务给各自子会话的成员）、`Mlte0907/dsh-teams-x`（captain + 依赖感知任务 DAG + 持久邮箱 + 实时活动面板）
+**所以边界 2 的真实图景**:官方把**协作元数据**做得很硬（CAS、日志派生、tombstone 保 id），把**工作区与生命周期**留成空白。生态插件的分工因此非常清楚——
 
-三者都在重新发明 roster，因为**官方 roster 是扁平的且不可变**（只有 Lead 能建直接成员，不支持嵌套、重命名、删除、名字复用）。
+- 一拨人补**文件隔离**:`worktree` 45 条样本（`february2015/dsh-taskswarm` 等）
+- 一拨人补**调度与回收**:`team` 102 条、`captain` 5 条
+- 一拨人干脆**绕过官方团队**,自己实现 roster——但“补上空白”这个说法需要修正:**三家都没有真去填官方那三条限制的坑,而是各自重画了一张表**
+
+| 自建 roster 的样本 | 它真正补的是什么 | 它没补什么 |
+|---|---|---|
+| `NanmiCoder/dsh-agent-teams` | 事件驱动调度器(idle 边沿原子认领)+ 队长/成员双向邮箱 + 批准后才派工的两段式 + 可选质量门 | 文件隔离(作者明说不做 worktree,只在完成时审计 `changedPaths`);跨进程(锁是进程内 promise 链) |
+| `Mlte0907/dsh-teams-x` | 同一套骨架的轻量版:DAG + 磁盘 JSONL 信箱 + 质量门自动派生 repair(上限 3 轮) | 同上;且质量门的 `commandsRun`/`changedPaths` 是成员**自述**,插件不执行 verify 命令 |
+| `limuyang2/agent-team` | 成员异构配置(每人独立 provider/model/preset/权限/Skills/MCP) | 依赖图(`dependencyIds` 硬写 `[]`)、租约(`leases` 表存在但无代码)、文件裁决(`fileScopes` 只是文案) |
+
+这三家重画 roster 的真实原因不是「官方 roster 扁平不可变」这一条,而是**官方 roster 的成员不可配置**:官方 `spawn_teammate` 只带 name/description/prompt,不给每个成员单独的模型、预设、权限与技能包。`limuyang2/agent-team` 是最直接的证据——它为了「一个成员一套异构配置」,宁可放弃运行时 spawn/interrupt/wait/DAG,把成员改成**独立根 Agent**而不是子代理。谁要成员异构,谁就得自己造 roster。
 
 ### 边界 3 · 跨进程 / 跨机 `[DSH]`
 
@@ -106,26 +120,28 @@
 
 | 必答项 | 内容 |
 |---|---|
-| **代表什么典型** | 边界 2(同工作区多成员)的**唯一原生原型**;它的三条已知限制定义了这一整道边界的税 |
+| **代表什么典型** | 边界 2(同工作区多成员)的**唯一原生原型**;它的 7 条已知限制(其中 3 条正是三笔税)定义了这一整道边界的税 |
 | **为什么选它** | 过 **G 已核**:机制读自官方 README,且能点出它的失效条件——共享 checkout、单进程、owner 不自动释放、消息无去重重试 |
 | **影响力多大** | 不是「被多少人用」,而是**它规定了别人的形状**:生态里 `teams-x`、`eteams`、`agent-team` 三家的 roster 语义都在跟它划分界线 `[CAT]` |
 | **主要特点** | 协作元数据做得很硬(CAS + `expectedRevision` → `TEAM_TASK_STALE_REVISION`,tombstone 保 id 稳定),工作区与生命周期留给外面 |
 | **代价 / 失效** | 文件冲突**无任何裁决**;`writeScopes` 只是提示(Bash/formatter 可绕过);任务卡住只能 Lead 手动回收 |
 | **证据级别** | `[DSH]` 官方包 README「已知限制」段 · 状态 `observed` |
 
-### 对照 · `zbzbhs/dsh-remote-agent`(A 级,边界 3)
+### 对照 · 本域其余样本(只给定位,深读见 [03](./03-sample-encyclopedia.md))
 
-- **过门**:F 稀缺 + G;`remote` 类 62 条里,「副机跑完整 DSH、断链继续、模型凭证不出机」是罕见的取法
-- **影响力**:能力披露无可复核量;靠 **F 稀缺** 进入,证据等级 `inferred`,待补可复核量
-- **特点**:把跨机从**传输问题**降级为**信任问题**——工作的所有者本来就是副机,链路断了不丢工作
+| 样本 | 边界 | 它解决的税 | 一句话 |
+|---|---|---|---|
+| `NanmiCoder/dsh-agent-teams` | 1+2 | 状态归属 + 失败收敛 | 成员是**可续聊子代理**,权威状态在磁盘 `team.json`,靠 idle 边沿认领任务 |
+| `toolclub/dsh-agent-team-gui` | 1+2 | 状态归属 + 成本 | 「默认不派活」写在**提示词**里而不是代码里 |
+| `omdsh-dev/dsh_workflow` | 1 | 失败收敛 | 没有 DAG,JS 控制流就是编排;可恢复 = 快照重跑 + 内容键缓存 |
+| `limuyang2/agent-team` | 2 | 成员异构 | 成员是**独立根 Agent**,不是子代理 |
+| `Mlte0907/dsh-teams-x` | 1+2 | 三笔都试了一遍 | 与官方最要命的三条限制逐条应战,但两条承认未解决 |
+| `zbzbhs/dsh-remote-agent` | 3 | 信任 | 把跨机从传输问题降级为信任问题 |
+| `Nwflower/dsh-file-claim` | 2 | 冲突裁决 | 唯一真去做**文件写权**裁决的样本 |
+| `Chinesezjc/dsh-interconnect` | 3 | 状态归属 | 跨 DSH **实例**的消息总线,无幂等、无离线队列 |
+| `IKEASven69/dsh-takeover` | 3 | 冲突裁决 + 收敛 | 没有网络协议,只有文件 |
 
-### 对照 · `IKEASven69/dsh-takeover`(A 级,边界 3)
-
-- **过门**:F;`handoff: 1` 协议 + 消费即弃卡片 + 四态证据账本 + **同步盘**跨机接力
-- **特点**:最省事的跨机——**没有网络协议,只有文件**。可行前提是协作状态被做成可序列化的自包含单元
-- **代价**:没有实时性;冲突语义由同步盘决定
-
-> 旁支留档(B 级,不立卡):`february2015/dsh-taskswarm`(worktree 补共享 checkout 的空)、`januory/dsh-remote-workspaces`(SSH/SFTP 不镜像)、`ANetResearch/ANet#dsh-anet`(加密 A2A + 限额付费)只出现在本节与失败模式表,各有独立卡片供给时再升。
+> 旁支留档(B 级,不立卡):`february2015/dsh-taskswarm`(worktree 补共享 checkout 的空)、`januory/dsh-remote-workspaces`(SSH/SFTP 不镜像)、`ANetResearch/ANet#dsh-anet`(加密 A2A + 限额付费)、`PerryLink/dsh-team-rooms`(跨会话团队房间)、`Noelune/dsh-agent-relay`(HMAC broker 中继)只出现在本节与失败模式表,各有独立卡片供给时再升。
 
 ## 6. 体验
 
@@ -134,36 +150,46 @@
 **模型看到的**:这一层的不对称最值得记。
 
 - 子代理在自己的运行时上下文里收到一条固定声明:**权限范围启动时已固定、需要审批的操作自动拒绝、不要重试被拒操作** `[DSH]`
-- 父代理只收到**完成通知**（最终文本 + 可选结构化结果），看不到子代理的过程
-- 团队成员之间的 peer 消息是**以发送者名前缀的 user-role 消息**，roster 与任务板**不进模型历史，只进日志** `[DSH]`
+- 父代理只收到**完成通知**（最终文本 + 可选结构化输出块），看不到子代理的过程
+- 团队成员之间的 peer 消息是**user-role 消息**,但两套原语的措辞不同:Agent Teams 用 `Team message from <name>:`,子代理用 `Agent <senderSessionId> sent a message:`(是 id,不是名字) `[DSH]`
+- roster 与任务板**不进模型历史，只进日志**;模型对团队的认知来自工具返回值,不来自“看见一支队伍” `[DSH]`
 
-**所以“团队”对模型而言是**:我不能扩权、我看不到同伴的过程、我收到的每条同伴消息都长得像用户说话。任何把团队当“共享大脑”的设计，都在这三条上撞墙。
+**而消息头不是身份。** 官方把话说得很直:`dsh-tool-subagent-control` 描述「**the service derives that attribution and never treats it as authority**」,`dsh-subagent` 说「**Agent-message authority is exact adjacency**」,Agent Teams 侧同构地写着「Sibling messages never impersonate the Lead through the public adjacent-Agent messaging operation」。也就是说:**agent 之间的身份来自日志里的 `source.senderSessionId` + 相邻性检查,不来自消息文本**。控制面工具连“冒充他人发送”的参数面都不存在——它把确切的活动调用 agent(`exec.agent`)同时作为 sender 与 authority 传入。
+
+**所以“团队”对模型而言是**:我不能扩权、我看不到同伴的过程、我收到的每条同伴消息都长得像用户说话、而且我说我是谁不算数。任何把团队当“共享大脑”的设计，都在这四条上撞墙。
+
+> **另有两条容易被误解** `[DSH]`:① `subagent` 与 Agent Teams 是**两套并存的协作原语**,`agent-team-profile` 打包时**显式禁用**了 `tool-subagent` / `tool-subagent-fork` / `subagent-control` / `list-agents`——「装了 Teams 就同时有子代理委派」是错的。② 子代理服务**没有持久的父信箱**(“The service has no durable parent mailbox”),驻留是进程本地的;`listChildren` 不读子日志,只是父拥有的投影,所以是 O(D) 而不是可持久查询的目录。
 
 ## 7. 失败模式
 
-| 失败 | 表现 | 根因 |
-|---|---|---|
-| 静默丢消息 | Lead 以为发了,成员没收到 | 官方 Team“无发送重试保证、不去重” |
-| 任务永挂 | 成员死了,任务还在 in-progress | “不会自动释放 owner” |
-| 同时改同一文件 | 后写的覆盖先写的,无人察觉 | 共享 checkout + write scope 仅提示 |
-| 深度不够 | 子代理想再雇人,失败 | `maxDepth` 默认 1 |
-| 全家卡死 | 一棵树 8 个名额占满,所有新委派被拒 | 容量不排队设计 |
-| 跨机断链丢工 | 链路一断整批工作失效 | 镜像流派把工作绑在链路上 |
-| 配对疲劳 | 每个插件一套扫码/配对/令牌 | 边界 3 没有统一的身份层 |
+| 失败 | 表现 | 根因 | 谁踩过 |
+|---|---|---|---|
+| 静默丢消息 | Lead 以为发了,成员没收到 | 官方 Team「无发送重试保证、不去重」 | 官方;`teams-x` 补 60s 投递租约 + release 重试,但仍无 message-id 幂等 |
+| 任务永挂 | 成员死了,任务还在 in-progress | 「不会自动释放 owner」 | 官方;`agent-teams` 用 parked 语义**刻意**保留停驻,只给一次冷恢复 |
+| 同时改同一文件 | 后写的覆盖先写的,无人察觉 | 共享 checkout + write scope 仅提示 | 除 `file-claim` 外**全员**;`agent-teams` 只在完成时审计 `changedPaths` |
+| 深度不够 | 子代理想再雇人,失败 | `maxDepth` 默认 1 | 所有两层 roster |
+| 全家卡死 | 一棵树 8 个名额占满,所有新委派被拒 | 容量不排队设计 | `agent-teams`(默认成员 8)/ `team-gui`(成员 32) |
+| 跨机断链丢工 | 链路一断整批工作失效 | 镜像流派把工作绑在链路上 | 镜像流派;代理流派不受影响 |
+| 配对疲劳 | 每个插件一套扫码/配对/令牌 | 边界 3 没有统一的身份层 | 生态普遍;`remote-agent` 的配对码**不过期、不核验**,只是配置打包串 |
+| **假成功** | 任务标 completed,实际什么都没产出 | 完成判据缺项:DSH 的 `kick()` 把 turn 内错误吞掉只走 `agent/error`,判据只看超时与中断 | `remote-agent`(已修,并用源码静态断言钉住三条) |
+| **重启归零** | 进程一重启,在跑的团队全标 interrupted,进度清零 | 无执行级检查点 | `team-gui`(明说无自动续跑);`dsh_workflow`(进程重启活跃 run 丢失) |
+| **静默失锁** | 租约被接管,原主以为自己还持有 | 无 fencing token,原主 `sync` 时 `mine=[]` 也不报错 | `file-claim` |
 
 ## 8. 评估清单
 
 1. 它跨的是哪一道边界?说不出边界的,是不是只是个工具?
-2. roster / 任务 / 消息 / 证据分别存在哪里?谁是权威日志?
-3. 它怎么处理官方的三条限制——绕过、补上,还是假装不存在?
-4. 成员崩溃、消息丢失、链路断开时,协作状态往哪收敛?
+2. roster / 任务 / 消息 / 证据分别存在哪里?谁是权威日志——**会话日志,还是它自己写的一份盘上状态**?
+3. 它怎么处理官方限制里最要命的那三条(共享 checkout / 单进程 / owner 不释放)——绕过、补上,还是假装不存在?补的那条**有没有留下新的空白**?
+4. 成员崩溃、消息丢失、链路断开时,协作状态往哪收敛?收敛靠**心跳、对账器、还是人的手动操作**?
 5. 跨机方案里,工作和链路是**绑定**还是**解耦**?断链后还能继续吗?
 6. 它有没有把协作状态做成可序列化的自包含单元(卡片/账本/快照)?
 7. 模型侧看到了什么?roster 与任务板进了上下文,还是只进了日志?
+8. **它的“完成”判据是什么?** 是子代理自述、还是自己有独立证据?自述的判据一定会产生假成功。
 
 ## 9. 开放问题
 
 - [ ] `[OPEN]` 官方“单进程共享 checkout”是实验期约束还是立场?若长期成立,worktree 就是团队插件的必需品而非可选。
-- [ ] `[OPEN]` 两套 roster（官方 Team vs 自建 team）会不会导致一个会话里出现两个“团队”概念?
+- [ ] `[OPEN]` 两套 roster（官方 Team vs 自建 team）会不会导致一个会话里出现两个“团队”概念?`limuyang2/agent-team` 与官方包服务键只差一个字母(`agentTeam` vs `agentTeams`),两者可同装,任务板互不相通。
 - [ ] `[OPEN]` 边界 3 缺少统一身份层,是否意味着长期只能是“每插件一套配对”?DSH 原生 Peer 模型能否被复用成统一身份?
 - [ ] `[OPEN]` 代理流派（副机自主）与镜像流派（本地映射）会长期并存,还是其中一个会赢?
+- [ ] `[OPEN]` **磁盘上的 team.json 会不会成为事实上的标准?** 三家自建 roster 都在 `<workspace>/.<plugin>/<teamId>/` 下写自己的状态,彼此不可读。若没有共享 schema,团队状态就无法跨插件迁移。

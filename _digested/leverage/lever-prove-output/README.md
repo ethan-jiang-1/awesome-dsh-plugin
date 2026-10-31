@@ -4,6 +4,23 @@
 > **状态**:`observed`(机制已核) · **基线**:DSH `0.2.1-rc.3` · 名单 7924 条 @ `efe602e7b`
 > **作业区**:**本目录自足、可独立开工**。只读共享件,不写共享件;不引用其他域的结论,不等待其他域的进度。四域并行契约见 [`../README.md`](../README.md#四域并行作业契约)。
 
+## 怎么用这份材料(先读这里)
+
+**这不是一份插件评测合集。** 每个样本都按同一个骨架写:**它解决什么真问题 → 机制怎么落(到源码行)→ 影响力多大(给数)→ 哪里会坏(具名条件)→ 你能搬走什么(做法 + 为什么有效 + 怎么搬 + 反面)**。
+
+每张卡都有一个 **「可借鉴」** 节,那是主体,不是附录。九张卡的「可借鉴」合计 **69 条**,编号后汇总在 [`10`](./10-quality-control-playbook.md) §7,可以贴进你自己的设计评审里引用(「这里按 Q3 处理」)。
+
+四条读法,按你的目的选:
+
+| 你的目的 | 从哪读 | 会拿到什么 |
+|---|---|---|
+| **我要自己写一个质量插件** | [`01`](./01-quality-chain.md) §6 六条设计律 → [`10`](./10-quality-control-playbook.md) §7 总表 → 你那个接缝对应的卡 | 一张设计契约:门装哪、判什么、错了怎么办、默认档怎么设 |
+| **我要选一个装在自己身上** | [`10`](./10-quality-control-playbook.md) §8 八个问题 → 各卡「评估清单」 | 八句话筛掉 90% 的「提示词冒充门禁」 |
+| **我要评审别人的质量方案** | [`10`](./10-quality-control-playbook.md) §1 接缝表 + §4 权限阶梯 | 两个坐标轴,定位任何方案的硬度和可信度 |
+| **我要给官方提缺口** | 各卡「开放问题」+ [`10`](./10-quality-control-playbook.md) §6 共同失败 | 七条结构性失败,每条都能对应到一个原生能力缺失 |
+
+**一条阅读纪律**:本域反复出现「**看着对、其实反了**」的结论(默认软 ≠ 没做、对账 fail-open 才对、哈希正确 ≠ 内容正确、more stars ≠ deeper mechanism)。**只读摘要会读反**,所以每条结论后面都跟着它的代价与反面——**别跳过「反面」那一行**。
+
 ## 这个域问什么
 
 一个 agent 说“做完了”。这句话什么时候可以被当作事实？答案不取决于评审多么严格，而取决于**门禁装在哪一环**——装得越靠近副作用，越硬；装在文字层，就只是建议。
@@ -51,14 +68,70 @@
 
 ### 本域研究对象(主读,单一归属)
 
+原生机制(S 级,定义型):
+
 | 级 | 样本 | 过了哪些门 | 影响力证据(可复核) | 一句话特点 |
 |---|---|---|---|---|
 | **S** | 官方 `dsh-session-checkpoint-policy` | G | 三处屏障写自官方 README;全库唯一 fail-closed 的**副作用前**屏障 | 保证「至少知道发生了什么」,不保证「只发生一次」 |
 | **S** | 官方 `dsh-fs-observation-policy` | G | 唯一把「读过」变成**版本约束**的机制 | 策略只做决策不做 I/O 的范式 |
-| **A** | `030611/qiushi-dsh-evidence-audit` | F | **F**:`hash.?chain\|哈希链` 全库 **3/7924** | 只证「发生过、顺序、未被篡改」,不存内容 |
-| **A** | `4444wjt/dsh-plugin-veriscope` | F + G | 稀缺点在「不重新评测、不调用模型、纯阈值」;**REVIEW 永不转 PASS** | 不确定性不允许被自动消解 |
+| **S** | 官方 `dsh-plan-mode` | G | `exit_plan_mode` 评审式退出;官方自述「引导而非强制」 | ② 环唯一的官方接缝,**明说是软的** |
+| **S** | 官方 `dsh-atomic-write` / `dsh-tool-present` / `dsh-workspace-changes` | G | present 明说「交付版本持久化与写时复制存储延期实现」;atomic-write 明说不 `fsync` | ⑤ 环原生只给**指针 + 本轮摘要** |
+| **S** | 官方 `dsh-tool-goal` | G | 唯一处「模型不能自宣终止」的硬约束(`blocked` 需连续 3 轮,机械拒绝) | 原生的硬约束全部朝向**「不许放弃」**,没有一条朝向**「不许自宣成功」** |
 
-**借用但非主读**(只可一句引用,不深读、不立卡):`dsh-sandbox-policy`、`dsh-experimental-auto-review`(主读均在 `lever-draw-limit`)、`dsh-experimental-agent-team`(主读在 `lever-cross-boundary`)。
+生态样本(每条都已回读来源 README 或源码,不再只依赖 catalog 简介):
+
+| 级 | 样本 | 过门 | 影响力证据(可复核) | 门禁位置 | 一句话特点 | 卡片 |
+|---|---|---|---|---|---|---|
+| **S** | `samirliu/dsh-goalloop-agentteams` | C·D·F·G | `update_goal` **1/7924** · `假完成` **2/7924** · ★1 | `tools/pre-execute` | **源码级**:只拦 4 种完成声明、门禁自己重跑 AC、假完成 2 次冻结、契约改动即批准失效 | [02](./02-goal-gate-hard-floor.md) |
+| **S** | `rootsbymenda/dsh-second-angle` | C·D·F·G | `agent/turn-stopping` **2/7924** · ★0 · 24 例公开评测 | `agent/turn-stopping` | 本轮工具输出做**证据池**,矛盾才 steer;对账永不拦,动作可拦 | [03](./03-turn-end-reconciliation.md) |
+| **S** | `bycall/dsh-answer-reviewer` | C·D·G | ★10 / fork5 · 本域最高 fork | `agent/turn-stopping` | 判官只读**真实用户提示**;分数绑 `message.id`;解析 fail-closed | [06](./06-judge-placement.md) |
+| **A** | `AaronandWork/dsh-evidence-gate` | C·D·G | ★8 · `证据\|evidence` 163/7924 | `systemPrompt.section` + `tools/result` | 五级**反误杀阶梯** + `converted`/`charity` 反向指标 | [04](./04-evidence-index.md) |
+| **A** | `030611/qiushi-dsh-evidence-audit` | F·C·D·G | `hash.?chain\|哈希链` **3/7924** · ★3 | `tools/result`(只观察) | 最小留存:只存哈希,`0700/0600`,并列出**检测不到的三种情形** | [05](./05-custody-chain.md) |
+| **A** | `zhengqiuyang/dsh-attest-chain` | F·C·D·G | `ed25519` **3/7924** · ★0 | `tools/result`(只观察) | 每条签名 + 绑 git SHA + `verifyChain()` 返回**第一个坏点**;自带 kill criteria | [05](./05-custody-chain.md) |
+| **A** | `263311487-ux/dsh-verify` | C·D·F·G | `真浏览器\|chromium` 34/7924 · ★2 | 外部进程 | 真浏览器执行 JSON 规格;三入口三种独立性;四个「不证明」 | [07](./07-foreign-runtime-acceptance.md) |
+| **A** | `4444wjt/dsh-plugin-veriscope` | F·C·D·G | `永不转` **1/7924** · 三值组合 **1/7924** | 外部进程(纯 Node) | 不重新评测、不调模型;**REVIEW 永不转 PASS** | [07](./07-foreign-runtime-acceptance.md) |
+| **A** | `oxmumu3/dsh-workproof` | C·D·F·G | `用户验收\|user acceptance` **2/7924** · ★0 | `conversation.view` + 工具 | 交付回执:**没有 `decide` 动作**;重检永不替换基线 | [08](./08-delivery-receipt.md) |
+| **A** | `PerryLink/dsh-doublecheck` | C·D·F·G | ★**59**(本域最高)· `test evidence` 6/7924 | 多接缝 + fork 子代理 | 六阶段纪律环;**red 必须先于实现**;默认 `remind` | [09](./09-discipline-loop.md) |
+| **A** | `CAI-MH/dsh-quality-review` | C·D·G | ★2 / fork1 | `agent/turn-stopping` | 四维 + **团队 SOP 目录**(文件名当关键词,整目录当标准) | [06](./06-judge-placement.md) |
+| **A** | `Jonah-Wu23/dsh-gungnir` | C·D·F | ★6 · `假完成` 2/7924 之一 | `tools/pre-execute` | 目标锁定 + 自适应轮次;给出 **54 runs** 分臂实验数据 | [02](./02-goal-gate-hard-floor.md) |
+
+**B 级(不立卡,只作对照行)**:`JayYuen666/dsh-quality-gate` @ `abb6266`(轮末命令白名单 + `agent.followup` 修复轮;脆在版本耦合)、`1052326311/dsh-plan-lattice` @ `ea4d4f7`(② 环自建网格,★3,v0.3.0)、`Jonah-Wu23/dsh-gungnir#dsh-plugin` @ `4038c3e`(**monorepo 子包** `packages/dsh-plugin`)、`1687210989/agent-clinic` @ `e88d6ec`(22 项诊断 + `#L<a>-L<b>` 定位符)。
+
+**未进卡但记了坐标**:`863683348/dsh-plugin-gate` @ `b75c3a1`(60 条静态签名规则 + 12 种危险命令;归属偏 [`draw-limit`](../lever-draw-limit/README.md))、`guo6x/dsh-shipcheck`(**无 commit,不可追溯** `[OPEN]`)。完整表见 [`00`](./00-sample-lineage.md) §2。
+
+**C 级(反例格,只在失败模式表里出现一行)**:`XiaoOu2024/dsh-self-review`(`llm/stream` 扣留,同时提供「`turn-stopping` 有没有 modelOutput」的否定式机制证据)。
+
+**借用但非主读**(只可一句引用,不深读、不立卡):`dsh-sandbox-policy`、`dsh-experimental-auto-review`(主读均在 `lever-draw-limit`,本域仅在 [06](./06-judge-placement.md) §3.4 引一句「判动作可以真拦,判文本只能追赶」)、`dsh-experimental-agent-team`(主读在 `lever-cross-boundary`,本域仅在 [02](./02-goal-gate-hard-floor.md) 引一句 `writeScopes` 只是提示)。
+
+### 精确坐标(重新挖掘的入口)
+
+**每条断言都要能回到具体的一份代码上。** 全表在 [`00`](./00-sample-lineage.md):`repo` · **commit SHA** · 目录引用名 · 版本/星标/下载 · 锚点文件 · 一条 `curl` 重抓命令 · 已核的关键符号。
+
+抓取时间 **2026-10-31 14:00 CST**,全部 HEAD 已锁。**不是 `main`,是短 SHA** —— 用 `main` 打开的代码会在三个月后变成另一份,而你以为还是那一份。
+
+| 样本 | 锁定 commit | 目录引用名(装的时候用这个) | ⚠️ 陷阱 |
+|---|---|---|---|
+| [`samirliu/dsh-goalloop-agentteams`](https://github.com/samirliu/dsh-goalloop-agentteams) | `6b4b1fa` | `samirliu/dsh-goalloop-agentteams` | 逻辑在打包产物 `lib/index.js`;名字里的 `agentteams` 会让人以为只服务多 agent |
+| [`rootsbymenda/dsh-second-angle`](https://github.com/rootsbymenda/dsh-second-angle) | `9ac01ed` | `rootsbymenda/dsh-second-angle` | v0.1.0;源码那份**未绑 commit**,`[OPEN]` |
+| [`AaronandWork/dsh-evidence-gate`](https://github.com/AaronandWork/dsh-evidence-gate) | `845ddf4` | `AaronandWork/dsh-evidence-gate` | tarball 是浮动的 `latest`,没有固定版本号 |
+| [`030611/qiushi-dsh-evidence-audit`](https://github.com/030611/qiushi-dsh-evidence-audit) | `94fae13` | `030611/qiushi-dsh-evidence-audit` | 本域**最老**的提交(08-14) |
+| [`zhengqiuyang/dsh-attest-chain`](https://github.com/zhengqiuyang/dsh-attest-chain) | `bf83778` | `zhengqiuyang/dsh-attest-chain` | 密钥 `.dsh-attest-chain/keys/` 在仓库目录内 |
+| [`bycall/dsh-answer-reviewer`](https://github.com/bycall/dsh-answer-reviewer) | `8c6186a` | `bycall/dsh-answer-reviewer` | **目录 `name` 字段缺 owner**(`dsh-answer-reviewer`),按名字搜不到 |
+| [`CAI-MH/dsh-quality-review`](https://github.com/CAI-MH/dsh-quality-review) | `7c5a67d` | `CAI-MH/dsh-quality-review` | **只有 `README.zh.md` 有细节**,英文版会漏机制 |
+| [`XiaoOu2024/dsh-self-review`](https://github.com/XiaoOu2024/dsh-self-review) | `a903dff` | `XiaoOu2024/dsh-self-review` | 唯一能动用户所见文本的那个 |
+| [`263311487-ux/dsh-verify`](https://github.com/263311487-ux/dsh-verify) | `e7ce637` | `263311487-ux/dsh-verify` | 2088 dl 本域最高,但**不证明规格写对** |
+| [`4444wjt/dsh-plugin-veriscope`](https://github.com/4444wjt/dsh-plugin-veriscope) | `5299b64` | `4444wjt/dsh-plugin-veriscope` | 三值判决全库只此一条 |
+| [`oxmumu3/dsh-workproof`](https://github.com/oxmumu3/dsh-workproof) | `7096ead` | **`oxmumu3/dsh-workproof#dsh-delivery-receipts`** | **monorepo**:代码在 `packages/dsh-delivery-receipts/`,根目录只有 README + lockfile;根 README 与子包 README **内容不同** |
+| [`PerryLink/dsh-doublecheck`](https://github.com/PerryLink/dsh-doublecheck) | `22fe2e0` | `PerryLink/dsh-doublecheck` | **它自己 README 里的路径是错的**:写 `plugins/dsh-doublecheck/src/...,` 公开仓库实为 `src/guard/prose.ts`(照抄 404) |
+
+**两条不可让步的纪律**:
+
+1. **抓完立刻记 commit。** 本域已经有两个文件(`second-angle` 源码、`guo6x/dsh-shipcheck` README)因为没记 commit 变成 `[OPEN]`,现在追不回来。
+2. **注了出处,就必须验证出处能打开。** `doublecheck` 的案例说明:一个打不开的出处比没有出处更糟,因为它**看起来**可验证。
+
+**官方包不在这 7924 条名单里**,`census.py --probe` 搜不到。原生侧断言只能读本机安装目录:`$(npm root -g)/@deepseek-ai/dsh/node_modules/@deepseek-ai/`,清单见 [`00`](./00-sample-lineage.md) §3。
+
+> **本轮的证据级别升级**:上一轮所有样本的证据级别停在「catalog 自述 + 官方包 README」。本轮 **12 个生态样本的来源 README 已逐条回读**,其中 `goalloop` 另读了 `lib/index.js` 源码(四条 deny 分支、假完成计数器、`treeDigest` 重判逻辑),因此它标 `observed` 而不是 `inferred`。仍标 `inferred` 的样本在各自卡片「证据级别」栏注明原因。
 
 ## 选择要求
 
@@ -83,7 +156,23 @@
 
 | 编号 | 标题 | 状态 | 一句话结论 |
 |---|---|---|---|
-| [01](./01-quality-chain.md) | 质量链：六环里只有两环是硬的 | `observed` | 原生保证集中在“动作前持久化”和“版本新鲜度”；验收整环缺席，全靠生态 |
+| [00](./00-sample-lineage.md) | **样本溯源卡**:精确到 `repo@commit` 的重新挖掘入口 | `observed` | 17 个仓库的 HEAD 已锁 + 锚点文件 + 可复跑 `curl` + 陷阱清单;**没绑 commit 的抓取等于没抓** |
+| [01](./01-quality-chain.md) | 质量链：六环里只有两环是硬的 | `observed` | 原生保证集中在"动作前持久化"和"版本新鲜度"；验收整环缺席，全靠生态 |
+| [02](./02-goal-gate-hard-floor.md) | 完成声明门禁：唯一能在副作用后说「不」的位置 | `observed` | `tools/pre-execute` 能拦住**完成声明**这个调用；门禁自己重跑 AC、假完成 2 次冻结、契约改动即批准失效 |
+| [03](./03-turn-end-reconciliation.md) | 轮末对账：把「我说我读了」与「本轮真读过什么」摆一起 | `observed` | 本轮工具输出做证据池；**对账永不拦、动作可拦**——否决权按结论确定性分配 |
+| [04](./04-evidence-index.md) | 证据索引：把「防误杀」做成阶梯，而不是阈值 | `observed` | 五级反误杀阶梯 + `converted`/`charity` 反向指标；**只判出处，不判语义** |
+| [05](./05-custody-chain.md) | 保管链：哈希链能证什么、不能证什么 | `observed` | 证「没被改」不证「事是真的」；**连「文件被整个删掉」都证不了**——锚点必须在链外 |
+| [06](./06-judge-placement.md) | 判官装在哪：五种位置，五种调解不了的风险 | `observed` | 判官能改什么取决于**站在哪个接缝上**，不是它多聪明；判动作能真拦，判文本只能追赶 |
+| [07](./07-foreign-runtime-acceptance.md) | 换运行时验收：判官不在会话里 | `observed` | 换运行时是唯一的真独立；代价是规格必须事先写成可执行形式，而规格仍可能由被判者写 |
+| [08](./08-delivery-receipt.md) | 交付回执：把「谁验收的」与「文件是什么」分开记 | `observed` | 回执 = (文件版本, 谁看见的, 谁说的)；**模型侧没有 `decide`**；重检永不替换基线 |
+| [09](./09-discipline-loop.md) | 纪律环：把质量写成流程，让默认值决定它是否真实存在 | `observed` | 六阶段只有 red/green 可机械判定；**默认 `remind` 意味着装上 ≠ 生效** |
+| [10](./10-quality-control-playbook.md) | 质量控制手册：十二个生态样本的横向结论 | `observed` | 横切 02–09：四个问题 + **64 条编号原则总表(Q/V/F/A/E/R/P/C)** + 七条共同失败 |
+
+每张卡的 **「可借鉴」** 节条数:01 → 6 条设计律 · 02 → 7 · 03 → 8 · 04 → 6 · 05 → 8 · 06 → 9 · 07 → 9 · 08 → 8 · 09 → 8 · 10 → 汇总去重成 64 条编号原则。
+
+每张卡还带一条**精确坐标行**(`repo@commit · 目录引用名 · 锚点文件`),见样本表下方的「精确坐标」行与各样本标题下的引用行;完整入口在 [`00`](./00-sample-lineage.md)。
+
+**建议阅读顺序**:[01](./01-quality-chain.md)(原生底盘)→ [10](./10-quality-control-playbook.md)(横向结论)→ 按「最硬的先读」:[02](./02-goal-gate-hard-floor.md) → [05](./05-custody-chain.md) → [03](./03-turn-end-reconciliation.md) → [04](./04-evidence-index.md) → [06](./06-judge-placement.md) → [07](./07-foreign-runtime-acceptance.md) → [08](./08-delivery-receipt.md) → [09](./09-discipline-loop.md)。
 
 ## 边界契约(声明式,不依赖他域进度)
 
@@ -118,22 +207,62 @@
 ```sh
 # 本域自足数字(只读,不改任何共享件)
 python3 _digested/leverage/census.py --domain PROVE
-# 证据链与验收门禁
-python3 _digested/leverage/census.py --probe "hash.?chain|哈希链"           # 3 条
-python3 _digested/leverage/census.py --probe "REVIEW|待复核"                # 756 条,噪声大,须回读
+
+# 门禁位置稀缺性(02/03/06 的核心论据)
+python3 _digested/leverage/census.py --probe "update_goal"                     # 1 —— goalloop 是唯一
+python3 _digested/leverage/census.py --probe "false complete|虚假完成|假完成|虚报"  # 2 —— goalloop + gungnir
+python3 _digested/leverage/census.py --probe "agent/turn-stopping"             # 2 —— 最硬的轮末接缝,全库仅 2 条
+python3 _digested/leverage/census.py --probe "llm/stream"                      # 7 —— 唯一能扣住文本的一层
+python3 _digested/leverage/census.py --probe "tools/pre-execute|pre-execute"   # 13 —— 多数是权限/拦截类
+
+# 证据与保管链(04/05)
+python3 _digested/leverage/census.py --probe "hash.?chain|哈希链"               # 3 —— 含 1 条无关的 nuke-plugin
+python3 _digested/leverage/census.py --probe "ed25519"                         # 3 —— 仅 attest-chain 用于会话证据
+python3 _digested/leverage/census.py --probe "证据|evidence"                    # 163 —— 供给多,做判定的少
+python3 _digested/leverage/census.py --probe "evidence.?gate|实证"              # 11
+
+# 验收与产物(07/08/09)
+python3 _digested/leverage/census.py --probe "永不转"                            # 1 —— veriscope 的 REVIEW 纪律
+python3 _digested/leverage/census.py --probe "通过／失败／待复核|PASS.{0,10}FAIL.{0,10}REVIEW"  # 1
+python3 _digested/leverage/census.py --probe "真(实)?浏览器|real.?browser|chromium"  # 34 —— 多人用浏览器,少人做三值判决
+python3 _digested/leverage/census.py --probe "agent 自述|自述.*用户|用户验收|user acceptance"  # 2 —— workproof 是其中之一
+python3 _digested/leverage/census.py --probe "red.?green|红绿|测试证据|test evidence"  # 6
+python3 _digested/leverage/census.py --probe "纪律|discipline|grill|审讯"        # 25
+
+# 宽口径(须回读,不可单独作论据)
+python3 _digested/leverage/census.py --probe "REVIEW|待复核"                    # 756 —— 噪声大
+python3 _digested/leverage/census.py --probe "阈值|threshold"                   # 73
+python3 _digested/leverage/census.py --probe "验收|acceptance"                  # 64
 ```
 
-『稀缺』类断言必须附其中一行及其命中数;写不出检索式的「稀缺」视为未证。
+『稀缺』类断言必须附其中一行及其命中数;写不出检索式的「稀缺」视为未证。**宽口径三项(REVIEW / 阈值 / 验收)不得单独支撑结论**,必须回读来源文本。
 
 ## 复核触发条件
 
-- `dsh-fs-observation-policy` 的“已观察状态不跨会话保留”若被修复（持久化观测），③④ 两环结论都要改
+**原生侧**:
+
+- `dsh-fs-observation-policy` 的"已观察状态不跨会话保留"若被修复（持久化观测），③④ 两环结论都要改
 - `dsh-session-checkpoint-policy` 的检查点位置或 fail-closed 语义变化
-- `dsh-plan-mode` 从“引导”变成有强制手段
+- `dsh-plan-mode` 从"引导"变成有强制手段（目前 `:32` 明说「不限制 agent:每个工具都仍可调用」）
 - `atomic-write` 加上 `fsync`（目前明确不保证崩溃持久性）
+- `dsh-tool-present` 补上"交付版本持久化与写时复制存储"（目前明说延期实现）
+- **出现官方「拦截最终文本」的机制**——本域 [01](./01-quality-chain.md) [03](./03-turn-end-reconciliation.md) [06](./06-judge-placement.md) 的核心结论（只能追赶、不能撤回）全部要改
+- `agent/turn-stopping` 的载荷若加上本轮草稿（`dsh-agent/README.md:67` 目前只说 can steer），`llm/stream` 派系的存在理由消失、[06](./06-judge-placement.md) 的判官位置表要重建
+- `dsh-tool-goal` 若增加「完成必须过验证」的原生语义，[02](./02-goal-gate-hard-floor.md) 整张卡的生态缺口被官方补上
+
+**生态侧**:
+
+- `goalloop` 的六道门（完成声明/契约/临界区/证据/进度/预算）任一被拆或默认值变化;或 `samirliu` 归档
+- 任一 `observed` 样本归档、改名、或 README 撤回其自我限制（尤其 `qiushi` 的检测边界表、`dsh-verify` 的四个「不」、`evidence-gate` 的「harness 拦不住最终文本」）
+- `doublecheck` 若把默认 `intensity` 改成 `block`，[09](./09-discipline-loop.md) 的「装上 ≠ 生效」结论要改
+- `workproof` 若新增 `decide` 动作，[08](./08-delivery-receipt.md) 的权限结论作废
+- 出现**把便宜索引与贵语义对账串起来**的样本（[04](./04-evidence-index.md) §10 第一条开放问题），本域需新增卡片
 
 ## 待答问题
 
-- [ ] ⑥ 环没有原生机制，是设计选择还是缺口？生态 1887 条门禁里，真正做“独立验收”的（而非自查）有多少？
-- [ ] 证据环的“可重放”有两类：**重放输入**（同一次执行再跑一遍）与**重放定位**（回到日志某几行看当时发生了什么）。生态偏哪一类？两者不能互相替代。
-- [ ] 产物环里，`present` 声明了交付物却不复制内容——“交付版本持久化与写时复制存储延期实现” `[DSH]`。这算质量闭环的缺口吗？
+- [ ] ⑥ 环没有原生机制，是设计选择还是缺口？生态 1887 条门禁里，真正做"独立验收"的（而非自查）有多少？**本轮进展**:按「谁有权说过了」的五级阶梯([10](./10-quality-control-playbook.md) §4)分了层，但**停在 ③④ 两级的具体条数仍未统计**——需要逐个回读，`--probe` 做不到。
+- [ ] 证据环的"可重放"有两类：**重放输入**（同一次执行再跑一遍）与**重放定位**（回到日志某几行看当时发生了什么）。生态偏哪一类？两者不能互相替代。**本轮进展**:[05](./05-custody-chain.md) 证明 `attest-chain` 走的是「定位」（第一个坏点的 `{seq, reason}`），`veriscope`/`dsh-verify` 走的是「重放输入」；两类各有代表，**但没有样本同时提供**。
+- [ ] 产物环里，`present` 声明了交付物却不复制内容——"交付版本持久化与写时复制存储延期实现" `[DSH]`。这算质量闭环的缺口吗？**本轮进展**:[08](./08-delivery-receipt.md) 给出更便宜的近似（版本化基线 + `stale` 判定），但**内容丢失仍无解**；且原生层无 `fsync` 是同一环的另一个洞。
+- [ ] **新增** 规格独立性问题：所有样本的验收契约（JSON spec / AC 命令 / SOP 目录）都可能由被判定者自己写。生态只有 `dsh-verify` 明说「review the spec separately」。**这是本域唯一一个「所有人都知道、没人真正解决」的问题。**
+- [ ] **新增** 多门禁共存：`goalloop` 源码注释已提到「一律 `{kind:'deny'}` 绝不 throw，避免与其他 quality-gate 的异常路径混淆」。但生态没有统一的 deny 协议——同时装 3 个门禁时，谁先判、被判者能否看见全部 deny 理由？
+- [ ] **新增** 本域 `observed` 与 `inferred` 混排。若把「每个 `observed` 断言必须注源码行号」（借用 `doublecheck` 的 `Observed from <file:line>` 写法）升级为硬要求，本域有几条会掉级？
