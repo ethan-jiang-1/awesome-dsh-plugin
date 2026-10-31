@@ -8,15 +8,15 @@ read_when: "要让模型输出可交互组件；或要设计容错的内容协�
 status: observed
 updated: 2026-10-31
 ---
-# 2-生成式界面 · dsh-genui:把回复本身变成产品界面
+# 生成式界面 · dsh-genui:把回复本身变成产品界面
 
 > **状态**:`observed`(机制已核) · **基线**:DSH `0.2.1-rc.3`(该包自述覆盖 `^0.2.0-rc.1 || ^0.2.1-rc.1 || ^0.2.2-alpha.2`)· **读于**:2026-10-31
-> **类**:`2` 内容形态 · **层**: 3 + **4(唯一一例)** · **★ 224 / npm 未采到**
+> **类**:`2` 内容形态 · **层**: 3 + **4(唯一一例)** · **★ 827 / npm 48,798（2026-10-31 实时）**
 > **一句话**:`1` 类三张卡在改"壳",它改的是**壳里的内容由谁生产**——**模型说的每一句,都可能是一个可以直接操作的组件**。
 > **借鉴价值**:**① 用"内容协议"而不是 API 当扩展面(` ```dsh-ui ` + 严格 JSON),换来零 patch、零 `node_modules` 改动;② 两级容错:坏节点单独丢弃、整块不可解析就退回原始 Markdown;③ 校验失败**同轮**把诊断回灌给模型自纠,并给关断阀;④ 无 `action` 的控件渲染成 disabled,用渲染态消灭死点击;⑤ 表面色只暴露一层可覆盖变量;⑥ 重型引擎按节点类型懒加载。**
 
 > **样本档案**
-> **repo**:`omdsh-dev/dsh-genui`(目录条目);npm scope 是 `@changfenhuang` · **npm**:`@changfenhuang/dsh-genui` · **版本**:自述覆盖 `^0.2.0-rc.1 || ^0.2.1-rc.1 || ^0.2.2-alpha.2`
+> **repo**:[`omdsh-dev/dsh-genui`](https://github.com/omdsh-dev/dsh-genui)(目录条目);npm scope 是 `@changfenhuang` · **npm**:`@changfenhuang/dsh-genui` · **版本**:自述覆盖 `^0.2.0-rc.1 || ^0.2.1-rc.1 || ^0.2.2-alpha.2`
 > **目录条目**:`data/plugins/omdsh-dev__dsh-genui.yml`(`ui`)
 > **装法**:`dsh plugin --profile web add @changfenhuang/dsh-genui`(旧 `@omdsh-dev/` 作用域需先 remove)
 > **已在本地挖掘**:本轮挖掘直接读 README 全文(429 行);未单独存盘 —— 关键行号已内联在卡里
@@ -56,7 +56,7 @@ updated: 2026-10-31
 | 层 | 动作 | 说明 |
 |---|---|---|
 | 3 槽位 | 会话里的可交互块 + `/panel` 常驻面板 | 不注册新页,寄生在已有容器 |
-| **4 身份** | 给模型一套**新的输出词汇** | 本域唯一一例真正改变"模型能说什么"的插件 |
+| **4 身份** | 给模型一套**新的输出词汇** | 本线唯一一例真正改变"模型能说什么"的插件 |
 
 ### 1.1 为什么它是"内容形态"而不是"壳"
 
@@ -219,7 +219,7 @@ Host --streams Markdown prose & ```dsh-ui fence--> DOM --检测 fence 并按白�
 
 | 口径 | 值 |
 |---|---|
-| ★ | **224**(快照 2026-08-19);npm 下载未采到 |
+| ★ | **827 / 48,798**(2026-10-31 实时) |
 | 组件口径 | 宣传 "30+",`echart.preset` 实测 **14**;模板 **11**、badge **12**、内置 UI 字符串 **6** |
 | 成本口径 | "a fence costs only **200–800 tokens**"(区间估计) |
 | 性能口径 | 滑杆"60 FPS 重绘"、本地交互"sub-millisecond"(**作者断言,无复算方法**) |
@@ -275,7 +275,7 @@ Host --streams Markdown prose & ```dsh-ui fence--> DOM --检测 fence 并按白�
 ## 7. 开放问题
 
 - [ ] `[OPEN]` 它靠"DOM 层检测 fence"实现,而上游**没有**给 assistant Markdown 的 fence 替换槽位(`conversation.chat.node` 是按 `ChatNodeKind` **整节点替换**,代码块只有 `[data-code-block-banner]` 这个样式钩子)。**上游该不该给 fence 一个正式接缝**?
-- [ ] `[OPEN]` "30+ 组件"与 `echart.preset` 的 14 个并存。**能力宣传的口径要不要在本域立一条"可数"规则**?
+- [ ] `[OPEN]` "30+ 组件"与 `echart.preset` 的 14 个并存。**能力宣传的口径要不要在本线立一条"可数"规则**?
 - [ ] `[OPEN]` 它没有 iframe/sandbox,安全靠"不执行脚本 + 白名单 + 不采集密钥"。**如果将来节点里出现外部图片/字体,这三条还够吗**?
 - [ ] `[OPEN]` 重型引擎加载失败**只能硬刷新/重装**。这是"一次网络抖动 = 需运维动作"。**懒加载的失败占位该不该是硬要求**?
 - [ ] `[OPEN]` 它把 `renderUiTool` 与 `fenceFeedback` 做成两个独立开关。**"功能开关要不要按能力而非按入口拆"**?

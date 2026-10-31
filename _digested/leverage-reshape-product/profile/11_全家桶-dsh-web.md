@@ -1,0 +1,160 @@
+---
+title: "全家桶 · dsh-web（9,865★）"
+domain: reshape-product
+kind: sample
+positioning: "把 20+ 个 bundle 装进 web profile，重启 dsh web 后浏览器里就是一个新产品。"
+takeaway: "发货单位是 bundle 不是插件；装失败会 exit 0 但 profile.bundles 为空（静默半挂载）。"
+read_when: "要做 profile 级产品/全家桶；或判断一个东西该发插件还是发发行版。"
+status: observed
+updated: 2026-10-31
+budget: 170
+---
+# 全家桶 · dsh-web：一个 profile 就是一个产品
+
+> **状态**:`observed`(README 级核过) · **基线**:DSH `0.2.1-rc.3`(其 README 自述 `DSH >=0.2.1-rc.3`) · **读于**:2026-10-31
+> **类**:`1` 壳与工作台 · **层**:2(表层)+ 3(槽位)+ 5(默认值)+ 6(首启)+ 7(分发) · **★ 9,865**(GitHub API,2026-10-31)/ **npm 月下载 99,694**(2026-09-30 ~ 10-29);仓库旧快照(2026-08-19)为 ★ 4,661 / 59,648
+> **一句话**:它证明了一件事——**发一个 profile 里的一整套 bundle,浏览器里就能长出一个新产**;而且它有**自己的商店、皮肤中心、预设中心、更新器**,连"从哪装皮肤"都不再用官方的那一套。
+> **借鉴价值**:**① 发货单位是 bundle(带 `dsh.bundle.patch`),不是"一个功能插件";② 聚合包替用户把 20+ 个子包一次装齐,同时保留单装;**③ 装失败会 `exit 0` 但 `dsh.profile.bundles` 为空——必须读回挂载,不能信退出码**;④ 内置了别人的插件就必须处理共存(只隐藏按钮不够,会留下重复路由/服务);⑤ 默认皮肤/默认预设就是产品身份;⑥ 桌面端要单独走:官方 `desktop` profile 是应用内专管。**
+
+> **样本档案**
+> **repo**:[`zhu1090093659/dsh-web`](https://github.com/zhu1090093659/dsh-web) · **npm**:`@linxin666/dsh-web-all`(聚合包)+ 20 个 `@linxin666/dsh-*` 子包 · **许可证**:Apache-2.0
+> **目录条目**:`data/plugins/zhu1090093659__dsh-web-ui--packages-dsh-web-ui-all.yml`(`ui`)
+> **装法**:`dsh plugin --profile web add @linxin666/dsh-web-all@latest` → 重启 `dsh web`;**或** `dsh plugin --profile web add github:zhu1090093659/dsh-web`(二选一,同装会 entry id 冲突)
+> **自带分发面**:<https://dsh-market.com>(皮肤/宠物/插件/预设;Cloudflare Workers + D1 点赞)
+> **已在本地挖掘**:[`_证据/01_产品聚合-原始挖掘.md`](./_证据/01_产品聚合-原始挖掘.md)(上游 profile 语义 + README 原文)
+> **再深挖去哪**:仓库根的 `dsh.bundle` 清单、`packages/dsh-web-all/README.zh.md`、`docs/plugins.md`(挂载原理)
+
+---
+
+## 0. 一页速览(想抄的人只看这 20 行)
+
+| 问题 | 它的答案 | 支撑 |
+|---|---|---|
+| 它是什么 | 面向 `dsh web` 的**模块化插件生态 + 工作台**;通过**官方 profile 机制**挂载,**零修改上游** | `[OBS]` README §是什么 |
+| 发货单位 | **聚合包** `@linxin666/dsh-web-all`(含全部功能插件与皮肤中心)+ 20 个可单装子包 | 同上 |
+| 装法 | `dsh plugin --profile web add …@latest` → **重启** `dsh web` | 同上 |
+| 装完怎么算成功 | 侧栏出现对应图标;或 `dsh --profile web --dump-config` 看到挂载 | 同上 §验证 |
+| 装失败长什么样 | **`exit 0` 但 `dsh.profile.bundles` 没有那一行**——"静默半挂载,重跑修不回来" | 同上 §安装排障 |
+| 为什么会半挂载 | 构建脚本审批(`cloudflared` / `cpu-features` / `ssh2`)必须在**首次 add 之前**写进 profile 的 `allowBuilds` | 同上 |
+| 能同时装单包吗 | 能;聚合包的 entry 带 `web-ui-` 前缀,与独立包的标识互不冲突 | 同上 §常见问题 |
+| 会不会和别的插件打架 | 会。它**内置**了 better-sidebar / codex-ui / market / mcp-connector / cost-meter / context / skill-explorer / skills-manager → **不要同 profile 同时启用** | 同上 §插件兼容与迁移 |
+| 为什么"只隐藏按钮"不行 | "只隐藏按钮可能留下**重复路由、服务或监听器**" | 同上 |
+| 默认值 | 内置 **Blue Fantasy** 暗色皮肤;预设中心;俄语 i18n;六套自研皮肤 | 同上 §皮肤 |
+| 自带更新器 | `dsh-update`:检测 npm 更新 + 更新日志 + 一键原地升级 | 同上 §更多插件 |
+| 自带商店 | 创意工坊 `dsh-market.com`:皮肤/宠物/插件/预设,可在线预览、一键装 | 同上 §创意工坊 |
+| 桌面端 | **不能**用外部 CLI 装:官方桌面客户端对 `desktop` profile **应用内专管**,要在客户端里装 | 同上 §官方桌面客户端 |
+| pnpm 11 坑 | `minimumReleaseAge` 可能让 pnpm 回退旧版本,要在 profile 的 `pnpm-workspace.yaml` 里排除命名空间 | 同上 §安装排障 |
+| 模块找不到 | pnpm isolated 模式可能收敛子包 → `nodeLinker: hoisted` 或 `public-hoist-pattern` | 同上 |
+| 兼容 | `DSH >=0.2.1-rc.3`;桌面/移动浏览器都覆盖 | 同上 §兼容性 |
+| 最该抄的一句 | "**装失败后补审批重跑会 exit 0,但 `dsh.profile.bundles` 仍无该行**" | 同上 |
+
+## 1. 它在产品里的位置
+
+**七层坐标**:**2**(表层:导航轨/顶栏/对话布局)+ **3**(槽位:任务看板、SSH、用量、Git 图谱、归档、宠物)+ **5**(默认值:皮肤、预设、语言)+ **6**(首启:装完重启后看到什么)+ **7**(分发:聚合包 + 自家商店 + 自更新)。
+
+**它和上游的缝**:DSH 的 `profile` 是**有序 bundle 栈 + 用户 patch**(见 [`../_证据/01_产品聚合-原始挖掘.md`](./_证据/01_产品聚合-原始挖掘.md) §一)。dsh-web 的全部内容最终都落在**两处**:
+
+1. 一个 `dsh.bundle` 包(声明 `"dsh": { "bundle": { "patch": "./cordis.patch.yml" } }`),它的 patch 被追加进 `dsh.profile.bundles`;
+2. 用户 profile 的 `cordis.patch.yml`(用户自己的覆盖层)。
+
+**所以"做成产品"= 发一个 bundle + 让用户加进 bundles 列表**,不是改上游、也不是做一个新 bin。
+
+## 2. 机制(可照抄)
+
+### 2.1 发货单位是 bundle:聚合 + 可拆
+
+- 聚合包 `@linxin666/dsh-web-all` 一次装齐;每个子包也能单独装;
+- 聚合包的 entry id 统一带 **`web-ui-` 前缀**,与独立包的原生 id 隔离 → 能共存、不重复注册;
+- 两种安装源(npm / GitHub)等价,但**不能同装**:"以免出现 entry id 冲突"。
+
+> **照抄点**:**先设计 id 命名空间,再谈聚合。** 没有前缀的聚合,迟早会和单装版本打架。
+
+### 2.2 安装是"写 profile 的 bundles 列表",不是"复制文件"
+
+- `dsh plugin --profile web add …` 本质上是在 profile 目录里跑 pnpm,并把新包**reconcile 进 `dsh.profile.bundles`**;
+- 因此**安装成功 ≠ 挂载成功**:构建脚本被拦时,包进了 `node_modules` 但 bundle 没进列表;
+- 官方给的判据:**`exit 0` 不算数,`--dump-config` 里没有那一行就是没挂上**。
+
+> **照抄点**:任何"装到 profile"的产品,都要给出一条**读回挂载**的自证命令。
+
+### 2.3 构建审批必须在首次 add 之前
+
+- `cloudflared` / `cpu-features` / `ssh2` 三个包带构建脚本,pnpm 默认拦截;
+- 正确顺序:重置/新建 profile → 在 `<profile>/pnpm-workspace.yaml` 的 `allowBuilds` 写进去 → **再** add;
+- 顺序错了:**装失败后补审批重跑会 `exit 0`,但 bundles 仍无该行,且重跑修不回来**。
+
+> **照抄点**:**"重跑一次"不是修复。** 半挂载状态必须能被检测出来(读回 bundles),否则用户会永远以为装好了。
+
+### 2.4 共存治理:内置了别人的插件,就要处理冲突
+
+它内置了 8 类原本独立安装的插件(侧栏、codex UI、市场、MCP、费用、上下文、技能管理…),于是 README 明确:
+
+- **不要在同一个 profile 同时启用原插件**;
+- **只隐藏按钮不够**——会留下**重复路由、服务或监听器**;
+- 迁移要备份配置与数据,不自动卸载。
+
+> **照抄点**:发行版吞并上游插件时,**"卸载/迁移"是产品的一部分**,不是文档角落。
+
+### 2.5 默认值即身份
+
+- 默认皮肤 **Blue Fantasy**(暗色、毛玻璃、定制鲸鱼插画);
+- 预设中心(社区 Agent 预设)、俄语 i18n、六套自研皮肤 + 宠物;
+- 皮肤通过**自家商店**分发,下载到 `~/.dsh` 再由皮肤中心读取。
+
+> **照抄点**:用户第一眼看到的是**默认皮肤 + 默认预设**。默认值不是配置项,是产品识别。
+
+### 2.6 自带商店 + 自更新:把分发面也拿走
+
+- 商店 `dsh-market.com`:皮肤/宠物/插件/预设,按点赞排序、可试穿、可一键装;
+- `dsh-update`:检测 npm 更新、展示更新日志、一键原地升级;
+- 站点本身是仓库的一部分(静态构建 + Cloudflare Workers)。
+
+> **照抄点**:当你开始替用户决定"从哪装扩展",你就已经在做**分发产品**了——那就要有自己的索引、校验与回滚。
+
+### 2.7 桌面端例外:`desktop` profile 是应用内专管
+
+- 官方桌面客户端与 `dsh web` 共用 `~/.dsh`,profile 为 `desktop`;
+- 官方对 `desktop` 实行**应用内专管**(外部 CLI 会被限制);
+- 所以 README 要求:**在桌面客户端里装**,不要用 CLI。
+
+> **照抄点**:同一份产品在 `web` 与 `desktop` 两条 profile 上的**安装入口不同**。写文档时按 profile 分叉,不要合并成一句"装上即可"。
+
+## 3. 体验
+
+- **第一次**:`dsh plugin --profile web add @linxin666/dsh-web-all@latest` → **重启** `dsh web` → 侧栏出现一组图标(看板/SSH/用量/Git/归档),主题直接变成 Blue Fantasy。
+- **日常**:任务看板能后台跑 cron(宿主驱动,关浏览器也跑)、SSH 面板、Git 图谱 + worktree、会话归档、Token 银行。
+- **扩展**:创意工坊里试穿皮肤、装宠物、装社区预设。
+- **更新**:侧栏/设置里看更新日志,一键升级。
+
+## 4. 证据与边界
+
+- **影响力**:**★ 9,865 / forks 608 / issues 3**(GitHub API,2026-10-31);**npm 近 30 天 99,694 次下载**(2026-09-30 ~ 10-29)。仓库 `stars.json` 的 2026-08-19 快照只有 4,661★ / 59,648 下载——**同一产品在两个口径下差一倍**,引用时必须写清用的是哪一个。它是**唯一一个"以聚合包形态"进本线影响力前列**的产品。
+- **机制证据**:README 全文(2026-10-31 抓取),原文见 [`_证据/01_产品聚合-原始挖掘.md`](./_证据/01_产品聚合-原始挖掘.md) §二。
+- **口径警告**:59,648 是下载量快照,与 ★ 不同源。
+- **已核（2026-10-31）**：入口 bundle 只有 **1 个**（根 `package.json` 的 `dsh.bundle.patch` 指向 `./packages/dsh-web-all/cordis.patch.yml`）；patch 内是 **25 条纯 `insert:`**，id 全部带 `web-ui-` 前缀，**没有一条**改 `@deepseek-ai/dsh-web-app` 的行。文件头自述 "AUTO-GENERATED … Rows are namespaced web-ui-* so the bundle can coexist with standalone installs."
+
+## 5. 借鉴食谱
+
+| 要解决的问题 | 照它的做法 | 要改的地方 | 抄错的后果 |
+|---|---|---|---|
+| 一套东西要一次装齐,又要能单装 | 聚合包 + 子包,id 统一前缀 | 前缀要**全局唯一**,并写进发布检查 | 无前缀聚合 → 与单装版本重复注册/冲突 |
+| 用户以为装上了其实没挂载 | 给读回命令(`--dump-config`),文档写清"exit 0 不算成功" | 把"半挂载"做成可检测状态 | 只信退出码 → 用户白屏,且重跑修不回来 |
+| 构建脚本审批顺序 | 先写 `allowBuilds` 再 add;文档给顺序 | 顺序写错要能**检测并提示** | 先 add 后审批 → 静默半挂载 |
+| 发行版吞并了别的插件 | 明确"不要同装";迁移表 + 备份 | 只隐藏入口不够,要**真的不加载** | 重复路由/服务/监听器 → 难查的怪 bug |
+| 产品要有一眼认出的默认值 | 默认皮肤 + 默认预设 + 语言 | 默认值要能被用户改回官方 | 默认值做成硬编码 → 用户无法退出你的"身份" |
+| 有自己的扩展生态 | 自家商店 + 索引 + 点赞排序 | 索引要校验:规范形式、无凭据、超时上限 | 直接信任远端索引 → 供应链风险 |
+| 桌面端装不上 | 按 profile 分叉文档:web 用 CLI,desktop 在应用内 | 写清"外部 CLI 会被限制" | 一句"装上即可" → 桌面用户照着 CLI 装,失败 |
+
+## 6. 失效条件与降级
+
+- **pnpm 版本/布局**:isolated 模式可能收敛子包(`Cannot find package`);GVS 新布局可能让 loader 起不来。
+- **发布门禁**:`minimumReleaseAge` 会让 pnpm 拉旧版;要按命名空间排除。
+- **与旧插件共存**:同 profile 同装 → 重复路由/服务;迁移必须人工确认。
+- **desktop profile**:CLI 装不上,必须应用内装。
+- **耦合点已换位**:它不改上游行,真正的耦合在 **slot / loader id 的命名**与 **25 条 insert 指向的子包版本**——上游若改动同一 slot 的契约,仍会失效,但不会因行号漂移而崩。
+
+## 7. 开放问题
+
+- [ ] `[OPEN]` 它是否在 `0.2.1-rc.3` 上实测过(README 只写 `>=0.2.1-rc.3`)。
+- [ ] `[OPEN]` 皮肤/宠物/预设的下载目录与 profile 的关系——它们算"产品资产"还是"用户数据",决定备份/迁移策略。
+- [ ] `[OPEN]` 任务看板的宿主驱动后台(关浏览器仍跑)是否会被上游的 profile 生命周期打断(重启即停?)。README 说"错过的触发点跳过",未说重启后的恢复。

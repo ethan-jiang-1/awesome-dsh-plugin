@@ -1,0 +1,181 @@
+{
+  "date": "2026-10-31",
+  "source": {
+    "stars": "api.github.com/repos/{owner}/{repo}",
+    "npm": "api.npmjs.org/downloads/point/last-month/{pkg}",
+    "npm_window": "2026-09-30..2026-10-29"
+  },
+  "cards": {
+    "11_薄基座-dock": {
+      "repo": "AKS1st/dock",
+      "npm_pkg": "dock-base",
+      "stars": 10,
+      "forks": 1,
+      "open_issues": 2,
+      "pushed_at": "2026-09-30T03:52:26Z",
+      "npm_last_month": 1673
+    },
+    "12_厚工作台-better-sidebar": {
+      "repo": "omdsh-dev/DSH-better-sidebar",
+      "npm_pkg": "dsh-better-sidebar",
+      "stars": 4765,
+      "forks": 446,
+      "open_issues": 222,
+      "pushed_at": "2026-10-30T08:26:32Z",
+      "npm_last_month": 245373
+    },
+    "21_生成式界面-dsh-genui": {
+      "repo": "omdsh-dev/dsh-genui",
+      "npm_pkg": "@changfenhuang/dsh-genui",
+      "stars": 827,
+      "forks": 84,
+      "open_issues": 11,
+      "pushed_at": "2026-10-30T15:43:14Z",
+      "npm_last_month": 48798
+    },
+    "31_驾驶舱-dsh-context": {
+      "repo": "bowenliang123/dsh-context",
+      "npm_pkg": "dsh-context",
+      "stars": 3909,
+      "forks": 160,
+      "open_issues": 4,
+      "pushed_at": "2026-10-31T07:15:55Z",
+      "npm_last_month": 264177
+    },
+    "41_首启推荐-dsh-bootstrap": {
+      "repo": "why-sir/dsh-bootstrap",
+      "npm_pkg": null,
+      "stars": 1,
+      "forks": 0,
+      "open_issues": 0,
+      "pushed_at": "2026-10-17T06:50:58Z",
+      "npm_last_month": null
+    },
+    "51_分发与救生页-dsh-market": {
+      "repo": "dsh-market/dsh-market",
+      "npm_pkg": "dshmarket",
+      "stars": 9902,
+      "forks": 382,
+      "open_issues": 50,
+      "pushed_at": "2026-10-30T18:43:34Z",
+      "npm_last_month": 813066
+    },
+    "61_多端与远程-dsh-mobile": {
+      "repo": "saya-ch/dsh-mobile",
+      "npm_pkg": "dsh-mobile",
+      "stars": 690,
+      "forks": 50,
+      "open_issues": 14,
+      "pushed_at": "2026-10-30T10:02:29Z",
+      "npm_last_month": 21057
+    },
+    "71_感官接入-modlens": {
+      "repo": "liustack/modlens",
+      "npm_pkg": "@liustack/modlens",
+      "stars": 4667,
+      "forks": 144,
+      "open_issues": 3,
+      "pushed_at": "2026-10-23T15:42:48Z",
+      "npm_last_month": 176983
+    },
+    "81_协作-dsh-agent-teams": {
+      "repo": "NanmiCoder/dsh-agent-teams",
+      "npm_pkg": "@nanmicoder/dsh-agent-teams",
+      "stars": 2597,
+      "forks": 222,
+      "open_issues": 81,
+      "pushed_at": "2026-10-30T06:28:34Z",
+      "npm_last_month": 50995
+    },
+    "profile/11_全家桶-dsh-web": {
+      "repo": "zhu1090093659/dsh-web",
+      "npm_pkg": "@linxin666/dsh-web-all",
+      "stars": 9865,
+      "forks": 608,
+      "open_issues": 3,
+      "pushed_at": "2026-10-31T06:15:18Z",
+      "npm_last_month": 99694
+    },
+    "profile/12_界面套件-dsh-codex-ui": {
+      "repo": "MichengAI/dsh-codex-ui",
+      "npm_pkg": "@michengai/dsh-codex-ui",
+      "stars": 250,
+      "forks": 20,
+      "open_issues": 2,
+      "pushed_at": "2026-10-31T07:41:35Z",
+      "npm_last_month": 119610
+    },
+    "profile/13_组合包-dsh-suite": {
+      "repo": "STARDUSTLC666/dsh-suite",
+      "npm_pkg": "@stardustlc/dsh-suite",
+      "stars": 3,
+      "forks": 0,
+      "open_issues": 0,
+      "pushed_at": "2026-10-30T10:56:37Z",
+      "npm_last_month": 8230
+    },
+    "profile/14_聚合补丁-dsh-all": {
+      "repo": "hyzyn/dsh-plugin-kit",
+      "npm_pkg": "@hyzyn/dsh-all",
+      "stars": 59,
+      "forks": 6,
+      "open_issues": 0,
+      "pushed_at": "2026-10-30T06:31:54Z",
+      "npm_last_month": 3558
+    },
+    "shell/11_桌面应用-dsh-desktop": {
+      "repo": "dataelement/dsh-desktop",
+      "npm_pkg": null,
+      "stars": 16975,
+      "forks": 586,
+      "open_issues": 136,
+      "pushed_at": "2026-10-30T12:58:04Z",
+      "npm_last_month": null
+    },
+    "shell/12_单文件桌面壳-windowos": {
+      "repo": "RAFOLIE/dsh-desktop-windowos",
+      "npm_pkg": "dsh-desktop-plugin",
+      "stars": 26,
+      "forks": 4,
+      "open_issues": 2,
+      "pushed_at": "2026-10-15T09:29:54Z",
+      "npm_last_month": 1168
+    },
+    "shell/13_内置运行时-tauriapp": {
+      "repo": "hyperion2144/dsh-desktop-tauriapp",
+      "npm_pkg": "dsh-desktop-tauriapp",
+      "stars": 1,
+      "forks": 0,
+      "open_issues": 25,
+      "pushed_at": "2026-10-12T22:03:28Z",
+      "npm_last_month": null
+    },
+    "shell/14_终端即产品-dsh-TUI": {
+      "repo": "ccch1mneyyy/dsh-TUI",
+      "npm_pkg": "@deepseek-harness-tui/dsh-tui",
+      "stars": 6381,
+      "forks": 314,
+      "open_issues": 120,
+      "pushed_at": "2026-10-31T08:02:05Z",
+      "npm_last_month": 56569
+    },
+    "shell/15_终端工作区-seektty": {
+      "repo": "Hilbert-beinghappy/seektty",
+      "npm_pkg": "seektty",
+      "stars": 194,
+      "forks": 22,
+      "open_issues": 8,
+      "pushed_at": "2026-10-13T06:04:40Z",
+      "npm_last_month": 1296
+    },
+    "shell/91_冻结分叉-better-sidebar-N23": {
+      "repo": "All3nCN/dsh-better-sidebar-N23",
+      "npm_pkg": "@all3cn/dsh-better-sidebar-n23",
+      "stars": 0,
+      "forks": 0,
+      "open_issues": 0,
+      "pushed_at": "2026-09-03T14:55:01Z",
+      "npm_last_month": 1350
+    }
+  }
+}

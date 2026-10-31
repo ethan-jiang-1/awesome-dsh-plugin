@@ -24,37 +24,6 @@ updated: 2026-10-31
 | [`horizon.md`](./horizon.md) | charter | 规则单一源：A/B/C/D/E/F/G 准入门、S/A/B/C 分级、每条必写的六项。 | — | 要把一个新样本立成卡；或质疑某条样本凭什么在场时。 | observed |
 | [catalog.md（本文件）](./catalog.md) | index | 全部 Markdown 的 kind、定位、能拿走什么、什么时候读（本文件手工维护）。 | — | 想一次看全所有文件，或按关键词找入口。 | living |
 
-## RESHAPE · 产品形态 ｜ `reshape-product`
-
-> **一个域、两个 lever**：`-plugin`（通用插件，9 卡 + 共用的门 + 证据）与 `-shell`（自带宿主，2 卡）。**先分 lever，再看编号。**
-
-### `lever-reshape-product-plugin/` · 通用插件（9）
-
-| 文件 | kind | 定位 | 能拿走什么 | 什么时候读 | 状态 |
-|---|---|---|---|---|---|
-| [`README.md`](./lever-reshape-product-plugin/README.md) | charter | **插件侧宪章**：只收能 `dsh plugin --profile <任意> add` 的 0.2.x 样本；一卡一插件，卡卡要交借鉴食谱。 | 18 条公共规则 + 9 个插件样本的七层坐标。 | 要装配件；或判断一个插件是「厚客人」还是「宿主」。 | observed |
-| [`0-领域模型-七层与命名约定.md`](./lever-reshape-product-plugin/0-领域模型-七层与命名约定.md) | charter | **两个 lever 共用**的门：C1–C4 四条口径、产品七层、编号法，以及 13 行上游接缝索引。 | 13 行接缝表：每层上游保证什么、不保证什么。 | 要判断一个改动落在第几层；或抄任何产品卡之前先查上游接缝语义。 | living |
-| [`1-薄基座-dock.md`](./lever-reshape-product-plugin/1-薄基座-dock.md) | sample | `AKS1st/dock`：只给注册表、不给能力的工作台基座，六个 API + 六个兄弟包。 | 服务面 + 零内部依赖 + 可选 peer；隐藏要留一条与被隐藏物无关的逃生口。 | 要做平台型外壳/注册表；或要接别人的布局又不想改它。 | observed |
-| [`1-厚工作台-better-sidebar.md`](./lever-reshape-product-plugin/1-厚工作台-better-sidebar.md) | sample | `omdsh-dev/DSH-better-sidebar`：一个插件把自己做成 IDE，且内置功能也走自己的扩展点。 | 一种扩展点形状 + 内置也走它；原型方法注册表；版本前缀 key + 引用完整性。 | 要做厚工作台/多面板 IDE；或要设计第三方可扩展的注册表。 | observed |
-| [`2-生成式界面-dsh-genui.md`](./lever-reshape-product-plugin/2-生成式界面-dsh-genui.md) | sample | `omdsh-dev/dsh-genui`：把回复本身变成可操作界面，用内容协议当扩展面。 | 内容协议当扩展面；节点级丢弃 + 块级退回原文；无 action 渲染成 disabled。 | 要让模型输出可交互组件；或要设计容错的内容协议。 | observed |
-| [`3-驾驶舱-dsh-context.md`](./lever-reshape-product-plugin/3-驾驶舱-dsh-context.md) | sample | `bowenliang123/dsh-context`：把上下文、成本、编队做成可读可归因的五块面。 | 同源出数；估算与真实并列；兼容性写成 Rule/Limitation/Check/Procedure。 | 要做用量/成本/上下文面板；或要避免面板数字与用户已知数字打架。 | observed |
-| [`4-首启推荐-dsh-bootstrap.md`](./lever-reshape-product-plugin/4-首启推荐-dsh-bootstrap.md) | sample | `why-sir/dsh-bootstrap`：装完第一屏回答「我还该装什么」，用计划 + 环境码。 | 版本锁不到就跳过；环境码未包含 = 保持现状；写完读回磁盘自证。 | 要做首启/推荐/一键配置；或要设计可导入导出的环境配置。 | observed |
-| [`5-分发与救生页-dsh-market.md`](./lever-reshape-product-plugin/5-分发与救生页-dsh-market.md) | sample | `dsh-market/dsh-market`：把发现与安装搬进产品，并给「起不来」留救生页。 | 救生页活在插件栈外；界面只做一个决定；外部索引每次使用前再校验。 | 要做分发/市场/安装器；或要设计「装坏了怎么回」。 | observed |
-| [`6-多端与远程-dsh-mobile.md`](./lever-reshape-product-plugin/6-多端与远程-dsh-mobile.md) | sample | `saya-ch/dsh-mobile`：把手机当一台要配对的设备，用回环上游 + 独立 HTTPS 网关。 | 配对码 + 可撤销（删哈希）+ 回环准入；撤销与显示解耦。 | 要做多端/远程访问；或要给会话开一个网络入口。 | observed |
-| [`7-感官接入-modlens.md`](./lever-reshape-product-plugin/7-感官接入-modlens.md) | sample | `liustack/modlens`：给纯文本模型装上眼睛，粘贴即读、零配置。 | 未确认就放过；加元数据条目而不换路由；attempts/warnings 让回退不静默。 | 要补模型能力缺口（视觉/语音/搜索）；或要接管别人的路由而不改它。 | observed |
-| [`8-协作-dsh-agent-teams.md`](./lever-reshape-product-plugin/8-协作-dsh-agent-teams.md) | sample | `NanmiCoder/dsh-agent-teams`：把多代理变成一张可批准的计划，队长 + 任务 DAG + 磁盘真相。 | 计划先行 + 唯一授权点 + 三层否定；完成时审计而非写入拦截。 | 要做团队/编排 UI；或要设计「人批准后才开跑」的交互。 | observed |
-| [`1-壳与工作台-原始挖掘.md`](./lever-reshape-product-plugin/_证据/1-壳与工作台-原始挖掘.md) | evidence | 三张壳卡（better-sidebar / dock / dsh-TUI）的原始摘录与上游行号，只作溯源。 | — | 要核对壳类卡片的 [DSH]/[CAT] 原文；或重挖这三个样本。 | observed |
-| [`4-5-首启与分发-原始挖掘.md`](./lever-reshape-product-plugin/_证据/4-5-首启与分发-原始挖掘.md) | evidence | dsh-bootstrap 与 dsh-market 的原始摘录，含 A/B 两档证据强度标注。 | — | 要核对首启/分发卡片的原文与行号。 | observed |
-| [`6-7-移动与视觉-原始挖掘.md`](./lever-reshape-product-plugin/_证据/6-7-移动与视觉-原始挖掘.md) | evidence | dsh-mobile 与 modlens 的原始摘录与上游行号。 | — | 要核对多端/感官卡片的原文与行号。 | observed |
-
-### `lever-reshape-product-shell/` · 自带宿主（2）
-
-| 文件 | kind | 定位 | 能拿走什么 | 什么时候读 | 状态 |
-|---|---|---|---|---|---|
-| [`README.md`](./lever-reshape-product-shell/README.md) | charter | **宿主侧宪章**：换掉表层后首启/分发/降级为什么必须自己补；一正一反两条样本。 | 规律 A 的代价清单 + 宿主侧必抄 5 条。 | 要换表层做独立应用；或判断一个插件该不该分家。 | observed |
-| [`1-终端即产品-dsh-TUI.md`](./lever-reshape-product-shell/1-终端即产品-dsh-TUI.md) | sample | `ccch1mneyyy/dsh-TUI`：换表层并把首启、降级、更新一起接管的终端产品。 | 每档能力一条「退化为 Y」；hold 窗口不被延长；恢复不确定就报错退出。 | 要换表层做独立应用；或要设计降级链与首启向导。 | observed |
-| [`9-冻结fork-better-sidebar-N23.md`](./lever-reshape-product-shell/9-冻结fork-better-sidebar-N23.md) | sample | `All3nCN/dsh-better-sidebar-N23`：0.1.x 冻结 fork，用一次失联证明「改得太深就只能分家」。 | 反食谱：peer 上界 = 死亡日期；只写下界 + CI 矩阵，或换接缝，别 fork。 | 想 fork 上游；或要判断一个深改插件的升级风险。 | observed |
-
 ## CROSS · 协作边界 ｜ `cross-boundary`
 
 | 文件 | kind | 定位 | 能拿走什么 | 什么时候读 | 状态 |

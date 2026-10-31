@@ -8,18 +8,18 @@ read_when: "要换表层做独立应用；或要设计降级链与首启向导�
 status: observed
 updated: 2026-10-31
 ---
-# 1-终端即产品 · dsh-TUI:把 DSH 变成另一个应用
+# 终端即产品 · dsh-TUI:把 DSH 变成另一个应用
 
 > **状态**:`observed`(机制已核) · **基线**:DSH `0.2.1-rc.3`(本卡引用其自称主兼容目标 `0.2.1-rc.5`)· **读于**:2026-10-31
-> **类**:`1` 壳与工作台 · **层**:2 + 3 + 5 + 6 · **★ 2,009 / npm 16,959**
+> **类**:`1` 壳与工作台 · **层**:2 + 3 + 5 + 6 · **★ 6,381 / npm 56,569**
 > **一句话**:生态里**唯一一个把"产品"做全了**的插件——同时改 2 层(全新表层)、6 层(自己的首启向导)、5 层(自己的设置文件与默认值)、3 层(启动台/侧栏/时间线),并且已经在把自己**从"插件"改成"应用"**。
 > **借鉴价值**:**① "零核心改动 + 卸=无残留"作为可验收承诺;② 能力缺失时"每档一条 `退化为 Y`",最差档也绝不静默;③ 输入解析的 hold 窗口必须是"从首捕获起算、不被后续输入延长",超界**原样重放**;④ 恢复目标不确定时**宁可报错退出**,也不猜一个冷启动;⑤ 更新成功的唯一判据是**进程退出码**。**
 
 > **样本档案**
-> **repo**:`ccch1mneyyy/dsh-TUI` · **npm**:`@deepseek-harness-tui/dsh-tui`(全局 CLI 安装);`dsh` 侧走 profile bundle · **版本**:主兼容目标 DSH `0.2.1-rc.5`
+> **repo**:[`ccch1mneyyy/dsh-TUI`](https://github.com/ccch1mneyyy/dsh-TUI) · **npm**:`@deepseek-harness-tui/dsh-tui`(全局 CLI 安装);`dsh` 侧走 profile bundle · **版本**:主兼容目标 DSH `0.2.1-rc.5`
 > **目录条目**:`data/plugins/ccch1mneyyy__dsh-TUI.yml`(`ui`)
 > **装法**:Windows 一键安装器;**或** `npm i -g @deepseek-ai/dsh @deepseek-harness-tui/dsh-tui` 后 `dsh-tui`;**不要用 git URL 装**
-> **已在本地挖掘**:`../lever-reshape-product-plugin/_证据/1-壳与工作台-原始挖掘.md` §三(TUI 的 8 小节,含 52 条降级原文)
+> **已在本地挖掘**:`../plugin/_证据/01_壳与工作台-原始挖掘.md` §三(TUI 的 8 小节,含 52 条降级原文)
 > **再深挖去哪**:README 的 §Known Limitations / §Bounded update installation / §Keybindings & Mouse 三节;`compatibility.json` 与 `dsh-plugin.json` 在仓库根
 
 ---
@@ -58,7 +58,7 @@ dsh profile → dsh-base → dsh-TUI Cordis patch → agent preset + DSH service
 
 它**不往 `ctx.slots` 注册**(那是 web Renderer 的槽),但它挂在**同一个 Cordis 装载器与 fiber 生命周期**上。上游"声明即独占渲染权"(single 槽不许并存)在 TUI 里对应"**整棵树由 Ink 渲染**"。
 
-### 1.2 为什么它是本域最重要的一张反证
+### 1.2 为什么它是本 lever 最重要的一张反证
 
 | 层的判断 | Web 上的事实 | TUI 上的事实 |
 |---|---|---|
@@ -66,7 +66,7 @@ dsh profile → dsh-base → dsh-TUI Cordis patch → agent preset + DSH service
 | 5 默认值 | 由宿主管 | **自有 `~/.dsh-tui/settings.json` 与权限文件** |
 | 2 表层 | 只能改槽位与 CSS | **整棵树重画** |
 
-> **结论**:6 层在 Web 里"没有接缝",在 TUI 里"**你自己就是应用,接缝随你定**"。所以"首启层是空的"这个判断**只对 Web 成立**——这是本域必须写清的口径边界。
+> **结论**:6 层在 Web 里"没有接缝",在 TUI 里"**你自己就是应用,接缝随你定**"。所以"首启层是空的"这个判断**只对 Web 成立**——这是本 lever 必须写清的口径边界。
 
 ---
 
@@ -76,7 +76,7 @@ dsh profile → dsh-base → dsh-TUI Cordis patch → agent preset + DSH service
 
 > "Zero core changes: it consumes only DSH's public exports … **Install to enable; uninstall leaves no patches behind.**"
 
-**为什么这条能验收**:它只往自己的 profile 写(`dsh plugin --profile dsh-tui add …`),不写 `$DSH_HOME/cordis.patch.yml` 这类全局层。对照 `1-厚工作台`:后者必须提醒用户"页面出现两个 sidebar 时删掉老式手动挂载行"——**残留是要用户处理的,那就不是零残留**。
+**为什么这条能验收**:它只往自己的 profile 写(`dsh plugin --profile dsh-tui add …`),不写 `$DSH_HOME/cordis.patch.yml` 这类全局层。对照 `12_厚工作台`:后者必须提醒用户"页面出现两个 sidebar 时删掉老式手动挂载行"——**残留是要用户处理的,那就不是零残留**。
 
 ### 2.2 可插拔后端:声明与实现分离 + 懒 import + 授权前置
 
@@ -208,7 +208,7 @@ dsh profile → dsh-base → dsh-TUI Cordis patch → agent preset + DSH service
 
 | 口径 | 值 |
 |---|---|
-| ★ / npm | **2,009 / 16,959**(快照 2026-08-19) |
+| ★ / npm | **6,381 / 56,569**（2026-10-31 实时） |
 | 主兼容目标 | DSH `0.2.1-rc.5`;白名单 7 条宿主线 |
 | 构建/运行 | CI 用 Node 24 + pnpm 11;包支持 Node `^22.19 || >=24` |
 | **已知偏差** | ① "SSH 永不写远端原生剪贴板";② SIGKILL / native abort / 事件循环完全阻塞**无法保证**进程内清理,恢复交给终端或外部监管;③ `/thinking` **不持久化**;④ "只有初始化的会话不落盘,重启即全新";⑤ **git URL 安装不支持** |
@@ -264,7 +264,7 @@ dsh profile → dsh-base → dsh-TUI Cordis patch → agent preset + DSH service
 ## 7. 开放问题
 
 - [ ] `[OPEN]` 它在从"插件"变"应用"。**这条路的终点是不是"DSH 变成它的后端"**?那时"DSH 插件生态"与"终端应用生态"是同一个生态吗?
-- [ ] `[OPEN]` 它的白名单有 7 条宿主线,且明确"主兼容目标是 rc.5"。**逐条验证 + 白名单**与 `3-驾驶舱`/`8-协作` 的"只声明下界 + 矩阵文档"是两种策略,哪个更适合"改壳"?
+- [ ] `[OPEN]` 它的白名单有 7 条宿主线,且明确"主兼容目标是 rc.5"。**逐条验证 + 白名单**与 `31_驾驶舱`/`81_协作` 的"只声明下界 + 矩阵文档"是两种策略,哪个更适合"改壳"?
 - [ ] `[OPEN]` "授予按 component id 记,后来的包会**静默继承**"已写明。**有没有更好的键**(内容哈希?签名?)能避免继承?
 - [ ] `[OPEN]` 它把 `/thinking` 定为不持久化、把"只有初始化的会话"定为不落盘。**"哪些状态该活过重启"有没有可复用的判断标准**?
 - [ ] `[OPEN]` 它有 `doctor` / `safe` / `safe --rescue` 三条自检命令。**Web 侧为什么没有对应物**?(是不是因为 Web 的"坏"表现为"页面打不开",无处运行 doctor?)

@@ -8,18 +8,18 @@ read_when: "要做厚工作台/多面板 IDE；或要设计第三方可扩展的
 status: observed
 updated: 2026-10-31
 ---
-# 1-厚工作台 · better-sidebar:一个插件,把自己做成了 IDE
+# 厚工作台 · better-sidebar:一个插件,把自己做成了 IDE
 
 > **状态**:`observed` · **基线**:DSH `0.2.1-rc.3`(本卡主要引用 `0.28.x` 线,要求宿主 `0.2.1-rc.1+`)· **读于**:2026-10-31
-> **类**:`1` 壳与工作台 · **层**: 3(槽位)→ 3+5 · **★ 2,216 / npm 39,717**(本域第 2)
+> **类**:`1` 壳与工作台 · **层**: 3(槽位)→ 3+5 · **★ 4,765 / npm 245,373**（2026-10-31 实时；本线第 3）
 > **一句话**:不换表层、不碰官方布局,只在右侧栏"旁边"和"下面"各加一层,然后把文件、编辑器、终端、Git、任务、侧聊全塞进去。
 > **借鉴价值**:**① 扩展点只留一种形状 `registerX(descriptor) => disposer`,且内置功能走同一条路;② 自建注册表的方法必须是原型方法,否则插件卸载不回收;③ 持久化的"版本前缀 key + 三道回落 + 引用完整性校验";④ 让第三方能力"装它才有、没装不显示";⑤ 把 40 MB 会话的冷读从 6 次全读压到 1 次 header 读的那套扇出修复。**
 
 > **样本档案**
-> **repo**:`omdsh-dev/DSH-better-sidebar` · **npm**:`dsh-better-sidebar` · **版本**:`0.28.2`(本卡引用线)
+> **repo**:[`omdsh-dev/DSH-better-sidebar`](https://github.com/omdsh-dev/DSH-better-sidebar) · **npm**:`dsh-better-sidebar` · **版本**:`0.28.2`(本卡引用线)
 > **目录条目**:`data/plugins/omdsh-dev__DSH-better-sidebar.yml`(`ui`)
 > **装法**:`dsh plugin --profile web add dsh-better-sidebar@latest`;或 `bash scripts/install.sh 0.28.2`;或把三行提示词粘给 DSH 让它自己装
-> **已在本地挖掘**:`_证据/1-壳与工作台-原始挖掘.md` §一(better-sidebar 的 8 小节,含 19 条降级清单)
+> **已在本地挖掘**:`_证据/01_壳与工作台-原始挖掘.md` §一(better-sidebar 的 8 小节,含 19 条降级清单)
 > **再深挖去哪**:README 里那张**宿主→插件版本对照表**(§Pick the plugin version)和 `CHANGELOG`;性能数字全部出自 README §v0.28.2 的修复说明
 
 ---
@@ -208,7 +208,7 @@ export function apply(ctx: Context) {
 
 | 口径 | 值 |
 |---|---|
-| ★ / npm | **2,216 / 39,717**(快照 2026-08-19) |
+| ★ / npm | **4,765 / 245,373**（2026-10-31 实时） |
 | 生态面 | GitHub topic 下 **30+ 插件**基于其 `ctx.betterSidebar` |
 | peer 面 | **13 个 DSH peer floor 全部抬到 `^0.2.1-rc.1`** |
 | **已知偏差** | ① 走槽位 → 宿主改布局最坏是"tab 不上",但两处例外会**硬崩**(未注册 panel key、`root` 槽重复注册);② 浏览器侧代码改动**必须硬刷新**——页面保留自己的 module bootstrap,替换必须整页重载;③ 不做 push/pull/fetch,不是完整 IDE |
@@ -261,7 +261,7 @@ export function apply(ctx: Context) {
 ## 7. 开放问题
 
 - [ ] `[OPEN]` 它自建 `ctx.betterSidebar` 而不是用 `ctx.slots`。**上游会不会把"多 tab 工作台"变成一等槽位**,让 30+ 插件不必各自发明? 反过来说,自建注册表是生态活力的来源还是分叉的开始?
-- [ ] `[OPEN]` `~325 KB core` 是全文唯一的前端体积数字。**这类"首屏预算"要不要成为本域所有壳插件的必填项?**
+- [ ] `[OPEN]` `~325 KB core` 是全文唯一的前端体积数字。**这类"首屏预算"要不要成为本线所有壳插件的必填项?**
 - [ ] `[OPEN]` 40 MB 会话的修复故事说明:**上游若能暴露"会话 header 里有 workspace 地址"这一事实**,几十个插件都不必去全量解码。这算上游的接口缺口吗?
-- [ ] `[OPEN]` fs 路由自 v0.23.0 起不做 workspace 包含检查。它写明了,但**写明是否足够**?本域对"安全边界自述"要不要有硬要求?
+- [ ] `[OPEN]` fs 路由自 v0.23.0 起不做 workspace 包含检查。它写明了,但**写明是否足够**?本线对"安全边界自述"要不要有硬要求?
 - [ ] `[OPEN]` 它让模型能 `sidebar_open`。**模型还有哪些"人侧界面"的正当控制权**(滚动、聚焦、贴标签)?边界在哪?

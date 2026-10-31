@@ -106,12 +106,11 @@ function checkLink(fromRel, line, target) {
   }
 }
 
-// ---------- leverage：frontmatter 契约 ----------
+// ---------- leverage / product：frontmatter 契约 ----------
 const LEVERAGE_PREFIX = '_digested/leverage/';
+const PRODUCT_PREFIX = '_digested/leverage-reshape-product/';
 const DOMAIN_BY_DIR = {
-  // 产品形态一个域、两个 lever：plugin 侧（通用插件）与 shell 侧（自带宿主）。
-  'lever-reshape-product-plugin': 'reshape-product',
-  'lever-reshape-product-shell': 'reshape-product',
+  // 产品线已独立成册（_digested/leverage-reshape-product/）；这里只保留三域的映射。
   'lever-cross-boundary': 'cross-boundary',
   'lever-prove-output': 'prove-output',
   'lever-draw-limit': 'draw-limit',
@@ -146,7 +145,7 @@ function parseFrontmatter(text) {
 }
 
 for (const rel of mdFiles) {
-  if (!rel.startsWith(LEVERAGE_PREFIX)) continue;
+  if (!rel.startsWith(LEVERAGE_PREFIX) && !rel.startsWith(PRODUCT_PREFIX)) continue;
   const text = textsByFile.get(rel) ?? '';
   const parsed = parseFrontmatter(text);
   if (parsed.error) {
@@ -162,9 +161,15 @@ for (const rel of mdFiles) {
   if (meta.positioning && meta.positioning.length > 120) fail(rel, 1, 'positioning 超过 120 字');
   if (meta.read_when && meta.read_when.length > 80) fail(rel, 1, 'read_when 超过 80 字');
 
-  const rest = rel.slice(LEVERAGE_PREFIX.length);
-  const dir = rest.includes('/') ? rest.split('/')[0] : '';
-  const expectedDomain = DOMAIN_BY_DIR[dir] ?? 'layer';
+  let expectedDomain;
+  if (rel.startsWith(PRODUCT_PREFIX)) {
+    // 产品线独立于 leverage：整棵 product/ 都属于 reshape-product 域。
+    expectedDomain = 'reshape-product';
+  } else {
+    const rest = rel.slice(LEVERAGE_PREFIX.length);
+    const dir = rest.includes('/') ? rest.split('/')[0] : '';
+    expectedDomain = DOMAIN_BY_DIR[dir] ?? 'layer';
+  }
   if (meta.domain && meta.domain !== expectedDomain) {
     fail(rel, 1, `domain=${meta.domain} 与路径不符（应为 ${expectedDomain}）`);
   }

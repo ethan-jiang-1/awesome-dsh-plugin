@@ -8,19 +8,19 @@ read_when: "要补模型能力缺口（视觉/语音/搜索）；或要接管别
 status: observed
 updated: 2026-10-31
 ---
-# 7-感官接入 · modlens:给纯文本模型装上眼睛
+# 感官接入 · modlens:给纯文本模型装上眼睛
 
 > **状态**:`observed` · **基线**:DSH `0.2.1-rc.3` · **读于**:2026-10-31
 > **类**:`7` 感官与模型 · **层**:**4**(模型能力)→ 5 → 3 · MIT
-> **★ 3,152 / npm 63,829**(全名单下载第 2)
+> **★ 4,667 / npm 176,983**（2026-10-31 实时；本线第 4）
 > **一句话**:它没有发明新技术,只解决一件极具体的事——**我用的是不能看图的模型,但我想直接 Ctrl+V 粘一张截图**,然后把这件事做到"一次都不用配置"。
 > **借鉴价值**:**① 只在"上游以元数据正面确认"的能力缺位上动手,`absent means unknown` 一律放过;② 接管方式是"**加一个元数据包装条目**"——不换底层路由、不起代理、不拦 hook;③ `meta.attempts` + `meta.warnings`,回退永不静默、配额归属永远可见;④ 复用别家登录必须逐项显式同意并标出"花的是谁的额度";⑤ 密钥轮换按**错误族**分流。**
 
 > **样本档案**
-> **repo**:`liustack/modlens` · **npm**:`@liustack/modlens` · **版本**:`3.27.2`(README 示例用的精确版本)
+> **repo**:[`liustack/modlens`](https://github.com/liustack/modlens) · **npm**:`@liustack/modlens` · **版本**:`3.27.2`(README 示例用的精确版本)
 > **目录条目**:`data/plugins/liustack__modlens.yml`(`vision`)
 > **装法**:`npx -y @deepseek-ai/dsh plugin --profile web add @liustack/modlens@3.27.2`;跨 harness 的 skill 走 `npx -y skills add liustack/modlens --skill modlens --global`
-> **已在本地挖掘**:`_证据/6-7-移动与视觉-原始挖掘.md` §二(modlens:模态判定/双闸门/attempts/warnings)
+> **已在本地挖掘**:`_证据/03_移动与视觉-原始挖掘.md` §二(modlens:模态判定/双闸门/attempts/warnings)
 > **再深挖去哪**:仓库 `docs/security.md`(图片当不可信输入);`Antigravity CLI` 免 key 兜底那条
 
 ---
@@ -178,7 +178,7 @@ updated: 2026-10-31
 
 | 口径 | 值 |
 |---|---|
-| ★ / npm | **3,152 / 63,829**(快照 2026-08-19;全名单下载第 2) |
+| ★ / npm | **4,667 / 176,983**（2026-10-31 实时；本线第 4） |
 | 名单内被引 | **5** |
 | 引擎 | 六个视觉读取引擎,任一可用即可(含 Claude Code / Codex / OpenCode / Pi / Gemini CLI / Antigravity CLI 等 CLI 车道) |
 | **已知偏差** | ① 图被转成**证据**而非原文——细节取决于上游引擎的读取质量;② **无逐版本矩阵**(只说"在真机上验证过 Claude Code/Codex/Pi/OpenCode");③ **不接受 PR**(单作者逐行 review,贡献方式是 issue 或 fork);④ 精确超时毫秒数、临时文件清理时机、脱敏字段清单**未披露** |
@@ -229,4 +229,4 @@ updated: 2026-10-31
 - [ ] `[OPEN]` 图 → 结构化证据,**信息必然有损**。它用 `meta.attempts` 让损耗可追溯,但**用户能不能看到"原图 vs 证据"的对照**?
 - [ ] `[OPEN]` 它借别家 CLI 的视觉能力。这条链的长期合法性(ToS、额度、封号)只有一句 "you are responsible for"。生态需要一条统一约定吗?
 - [ ] `[OPEN]` 它**不接受 PR**。单作者逐行 review 换来质量,代价是生态无法贡献。**高信任插件该如何开放而不劣化**?
-- [ ] `[OPEN]` 它没有逐版本矩阵(对照 [`多端与远程`](./6-多端与远程-dsh-mobile.md) 的逐版本表)。**"已验证"这个词要不要在本域强制带范围**?
+- [ ] `[OPEN]` 它没有逐版本矩阵(对照 [`多端与远程`](./61_多端与远程-dsh-mobile.md) 的逐版本表)。**"已验证"这个词要不要在本线强制带范围**?

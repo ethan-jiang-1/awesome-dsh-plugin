@@ -8,7 +8,7 @@ read_when: "要做平台型外壳/注册表；或要接别人的布局又不想�
 status: observed
 updated: 2026-10-31
 ---
-# 1-薄基座 · dock:把「槽位」做成一个薄基座
+# 薄基座 · dock:把「槽位」做成一个薄基座
 
 > **状态**:`observed`(机制)/ `[OPEN]`(0.2.x 实测) · **基线**:DSH `0.2.1-rc.3` · **读于**:2026-10-31
 > **类**:`1` 壳与工作台 · **层**: 3 → 6(平台化)
@@ -16,10 +16,10 @@ updated: 2026-10-31
 > **借鉴价值**:**① "基座零内部依赖 + 一个服务面 + 安装顺序不敏感"是平台化的最小配方;② UI 依赖写成可选 peer,缺失时"不激活"而不是崩;③ 要碰别人的布局,先定义可测量的量,且只改位置不改尺寸;④ 私有 DOM 锚点消失时只能"不生效";⑤ 任何隐藏都要留一条与被隐藏对象无关的逃生入口。**
 
 > **样本档案**
-> **repo**:`AKS1st/dock` · **npm**:`dock-base`(基座);兄弟包 `dock-files` / `dock-editor` / `dock-images` / `dock-markdown` / `dock-git` / `dock-spreadsheet` · **版本**:未取版本号
+> **repo**:[`AKS1st/dock`](https://github.com/AKS1st/dock) · **npm**:`dock-base`(基座);兄弟包 `dock-files` / `dock-editor` / `dock-images` / `dock-markdown` / `dock-git` / `dock-spreadsheet` · **版本**:未取版本号
 > **目录条目**:`data/plugins/AKS1st__dock.yml`(`ui`),兄弟包各有 `AKS1st__dock-*.yml`
 > **装法**:`dsh plugin --profile web add dock-base`,再逐条装兄弟包
-> **已在本地挖掘**:`_证据/1-壳与工作台-原始挖掘.md` §二(dock 的 8 小节,含 9 条降级清单)
+> **已在本地挖掘**:`_证据/01_壳与工作台-原始挖掘.md` §二(dock 的 8 小节,含 9 条降级清单)
 > **再深挖去哪**:README §设置 API 给了 `registerSetting` 的完整字段;契约文件在仓库 `src/client/contract.ts`(功能插件内各有 vendored 副本)
 
 ---
@@ -175,7 +175,7 @@ ctx.effect(() => ctx.workbench.registerSetting({
 
 | 口径 | 值 |
 |---|---|
-| 目录指标 | **无 ★ / 下载数据**(`AKS1st/dock` 未进 `data/plugins/`) |
+| 目录指标 | **★ 10 / npm 1,673**（GitHub API / npm，2026-10-31） |
 | 宿主最低版本 | `>=0.1.3-alpha.2` |
 | peer | `cordis ^4.0.0-rc.7`;`react` / `react-dom ^18.2.0` **可选** |
 | **已知偏差** | ① **无版本对照表**,只有一条最低版本,也没写不匹配会怎样;② 依赖 `data-turn-navigator` 私有锚点,0.2.x 已 0 命中 → 该偏移功能在 0.2.x 上**实际不生效**;③ 契约靠 5 份手工同步副本,不同步 = 类型漂移(编译期可见,运行时无感) |

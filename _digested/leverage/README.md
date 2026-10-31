@@ -12,13 +12,13 @@ budget: 260
 
 > **一句话**:[`ecosystem/`](../ecosystem/00-map.md) 回答「有什么」;这一层回答「**它占了哪条缝、改到多深、代价是什么、什么时候会坏、别人能抄哪一行**」。
 > **不是**:插件推荐榜、功能分类、安装教程。它是**深读层**——**不是每一条都值得研究**:先过门,再立卡。
-> **状态**:四域成稿 ｜ 篇数以 [catalog](./catalog.md) 为准 ｜ 基线:名单 `efe602e7b`(2026-10-31) · DSH `0.2.1-rc.3`
+> **状态**:三域成稿（产品线另册：[`../leverage-reshape-product/`](../leverage-reshape-product/README.md)） ｜ 篇数以 [catalog](./catalog.md) 为准 ｜ 基线:名单 `efe602e7b`(2026-10-31) · DSH `0.2.1-rc.3`
 
 ## 0. 三个入口
 
 | 你要什么 | 去哪 | 你会拿到 |
 |---|---|---|
-| **拿走东西**(写插件/评审/选型) | **[BORROW](./BORROW.md)** | 8 条任务路由 + 四域最小集 + 6 条跨域法则 + 7 问 + 陷阱 |
+| **拿走东西**(写插件/评审/选型) | **[BORROW](./BORROW.md)** | 8 条任务路由 + 三域最小集 + 6 条跨域法则 + 7 问 + 陷阱 |
 | **查某一篇** | **[catalog](./catalog.md)** | 全部文件的 kind / 定位 / 能拿走什么 / 什么时候读,可直接 grep |
 | **知道凭什么** | **[horizon](./horizon.md)** | 准入门 A–G、分级 S/A/B/C、每条必写的六项 |
 
@@ -34,7 +34,7 @@ DSH 的扩展面是有限、可枚举的:seam(fs/shell/sandbox/llm/subagent/work
 
 ## 2. 读之前:五个最容易读错的地方
 
-1. **四域不是分类树。** 一个样本可以同时出现在多个域(重叠 41–44%);「属于哪个域」取决于你问哪个问题。
+1. **三域不是分类树。** 一个样本可以同时出现在多个域(重叠 41–44%);「属于哪个域」取决于你问哪个问题。
 2. **计数不是证据。** 名单一直在涨,任何 `N / 总数` 明天就变;所以本层不写命中数,只写「谁被谁提到」「替代了哪个官方对象」「哪条缝」这类可回读的事实。**「稀缺 / 唯一」是人工判断,标 `[OBS]`。**
 3. **能力披露缺失 ≠ 安全,空披露 ≠ 无能力。** `capabilities.json` 是 2026-09-24 的静态扫描;披露 / 策略 / 强制 / 判决是四件事。
 4. **星标、下载、实时 API 是三套数。** 引用必须带日期;星标 ≠ 使用量;npm 包名 ≠ 仓库名。
@@ -46,7 +46,7 @@ DSH 的扩展面是有限、可枚举的:seam(fs/shell/sandbox/llm/subagent/work
 
 | 层 | 是什么 | 会长吗 | 约束 |
 |---|---|---|---|
-| **骨架** | 本文件、[00-map](./00-map.md)、[horizon](./horizon.md)、[BORROW](./BORROW.md)、四域 README | **不随样本长** | 行数预算(frontmatter `budget`),超了要删/移 |
+| **骨架** | 本文件、[00-map](./00-map.md)、[horizon](./horizon.md)、[BORROW](./BORROW.md)、三域 README | **不随样本长** | 行数预算(frontmatter `budget`),超了要删/移 |
 | **叶子** | `card` / `sample` / `_证据/` | 随便长 | 每篇 frontmatter + 借用节 |
 | **文档** | [catalog](./catalog.md) | 手工补 | 加卡时补一行;数量不在这里维护 |
 
@@ -55,26 +55,25 @@ DSH 的扩展面是有限、可枚举的:seam(fs/shell/sandbox/llm/subagent/work
 | kind | 是什么 | 例子 |
 |---|---|---|
 | `index` | 目录/索引 | 本文件、catalog、[CROSS-03](./lever-cross-boundary/03-sample-encyclopedia.md)、[PROVE-00](./lever-prove-output/00-sample-lineage.md) |
-| `charter` | 规则页:收什么、怎么判 | 00-map、horizon、四域 README、[RESHAPE-0](./lever-reshape-product-plugin/0-领域模型-七层与命名约定.md) |
+| `charter` | 规则页:收什么、怎么判 | 00-map、horizon、三域 README |
 | `guide` | 借用总入口 | [BORROW](./BORROW.md) |
 | `playbook` | 横向框架/手册 | [CROSS-01](./lever-cross-boundary/01-collab-topology.md)、[PROVE-10](./lever-prove-output/10-quality-control-playbook.md)、[LIMIT-09](./lever-draw-limit/09-control-budget.md) |
 | `card` | 一个机制/环节/控制点一篇 | [PROVE-05](./lever-prove-output/05-custody-chain.md)、[LIMIT-03](./lever-draw-limit/03-second-model.md) |
-| `sample` | 一个样本一篇 | [CROSS-07](./lever-cross-boundary/samples/07-Nwflower-dsh-file-claim.md)、RESHAPE 的样本卡 |
-| `evidence` | 原始摘录,只作溯源 | RESHAPE `_证据/` |
+| `sample` | 一个样本一篇 | [CROSS-07](./lever-cross-boundary/samples/07-Nwflower-dsh-file-claim.md)、[PROVE-02](./lever-prove-output/02-goal-gate-hard-floor.md) |
+| `evidence` | 原始摘录,只作溯源 | 各域 `_证据/`（产品线的证据在 [`../leverage-reshape-product/`](../leverage-reshape-product/README.md)） |
 
-## 4. 四个域:四个并列的问题
+## 4. 三个域:三个并列的问题（+ 一条产品线另册）
 
-**分析单位不同**——这正是各目录长得不一样的原因,不是混乱；产品形态一个域按「插件侧 / 宿主侧」拆成两个目录。
+**分析单位不同**——这正是各目录长得不一样的原因,不是混乱。**产品线已独立成册**：`../leverage-reshape-product/`，不参与本层的三域统计。
 
 | 域 | 一句话问题 | 分析单位 |
 |---|---|---|
-| [RESHAPE-plugin](./lever-reshape-product-plugin/README.md) | 不改上游,插件能装出什么产品 | 一个产品改动(一插件一卡) |
-| [RESHAPE-shell](./lever-reshape-product-shell/README.md) | 换掉表层,DSH 能变成什么独立产品 | 一个自带宿主的样本(一卡一样本) |
+| [**产品线（另册）**](../leverage-reshape-product/README.md) | 从插件到 profile 到独立壳，怎么把 DSH 装成产品 | 19 张样本卡（不参与本层统计） |
 | [CROSS](./lever-cross-boundary/README.md) | 协作跨到哪个边界,每跨一界多付什么 | 一个协作样本(一样本一文件)+ 横向卡 |
 | [PROVE](./lever-prove-output/README.md) | 门禁装在哪一环,产物凭什么算完成 | 一个门禁位置(一环一卡) |
 | [LIMIT](./lever-draw-limit/README.md) | 谁能碰什么,由谁强制,留下什么证据 | 一个控制点/预算(一卡一样本) |
 
-四域没有先后,学习顺序由这张表固定。**样本重叠是正常的**:独立性靠「主读单一归属 + 不引用他域结论」保证,不靠样本不重叠。
+三域没有先后,学习顺序由这张表固定。**样本重叠是正常的**:独立性靠「主读单一归属 + 不引用他域结论」保证,不靠样本不重叠。
 
 ## 5. 怎么读
 
@@ -82,9 +81,7 @@ DSH 的扩展面是有限、可枚举的:seam(fs/shell/sandbox/llm/subagent/work
 
 | 你要干什么 | 先读 |
 |---|---|
-| 写一个插件,不知道从哪下手 | [RESHAPE-0](./lever-reshape-product-plugin/0-领域模型-七层与命名约定.md) §4 接缝表 → [BORROW §2](./BORROW.md) 选域 |
-| 改产品形态（装配件） | [RESHAPE-plugin](./lever-reshape-product-plugin/README.md) §2 的 18 条 |
-| 换表层做独立产品 | [RESHAPE-shell](./lever-reshape-product-shell/README.md) §4 的必抄 5 条 |
+| 做产品（插件 / profile / 独立壳） | [产品线 README](../leverage-reshape-product/README.md)（另册） |
 | 做多 agent / 跨机 | [CROSS README](./lever-cross-boundary/README.md)「能借鉴什么」 |
 | 做质量门禁 | [PROVE-01](./lever-prove-output/01-quality-chain.md) 六环 → [PROVE-10](./lever-prove-output/10-quality-control-playbook.md) |
 | 做安全/权限 | [LIMIT README](./lever-draw-limit/README.md)「借法一览」→ [LIMIT-09](./lever-draw-limit/09-control-budget.md) |
@@ -108,7 +105,7 @@ node _digested/verify.mjs # frontmatter / 链接 / 锚点
 
 1. **不放会漂的数字**(星标/下载/版本/基线日期)——留在正文页头。
 2. **`card` / `sample` 必须有借用节**(标题含 借鉴/搬走/借用/照抄/食谱/配方/移植),否则 verify 失败。
-3. **规则只有一个源**:准入/分级看 [horizon](./horizon.md);四域 README 里的副本是摘要,冲突以源为准。
+3. **规则只有一个源**:准入/分级看 [horizon](./horizon.md);三域 README 里的副本是摘要,冲突以源为准。
 
 **新增文件命名**:`<域>/NN-<ascii-slug>.md`;一样本一篇放 `<域>/samples/NN-<owner>-<repo>.md`。编号域内递增、不复用、不重排;退役保留编号改 `status`。**老文件不改名**(外部引用与锚点稳定)。
 
@@ -137,7 +134,7 @@ node _digested/verify.mjs # frontmatter / 链接 / 锚点
 
 | 域 | 源码 | 坐标强度 | 影响力口径 |
 |---|---|---|---|
-| RESHAPE | 插件 README + 官方包 README | 无 commit | catalog + ★/下载快照 |
+| 产品线 | 插件 README + 官方包 README | 无 commit | 另册 catalog + ★/下载快照 |
 | CROSS | 14 样本逐文件读过 | 版本 + 实时数据,无 commit | 2026-10-31 实时 |
 | PROVE | 读过(含打包产物) | **repo@commit** | 2026-10-31 抓取 |
 | LIMIT | 多卡读过 src | 版本(dist-tags),无 commit | npm 近 30 天 |
@@ -165,7 +162,7 @@ node _digested/verify.mjs # frontmatter / 链接 / 锚点
 | C 级反例 | 对应卡失败模式表一行 | 所有骨架 |
 | 现有 S/A 掉门 / 退役 | 该卡 `status` + 域表一行;保留编号,不删不改名 | 所有骨架 |
 | 某条跨域法则被推翻 | [BORROW §3](./BORROW.md) 改一行 | 其他 |
-| 新域出现 | 必须满足:新位置 + 多个过门样本 + 四域都装不下;才加目录/枚举/README 一行/BORROW 一行 | 四域正文 |
+| 新域出现 | 必须满足:新位置 + 多个过门样本 + 三域都装不下;才加目录/枚举/README 一行/BORROW 一行（产品线是另册，不在此列） | 三域正文 |
 | 上游同步 | 只改受影响卡的 `updated` 与 `[DSH]` 断言 + 层级基线 | 其他 |
 | 数字口径变 | 该域 README 基线说明 + 相关卡数字 | 其他 |
 
@@ -179,11 +176,11 @@ node _digested/verify.mjs # frontmatter / 链接 / 锚点 / 编码
 
 **只校验文件自洽,不校验计数**——名单在涨,任何全局数字都不是稳定真值。
 
-## 四域并行作业契约
+## 三域并行作业契约
 
 > **已归档**:四个域已经收工,本节只解释「为什么四份宪章的写法不一样」,并保留给引用它的域 README。日常阅读不需要它。
 
-四域曾由四个彼此独立的会话分头研究。独立性靠结构,不靠约定:
+三域曾由三个彼此独立的会话分头研究。独立性靠结构,不靠约定:
 
 | # | 约束 | 具体做法 |
 |---|---|---|
