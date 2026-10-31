@@ -1,6 +1,6 @@
 # probes-and-decay · 探针与衰减
 
-> 状态:**0004 已复核**(2026-10-24,行号以 `upstream@b4d0049a8` 为准;diff 区间 `4693e5a83..b4d0049a8`)。0003 判本专题"无对应 diff",这条判断只对 0003 那一段成立;0004 是本专题自 0002 以来第一次实质改动,且只落在两处——capability 探针(probe-capabilities 200→**230**、`lib/capabilities.mjs` 144→**224**、新增 `capability-changes.mjs` 44、`capabilities.test.mjs` 111→**192**)与 probe-npm(150→**181**)。`scan-decay.mjs` 仍 388 行,stars/downloads/readmes/updates/tarballs/screenshots 六个探针、prune-legacy-screenshots 与 publish-updates 全部零 diff。脚本清点:13 个(8 个 probe-* + scan-decay + capability-changes + 双 publish + prune-legacy-screenshots),另加 8 个 `lib/` 模块。
+> 状态:**0005 无对应 diff**(2026-10-31,行号以 `upstream@efe602e7b` 为准;`probe-*`、cache path、写入方零 diff)。此前 0004 已复核(行号以 `b4d0049a8` 为准)。0003 判本专题"无对应 diff",这条判断只对 0003 那一段成立;0004 是本专题自 0002 以来第一次实质改动,且只落在两处——capability 探针(probe-capabilities 200→**230**、`lib/capabilities.mjs` 144→**224**、新增 `capability-changes.mjs` 44、`capabilities.test.mjs` 111→**192**)与 probe-npm(150→**181**)。`scan-decay.mjs` 仍 388 行,stars/downloads/readmes/updates/tarballs/screenshots 六个探针、prune-legacy-screenshots 与 publish-updates 全部零 diff。脚本清点:13 个(8 个 probe-* + scan-decay + capability-changes + 双 publish + prune-legacy-screenshots),另加 8 个 `lib/` 模块。
 
 ## 定位
 
@@ -32,7 +32,7 @@
 
 三份文件在 0004 区间的改动加起来是:删键、改键、补一条截图、手工删掉一条 redLine——**没有出现任何一个新的时间戳**,也就是没有一次重扫或重探落进仓库。这才是"冻结"的可核对含义。
 
-**capabilities.json 的定位很特殊,而 0004 把它变成了一个可证明的结论**:它仍是**提交进仓库的地板**,却不由任何 workflow 回写(build-site.yml:232 每次都跑 probe-capabilities,但 build-site 的权限是 `contents: read`,build-site.yml:49),也不在任何 actions/cache path 里(build-site.yml:108-114 只列 npm-map/stars/readmes/tarballs)。于是每夜的重扫结果只活在那次 run 的 `docs/plugins.json` 里,而那份文件会部署、会被打进 npm catalog 包——**线上可以很新,仓库地板只会更旧**。这份旧是会算出来的:名单在 0004 区间从 4489 条涨到 6704 条(`data/plugins/*.yml` 净增 2255 个),按当前 `data/plugins/*.yml` 的 url join,只有 **3792/6704(56.6%)** 的条目还有记录(0003 时 3826/4489 = 85.2%),另有 51 个键指向已经不在名单里的 URL——删掉的记录探针不会清理,只能人手工删(oauth-subs 那条就是 2026-10-20 手工删的,1a93fa18f,#8058)。
+**capabilities.json 的定位很特殊,而 0004 把它变成了一个可证明的结论**:它仍是**提交进仓库的地板**,却不由任何 workflow 回写(build-site.yml:232 每次都跑 probe-capabilities,但 build-site 的权限是 `contents: read`,build-site.yml:49),也不在任何 actions/cache path 里(build-site.yml:108-114 只列 npm-map/stars/readmes/tarballs)。于是每夜的重扫结果只活在那次 run 的 `docs/plugins.json` 里,而那份文件会部署、会被打进 npm catalog 包——**线上可以很新,仓库地板只会更旧**。这份旧是会算出来的:名单在 0004 区间从 4489 条涨到 6704 条(`data/plugins/*.yml` 净增 2255 个),按当前 `data/plugins/*.yml` 的 url join,只有 **3764/7924(47.5%)** 的条目还有记录(0004:3792/6704 = 56.6%;0003:3826/4489 = 85.2%),另有 57 个键指向已经不在名单里的 URL——删掉的记录探针不会清理,只能人手工删(oauth-subs 那条就是 2026-10-20 手工删的,1a93fa18f,#8058)。
 
 ## 两条铁律(贯穿全部脚本)——0002 修正
 

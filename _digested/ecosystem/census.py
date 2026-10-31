@@ -54,6 +54,19 @@ def parse_yml(path):
         text = path.read_text(encoding="utf-8", errors="replace")
     except OSError:
         return None
+    if text.lstrip().startswith("{"):
+        # 少数投稿把 JSON 直接写进 .yml:上游用 js-yaml,JSON 是合法 YAML 1.2,
+        # 门禁照收。手写解析器必须同样接受(0005 实测 2 条),否则这两条会
+        # 只留一行 stderr 就从普查里消失,分母悄悄少 2。
+        try:
+            obj = json.loads(text)
+        except ValueError:
+            return None
+        flat = {k: str(v) for k, v in obj.items() if isinstance(v, (str, int, float))}
+        if isinstance(obj.get("description"), dict):
+            for lang, val in obj["description"].items():
+                flat[f"description.{lang}"] = str(val)
+        return flat
     for raw in text.splitlines():
         line = raw.rstrip("\r").rstrip()
         if not line:

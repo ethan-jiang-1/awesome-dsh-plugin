@@ -1,10 +1,10 @@
 # registry-data · 数据模型
 
-> 状态:**0004 已复核**。schema 新增可选 `icon`(#7934,`18bfe9fe1`),`readEntries` 改为返回 POSIX 路径(#7647,`770862987`),两条都在同一个 `lib/entries.mjs` 里;结构统计重跑到 **6704 条**。本轮新增 URL 2255、删除 40、改名 10、同 URL 修改 152;`data/capabilities.json` 仍是 2026-09-24 的旧扫描快照,按当前 URL join 只剩 **3792/6704(56.6%)**。最近核验:`b4d0049a8`,2026-10-24。
+> 状态:**0005 无对应 diff**(`lib/entries.mjs`、schema 白名单、`CAT_IDS` 全部零 diff)。结构统计重跑到 **7924 条**;本轮新增 URL 1281、删除 61、改名 11、同 URL 修改 182。新增里 2 条把 JSON 写进 `.yml`(`pixelligue/mcpbids-plugins`、`pixelligue/mcptender-plugins`):上游用 js-yaml,JSON 是合法 YAML 1.2,门禁照收——**条目文件不是严格 YAML 子集**。`data/capabilities.json` 仍是 2026-09-24 旧扫描,按当前 URL join 只剩 **3764/7924(47.5%)**。最近核验:`efe602e7b`,2026-10-31。
 
 ## 定位
 
-`data/` 是全仓库唯一人工编辑层:`data/plugins/*.yml` 一个插件一个文件(实测 **6704 个**,2026-10-24,来自 **4298 个不同 owner**;0003 时 4489 条 / 2821 owner,0002 基线 4392,初问快照 2286;全部满足 `<owner>__<repo>.yml` 命名,monorepo 子包形如 `owner__repo--packages-my-plugin.yml`,sub 用单 `-` 连接)。除 `plugins/` 外的 data 文件全部是机器写或冻结的派生物(拓扑见下)。为什么一文件一插件:以前所有人往 README 同一分类的同一位置追加,合并一个 PR 就撞掉下一个——独立文件永不冲突(contributing.md:47)。投稿者也不必再 regenerate README(合并后由 main 重生成,见 [readme-pipeline](../readme-pipeline/00-map.md))。
+`data/` 是全仓库唯一人工编辑层:`data/plugins/*.yml` 一个插件一个文件(实测 **7924 个**,2026-10-31,来自 **5114 个不同 owner**;0004 为 6704/4298,0003 时 4489 条 / 2821 owner,0002 基线 4392,初问快照 2286;全部满足 `<owner>__<repo>.yml` 命名,monorepo 子包形如 `owner__repo--packages-my-plugin.yml`,sub 用单 `-` 连接)。除 `plugins/` 外的 data 文件全部是机器写或冻结的派生物(拓扑见下)。为什么一文件一插件:以前所有人往 README 同一分类的同一位置追加,合并一个 PR 就撞掉下一个——独立文件永不冲突(contributing.md:47)。投稿者也不必再 regenerate README(合并后由 main 重生成,见 [readme-pipeline](../readme-pipeline/00-map.md))。
 
 ## 条目 schema(validateEntries 白名单,scripts/lib/entries.mjs:169-256)
 
@@ -28,7 +28,7 @@
 
 ## 分类体系(2026-10-24 census 普查)
 
-共 23 类全部有脚本看守(generate-readme ↔ contributing.md ↔ reorder-categories.py 三处联动:改序重排要动 CAT_IDS 与 locales 两个 categories 块再再生 README)。条目量分布(全量):ui **1273**(19.0%)、tools 878、session 472、dev 438、workflow 380、model 362、usage 355、memory 281、theme 265、notify 253、skill 252、fun 206、remote 200、security 199、git 147、browser 143、vision 137、docs 104、market 101、voice 85、**wsl 80**、identity 56、agi 37;前五类合计 51.3%。taxonomy 是活的:usage/vision/security/browser/git/docs/remote/voice/wsl 都是长胖后新增或拆出来的(注:wsl 尚未写进 contributing 的"拆分名单"原文,上游文档滞后)。
+共 23 类全部有脚本看守(generate-readme ↔ contributing.md ↔ reorder-categories.py 三处联动:改序重排要动 CAT_IDS 与 locales 两个 categories 块再再生 README)。条目量分布(全量):ui **1558**(19.7%)、tools 1061、session 567、dev 474、workflow 442、model 419、usage 418、memory 344、theme 310、notify 287、skill 285、fun 261、remote 238、security 216、browser 165、git 161、vision 161、docs 127、market 112、voice 102、**wsl 82**、identity 80、agi 54;前五类合计 51.8%。taxonomy 是活的:usage/vision/security/browser/git/docs/remote/voice/wsl 都是长胖后新增或拆出来的(注:wsl 尚未写进 contributing 的"拆分名单"原文,上游文档滞后)。
 
 **wsl 类抽查(0004 更新)**:80 条(0003:77,本轮 +3),其中 **68 条来自同一作者 173787247**——该 owner 在全表共 70 条(另 2 条落在别的类目),而且**它的条目数一分没动(70→70)**:wsl 的 +3 条全部来自其他作者。所以浓度从 88% 降到 85% 是"别人扩容 + 名单整体 +49.3%"的结果,不是这位作者在扩产。schema 侧 wsl 没有专属变化,全局新增的 `icon` 这 80 条一条也没用;双语类目名 wsl: 'WSL & Windows Interop'/'WSL 与 Windows 互操作',CAT_EMOJI 🐧(entries.mjs:43)。下载转化沿用的仍是旧数据,不能据此断言当前需求。
 
@@ -49,7 +49,7 @@
 | `updates.json` | probe-updates | ❌ **从未进过 git 历史** | 只在 updates-v1 cache;0001 误记为已提交,0002 更正 |
 | `screenshots-declared.json` / `-live.json` | probe-screenshots | ❌(.gitignore)| 刻意不缓存,重算免费 |
 
-**`capabilities.json` 的形状(0002 新增边车)**:`{url: {version, spec, capabilities[], redLines[], scannedAt, tool}}`,`capabilities` ∈ {shell, fs-write, fs-read, network, env, credentials, llm, dynamic-code, host-runtime, subagent}。**0004 的扫描器升级没有落到这份文件上**:仓库里 3843 条记录的 `tool` 仍全部是 `dsh-trust-check@0.1.13`,而 package.json 的 devDependency 已经是 `^0.2.1`(新记录会多带可选的 `previous` 上一版能力与 npm build provenance,见 `lib/capabilities.mjs:36-37`,但这里一条都没有)。文件 47,734 行,`scannedAt` 全部落在 2026-09-24T17:02:46–17:41:52Z,即一次扫描快照;与当前名单 URL join 只有 **3792/6704(56.6%)**——分母从 4489 涨到 6704,是覆盖率被新条目稀释,不是旧扫描失效。语义见 [probes-and-decay/01](../probes-and-decay/01-probe-family.md);它被 build-site 透传进 `docs/plugins.json`,**站内页面不渲染**。
+**`capabilities.json` 的形状(0002 新增边车)**:`{url: {version, spec, capabilities[], redLines[], scannedAt, tool}}`,`capabilities` ∈ {shell, fs-write, fs-read, network, env, credentials, llm, dynamic-code, host-runtime, subagent}。**0004 的扫描器升级没有落到这份文件上**:仓库里 3821 条记录的 `tool` 仍全部是 `dsh-trust-check@0.1.13`,而 package.json 的 devDependency 已经是 `^0.2.1`(新记录会多带可选的 `previous` 上一版能力与 npm build provenance,见 `lib/capabilities.mjs:36-37`,但这里一条都没有)。文件 47,464 行,`scannedAt` 全部落在 2026-09-24T17:02:46–17:41:52Z,即一次扫描快照;与当前名单 URL join 只有 **3764/7924(47.5%)**(57 行指向已删 URL)——分母 4489→6704→7924,是覆盖率被新条目稀释,不是旧扫描失效。语义见 [probes-and-decay/01](../probes-and-decay/01-probe-family.md);它被 build-site 透传进 `docs/plugins.json`,**站内页面不渲染**。
 
 `added-dates.json` 的规则值得单独记一笔(0004 已核对):它是**唯一被人工改写的边车**,键是条目 URL 原文(含 monorepo 子路径),值是首个 added 日期。548 个键里只有 **531 个对得上当前名单**(7.9%),其余 17 个是被改名/换 URL 甩下的旧键,没人清理;也就是说 **6173 条完全靠推导**——build-site 先翻默认语言 README 的 `-p` 历史,再翻 `data/plugins/` 的 `--name-only` 账本,最后用 `lib/added-dates.mjs:15-21` 的 `--diff-merges=first-parent --diff-filter=A` 取最老一次新增;还推不出来就拒绝构建(build-site.mjs:173-176 注释, :240-362,失败分支 :356-362)。人工键的用途因此很窄:**改名/换 URL 时把原日期钉回来**(否则新文件名的首个 added commit 会把老条目重新算成当天),本轮 +25/−2 全是这个用途,活着的键**没有任何值被改动**。
 
@@ -57,7 +57,7 @@ join 键统一是**条目 URL 原文**(含 monorepo 子路径)。URL→repo/sub 
 
 实测数据卫生事实:**28 个 yml 带 CRLF**(2026-10-24;0003 时 15 个,0001 时 11 个,初问 5 个);validateEntries 不查换行风格,js-yaml 容忍之,照常收录。generate-readme 已对 CRLF 免疫(`normalizeNewlines`)。**0002 新增一条同类观察**:`data/updates.json` 既不在 .gitignore 里、也从未被提交——本地跑一次探针就会在 `git status` 里冒出来,和它的三个兄弟(npm-map/readmes/tarballs 都在 .gitignore)不一致。
 
-0004 边车 diff 观察:`added-dates.json` 525→548 键(+25/−2,全是改名钉日期,值零改动);`stars.json` 1472→1464 键(删 9 加 1,只随条目删除减);`capabilities.json` 3844→3843 键(**只减 1、零新增**,仍是 2026-09-24 那次扫描);`downloads.json` 本轮文件未动(624 键);`screenshots.json` 继续整文件轮转。一句话:**边车随名单删除而缩小,从不随名单增长而扩大**——本轮新增 2255 条里,能力披露覆盖 0 条、星标 1 条。
+0004 边车 diff 观察:`added-dates.json` 525→548 键(+25/−2,全是改名钉日期,值零改动);`stars.json` 1472→1464 键(删 9 加 1,只随条目删除减);`capabilities.json` 3844→3843 键(**只减 1、零新增**,仍是 2026-09-24 那次扫描);`downloads.json` 本轮文件未动(624 键);`screenshots.json` 继续整文件轮转。一句话:**边车随名单删除而缩小,从不随名单增长而扩大**——0004 新增 2255 条里能力披露覆盖 0 条;0005 新增 1281 条里同样 0 条,且边车又因删除缩了 22 行。
 
 ## 待回答的问题
 

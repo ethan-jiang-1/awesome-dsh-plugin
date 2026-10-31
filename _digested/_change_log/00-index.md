@@ -15,7 +15,8 @@ _change_log/
 ├── 0001-5e7dc7eb-to-38976afd.md        # 15 天 / 3213 commits / 2286→3552 条
 ├── 0002-38976afd-to-c18ba4a0d.md       # 18 天 / 1436 commits / 3552→4392 条
 ├── 0003-c18ba4a0d-to-4693e5a83.md       # 18 天 / 216 commits / 4392→4489 条
-└── 0004-4693e5a83-to-b4d0049a8.md       # 13 天 / 3450 commits / 4489→6704 条 (+2215)
+├── 0004-4693e5a83-to-b4d0049a8.md       # 13 天 / 3450 commits / 4489→6704 条 (+2215)
+└── 0005-b4d0049a8-to-efe602e7b.md       # 7 天 / 2149 commits / 6704→7924 条 (+1220)
 ```
 
 编号递增。`0000` 只记录开始消化时的 checkout；同步记录从 `0001` 起。本仓库没有版本号，所以文件名用短 hash 对：`0004-4693e5a83-to-<new>.md`。
@@ -27,6 +28,8 @@ _change_log/
 >   https://github.com/awesome-dsh-plugin/awesome-dsh-plugin.git main:refs/remotes/upstream/main
 > ```
 > 该 fetch 用了约 5 分钟(经 tail 管道时不刷新进度,容易误判成卡死;用 `job_output` 等它结束)。macOS 没有 `timeout` 命令,别指望用它兜底。
+>
+> **0005 实测**:同一套 https `ls-remote` + 调优参数 `fetch` 一次成功(7 天 2149 提交、1535 文件)。这一轮**源码零 diff**——`scripts/`、`site/`、`.github/workflows/`、`package.json` 全未动,变化只有名单(+1281/−61)与 `contributing.md` 一节文档;因此六个机制专题按「无对应 diff」处理,唯一例外是 submission-gates 的文档段。另:`census.py` 增加了 JSON-in-.yml 回退(本轮 2 条新条目实际是 JSON),否则分母会静默少 2。
 
 ## 每条 sync 记录的固定结构
 

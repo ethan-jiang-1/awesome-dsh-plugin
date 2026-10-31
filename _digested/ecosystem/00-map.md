@@ -1,29 +1,29 @@
 # ecosystem · 插件生态全景
 
-> 状态:**0004 结构已复核**(census、分类、作者及技术标签已按 `main@b4d0049a8` 重算;下载/星标未新采)。结构快照日期:2026-10-24。
+> 状态:**0005 结构已复核**(census、分类、作者及技术标签已按 `main@efe602e7b` 重算;下载/星标未新采)。结构快照日期:2026-10-31。
 >
-> **数据时效纪律**:census 结构数据已重跑至 6704 条;本轮未运行 fresh_probe,下载/星标不能外推至 2026-10-24。仓库 sidecar `checkedAt=2026-08-19`(stars/downloads)对当前名单只覆盖 1428 / 597 条;能力披露是 2026-09-24 扫描,当前名单 URL join 覆盖 3792/6704(56.6%),不是新扫描。
+> **数据时效纪律**:census 结构数据已重跑至 7924 条;本轮未运行 fresh_probe,下载/星标不能外推至 2026-10-31。仓库 sidecar `checkedAt=2026-08-19`(stars/downloads)对当前名单只覆盖 1416 / 596 条;能力披露是 2026-09-24 扫描,当前名单 URL join 覆盖 3764/7924(47.5%),不是新扫描。**0005 上游源码零 diff**,机制结论沿用 0004。
 
 ## 这个生态是什么
 
 DSH = **DeepSeek Harness**(`deepseek-ai/deepseek-harness`,见根 README.md:7-9):DeepSeek 官方开源的 agent harness,"一切皆插件"——模型、工具、沙箱、会话存储、UI、连 agent loop 本身都是插件位。本仓库是它的社区插件目录(awesome list),收录以 `dsh plugin add` 安装、带 `dsh.bundle` 清单的插件。
 
-所以读这 6704 个条目的正确姿势不是"看一个 awesome 列表",而是审视**一个开源 agent 框架的第三方生态在约 72 天内形成的结构**:收录类别、作者分布、描述特征及每个插件的能力披露。
+所以读这 7924 个条目的正确姿势不是"看一个 awesome 列表",而是审视**一个开源 agent 框架的第三方生态在约 79 天内形成的结构**:收录类别、作者分布、描述特征及每个插件的能力披露。
 
-## 头条事实(2026-10-24,census 结构复核)
+## 头条事实(2026-10-31,census 结构复核)
 
 | 事实 | 数字 |
 |------|------|
-| 生态年龄 | **约 72 天**(2026-08-13 init;8-16 当前留存首录 924 条,其中 807 条来自旧 README→yml 迁移,见 [03 §1](03-growth-maturity.md);census 最近七个有新增记录日期日均 **146**(不是七个日历日均值,含未完结 10-24 与 10-17 的 902 条尖峰),详见 [0004 同步记录](../_change_log/0004-4693e5a83-to-b4d0049a8.md)) |
-| 条目 / 作者 | **6704 条**,4298 个独立 owner,**76.0% 作者只有一件作品**(上一基线:2821 人 / 75.4%) |
-| 官方分类 | 仍 23 类(0004 未增删);ui **1273 (19.0%)**,头部五类(ui/tools/session/dev/workflow)占 **51.3%** |
-| 新队列流向 | census 新队列 3194 条:ui +2.5pp · model +1.1pp · session +0.8pp 上升;dev −1.2pp · vision −0.9pp · market −0.7pp 下降(统计窗口截至当前 checkout,非完整自然周) |
-| 外部热度数据(旧快照) | 星标本轮未重采(最后采于 2026-09-30),下载最后完整自采为 2026-09-12;仓库边车 `checkedAt=2026-08-19` 且对当前名单只覆盖 1428/597 条。全部外部热度只按各自采样日期引用 |
-| **能力披露(历史静态扫描)** | `data/capabilities.json` 为 2026-09-24 扫描(边车内扫描器 `dsh-trust-check@0.1.13`,仓库现已依赖 `^0.2.1`);对当前名单 URL join 覆盖 **3792/6704(56.6%)**;不代表新增/改址项目已扫。能力语义仍是**披露不是判决**,详见旧口径说明 [02 §能力披露](02-tech-landscape.md) |
-| 站点集成 | 站点已有 AdSense(ads.txt 落库、build 变量门控)+ Giscus 评论;0004 新增市场索引导出(见下段),机制见 [site-surface](../mechanics/site-surface/00-map.md) |
+| 生态年龄 | **约 79 天**(2026-08-13 init;8-16 当前留存首录 913 条,其中 807 条来自旧 README→yml 迁移,见 [03 §1](03-growth-maturity.md);census 最近七个有新增记录日期日均 **180**(不是七个日历日均值,含未完结 10-31 与 10-17 的 902 条尖峰),详见 [0005 同步记录](../_change_log/0005-b4d0049a8-to-efe602e7b.md)) |
+| 条目 / 作者 | **7924 条**,5114 个独立 owner,**76.1% 作者只有一件作品**(0005:3892/5114;上一基线:4298 人 / 76.0%) |
+| 官方分类 | 仍 23 类(0005 未增删);ui **1558 (19.7%)**,头部五类(ui/tools/session/dev/workflow)占 **51.8%** |
+| 新队列流向 | census 新队列 4418 条:ui +2.3pp · model +0.7pp · session +0.7pp · identity +0.5pp · agi +0.4pp 上升;dev −1.1pp · market/security/vision −0.6pp 下降(统计窗口截至当前 checkout,非完整自然周) |
+| 外部热度数据(旧快照) | 星标本轮未重采(最后采于 2026-09-30),下载最后完整自采为 2026-09-12;仓库边车 `checkedAt=2026-08-19` 且对当前名单只覆盖 1416/596 条。全部外部热度只按各自采样日期引用 |
+| **能力披露(历史静态扫描)** | `data/capabilities.json` 为 2026-09-24 扫描(边车内扫描器 `dsh-trust-check@0.1.13`,仓库现已依赖 `^0.2.1`);对当前名单 URL join 覆盖 **3764/7924(47.5%)**;不代表新增/改址项目已扫。能力语义仍是**披露不是判决**,详见旧口径说明 [02 §能力披露](02-tech-landscape.md) |
+| 站点集成 | 站点已有 AdSense(ads.txt 落库、build 变量门控)+ Giscus 评论;0004 新增市场索引导出(见下段),机制见 [site-surface](../mechanics/site-surface/00-map.md);0005 无站点/构建 diff |
 | 头部来源(旧快照) | 03 中星标榜来自 2026-09-30 自采,不代表当前排行或增长状态 |
-| 语言/命名 | 中文描述齐备 **6704/6704 (100%)**;仓库名以 `dsh` 开头 **5860/6704 (87.4%)** |
-| 工程形态 | 0004 三处变化:条目 schema 新增可选 `icon`(GitHub 托管位图);名单导出为 **DSH 市场索引 format 1**(`docs/index.json`,随 npm catalog 发布);读写条目的路径统一为 POSIX(修 Windows 上"门禁静默跳过"的 bug)。站点仍是轻量 HTML + JSON catalog(见 [site-surface](../mechanics/site-surface/00-map.md)) |
+| 语言/命名 | 中文描述齐备 **7924/7924 (100%)**;仓库名以 `dsh` 开头 **6970/7924 (88.0%)** |
+| 工程形态 | 0005 **源码零 diff**(`scripts/` 6952 行 / 38 个 `.mjs`、`site/`、10 条 workflow、`package.json` 全部未动);工程形态沿用 0004:可选 `icon`、**市场索引 format 1**(`docs/index.json` 随 npm catalog 发布)、POSIX 路径。站点仍是轻量 HTML + JSON catalog(见 [site-surface](../mechanics/site-surface/00-map.md)) |
 
 ## 一套官方货架 + 三个自定义视角
 
@@ -31,7 +31,7 @@ DSH = **DeepSeek Harness**(`deepseek-ai/deepseek-harness`,见根 README.md:7-9):
 
 1. **按场景分** → [01-scenario-taxonomy.md](01-scenario-taxonomy.md):官方 23 类逐类透视 + 十一个人工分析分组(见明示的分类重组口径)。
 2. **按技术分** → [02-tech-landscape.md](02-tech-landscape.md):34 个技术特征标签(en+zh 描述正则打标,本轮已重算)+ 模型提及 + 多模态/成本描述特征 + **旧能力扫描披露(非新扫描)**。
-3. **首录与作者结构** → [03-growth-maturity.md](03-growth-maturity.md):README→yml 一次性迁移记录、6704 条基线的作者/首录结构,以及注明采样日期的历史星标/下载快照。
+3. **首录与作者结构** → [03-growth-maturity.md](03-growth-maturity.md):README→yml 一次性迁移记录、7924 条基线的作者/首录结构,以及注明采样日期的历史星标/下载快照。
 
 ## 方法与精度声明
 
@@ -49,5 +49,6 @@ DSH = **DeepSeek Harness**(`deepseek-ai/deepseek-harness`,见根 README.md:7-9):
 - [ ] **许可协议/商用审计** → 0001–0004 仍无进展:站点接 AdSense 已确认,插件作者的 license 审计仍未做
 - [ ] **作者社区画像**:作者条目数已更新,但头部作者的社区参与、维护持续性与协作关系尚未抽样定性
 - [ ] **0002 遗留(0004 仍在)**:能力披露的持久化怪状——`capabilities.json` 是提交物,但**没有任何 workflow 回写**、且不在 cache path;夜间的重扫只活在那次运行的 `docs/plugins.json` 里。提交物因此停在 2026-09-24 与 `dsh-trust-check@0.1.13`
+- [ ] **0005 新增**:单周 +1281 条、日均 180,其中 26% 的提交是 README 再生成;批量评审修补(round/batch/post-merge)只改描述文本、不产出门禁规则——人审兜底强度上升但不可核验,值得后续抽样
 - [ ] **0004 新增**:市场索引只收"有 npm 包 + 精确版本 + 发布时间"的条目,纯 GitHub 条目在 format 1 里无表达式;索引的实际覆盖率需要在有 `data/npm-map.json` 的构建环境里跑 `node scripts/build-index.mjs --check` 才能读出,本 checkout 无此缓存
 - [ ] **0002 遗留(0004 仍在)**:batch 上架(单 PR 3 条从 0/100 变 9/100)与"命名/描述同质化"的关系,以及它对评审带宽的实际压力

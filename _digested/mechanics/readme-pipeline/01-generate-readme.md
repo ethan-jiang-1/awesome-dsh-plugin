@@ -26,7 +26,7 @@ readEntries()(坏 YAML 在这里以可读消息退出,不打堆栈)
      data/plugins/ 文件 → 直接拒(pr-check.yml:111-157,#5845))
 ```
 
-**0004 的输入变了,投影没变**:条目 4489→6704,`generate-readme` 照旧只读 `url/name/category/description` 四个字段——`icon` 和 `tarball` 一样**不进 README**(它只去 `docs/plugins.json`),README 行格式、TOC 生成、锚点算法一行未动。所以本轮 README.md 那 2574 行 diff 可以完全由数据与手写外壳解释,不需要假设生成器改过。
+**0005 的输入变了,投影没变**:条目 6704→7924,`generate-readme` 照旧只读 `url/name/category/description` 四个字段——`icon` 和 `tarball` 一样**不进 README**(它只去 `docs/plugins.json`),README 行格式、TOC 生成、锚点算法一行未动。所以本轮 README.md 的 +1220 行可以完全由数据解释,不需要假设生成器改过(块外一行都没动)。
 
 ## 细节摘录
 

@@ -1,10 +1,10 @@
 # readme-pipeline · README 生成
 
-> 状态:**0004 已复核**。`generate-readme.mjs` 本轮**零 diff**(仍 215 行)——README 投影逻辑一个字没改;变的全是输入(条目 4489→6704)与手写外壳(多了一段市场索引提示)。`.github/workflows/sync-readme.yml` 106→**112 行**,只多了 `npm ci` 的 registry env 块,检出/重试/报错三段逻辑原样。最近核验:`b4d0049a8`,2026-10-24。(0001 曾记本专题立项以来最大变更:README 不再随 PR 提交,改由 main 合并后 bot 重生成。)
+> 状态:**0005 无对应 diff**。`generate-readme.mjs` 仍 215 行、`sync-readme.yml` 仍 112 行,两者**零 diff**;变的全是输入(条目 6704→7924,README 各 +1220 行)。最近核验:`efe602e7b`,2026-10-31。(0001 曾记本专题立项以来最大变更:README 不再随 PR 提交,改由 main 合并后 bot 重生成。)
 
 ## 定位
 
-根目录双语 README(**6894 / 6893 行**,2026-10-24 实测;0003 时 4676 / 4675,0002 时 4579 / 4578,0001 时为各 3742 行)是 `data/plugins/*.yml` 的**投影**:marker 块(`<!-- BEGIN TOC -->…<!-- END TOC -->`、`<!-- BEGIN PLUGINS -->…<!-- END PLUGINS -->`)内由脚本再生,块外(badges、banner、intro、Contributing/Badge/Disclaimer)永远手工维护。两个 locale 的 marker 落在同一偏移(TOC 48-75、PLUGINS 79-6852);PLUGINS 块 6772 行 = **6704 条条目** + 23 个 `### ` 标题 + 45 个结构空行,所以"README 有多长"这个数可以直接反推名单规模。**0004 的块外变化是手写的**:intro 里多了一段"这份列表同时是插件市场索引"的 blockquote(两种语言各一段),外加一个多余空行——生成器不知道这些字的存在,也不会覆盖它们。
+根目录双语 README(**8114 / 8113 行**,2026-10-31 实测;0004 时 6894 / 6893,0003 时 4676 / 4675,0001 时为各 3742 行)是 `data/plugins/*.yml` 的**投影**:marker 块(`<!-- BEGIN TOC -->…<!-- END TOC -->`、`<!-- BEGIN PLUGINS -->…<!-- END PLUGINS -->`)内由脚本再生,块外(badges、banner、intro、Contributing/Badge/Disclaimer)永远手工维护。两个 locale 的 marker 落在同一偏移(TOC 48-75、PLUGINS 79-8072);PLUGINS 块 7992 行 = **7924 条条目** + 23 个 `### ` 标题 + 45 个结构空行,所以"README 有多长"这个数可以直接反推名单规模。**0005 的块外零变化**:双语 README 的前 78 行与 0004 逐字节相同(TOC 与 PLUGINS 的起始偏移都没挪),0004 手写加入的市场索引 blockquote 仍在原位。
 
 **0001 重构(仍生效)**:投稿改为 **yml-only**——"That one file is the whole submission"(contributing.md:26)。投稿者**不再需要**跑 `generate-readme`(也不再提交 README);PR 合并后由 `.github/workflows/sync-readme.yml` 在 main 上重生成并以 bot 身份提交(`permissions: contents: write`,sync-readme.yml:32-33)。pr-check 的 `--check` 语义收窄:**仅当 PR 自己手改了 README 才要求与 yml 匹配**(pr-check.yml:158-213;0002 起判定对象从 merge ref 改为 PR head,见 [submission-gates/01](../submission-gates/01-pr-check-and-guard.md));yml-only PR(新常态)由 runner 现场重新生成以保持树一致。动机:要求 PR 内 regenerate 曾使同分类的提交永远互相冲突——8-30 当天 296 个 open PR 里 218 个卡在生成行上,"none of them over anything a human had written"。
 

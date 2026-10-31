@@ -1,6 +1,6 @@
 # 01 · build-site 主干与部署链
 
-> 基线:`upstream@b4d0049a8`(0004 复核,2026-10-24)。行号 = scripts/build-site.mjs(**1291 行**,1174→1256→1291)除注明外。0001 核心变更:README 生成归属重构(sync-readme.yml)、AdSense/Giscus 注入、并发组拆分、added-date 双账本、plugins.json 新增 version。0002 核心变更:能力披露三字段进 plugins.json、下载窗口显式化、added-date 加"改写不算新增"守卫、slug/giscus term 大小写修复、site-health、`workflow_run` + 探针白名单。**0003(#6105):首页/分类页改为首 24 卡片 SSR,其余从带 hash URL 的 JSON catalog 虚拟窗口化加载,同时提供 no-JS 与 fetch-failure 回退。** **0004:新增市场索引产物(`docs/index.json`,用 host 端同一个 parser 校验)、卡片安装命令补上 tarball 一级(#7752)、`skip_probes` 手动部署路径、CI 用 npmjs 覆盖 lockfile 里的 npmmirror 源;条目数 4489 → 6704。**
+`0005 对本文件零 diff`;基线:`upstream@efe602e7b`(2026-10-31)。行号 = scripts/build-site.mjs(**1291 行**,1174→1256→1291)除注明外。0001 核心变更:README 生成归属重构(sync-readme.yml)、AdSense/Giscus 注入、并发组拆分、added-date 双账本、plugins.json 新增 version。0002 核心变更:能力披露三字段进 plugins.json、下载窗口显式化、added-date 加"改写不算新增"守卫、slug/giscus term 大小写修复、site-health、`workflow_run` + 探针白名单。**0003(#6105):首页/分类页改为首 24 卡片 SSR,其余从带 hash URL 的 JSON catalog 虚拟窗口化加载,同时提供 no-JS 与 fetch-failure 回退。** **0004:新增市场索引产物(`docs/index.json`,用 host 端同一个 parser 校验)、卡片安装命令补上 tarball 一级(#7752)、`skip_probes` 手动部署路径、CI 用 npmjs 覆盖 lockfile 里的 npmmirror 源;条目数 4489 → 6704。**
 
 ## 阶段流水
 
@@ -50,7 +50,7 @@
 
 ## 已知文档漂移
 
-- 详情页量随当前名单更新:0003 基线 4489 条目、0004 基线 6704 条目(`git ls-tree HEAD data/plugins/` 的 yml 数),按 ×2 推算约 1.34 万个静态详情页;首页与分类页现各多一个 JSON catalog 资源,另加一个全站 `index.json`。精确构建输出总数仍无 CI build log 留档。
+- 详情页量随当前名单更新:0003 基线 4489 条目、0004 基线 6704、0005 基线 7924(`git ls-tree HEAD data/plugins/` 的 yml 数),按 ×2 推算约 1.59 万个静态详情页;首页与分类页现各多一个 JSON catalog 资源,另加一个全站 `index.json`。精确构建输出总数仍无 CI build log 留档。
 
 - build-site.mjs:9 注释声称 "re-syncs the plugin-count figure inside every README"——build 全文写盘调用无一触及 README,计数徽章走 shields endpoint。**过期注释,行为是「build 从不碰源文件」**;0001 后这句话有了例外形态:写 README 的是 sync-readme.yml,不是 build。
 - AdSense 头注入(`adHead()`,build-site.mjs:79,token 定义 :87,变量未设时返回空串,`__AD_HEAD__\n` 连换行一起替换——**未设变量时产物与无广告构建逐字节相同**;注入点 :719/:776/:1056,privacy-template 没有)与 Giscus 评论懒加载(`mapping:'specific'` 按 `plugin:<slug>` 映射 Discussion、IntersectionObserver 400px 触发才注入 script——**不滚动=不联系第三方**;enabled 时四 ID 强校验)。
@@ -64,7 +64,7 @@
 - [ ] 0002:capabilities 三字段写进了 plugins.json,但**站内页面不渲染**(模板无对应 token)——确认消费方只有 dsh-market
 - [ ] 0003:site-health 只比线上页面数与 `data/plugins/` 条目数;未见它校验生成 catalog 是否完整,应评估坏/缺 catalog 的部署能否被发现(0004 改成数 sitemap 后仍不覆盖)
 - [ ] catalog JSON 的总输出字节及 Pages 实际部署/边缘缓存命中情况(当前只按构建逻辑确认,未从 production 下载测量)
-- [ ] 0002:约 1.34 万个详情页是 6704×2 的推算值,没有构建日志佐证(UNVERIFIED)
+- [ ] 0002:约 1.59 万个详情页是 7924×2 的推算值,没有构建日志佐证(UNVERIFIED)
 - [ ] 0004:`docs/index.json` 的实际条目数与字节数无法本地复算——工作树里 `docs/` 与 `data/npm-map.json` 都被 .gitignore,只能引用提交信息里的实测(描述截断后 3.1 MB → 2.34 MB)**(UNVERIFIED)**
 - [ ] 0004:`skip_probes` 碰到"有 npm/version 但无 `publishedAt`"的旧缓存会让 `indexBuilt=false`、不写 `docs/index.json`,而发布步骤无条件读它(`publish-catalog.mjs:130`)——推断,未实测
 - [ ] 0004:索引每条 `homepage` 指向的 `/p/<slug>/` 可能还没生成(README 投影滞后窗口,见 00 · 地图),需一次真实构建或线上抓页面确认(分类页字面 `__INDEX_LINE__` 已由线上确认,见上)
