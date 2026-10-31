@@ -179,6 +179,15 @@
       "npm_last_month": 8561,
       "note": "目录外；npm 是 bundle 包的月下载"
     },
+    "profile/18_视觉资产-dsh-wallpaper-engine": {
+      "repo": "elysia395/dsh-wallpaper-engine",
+      "npm_pkg": "dsh-plugin-wallpaper-engine",
+      "stars": 4189,
+      "forks": 93,
+      "open_issues": 28,
+      "pushed_at": "2026-10-31T07:51:27Z",
+      "npm_last_month": 109268
+    },
     "shell/11_桌面应用-dsh-desktop": {
       "repo": "dataelement/dsh-desktop",
       "npm_pkg": null,

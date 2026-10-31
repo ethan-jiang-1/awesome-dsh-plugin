@@ -2,7 +2,7 @@
 title: "profile · profile 即产品"
 domain: reshape-product
 kind: charter
-positioning: "profile 侧宪章：一套 bundle + 默认值 + 首启 + 分发，用 dsh web 在浏览器里启动。七种形态。"
+positioning: "profile 侧宪章：一套 bundle + 默认值 + 首启 + 分发，用 dsh web 在浏览器里启动。八种形态。"
 takeaway: "发货单位是 bundle；装成功 ≠ 挂载成功；接管/进口型也要可逆、可诊断。"
 read_when: "要做发行版/全家桶；或判断该发插件、发 profile，还是发独立应用。"
 status: observed
@@ -15,7 +15,7 @@ budget: 160
 > **分工**:本 lever 只收**浏览器启动的 profile 级产品**;[`plugin` 侧](../plugin/README.md) 收能装进任何 profile 的**客人**;[`shell` 侧](../shell/README.md) 收换表层/自带宿主的**独立应用**。**先分 lever,再看编号。**
 > **状态**:`observed`(机制已核) · **基线**:DSH `0.2.1-rc.3` · 名单 @ `efe602e7b` · **指标**:2026-10-31 重采
 > **范围**:兼容 **DSH `0.2.x`**;能把一整套 bundle 装进某个 profile,并在浏览器里交付完整体验。
-> **借阅入口**:想判归属 → [§2 判据](#2-入桶判据) · 想抄 → [§4 必抄 8 条](#4-profile-侧必抄-8-条) · 想回源 → [§3 坐标](#3-卡表)
+> **借阅入口**:想判归属 → [§2 判据](#2-入桶判据) · 想抄 → [§4 必抄 9 条](#4-profile-侧必抄-9-条) · 想回源 → [§3 坐标](#3-卡表)
 
 ---
 
@@ -52,11 +52,12 @@ budget: 160
 
 ## 3. 卡表
 
-**按 npm 近 30 天下载排序。** 七张卡是**七种形态**——前四种是"怎么把自己的东西装成一件",后三种是"换宿主 / 进口别人的 / 装一条闭环"。
+**按 npm 近 30 天下载排序。** 八张卡是**八种形态**——前四种是"怎么把自己的东西装成一件",后四种是"换宿主 / 进口别人的 / 装一条闭环 / 做视觉资产"。
 
 | 卡 | 产品 | npm 月下载 | ★(2026-10-31) | 判据 | 形态 | **能借鉴什么** |
 |---|---|---|---|---|---|---|
 | [`界面套件`](./12_界面套件-dsh-codex-ui.md) | `MichengAI/dsh-codex-ui` | **119,610** | 250 | F1(单包多内核)·F2·F3(默认值/共存) | 单包六微内核,重做整套界面 | 子插件独立启停;fail-closed 清理(0 DOM);只吃官方 primitive/slot |
+| [`视觉资产`](./18_视觉资产-dsh-wallpaper-engine.md) | `elysia395/dsh-wallpaper-engine` | **109,268** | 4,189 | F1(外观层)·F2·F3(预设分发) | 本机 WE 壁纸 + 液态玻璃 + 字体/吉祥物，零 token | 外观零 token 并主动声明；重层拆成可停用子包；预设整套导入导出=分发单位；按“本进程能否渲染”分档 |
 | [`全家桶`](./11_全家桶-dsh-web.md) | `zhu1090093659/dsh-web` | **99,694** | 9,865 | F1·F2·F3(四项全中) | 20+ 自研 bundle + 自家商店 | 发货单位是 bundle;`exit 0` 但 bundles 为空 = 静默半挂载;默认皮肤即身份 |
 | [`闭环装配`](./17_闭环装配-better-session.md) | `morlay/dsh-plugin` | **8,561** | 9 | F1(闭环)·F2·F3(行+配置同居) | 一个 bundle 装配一条闭环（改/重试/撤回/分支） | 装配数据（`rows`）是发布物;只挂官方槽位不 fork;preset 行清单可归包 |
 | [`组合包`](./13_组合包-dsh-suite.md) | `STARDUSTLC666/dsh-suite` | **8,230** | 3 | F1·F2·F3(默认值/更新) | 18 个独立插件 + 共享默认配置 | 固定组件版本;整包更新;扁平化无 git 子依赖 |
@@ -76,14 +77,15 @@ budget: 160
 | `界面套件` | `MichengAI/dsh-codex-ui` | `@michengai/dsh-codex-ui` | `MichengAI__dsh-codex-ui.yml` (`ui`) | `dsh plugin --profile web add @michengai/dsh-codex-ui@latest --registry=https://registry.npmjs.org/` → 重启 → **硬刷新** | `_证据/01_产品聚合-原始挖掘.md` §三 | 六个子插件是否独立分包;与 ds-bot 的冲突检测 |
 | `全家桶` | `zhu1090093659/dsh-web` | `@linxin666/dsh-web-all`(聚合)+ 20 个 `@linxin666/dsh-*` | `zhu1090093659__dsh-web-ui--packages-dsh-web-ui-all.yml` (`ui`) | `dsh plugin --profile web add @linxin666/dsh-web-all@latest` → **重启** `dsh web`;或 GitHub 源(二选一) | `_证据/01_产品聚合-原始挖掘.md` §二 | 聚合包最终 bundle 数;patch 是追加还是改 `dsh-web-app` 的行 |
 | `组合包` | `STARDUSTLC666/dsh-suite` | `@stardustlc/dsh-suite` | `STARDUSTLC666__dsh-suite.yml` (`workflow`) | `dsh plugin --profile desktop add @stardustlc/dsh-suite`(web 换 profile 名)→ 重启 | `_证据/01_产品聚合-原始挖掘.md` §三 | 组合补丁的默认值清单;共同加载检查方式 |
+| `视觉资产` | `elysia395/dsh-wallpaper-engine` | `dsh-plugin-wallpaper-engine` | `elysia395__dsh-wallpaper-engine.yml` (`theme`) | `dsh plugin --profile web add dsh-plugin-wallpaper-engine`（装前退出 DSH；桌面端换 `desktop`） | `_证据/03_视觉资产-原始挖掘.md` | Scene 降级链档位；预设格式与跨版本兼容；对 better-sidebar 的硬依赖 |
 | `闭环装配` | `morlay/dsh-plugin` | `@morlay/better-session` | **无**（目录外） | `dsh plugin --profile web add "@morlay/better-session"` | `_证据/02_产品形态-原始挖掘.md` §三 | 五个 bundle 的下载分布；子包版本是否强制同版 |
 | `接管套件` | `sidleo/dsh-plugins-plus` | `@sidleo3/dsh-plugins-plus` | **无**（目录外） | `dsh plugin --profile <profile> add @sidleo3/dsh-plugins-plus` → 重启 | `_证据/02_产品形态-原始挖掘.md` §一 | 接管引擎的 pre-step 时序；`/api/…/log` 字段 |
 | `套件市场` | `Sivan757/dsh-agent-plugins-market` | `dsh-agent-plugins-market` | `Sivan757__dsh-agent-plugins-market.yml` (`market`) | `dsh plugin --profile <name> add dsh-agent-plugins-market` → 重启 | `_证据/02_产品形态-原始挖掘.md` §二 | 十种布局的兼容分级；hooks 与宿主门禁的优先级 |
 | `聚合补丁` | `hyzyn/dsh-plugin-kit` | `@hyzyn/dsh-all`(+ 11 个插件 + 1 库) | `hyzyn__dsh-plugin-kit--packages-*.yml`(逐包) | `dsh plugin --profile web add @hyzyn/dsh-all` → 重启 | `_证据/01_产品聚合-原始挖掘.md` §三 | patch 形态;Profile 卡片与上游模板的关系 |
 
-## 4. profile 侧必抄 8 条
+## 4. profile 侧必抄 9 条
 
-**这八条只在"你发的是 profile 级产品"时成立**;发单插件抄它们会抄成过度设计。前 6 条来自聚合型样本,后 2 条来自接管型与进口型样本。
+**这九条只在"你发的是 profile 级产品"时成立**;发单插件抄它们会抄成过度设计。前 6 条来自聚合型样本,第 7–8 条来自接管型与进口型,第 9 条来自视觉资产。
 
 1. **发货单位是 bundle,不是插件**:包里带 `dsh.bundle.patch`,让用户把它加进 `dsh.profile.bundles`——**不要**教用户手改 cordis 配置。
 2. **装成功 ≠ 挂载成功**:给一条读回命令(`dsh --profile <name> --dump-config`);**`exit 0` 不算数**——半挂载(包在 `node_modules`,bundles 里没那行)是这类产品最典型的静默失败。
@@ -92,10 +94,11 @@ budget: 160
 5. **默认值就是身份**:默认皮肤、默认预设、默认语言、默认导航——用户第一眼看到的是它们,不是你的功能列表。
 6. **`desktop` 不是你的名字**:官方 Electron 应用独占它(CLI 拒绝 boot/config-dump);桌面入口要按"应用内安装"单独写。
 
-**后两条来自 2026-10-31 补的接管型与进口型样本:**
+**后三条来自 2026-10-31 补的接管型、进口型与视觉资产样本:**
 
 7. **替换宿主自带实现要可逆**:停原行 + 加己行 + 按 preset 生效;**回退 = 删掉覆写行**,不是写一份"等于出厂"的配置——后者的默认值永远跟不上上游。启用前后都要能一眼看出"现在是谁在生效"。
 8. **分发的单位可以不是你的 bundle**:别的 agent 的套件也能当安装单位;**就地读、不转换**才能跟上游;坏声明要**诊断后跳过**,绝不半挂载。
+9. **视觉资产要零 token,并且可拆**:外观类产品不注册工具、不注入提示,并**主动声明**;重的那一层(玻璃/特效)拆成可单独停用的子包,停用后回到原生外观;外观预设整套导入导出——**预设就是皮肤的分发单位**。
 
 ## 5. 普查记录:这一桶为什么薄,以及 2026-10-31 补了什么
 
@@ -113,6 +116,7 @@ budget: 160
 | `morlay/dsh-plugin` | 一个 bundle 装配一条会话闭环(5 包);月下载 **8,561** | **收**(闭环装配) |
 | `sidleo/dsh-plugins-plus` | 按 preset 停掉宿主自带行,换成 `-plus` 行;月下载 **6,094** | **收**(接管套件) |
 | `Sivan757/dsh-agent-plugins-market` | 十种外部套件布局就地读成可安装单位;月下载 **4,752** | **收**(套件市场) |
+| `elysia395/dsh-wallpaper-engine` | 本机 WE 壁纸 + 玻璃 + 字体/吉祥物 + 预设导入导出;★ **4,189** / 月下载 **109,268** | **收**(视觉资产) |
 | `hust-open-atom-club/oh-dsh` | "社区发行版:TUI、桌面端与 Web UI 统一体验" | **不收**:自带运行时与安装包 → `shell` 侧 |
 | `magian1127/deepseek-harness-zh_pro` | 综合性增强插件,2,360 下载 | **不收**:单插件增强 |
 | `whyihaveyou/dsh-suite` | 活目录 + 内置商店 + 脚手架 + 工作台(开发中) | **不收**:产品是目录/商店(插件侧) |
@@ -125,7 +129,7 @@ budget: 160
 - [ ] `dsh-web` 之外的**企业内部分发**:把 profile 当交付物(环境码/模板/锁定 bundle 列表)的实践——候选 `@huaweidevtools/aishell-dsh-base`(月 1,386,**未过门槛**,待看它的 base layer 语义)
 - [ ] **发行版 overlay**:`amplifthq/oh-my-dsh`(★16 / 月 481)自称"overlay, not a fork"、装两个独立 profile——**两头都差一点**,先判它算 profile 还是 shell
 - [ ] 官方 `desktop` profile 的**包结构**(它是唯一由上游自己交付的 profile 产品,可当"官方怎么做"的参照)
-- [ ] 皮肤/预设/宠物这类**产品资产**是否也在 profile 里(还是在 `~/.dsh` 的数据区)——`RevolutionLA/dsh-dream-skin`(★297 / 月 41,441)是现成样本,但它只换皮肤,暂按插件侧看
+- [x] 皮肤/预设这类**产品资产**已收:`18_视觉资产`(★4,189 / 月 109,268)证明外观是独立的产品形态;第二候选 `RevolutionLA/dsh-dream-skin`(★297 / 月 41,441)、`WYH66666666/DSH-Transparent-UI`(★428)见 BACKLOG
 
 **npm 反向普查(2026-10-31)**:`keywords:dsh-bundle` 有 322 个包;按月下载排前 20 后逐个人工判形态,过门槛且成卡的 3 个、进候选池的 4 个(见 [`BACKLOG`](../BACKLOG.md))。星标普遍 <20,说明**这类产品的"影响力"只能按下载看**。
 
@@ -142,7 +146,7 @@ budget: 160
 
 ## 7. 边界
 
-**收**:一套 bundle(或等价的分发单位)+ 浏览器启动 + 自带默认值/首启/分发,且有可复核的影响力证据。**七种形态**:全家桶 / 界面套件 / 组合包 / 聚合补丁 / 接管套件 / 套件市场 / 闭环装配。
+**收**:一套 bundle(或等价的分发单位)+ 浏览器启动 + 自带默认值/首启/分发,且有可复核的影响力证据。**八种形态**:全家桶 / 界面套件 / 组合包 / 聚合补丁 / 接管套件 / 套件市场 / 闭环装配。
 
 **不收**:单插件增强(→ [`plugin`](../plugin/README.md));终端表层 / 自带运行时 / 安装包(→ [`shell`](../shell/README.md));只支持 `0.1.x` 的样本。
 

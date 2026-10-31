@@ -141,10 +141,10 @@ budget: 180
 | lever | 收什么 | 卡数 | 入口 |
 |---|---|---|---|
 | `plugin/` | 能装进任何 profile 的客人 | 11 | [`plugin/README`](./plugin/README.md) |
-| `profile/` | 一套 bundle，浏览器里交付 | 7 | [`profile/README`](./profile/README.md) |
+| `profile/` | 一套 bundle，浏览器里交付 | 8 | [`profile/README`](./profile/README.md) |
 | `shell/` | 换表层 / 自带宿主 | 6 | [`shell/README`](./shell/README.md) |
 
-全量 24 张卡 + 1 个观察样本的坐标（repo / npm / 目录条目 / 装法 / 已挖 / 未挖）在 [`catalog.md`](./catalog.md) 与各 lever README 的坐标表。
+全量 25 张卡 + 1 个观察样本的坐标（repo / npm / 目录条目 / 装法 / 已挖 / 未挖）在 [`catalog.md`](./catalog.md) 与各 lever README 的坐标表。
 
 ## 7. 三条可复用的规律(卡片的公共结论)
 

@@ -6,7 +6,7 @@ positioning: "候选池：快筛过了门槛但还没深挖的，和没过门槛
 read_when: "要补新样本、或想知道某个产品为什么还没成卡。"
 status: living
 updated: 2026-10-31
-budget: 64
+budget: 70
 ---
 # BACKLOG · 候选池
 
@@ -32,6 +32,8 @@ budget: 64
 | `amplifthq/oh-my-dsh` | <https://github.com/amplifthq/oh-my-dsh> | shell/profile | ★ 16 · npm 月 481 | "overlay, not a fork" 发行版，装两个独立 profile；两条门槛都差一点，先判它算 profile 还是 shell |
 | `@huaweidevtools/aishell-dsh-base` | <https://github.com/yusheng-g/aishell-dsh-plugins> | profile | ★ 未采 · npm 月 1,386 | 企业 profile base layer（Huawei scope，叠在 dsh-base 上）；README 缺失，待采语义 |
 | `yhny1001/dsh-rp-distribution` | <https://github.com/yhny1001/dsh-rp-distribution> | profile | ★ 8 · 包未发布 | 垂直 RP 发行版（公共契约 + 包信任 + 组合发行）；npm 未发布，等可安装再判 |
+| `WYH66666666/DSH-Transparent-UI-Plugin` | <https://github.com/WYH66666666/DSH-Transparent-UI-Plugin> | profile | ★ 428 · npm 月 451 | 液态玻璃主题层（顶栏/侧栏/输入框/轨迹全玻璃）；与 `18_视觉资产` 同形态，先判是否需要第二张或作“外观类”对照 |
+| `anywhere-labs/dsh-desktop` | <https://github.com/anywhere-labs/dsh-desktop> | shell | ★ 34,231 | DSH 桌面端，全生态星标最高；归属 **shell** lever，建议在 `shell/README` §5 评估，不进本桶 |
 | `magian1127/deepseek-harness-zh_pro` | <https://github.com/magian1127/deepseek-harness-zh_pro> | plugin | ★ 36 · npm 月 5,580 | "综合增强"是否算产品化有争议（改默认语言/提示词，但仍是单插件）；先看它有没有自己的分发/首启 |
 
 ## 2. 观察样本（未过门槛，机制独特）
@@ -47,6 +49,8 @@ budget: 64
 | `KERBALMans/dsh-modpack` | <https://github.com/KERBALMans/dsh-modpack> | plugin | ★ 4 · 无 npm 计量 | Minecraft 整合包式：勾插件 → 打包 → 别人导入即还原整套环境（`.dshmodpack.json`） |
 | `ljh257110/dsh-local-installer` | <https://github.com/ljh257110/dsh-local-installer> | plugin | ★ 0 · npm 月 842 | 在设置页里选 `.tgz` 装插件、自动探测 profile、回显 CLI 输出；"不用终端"的安装面 |
 | `objectivex666/dsh-settings-search` | <https://github.com/objectivex666/dsh-settings-search> | plugin | ★ 1 · 无 npm 计量 | 按关键词/拼音/意图/AI 找设置并直达；"让用户理解这个插件"的一条支线 |
+| `yjh051108/dsh-routing-suite` | <https://github.com/yjh051108/dsh-routing-suite> | plugin | ★ 6,996 · npm 月 4,476 | 注入器 + 思维模式路由 + 分级任务协议三件套；但 DSH Target `<0.2.0`（0.1.x）→ **C1 不过**，留作“最亮的 0.1.x 套装”观察 |
+| `Ebony-Vinyl/EAC-Pack` | <https://github.com/Ebony-Vinyl/EAC-Pack> | profile | ★ 178 · 无 npm 计量 | Desktop 整合包：61 子插件 + 30 皮肤 + 10 组 Prompt，资源包带 SHA256 与级联安装；交接状态未公开发布，**暂不可安装** |
 | `sjh9714/dsh-movein` | <https://github.com/sjh9714/dsh-movein> | plugin | ★ 17 · npm 月 1,251 | 把 Claude Code 配置迁入 DSH（dry-run + 冲突保护）；接近门槛，先观察 |
 
 ## 3. 没过门槛（留档，避免重复搜）
