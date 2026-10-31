@@ -36,6 +36,11 @@ updated: 2026-10-31
 | `Nwflower/dsh-file-claim` | 7 | — | 6 → 7 | 331 | session | 2 | 4 |
 | `Mlte0907/dsh-teams-x` | 3 | — | — | 89 | workflow | 1+2 | 9 |
 | `zbzbhs/dsh-remote-agent` | 4 | — | — | — | remote | 3 | 0 |
+| `IKEASven69/dsh-takeover` | 0 | 0 | — | 0（npm 404） | session | 3（会话接力） | 0 |
+| `february2015/dsh-taskswarm` | 3 | — | — | 0（包已下架） | workflow | 2 | 0 |
+| `2507483326/dsh-eteams` | 2 | — | — | 1,251 | workflow | 1 | 0 |
+| `Noelune/dsh-agent-relay` | 4 | — | — | latest 0.5.0（0.6–0.8 未发布） | remote | 3 | 6 |
+| `PerryLink/dsh-team-rooms` | 3 | 0 | — | 2,099 | session | 2 | 4 |
 
 > **给未来的读者**:星标在这门生意里是**滞后指标**。`dsh-agent-teams` 的通行度几乎是第二名的 9 倍,但在 2026-08 的快照里它只有 573 星,和第八名只差一个数量级。**任何拿静态 star 排序的资料,读起来都要减一个月。**
 
