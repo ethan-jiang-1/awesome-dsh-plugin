@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // `_leverage/` 自校验：严格 UTF-8、LF 换行与单个结尾换行、相对链接与锚点、
-// 两册的 frontmatter 契约、产品线 catalog 与 lever 卡表的双向一致、卡片影响力门槛。
+// 两册的 frontmatter 契约、产品线 catalog 与 lever 卡表的双向一致、卡片影响力门槛，
+// 以及产品线每张样本卡必须有「它想干什么 · 为什么值得借鉴」一节（意图/意义/用户价值/表达）。
 // 自包含：只读 `_leverage/` 这一棵树，不依赖 `_digested/` 的任何脚本或数据。
 // 用法：node _leverage/verify.mjs   （在仓库根执行）
 
@@ -117,6 +118,9 @@ const STATUSES = new Set(['observed', 'inferred', 'open', 'living']);
 const FM_REQUIRED = ['title', 'domain', 'kind', 'positioning', 'read_when', 'status', 'updated'];
 const TAKEAWAY_REQUIRED = new Set(['card', 'sample', 'playbook']);
 const BORROW_HEADING = /^#{2,3} .*(借鉴|搬走|借用|照抄|食谱|配方|移植)/m;
+// 每张样本卡开头必须回答「它想干什么 / 为什么值得借鉴」（意图 · 意义 · 用户价值 · 表达）。
+// 逐卡补齐期间是提醒；补齐后改为 fail（见 goal：24 张卡）。
+const WHY_HEADING = /^## 它想干什么 · 为什么值得借鉴$/m;
 
 function parseFrontmatter(text) {
   if (!text.startsWith('---\n')) return { error: '缺 frontmatter（文件必须以 --- 开头）' };
@@ -181,6 +185,9 @@ for (const rel of mdFiles) {
   }
   if ((meta.kind === 'card' || meta.kind === 'sample') && !BORROW_HEADING.test(text)) {
     fail(rel, 1, 'card/sample 必须有借用节（标题含 借鉴/搬走/借用/照抄/食谱/配方/移植）');
+  }
+  if (rel.startsWith(PRODUCT_PREFIX) && meta.kind === 'sample' && !WHY_HEADING.test(text)) {
+    fail(rel, 1, '缺「它想干什么 · 为什么值得借鉴」一节（意图 / 意义 / 用户价值 / 表达）');
   }
   if (meta.budget) {
     const budget = Number(meta.budget);

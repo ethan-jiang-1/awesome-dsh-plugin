@@ -7,7 +7,7 @@ takeaway: "`--update` self-first：每次最多装一个兼容组件，绝不跨
 read_when: "要做终端表层；或要设计 profile 自带更新器与包管理器布局适配。"
 status: observed
 updated: 2026-10-31
-budget: 185
+budget: 191
 ---
 # 终端工作区 · SeekTTY:表层是自己的,状态是别人的
 
@@ -26,6 +26,16 @@ budget: 185
 > **再深挖去哪**:`docs/release-v1.3.0.md`、`docs/pnpm11-layout-acceptance.md`、`docs/terminal-background-compatibility.md`
 
 ---
+
+## 它想干什么 · 为什么值得借鉴
+
+**意图。** 把整个表层换成一个**终端工作区**,同时把所有权写进第一段:界面归它,Agent、会话、模型路由、权限、profile 与插件加载仍归 Harness("SeekTTY is the terminal surface; Harness remains the owner of runtime state.")。它要解决的麻烦是:想用终端,就得自己拼 profile、自己猜 pnpm 版本、自己盯着 dsh 升级,而现成的桌面壳又重到要装一个应用。它明确不做的,是替宿主做决定、动全局 pnpm 配置或复制宿主包。
+
+**意义。** 它补的是"换表层但不换宿主"这条中间路线:能力全部从运行中的 Harness 发现(models / providers / presets / tools / skills / MCP),所以上游或第三方 bundle 加的功能会自动出现在终端里,不需要它发版。这让壳和宿主可以长期共存,而不是每次升级都打一次架。它还改了两条惯例:兼容性写成**三档 + 一个未知档**(低于下限拒、等于已测正常、高于已测提示但只自动装显式区间、未知契约 fail closed),更新器则 self-first 且"每次最多装一个兼容组件"。
+
+**用户价值。** 装之前,终端用户面对的是 `dsh --profile`、被官方 Electron 应用独占的 `desktop` 名,以及 pnpm 11 的 Global Virtual Store 在**应用启动前**就把 loader 弄挂;装之后,`deepseek` 直接起一个工作区,`deepseek --update` 先查自己再查宿主,失败不挡启动。最觉得值的是 tmux/SSH 用户:按一次 **F3** 或 `/mouse native`,历史交给终端,滚动、搜索、选择全部恢复成终端原生的手感。代价由双方各担一点:用户得知道它只测到 `0.2.0-rc.2`、低于下限会被直接拒绝,作者则要长期维护"一次一个组件"的兼容矩阵,而且密钥**不回读、不预校验**,写错要到第一次真实请求才暴露。
+
+**表达（界面与交互）。** 第一屏是像素鲸鱼欢迎页(可关),没有可用 Provider 时给三个出口——官方快速配置 / 共享 Provider 管理器 / 稍后配置;输入掩码、直接交给 `credentials.set`、不回读也不落 settings,Esc 推迟后仍能进 `/settings`、`/plugin`,**待发文本与附件保留**,配好自动继续。日常入口是 `/` 命令菜单,把 SeekTTY 命令、Host 命令与用户 Skill 合并成一个列表。切换原生模式时的纪律最像产品:顺序回填带进度,Esc **只停止回填、不停会话**,已写入 scrollback 的历史不重着色不重排,切回只用 Ctrl+L 刷新尾部;更新默认 `SEEKTTY_UPDATE=check`(跑完提示,`=0` 才关),Clarify 的草稿 **15 分钟**无交互即静默过期。
 
 ## 0. 一页速览(想抄的人只看这 20 行)
 

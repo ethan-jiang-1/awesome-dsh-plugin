@@ -2,7 +2,7 @@
 title: "catalog · 产品线全量文件"
 domain: reshape-product
 kind: index
-positioning: "产品线 36 篇文档与 1 份指标快照的 kind、定位、能拿走什么、什么时候读（随文件手工维护）。"
+positioning: "产品线 41 篇文档（含本清单）与 1 份指标快照的 kind、定位、能拿走什么、什么时候读（随文件手工维护）。"
 read_when: "想一次看全产品线所有文件，或按关键词找入口。"
 status: living
 updated: 2026-10-31
@@ -17,7 +17,7 @@ updated: 2026-10-31
 | lever | 收什么 | 卡数 | 入口 |
 |---|---|---|---|
 | `plugin/` | 装进任何 profile 的客人 | 11 | [README](./plugin/README.md) |
-| `profile/` | 一套 bundle 装进 profile，浏览器启动 | 4 | [README](./profile/README.md) |
+| `profile/` | 一套 bundle 装进 profile，浏览器启动 | 7 | [README](./profile/README.md) |
 | `shell/` | 换表层 / 自带宿主 | 6 | [README](./shell/README.md) |
 
 ## 共用件
@@ -30,7 +30,7 @@ updated: 2026-10-31
 | [`BORROW.md`](./BORROW.md) | guide | 跨 lever 借用总入口：按需求路由 + 18 条可搬走规则 + 三条"别抄"。 | 18 条 + 每条出处 + 抄错后果；4 条需求路由。 | 只读一节就走；或评审方案时逐条对照。 | observed |
 | [`BACKLOG.md`](./BACKLOG.md) | index | 候选池：过了门槛待深挖的、和没过门槛的，各留一行。 | 少走弯路：某产品为什么还没成卡。 | 要补新样本；或想知道某产品为什么没卡。 | living |
 | [`catalog.md（本文件）`](./catalog.md) | index | 全量文件清单（手工维护）。 | — | 想一次看全，或按关键词找。 | living |
-| [`_证据/指标快照-2026-10-31.json`](./_证据/指标快照-2026-10-31.json) | evidence | 21 张卡 + 1 观察样本的 ★ / forks / issues / npm 月下载原始响应（跨 lever 共用，可复算）。 | 复算卡片影响力数字；核对取数时点与口径。 | 引用或更新任何卡片指标前。 | observed |
+| [`_证据/指标快照-2026-10-31.json`](./_证据/指标快照-2026-10-31.json) | evidence | 24 张卡 + 1 观察样本的 ★ / forks / issues / npm 月下载原始响应（跨 lever 共用，可复算）。 | 复算卡片影响力数字；核对取数时点与口径。 | 引用或更新任何卡片指标前。 | observed |
 
 ### `plugin/` · 通用插件（11）
 
@@ -54,15 +54,19 @@ updated: 2026-10-31
 | [`4-5-02_首启与分发-原始挖掘.md`](./plugin/_证据/02_首启与分发-原始挖掘.md) | evidence | dsh-bootstrap 与 dsh-market 的原始摘录，含 A/B 两档证据强度标注。 | — | 要核对首启/分发卡片的原文与行号。 | observed |
 | [`6-7-03_移动与视觉-原始挖掘.md`](./plugin/_证据/03_移动与视觉-原始挖掘.md) | evidence | dsh-mobile 与 modlens 的原始摘录与上游行号。 | — | 要核对多端/感官卡片的原文与行号。 | observed |
 
-### `profile/` · profile 即产品（4）
+### `profile/` · profile 即产品（7）
 
 | 文件 | kind | 定位 | 能拿走什么 | 什么时候读 | 状态 |
 |---|---|---|---|---|---|
-| [`README.md`](./profile/README.md) | charter | **profile 侧宪章**：发货单位是 bundle；装成功 ≠ 挂载成功；四种聚合形态与影响力门槛。 | 必抄 6 条 + 四种形态对照 + 为什么这一桶天然薄。 | 要做发行版/全家桶；或判断该发插件、发 profile 还是发应用。 | observed |
+| [`README.md`](./profile/README.md) | charter | **profile 侧宪章**：发货单位是 bundle；装成功 ≠ 挂载成功；七种形态与影响力门槛。 | 必抄 8 条 + 七种形态对照 + 为什么这一桶天然薄。 | 要做发行版/全家桶；或判断该发插件、发 profile 还是发应用。 | observed |
 | [`11_全家桶-dsh-web.md`](./profile/11_全家桶-dsh-web.md) | sample | `zhu1090093659/dsh-web`（★ 9,865 / npm 月下载 99,694）：20+ bundle 装进 web profile 的浏览器级产品。 | 聚合包 id 前缀；静默半挂载；共存治理；默认皮肤即身份。 | 要做 profile 级产品；或要设计聚合包与安装自证。 | observed |
 | [`12_界面套件-dsh-codex-ui.md`](./profile/12_界面套件-dsh-codex-ui.md) | sample | `MichengAI/dsh-codex-ui`（npm 月下载 119,610 / ★ 250）：六个微内核子插件重做整套 Web 界面。 | fail-closed 清理（0 DOM）；只吃官方 primitive/slot；1.x 覆盖式美化的三条死因。 | 要做整屏界面套件；或要避免主题/布局的半降级。 | observed |
 | [`13_组合包-dsh-suite.md`](./profile/13_组合包-dsh-suite.md) | sample | `STARDUSTLC666/dsh-suite`（npm 月下载 8,230）：18 个独立插件 + 共享默认配置 + 固定版本。 | 组合包卖的是策展；固定组件版本；扁平化无 git 子依赖；整包更新。 | 要把自己的多个插件打包成一件交付。 | observed |
 | [`14_聚合补丁-dsh-all.md`](./profile/14_聚合补丁-dsh-all.md) | sample | `hyzyn/dsh-plugin-kit`（npm 月下载 3,558 / ★ 59）：一条 bundle patch 挂 11 个插件，自带 Profile 管理卡片。 | 聚合包应是纯数据；共享库不进 bundles；分面表回答「装完会变什么」。 | 要做聚合包/全家桶；或要理解 bundle patch 怎么落地。 | observed |
+| [`15_接管套件-dsh-plugins-plus.md`](./profile/15_接管套件-dsh-plugins-plus.md) | sample | `sidleo/dsh-plugins-plus`：按 preset 停掉宿主自带行，换成 `-plus` 行。 | 接管 = 停原行 + 加己行；回退是删覆写行；`unset` 才是默认。 | 要替换宿主自带实现；或要设计按 preset 生效的默认值管线。 | observed |
+| [`16_套件市场-dsh-agent-plugins-market.md`](./profile/16_套件市场-dsh-agent-plugins-market.md) | sample | `Sivan757/dsh-agent-plugins-market`：把别的 agent 的套件就地读成可安装单位。 | 套件是安装单位；就地读不转换；坏声明诊断后跳过；缺凭据显式化。 | 要做跨生态导入/套件分发；或要设计多来源资源管理面。 | observed |
+| [`17_闭环装配-better-session.md`](./profile/17_闭环装配-better-session.md) | sample | `morlay/dsh-plugin`：一个 bundle 装一条会话闭环（改/重试/撤回/分支）。 | 装配数据（rows）是发布物；只挂官方槽位不 fork；preset 行清单可归包。 | 要把多个自己的包装成一个产品；或要设计 bundle 边界。 | observed |
+| [`02_产品形态-原始挖掘.md`](./profile/_证据/02_产品形态-原始挖掘.md) | evidence | 三张新 profile 样本的 README 原文摘录与取数时点。 | — | 要核对 15/16/17 三张卡的原文；或重挖这三个样本。 | observed |
 | [`_证据/01_产品聚合-原始挖掘.md`](./profile/_证据/01_产品聚合-原始挖掘.md) | evidence | profile/bundle 的上游语义、dsh-web 原文、7,924 条普查的召回与剔除。 | — | 要核对 profile 侧卡片的原文；或重跑「谁是 profile 级产品」的普查。 | observed |
 
 ### `shell/` · 自带宿主（6）

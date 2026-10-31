@@ -7,7 +7,7 @@ takeaway: "闭环恢复：Safe Mode 只挂官方 bundle，`--safe-mode` 是最�
 read_when: "要做桌面发行版/安装器/安全模式；或判断第三方壳能占用哪个 profile。"
 status: observed
 updated: 2026-10-31
-budget: 180
+budget: 186
 ---
 # 桌面应用 · DSH Desktop（Dataelem）:把 Harness 装成普通桌面软件
 
@@ -26,6 +26,16 @@ budget: 180
 > **再深挖去哪**:`docs/architecture.md`(runtime flow / security boundaries / recovery)、`docs/preset-packages.md`(`.dshpreset` 契约)、`docs/release-runbook.md`(签名与发布管控)
 
 ---
+
+## 它想干什么 · 为什么值得借鉴
+
+**意图。** 让“跑 DSH”从“先装 Node、敲 `dsh web`、自己记端口”变成**双击一个签过名的安装包**：运行时随应用拉起，就绪后就是完整界面。它交付的单位是**一件桌面软件**——安装包、更新通道、恢复面、手机通道一起算，而不是 `dsh plugin add` 进去的一个包；也明确不做的三件事：不支持 Linux / Windows ARM64，不碰用户的 `~/.dsh`，不在用户不知情时静默更新。
+
+**意义。** 它补的是“宿主侧”的空缺：目录只收插件，而这个 ★ 16,975 的产品**根本不在 `data/plugins` 里**，按目录做的普查会系统性漏掉整条宿主路线。它改的惯例是“桌面版 = 给 Web GUI 套个窗口”——签名与公证、每个产物在匹配的 OS/架构上各构建一次、stable 与 preview 两条通道，都是把分发当产品的一部分。更实用的一点：它证明第三方壳可以不抢 `desktop` 这个 profile 名，用自有 `harness/` DSH_HOME 加 `web` profile 照样做成发行版。
+
+**用户价值。** 装之前，用户要自己解决 Node、npm 全局权限、终端与端口；装之后，下载对应平台安装包、打开即用，profiles / plugins / sessions / 模型设置全在应用目录之外，覆盖安装、换版本、卸载重装都不搬家。感到“值”的是只想把活干完的人：PPT 用户、非开发同事、临时在客户机器上演示的人。代价分给两边——作者持续付 macOS 公证与 Windows 代码签名，用户要接受没有 Linux、preview 可能与社区插件不兼容，以及异地连手机得回电脑看一眼 6 位口令。
+
+**表达（界面与交互）。** 第一屏没有安装向导：装完打开就是完整界面，菜单栏/托盘常驻，**关窗口不等于退出**。更新被拆成三个可分别拒绝的动作——启动后不久检查一次、之后每 6 小时一次，发现新版**先问**，下载完还要点 **Restart and install**，并给 **skip this version** 且不隐藏后续版本。出事的表达更克制：启动失败被归因到**具体哪个插件**，恢复面直接给升级/批量升级/移除的动作，诊断只写 `harness.log` 而不要求用户翻目录；再不行退到 **Safe Mode**（只挂官方 core bundle 的隔离 profile，数据不动），连界面都进不去还有 `--safe-mode`。手机侧它不显示端口、不暴露 127.0.0.1：扫码走局域网，公网隧道才要那 6 位、默认 5 分钟只存内存的口令。
 
 ## 0. 一页速览(想抄的人只看这 20 行)
 

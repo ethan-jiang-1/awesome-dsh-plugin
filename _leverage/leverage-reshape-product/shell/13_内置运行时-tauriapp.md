@@ -7,7 +7,7 @@ takeaway: "内置运行时 + 连接级健康探测 + 自愈 3 次封顶（健康
 read_when: "要做零前置依赖的桌面壳；或要设计运行时版本管理与多 profile 多窗口。"
 status: observed
 updated: 2026-10-31
-budget: 170
+budget: 180
 ---
 # 内置运行时 · dsh-desktop-tauriapp:把运行时一起打包
 
@@ -29,6 +29,16 @@ budget: 170
 > **再深挖去哪**:`desktop/scripts/prepare-builtin-runtime.mjs`、`desktop/src-tauri/tauri.conf.json`、`docs/windows-audit-report.md`
 
 ---
+
+## 它想干什么 · 为什么值得借鉴
+
+**意图。** 把“装 Node / 装 dsh / 配 PATH”三个失败点一次性消掉：安装包里带 **Node 24 sidecar + dsh 依赖树**，启动走内部 API 代码路径而不是 shell out 到 CLI，内置版本由 `BUILTIN_DSH_VERSION` 精确 pin。它交付的单位是**一个自带运行时的安装包**，并把“运行时版本”做成应用内可换件（下载 / 切换 / 卸载，源可选 github / npm）。有两件它明确不做：不自动重建依赖（#124 起只提示），也不接管 stock `ui-layout`。
+
+**意义。** 这是本线唯一的“内置运行时”样本，★ 只有 1，却证明这条路可行，也顺手回答了代价问题：macOS dmg ~200 MB、Windows msi ~240 MB。它改的边界是**兼容性责任**——钉死运行时等于承诺“这一版 dsh 与这一版壳一起验过”，把散落在用户机器上的版本不确定性收回产品侧。它同时是一根探针：`desktop` 这个 profile 名被上游判给官方 Electron 应用，CLI 三条路径全部拒绝，它能跑是靠 launcher 直调内部 `runProfile`、用自有参数 `--init-from-default` 从 `web` 模板初始化。
+
+**用户价值。** 装之前，用户要自己解决 Node 版本、npm 全局权限、PATH 和 dsh 版本；装之后，双击 dmg/msi 直接是完整界面，插件需要另一个 dsh 时在托盘的“运行时版本”里切一下，不必重装应用。感到“值”的是拿不到安装权限的机器（受控环境、设计/运营同事）和装了很多插件的重度用户。代价由两边分担：包体积 200–240 MB、macOS 非公证包要右键打开、Windows 过 SmartScreen；更要紧的是它会在 `$DSH_HOME/profiles/desktop` 建 profile，与官方桌面应用同名同目录，上游一收紧就得改。
+
+**表达（界面与交互）。** 第一屏是安装包→双击→完整界面，中间没有“请先安装 Node”这一步；等待被做成**可看的**：加载页实时显示子进程 stdout/stderr，可展开、收起、清空。日常是多窗多 profile，托盘按 profile 分组、可就地切换本窗口的 profile，而不是再开一个窗；关窗收托盘。克制的部分最见取舍：只在有会话在跑时持系统断言，**屏幕照常熄灭**，等审批/等输入不持有；依赖不一致只在启动时提示、不代修；macOS 用 `titleBarStyle: Overlay` 留住原生红绿灯，Windows 才自绘按钮，桌面 chrome 走插件式局部注入而不动 stock 布局。
 
 ## 0. 一页速览(想抄的人只看这 20 行)
 

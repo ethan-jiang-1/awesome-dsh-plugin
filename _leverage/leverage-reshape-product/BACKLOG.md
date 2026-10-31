@@ -6,7 +6,7 @@ positioning: "候选池：快筛过了门槛但还没深挖的，和没过门槛
 read_when: "要补新样本、或想知道某个产品为什么还没成卡。"
 status: living
 updated: 2026-10-31
-budget: 60
+budget: 64
 ---
 # BACKLOG · 候选池
 
@@ -26,6 +26,12 @@ budget: 60
 | `gezi-wen/sage-mem` | <https://github.com/gezi-wen/sage-mem> | plugin | ★ 23 · npm 月 8,955 | 记忆格式与 Claude Code 兼容，迁移角度的第二候选；先看有没有首启流程 |
 | `yu-wenchao/dsh-free-models-hub` | <https://github.com/yu-wenchao/dsh-free-models-hub> | plugin | ★ 32 · npm 月 2,420 | 过 npm 门槛；"一键写入免费模型 provider"属首启配置，但机制偏薄 |
 | `xiaoyuyu6420/dsh-backup` | <https://github.com/xiaoyuyu6420/dsh-backup> | plugin | ★ 36 · npm 月 3,841 | 备份/还原/迁移；与 `42_环境搬家` 同类，判是否值得第二张 |
+| `xiaoxiao44443/dfy-dsh-plugins` | <https://github.com/xiaoxiao44443/dfy-dsh-plugins> | profile | ★ 3 · npm 月 4,766 | 原生组合包（8 个自研插件 + 2 个公共库，`Symbol.for` ABI 共享 provider）；过 npm 门槛，先判与 `13_组合包` 是否同形态 |
+| `RevolutionLA/dsh-dream-skin` | <https://github.com/RevolutionLA/dsh-dream-skin> | plugin | ★ 297 · npm 月 41,441 | 皮肤资产包（8 套预设 + 主题包导入导出）；只换皮肤，暂按插件侧 1 类 |
+| `benz-ai-x/dsh-24pa` | <https://www.npmjs.com/package/@benz-ai-x/dsh-24pa> | profile | ★ 未采 · npm 月 5,111 | 飞书个人助理套件（垂直产品包）；仓库 404（改名/私有），先找新地址再判 |
+| `amplifthq/oh-my-dsh` | <https://github.com/amplifthq/oh-my-dsh> | shell/profile | ★ 16 · npm 月 481 | "overlay, not a fork" 发行版，装两个独立 profile；两条门槛都差一点，先判它算 profile 还是 shell |
+| `@huaweidevtools/aishell-dsh-base` | <https://github.com/yusheng-g/aishell-dsh-plugins> | profile | ★ 未采 · npm 月 1,386 | 企业 profile base layer（Huawei scope，叠在 dsh-base 上）；README 缺失，待采语义 |
+| `yhny1001/dsh-rp-distribution` | <https://github.com/yhny1001/dsh-rp-distribution> | profile | ★ 8 · 包未发布 | 垂直 RP 发行版（公共契约 + 包信任 + 组合发行）；npm 未发布，等可安装再判 |
 | `magian1127/deepseek-harness-zh_pro` | <https://github.com/magian1127/deepseek-harness-zh_pro> | plugin | ★ 36 · npm 月 5,580 | "综合增强"是否算产品化有争议（改默认语言/提示词，但仍是单插件）；先看它有没有自己的分发/首启 |
 
 ## 2. 观察样本（未过门槛，机制独特）
@@ -47,9 +53,6 @@ budget: 60
 
 | 候选 | URL | 类型 | 硬指标（2026-10-31） | 未过原因 |
 |---|---|---|---|---|
-| `Fayelin12/dsh-office` | <https://github.com/Fayelin12/dsh-office> | plugin | ★ 7 · 无 npm 计量 | 单面板，硬指标与产品形态都不够 |
-| `whyihaveyou/dsh-suite` | <https://github.com/whyihaveyou/dsh-suite> | plugin | ★ 64 · `@dsh-suite/all` 月 141 | 产品是"目录 + 商店"，聚合包下载极低；没有统一产品形态 |
-| `Yurzi/dsh-tool-web-enhanced` | <https://github.com/Yurzi/dsh-tool-web-enhanced> | plugin | 待采 | 组合包只换 search/fetch 后端，属能力增强 |
 
 ## 4. 复核节奏
 

@@ -150,6 +150,35 @@
       "pushed_at": "2026-10-30T06:31:54Z",
       "npm_last_month": 3558
     },
+    "profile/15_接管套件-dsh-plugins-plus": {
+      "repo": "sidleo/dsh-plugins-plus",
+      "npm_pkg": "@sidleo3/dsh-plugins-plus",
+      "stars": 0,
+      "forks": 0,
+      "open_issues": 0,
+      "pushed_at": "2026-10-19T00:00:00Z",
+      "npm_last_month": 6094,
+      "note": "目录外；★ 0 与 npm 6,094 倒挂"
+    },
+    "profile/16_套件市场-dsh-agent-plugins-market": {
+      "repo": "Sivan757/dsh-agent-plugins-market",
+      "npm_pkg": "dsh-agent-plugins-market",
+      "stars": 19,
+      "forks": 1,
+      "open_issues": 6,
+      "pushed_at": "2026-10-31T00:00:00Z",
+      "npm_last_month": 4752
+    },
+    "profile/17_闭环装配-better-session": {
+      "repo": "morlay/dsh-plugin",
+      "npm_pkg": "@morlay/better-session",
+      "stars": 9,
+      "forks": 4,
+      "open_issues": 0,
+      "pushed_at": "2026-10-30T00:00:00Z",
+      "npm_last_month": 8561,
+      "note": "目录外；npm 是 bundle 包的月下载"
+    },
     "shell/11_桌面应用-dsh-desktop": {
       "repo": "dataelement/dsh-desktop",
       "npm_pkg": null,
