@@ -75,11 +75,11 @@ budget: 170
 | 路线 | 卡 | 一句话 | 抄什么 | ★ / npm 月下载（2026-10-31） |
 |---|---|---|---|---|
 | 终端 | [`终端即产品`](./14_终端即产品-dsh-TUI.md) | 换表层 + 自带四步首启，把 DSH 变成另一个应用 | 每档能力一条"退化为 Y"；hold 窗口；恢复不确定就报错；更新只看退出码 | 6,381 / 56,569 |
-| 终端 | [`终端工作区`](./15_终端工作区-seektty.md) | 表层归我、状态归你；自带 profile 与 self-first 更新器 | 三档兼容 + 未知 fail closed；pnpm 布局适配只作用于自己发起的变更；原生 scrollback 模式 | 194 / 1,296 |
-| 桌面 | [`桌面应用`](./11_桌面应用-dsh-desktop.md) | 签名安装包 + Safe Mode + 六小时更新检查，万级 ★ 的发行版 | Safe Mode（只挂官方 bundle）/ `--safe-mode`；更新先问再装；随机回环端口 + 独立配对桥 | 16,975 / — |
-| 桌面 | [`单文件桌面壳`](./12_单文件桌面壳-windowos.md) | 4.5 MB 裸 exe：候选链 + 监护自愈 + 升级回滚 | 五跳候选链（每跳独立就绪窗口）；进程三态所有权；AUMID；熔断 | 26 / 1,168 |
-| 桌面 | [`内置运行时`](./13_内置运行时-tauriapp.md) | 把 Node sidecar 与 dsh 依赖树打进安装包 | 连接级健康探测；自愈 3 次封顶 + 2 分钟重置；局部注入 chrome 不禁用 stock 布局 | 1 / — |
-| 反例 | [`冻结 fork`](./91_冻结分叉-better-sidebar-N23.md) | 0.1.x 冻结 fork：改得太深就只能分家 | **反食谱**：peer 上界 = 死亡日期；只写下界 + CI 矩阵，或换接缝，别 fork | 0 / 1,350 |
+| 终端 | [`终端工作区`](./15_终端工作区-seektty.md) | 进程内终端表层（无自建端口）；patch 禁用 25 行并自建 3 preset；63 精确 peer 锁 0.2.0-rc.2 | 默认 update=auto；在 0.2.1-rc.3 上被上游预检拒（需 allow-version）；原生 tail 需 opt-in；无回滚 | 194 / 1,296 |
+| 桌面 | [`桌面应用`](./11_桌面应用-dsh-desktop.md) | 万级 ★ 发行版：自建 DSH_HOME + `web` profile，Safe Mode/更新/恢复面归壳 | Safe Mode（隔离 profile）；更新先问再装；tag↔manifest 对不上、发行版 CLI 打了 patch，不能等同 npm rc.3 | 16,975 / — |
+| 桌面 | [`单文件桌面壳`](./12_单文件桌面壳-windowos.md) | 约 4.8 MiB 裸壳：iframe 外部 dsh web；端点梯子就绪；无 CI | 重启会杀任意 :3080 监听者；熔断=存活<30s 连续3次；通知在隐藏/最小化/失焦都弹；更新资产命名有断裂 | 26 / 1,168 |
+| 桌面 | [`内置运行时`](./13_内置运行时-tauriapp.md) | 安装包带 Node sidecar 与 dsh 0.2.0-rc.2 依赖树；运行时可在应用内换 | 依赖树无 lock 不可复现；sidecar 缺失回退 PATH node；单次 TCP 失败即重启、3 次封顶；无回滚/无自动更新 | 1 / — |
+| 反例 | [`冻结 fork`](./91_冻结分叉-better-sidebar-N23.md) | 上游 v0.12.3 复制树：npm 0.1.0=tag 树，HEAD 另有 8 个未发布提交 | **反食谱**：冻结在 0.1.x 才致命（上界继承自上游）；身份全沿用会撞路由/服务名；上游只补 diff/暂存，未补活动栏 | 0 / 1,350 |
 
 **四条路线，一句话**：`dsh-TUI` 把插件做成应用；`SeekTTY` 只做表层、把状态留给宿主；`DSH Desktop` 把**运行时 + 安装包 + 恢复面**一起做；`windowos` / `tauriapp` 在"运行时从哪来"上各走一端（借用 vs 内置）。**反例**说明第四条路的失败形态：换了表层却把 peer 上界钉死。
 
@@ -90,9 +90,9 @@ budget: 170
 | 卡 | repo | npm 包名 | 目录条目 | 装法(0.2.x) | 已挖 | 未挖 |
 |---|---|---|---|---|---|---|
 | `终端即产品` | `ccch1mneyyy/dsh-TUI` | `@deepseek-harness-tui/dsh-tui`（全局 CLI） | `ccch1mneyyy__dsh-TUI.yml` (`ui`) | Windows 安装器；或 `npm i -g @deepseek-ai/dsh @deepseek-harness-tui/dsh-tui` 后 `dsh-tui`；**别用 git URL 装** | `../plugin/_证据/01_壳与工作台-原始挖掘.md` §三 | `compatibility.json`、52 条降级里未展开的协议细节 |
-| `终端工作区` | `Hilbert-beinghappy/seektty` | `seektty`（+ 全局 `deepseek` launcher） | `Hilbert-beinghappy__seektty.yml` (`ui`) | `dsh plugin --profile tui add --config.enable-global-virtual-store=false seektty@1.3.0` 后 `dsh --profile tui` | `_证据/01_桌面与终端-原始挖掘.md` §二.4 | `0.2.1-rc.3` 实测；与 `dsh-TUI` 的 `tui` profile 共存 |
+| `终端工作区` | `Hilbert-beinghappy/seektty` | `seektty@1.3.0`（+ launcher） | `Hilbert-beinghappy__seektty.yml` (`ui`) | README: 全局 pnpm 安装 0.2.0-rc.2 → `dsh plugin --profile tui add …` | `_证据/07_终端工作区-seektty-源码复核.md` | 0.2.1-rc.3 上需 allow-version；GVS 适配只为自身变更；原生 tail opt-in；teardown 性能 |
 | `桌面应用` | `dataelement/dsh-desktop` | 无（桌面发行版） | **无**（口径外） | 官网 / Releases 下载 dmg·msi；**不走 `dsh plugin add`** | `_证据/01_桌面与终端-原始挖掘.md` §二.1 | 它用哪个 profile；Safe Mode 的插件指认证据 |
-| `单文件桌面壳` | `RAFOLIE/dsh-desktop-windowos` | `dsh-desktop-plugin`（插件半区） | `RAFOLIE__dsh-desktop-windowos.yml` (`ui`) | 插件装（自动放 exe + 快捷方式）或直接下裸 exe | `_证据/01_桌面与终端-原始挖掘.md` §二.2 | 无登录态时的通知；双版本线回滚 |
+| `单文件桌面壳` | `RAFOLIE/dsh-desktop-windowos` | `dsh-desktop-plugin@1.5.12`（插件半区） | `RAFOLIE__dsh-desktop-windowos.yml` (`ui`) | 插件装或直接下裸 exe；HEAD v1.6.72 为预发布 | `_证据/06_单文件桌面壳-windowos-源码复核.md` | 无 token 附加后端时通知静默；v1.6.72 资产改名断更新；壳回滚缺失 |
 | `内置运行时` | `hyperion2144/dsh-desktop-tauriapp` | `dsh-desktop-tauriapp`（插件半区） | `hyperion2144__dsh-desktop-tauriapp.yml` (`ui`) | 插件装；**应用本体**从 Releases 下 dmg/msi | `_证据/01_桌面与终端-原始挖掘.md` §二.3 | `desktop` profile 在当前上游能否创建；包体与内置版本 |
 | `冻结 fork` | `All3nCN/dsh-better-sidebar-N23` | `@all3cn/dsh-better-sidebar-n23` | `All3nCN__dsh-better-sidebar-N23.yml` (`ui`) | **0.2.x 上装不上**（安装期 `incompatible-version`） | 目录条目 + upstream README 对照 | 同作者 `dsh-qa-suite-N23`；强行 `allow-version` 豁免后的实际表现 |
 
@@ -118,7 +118,7 @@ budget: 170
 
 **反例**
 
-9. **peer 上界 = 死亡日期**：只写下界 + CI 矩阵，或换接缝；真要 fork，就承认分家，别假装还能装回上游（`91_冻结分叉`）。
+9. **冻结才是死亡日期，不是上界本身**：fork 的 peer 上界常继承自上游；真正致命的是停止跟进并沿用上游身份（行 id/服务名会重复注册）。要分家就改身份并承认兼容范围，别假装还能装回上游（`91_冻结分叉`）。
 
 ## 5. 已补与待补
 
@@ -131,9 +131,9 @@ budget: 170
 - [ ] **Linux 桌面壳**：本轮的三个桌面样本都只覆盖 macOS/Windows（`windowos` 甚至只有 Windows）
 - [x] **`dsh-pocket`**（10,411 下载 / 179★）**已判：不是宿主**。它一个包 + 设置页 + 扫码，把电脑上的**同一个界面**投到手机（自带隧道/配对），属于"另一块屏的传输"，归 [`plugin` 侧](../plugin/README.md) 的 `61_多端与远程` 邻域，不进本 lever
 
-**搜索口径**：`category` 是 `ui`/`remote`，且描述里出现 **desktop / shell / Tauri / Electron / installer / standalone / launcher / 免安装**；再按 §2 的 H1–H3 过一遍。只加能力的不成卡（见 [`horizon`](../../leverage/horizon.md)）。
+**搜索口径**：`category` 是 `ui`/`remote`，且描述里出现 **desktop / shell / Tauri / Electron / installer / standalone / launcher / 免安装**；再按 §2 的 H1–H3 过一遍。只加能力的不成卡（见 [`horizon`](../horizon.md)）。
 
-**搜索口径**：`category` 是 `ui`/`remote` 但**需要全局安装、独立启动命令、或声明 fork** 的条目；再按 §2 的 H1–H3 过一遍。只加能力的不成卡（见 [`horizon`](../../leverage/horizon.md)）。
+**搜索口径**：`category` 是 `ui`/`remote` 但**需要全局安装、独立启动命令、或声明 fork** 的条目；再按 §2 的 H1–H3 过一遍。只加能力的不成卡（见 [`horizon`](../horizon.md)）。
 
 ## 6. 与 plugin 侧的取舍
 

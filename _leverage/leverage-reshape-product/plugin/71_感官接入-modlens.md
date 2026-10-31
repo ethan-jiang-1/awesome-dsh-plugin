@@ -2,8 +2,8 @@
 title: "感官接入 · modlens"
 domain: reshape-product
 kind: sample
-positioning: "`liustack/modlens`：给纯文本模型装上眼睛，粘贴即读、零配置。"
-takeaway: "未确认就放过；加元数据条目而不换路由；attempts/warnings 让回退不静默。"
+positioning: "`@liustack/modlens@3.27.2`：tool + provider wrapper + paste 路由 + 可选 pre-step hook；dsh 面丢弃 meta.attempts/warnings，回退静默。"
+takeaway: "四条图像入口且 takeover 有严格/自动两套；dsh 面只取 result，attempts/warnings 被丢弃；零配置仍需引擎。"
 read_when: "要补模型能力缺口（视觉/语音/搜索）；或要接管别人的路由而不改它。"
 status: observed
 updated: 2026-10-31
@@ -14,7 +14,7 @@ updated: 2026-10-31
 > **类**:`7` 感官与模型 · **层**:**4**(模型能力)→ 5 → 3 · MIT
 > **★ 4,667 / npm 176,983**（2026-10-31 实时；本线第 4）
 > **一句话**:它没有发明新技术,只解决一件极具体的事——**我用的是不能看图的模型,但我想直接 Ctrl+V 粘一张截图**,然后把这件事做到"一次都不用配置"。
-> **借鉴价值**:**① 只在"上游以元数据正面确认"的能力缺位上动手,`absent means unknown` 一律放过;② 接管方式是"**加一个元数据包装条目**"——不换底层路由、不起代理、不拦 hook;③ `meta.attempts` + `meta.warnings`,回退永不静默、配额归属永远可见;④ 复用别家登录必须逐项显式同意并标出"花的是谁的额度";⑤ 密钥轮换按**错误族**分流。**
+> **借鉴价值**：① takeover verdict 对 unknown 保守，但默认 wrapper 对已知 family 的缺失模态仍接管；② 不只“加元数据条目”：源码注册 tool + provider adapter + web 路由 + 可选 pre-step hook；③ CLI 有 attempts/warnings，但 dsh 面只取 result，回退与配额归属静默；④ 复用登录逐项同意；⑤ 密钥轮换按错误族分流。**
 
 > **证据深度**:源码级（上游模型/附件接缝 + README）（2026-10-31）
 > **样本档案**
@@ -23,33 +23,34 @@ updated: 2026-10-31
 > **装法**:`npx -y @deepseek-ai/dsh plugin --profile web add @liustack/modlens@3.27.2`;跨 harness 的 skill 走 `npx -y skills add liustack/modlens --skill modlens --global`
 > **已在本地挖掘**:`_证据/03_移动与视觉-原始挖掘.md` §二(modlens:模态判定/双闸门/attempts/warnings)
 > **再深挖去哪**:仓库 `docs/security.md`(图片当不可信输入);`Antigravity CLI` 免 key 兜底那条
+> **证据链**：固定 3.27.2 的四条入口、adapter takeover、attempts 丢弃与限额见[`16 源码复核`](./_证据/16_感官接入-modlens-源码复核.md)。
 
 ---
 
 ## 它想干什么 · 为什么值得借鉴
 
-**意图。** 它只解决一件极具体的事：我用的是不能看图的模型，但我想直接 Ctrl+V 粘一张截图。交付单位是模型选择器里多出的一个元数据条目 `<model> (modlens vision)`（每 route 一条），选一次就被记住。它明确不换底层路由、不起代理、不拦 hook、不写任何 harness 配置，卸载等于删一个文件夹。
+**意图。** 它只解决一件极具体的事：我用的是不能看图的模型，但我想直接 Ctrl+V 粘一张截图。交付单位是模型选择器里多出的一个元数据条目 `<model> (modlens vision)`（每 route 一条），选一次就被记住。README 声称不换底层路由、不起代理、不拦 hook；源码实际有 provider adapter 与可选 pre-step hook，因此不能按 README 的“零介入”理解。
 
 **意义。** 它补的是“模型能力缺口”这一格，但判断方式比能力本身更值得抄：只在 `inputModalities` **显式否定** image 时接管，缺失按 `absent means unknown` 一律放过，原生 vision 自动排除。它改的惯例是“接管 = 换路由或起代理”：只加一条 advisory 的目录条目，让“模型 + 前置处理”变成可选项，请求仍由同一条 route 回答。这让补丁可以薄到不复制凭据、不复制限额。
 
 **用户价值。** 装前，粘图要么被投影成 `[image omitted …]`，要么在 prompt 入口就被 `MODEL_DOES_NOT_SUPPORT_IMAGES` 拒掉；装后，粘贴即读，缩略图留在消息里。觉得值的是用纯文本模型又习惯截图的开发者；回退也可见——`meta.attempts` 记录每一次尝试，`meta.warnings` 标出花的是谁的额度，表格列名直接叫 **Rides as**。代价是图被转成结构化证据必然有损，读取质量取决于背后引擎，复用别家登录还得逐项显式同意。
 
-**表达（界面与交互）。** 第一屏几乎不存在：装完零配置，模型选择器里多一条 `(modlens vision)`，选一次就够，之后唯一的主动作是粘贴。默认值全部偏向“不动”：模态未声明不接管、原生 vision 自动排除、没选包装条目时静默退回上游默认而不报错。诚实被做进交互：结果附“我不确定什么”，`config set provider` 是**偏好**（链仍兜底）、`-p` 是**钉死**（无回退），两个开关而不是一个。
+**表达（界面与交互）。** 第一屏几乎不存在：装完无需 modlens 配置，但至少需要一个可用引擎，模型选择器里多一条 `(modlens vision)`，选一次就够，之后唯一的主动作是粘贴。默认值全部偏向“不动”：模态未声明不接管、原生 vision 自动排除、没选包装条目时静默退回上游默认而不报错。诚实被做进交互：结果附“我不确定什么”，`config set provider` 是**偏好**（链仍兜底）、`-p` 是**钉死**（无回退），两个开关而不是一个。
 
 ## 0. 一页速览(想抄的人只看这 20 行)
 
 | 问题 | 它的答案 | 支撑 |
 |---|---|---|
 | 它凭什么判断"这模型没眼睛" | 读上游 `inputModalities`,其注释就是判定语义的原文:"**absent means unknown, while an explicit omission is negative capability**" | `[DSH]` `dsh-llm/lib/types/index.d.ts:317-333` |
-| 所以它接管谁 | **只接管被正面确认 text-only 的 DeepSeek/GLM/MiMo Pro**;"anything unconfirmed is **left alone**";原生 vision 模型**自动排除** | `[CAT]` 原文 |
+| 所以它接管谁 | takeover verdict 严格 unknown→false；但默认 wrapper 对 deepseek/glm/mimo family 在模态缺失时仍接管；`families:['*']` 才要求显式 text | `[SRC-TARGET]` |
 | 怎么接管 | 模型选择器里**加一个 `<model> (modlens vision)` 条目**(每 route 一个);选择被记住,一次就够 | `[CAT]` + `[DSH]` `resolveModelInfo`:目录"advisory,不控制请求路由" |
 | 它换底层路由吗 | **不换**。请求仍由**同一条底层 route** 回答 | `[CAT]` |
-| 它拦 hook / 起代理吗 | **不**:"No hooks, no wrappers, no local proxy daemon, **not a single line changed in any harness config**";卸载 = 删文件夹 | `[CAT]` |
+| 它拦 hook / 起代理吗 | README 说 “No hooks, no wrappers”；源码实际注册 tool + provider adapter + 两条 web route + 可选 pre-step hook + settings namespace | `[SRC-TARGET]` 与 README 矛盾 |
 | 上游第二道闸(它必须知道) | adapter 派发前把图片块投影成 `[image omitted because this model accepts text only; attachment sha256:<8>]` | `[DSH]` `dsh-llm/lib/types/index.js:884-888`、`content.js:47-50` |
 | prompt 入口硬拒 | 声明了 `inputModalities` 且不含 image → 抛 `session/attachment-invalid`,reason `MODEL_DOES_NOT_SUPPORT_IMAGES` | `[DSH]` `dsh-api-session-controller/lib/index.js:927-941` |
 | 兜底链 | **一条 failover 链**:API 车道(5–10s)先跑,agent CLI 车道(15–45s)兜底,**第一个好结果胜出** | `[CAT]` |
-| 回退怎么不静默 | `meta.attempts` "records **every attempt** so a fallback is never silent" | `[CAT]` |
-| 配额可见 | 每次复用标在 `meta.warnings` "**whose quota it spent, so nothing is ever silently billed**";表格列名直接叫 **Rides as** | `[CAT]` |
+| 回退怎么不静默 | CLI 产 `meta.attempts`/`warnings`，但 dsh 的 `parseCliResult` 只取 `result` → 插件面回退与配额归属静默 | `[SRC-TARGET]` |
+| 配额可见 | CLI 有 warnings/Rides as；dsh 面丢弃 meta，看不到用了谁的配额 | `[SRC-TARGET]` |
 | 偏好 vs 钉死 | `config set provider <name>` = **偏好**(链仍兜底);`-p <name>` = **钉死单一、无回退** | `[CAT]` |
 | 密钥轮换 | 逗号分隔多 key;**认证/限流/配额 → 换下一个 key**;**网络/5xx/解析 → 跳过剩余 key 直接换 provider** | `[CAT]` |
 | 复别家登录 | `reuse.codex / opencode / pi / grok`,**每项一次显式同意并记录在 config**;"asks before reusing any of them" | `[CAT]` |
@@ -197,27 +198,17 @@ updated: 2026-10-31
 
 ---
 
-## 5. 借鉴食谱表(本卡的产出物)
+## 5. 可迁移洞察
 
-| 要解决的问题 | 照它的做法 | 你要改的地方 | 抄错的后果 |
-|---|---|---|---|
-| 要给别人的能力打补丁 | 先分清 `缺失 = 未知` 与 `显式否定 = 没有`,**只动后者** | 你的元数据可能是 `capabilities.x` / `features[]` | 把"未知"当"没有" → 误接管本来就能看图的模型,把能用的搞坏 |
-| 怎么接管 | **加一个元数据条目**把"能力 + 策略"变成可选项;路由不动 | 条目名要带可辨识后缀(如 `(myplugin vision)`) | 改路由 / 起代理 → 复制凭据、破坏限额、升级即碎 |
-| 用户要不要每次选 | 选择器**记住选择**,一次即够 | — | 每次粘贴都要选 → 用户放弃 |
-| 链路要有兜底 | **一条 failover 链**:快车道先、慢车道兜底、第一个好结果胜出 | 你的车道可能是"本地模型 → 云模型" | 只给一个引擎 → 它挂了你也不可用 |
-| 回退不能静默 | 固定字段 `meta.attempts`(每次尝试)+ `meta.warnings`(配额归属) | 字段名固定下来,不要每次改名 | 静默回退 → 用户以为结果来自他选的引擎 |
-| 偏好 vs 钉死 | **两个开关** | — | 合成一个 → 无法解释"为什么这次没回退" |
-| 多凭据 | 按**错误族**分流:认证/限流/配额换 key;网络/5xx/解析换 provider | — | 全都换 key → 网络故障时把 key 全烧一轮 |
-| 借用用户已有凭据 | **发现 → 逐项显式同意 → 记录 → 每次使用可见** | 你的"已有凭据"可能是 cookie / 本机 agent | 静默借用 → 用户看到别处额度少了,信任崩塌 |
-| 并入的通道 | 借来的登录 **join the pool as equals** | — | 二等通道 → 质量差且用户不知为何 |
-| 代理与内网 | 内网端点用**空字符串显式声明**不走代理 | 你的可能是自建 registry / 内网 API | 靠 `NO_PROXY` 猜 → 内网请求被代理吞掉 |
-| 跨多个宿主 | 能力做成宿主无关的一层,**两端只做外壳** | — | 给每端写 shim → N 倍维护、N 种行为差异 |
-| 结果的可信度 | 输出附"**我不确定什么**";输入(图)当**不可信**对待 | — | 只给结论 → 用户无法判断何时该复核 |
-| 卸载 | **不写宿主配置,卸载 = 删文件夹** | 检查你有没有往全局层写 | 写了一堆配置 → 卸载后行为残留 |
-| 兼容性声明 | 至少写清"在哪些真机上验证过";**没有矩阵就直说没有** | — | 写"已支持全部" → 一次失败毁掉全部可信度 |
-
----
-
+| 触发问题 | 可迁移洞察 | 机制依据 | 为什么有效 / 代价 | 移植时改什么 | 成立边界 | 抄错后果 |
+|---|---|---|---|---|---|---|
+| 纯文本模型需要读图 | 不改宿主路由：用 tool + provider wrapper + paste 路由 + 可选 pre-step 四条入口。 | `[SRC-TARGET]` modlens_read_image、modlens-<upstream> adapter、/modlens/paste、autoRead。 | 不 fork 宿主 UI/route；代价是多入口语义与兼容面。 | 明确各入口的触发条件、能力差异与关闭方式。 | README 称“无 hooks/wrappers”，与源码矛盾。 | 以为只注册 tool → 实际还有 adapter/hook。 |
+| 模态能力未知 | 对“未知”做保守判定：takeover verdict 严格 unknown→false；但 wrapper 自动发现对已知 family 缺失模态仍接管。 | `[SRC-TARGET]` verdict 与 wrapper 两套策略；`families:['*']` 才要求显式 text。 | 兼顾兼容与安全；代价是行为不一致、难以解释。 | 统一“未知”策略或明确分入口文档。 | 媒体类型缺失直接拒绝。 | 笼统宣传“absent=unknown” → 与 wrapper 行为不符。 |
+| 多引擎回退要可解释 | 产出 attempts/warnings，并在 UI/日志显示；但消费端可能丢弃。 | `[SRC-TARGET]` CLI 产 meta.attempts/warnings；dsh parseCliResult 只取 result。 | 引擎可替换；代价是 dsh 面回退静默。 | 在消费端保留 meta 或写日志。 | 本版本 dsh 面看不到回退原因。 | 以为有 attempts 就一定可见 → 排障无门。 |
+| 全引擎失败 | 定义明确降级：wrapper/autoRead 用占位文本继续，tool 抛带 exit code 的错误；不自动切回原生视觉。 | `[SRC-TARGET]` 60s 失败冷却与固定占位；tool 抛错。 | 不让请求卡死；代价是模型可能读到占位而非真图。 | 让占位可识别，并提供显式“回到原生”开关。 | 未验证真实宿主 E2E。 | 静默占位 → 模型基于假内容回答。 |
+| 凭据与浏览器边界 | key 不进浏览器、不落副本；config 0600、隐藏回显、错误脱敏；但 spawn 继承 process.env。 | `[SRC-TARGET]` hasKey 检查、reuse grant、空 proxy 直连；env 继承。 | 减少泄漏面；代价是 env 仍是旁路。 | 清理子进程 env 白名单，限制 CLI 路径覆盖。 | `MODLENS_DSH_CLI` 可覆盖 CLI。 | 以为 key 隔离 → 子进程/覆盖路径泄露。 |
+| 上传/附件限额 | 分入口定义大小/类型/魔数/归一化上限，并测试边界。 | `[SRC-TARGET]` paste 25MiB/6 类；宿主附件 20MiB/4 类/≤4MiB；HEIC 仅 paste。 | 防止资源滥用；代价是双套规则易混淆。 | 统一限额表并在 UI 显示；补 25MiB 边界测试。 | 25MiB 边界无测试。 | 大文件绕过或误拒。 |
+| “零配置”宣传 | 区分“无需新配置”与“无需引擎”：至少一个引擎可用才成立。 | `[SRC-TARGET]` 无配置文件可跑，但链为空则全失败。 | 降低上手门槛；代价是仍需安装/授权引擎。 | 首启检测引擎并给安装/授权指引。 | 无引擎时全失败。 | 用户以为装上就能读图 → 首次使用失败。 |
 ## 6. 失效条件与降级
 
 | 触发 | 行为 |

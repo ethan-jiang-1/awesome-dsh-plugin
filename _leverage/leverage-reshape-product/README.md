@@ -12,19 +12,20 @@ budget: 220
 
 > **标语**:*From a plugin to a profile to an app.* —— 产品的单位，从插件到 profile 到应用。
 > **和 `leverage/` 平级**：`leverage/` 回答"对上游的杠杆有多大"（协作 / 质量 / 安全三域）；本目录只回答"**怎么把 DSH 装成产品**"。
-> **规模**：三个 lever，**25 张样本卡** + 1 个门 + 9 份原始证据 + 1 份指标快照（另有 1 个观察样本，不占卡位）。
+> **范围**：三个 lever，25 张正式样本卡与 1 个观察样本；指标快照覆盖 26 个对象。研究规程与逐文件状态见 [`catalog`](./catalog.md)。
 > **状态**：`living`（随样本增长） · 基线 DSH `0.2.1-rc.3` · 名单 @ `efe602e7b` · **指标 2026-10-31 重采**（快照见 [`_证据/指标快照-2026-10-31.json`](./_证据/指标快照-2026-10-31.json)）
 
-## 0. 三个入口
+## 0. 入口
 
 | 你要什么 | 去哪 | 你会拿到 |
 |---|---|---|
-| **拿走东西**（做插件 / 发行版 / 独立应用） | [BORROW](./BORROW.md) | 按需求路由 + 18 条公共产出 + 三条"别抄" |
+| **拿走东西**（做插件 / 发行版 / 独立应用） | [BORROW](./BORROW.md) | 按需求路由 + 22 条公共产出 + 三条"别抄" |
+| **研究/复核一个样本** | [RESEARCH](./RESEARCH.md) | 一手证据流程、数据/状态/失败路径标准、七列表洞察模板；当前优先 profile 桶 |
 | **查某一篇** | [catalog](./catalog.md) | 全部文件的 kind / 定位 / 能拿走什么 / 什么时候读 |
 | **知道凭什么** | [horizon](./horizon.md) | C1–C4 口径、产品七层、13 行上游接缝 |
 | **问"它为什么没卡"** | [BACKLOG](./BACKLOG.md) | 过了门槛待深挖 / 没过门槛的候选，各一行 |
 
-**只读一次的话**：打开 [BORROW](./BORROW.md) §1 找你那一行；或直接进三个 lever 的 README。**不要从目录树开始通读。**
+**借用现成设计**：从 [BORROW](./BORROW.md) §1 按任务路由；**新增/复核样本**：先按 [RESEARCH](./RESEARCH.md) 操作；选型和找卡片再进对应 lever README / [catalog](./catalog.md)。
 
 ## 1. 为什么有这一册
 
@@ -47,7 +48,7 @@ budget: 220
 
 | 层 | 是什么 | 会长吗 | 约束 |
 |---|---|---|---|
-| **骨架** | 本文件、[00-map](./00-map.md)、[horizon](./horizon.md)、[BORROW](./BORROW.md)、[BACKLOG](./BACKLOG.md)、[catalog](./catalog.md)、三个 lever 的 README | **不随样本长** | 固定名、不编号；frontmatter `budget` 超了要删/移 |
+| **骨架** | 本文件、[00-map](./00-map.md)、[horizon](./horizon.md)、[RESEARCH](./RESEARCH.md)、[BORROW](./BORROW.md)、[BACKLOG](./BACKLOG.md)、[catalog](./catalog.md)、三个 lever 的 README | **不随样本长** | 固定名、不编号；frontmatter `budget` 超了要删/移 |
 | **叶子** | `<lever>/NN_*.md`、`_证据/` | 随便长 | 每篇 frontmatter + 借用节 |
 | **文档** | [catalog](./catalog.md) | 手工补 | 加卡时补一行；数量不在这里维护 |
 
@@ -57,7 +58,7 @@ budget: 220
 |---|---|---|
 | `index` | 目录/索引 | 本文件、[catalog](./catalog.md)、[BACKLOG](./BACKLOG.md) |
 | `charter` | 规则页：收什么、怎么判 | [00-map](./00-map.md)、[horizon](./horizon.md)、三个 lever README |
-| `guide` | 借用总入口 | [BORROW](./BORROW.md) |
+| `guide` | 研究/借用规程 | [RESEARCH](./RESEARCH.md)、[BORROW](./BORROW.md) |
 | `playbook` | 横向框架/手册 | 本册暂无 |
 | `card` | 一个机制/环节一篇 | 本册暂无（单域，机制写在样本卡内） |
 | `sample` | 一个样本一篇 | `plugin/11_薄基座-dock.md` … `shell/91_冻结分叉-better-sidebar-N23.md` |
@@ -93,10 +94,10 @@ Q2 交付的是"一块能力"，还是"一整套产品形态"？
 | 我要… | 先读 |
 |---|---|
 | 写一个插件，不知道挂哪个接缝 | [horizon §4 接缝表](./horizon.md) → [plugin README](./plugin/README.md) |
-| 把自己的东西做成"全家桶 / 发行版" | [profile README](./profile/README.md) → 七张卡挑一个形态 |
+| 把自己的东西做成"全家桶 / 发行版" | [profile README](./profile/README.md) → 按交付形态挑卡 |
 | 换表层做独立应用 | [shell README](./shell/README.md) → 先看 `desktop` profile 那条接缝 |
 | 判断一个东西该发什么 | 本文件 §4 的判断顺序 |
-| 抄一条现成规则 | [BORROW](./BORROW.md) 的 18 条 |
+| 抄一条现成规则 | [BORROW](./BORROW.md) 的 22 条 |
 | 找某个产品/插件的坐标 | [catalog](./catalog.md) → 对应 lever 的坐标表 |
 | 问"它为什么还没成卡" | [BACKLOG](./BACKLOG.md) |
 
@@ -128,10 +129,11 @@ Q2 交付的是"一块能力"，还是"一整套产品形态"？
 
 | 变化 | 写哪里 | 不要动 |
 |---|---|---|
-| 新样本过门 | 新卡 + [catalog](./catalog.md) 补一行 + lever README 卡表补一行 | 所有骨架 |
+| 新样本过门 | 按 [RESEARCH](./RESEARCH.md) 逐卡研究；新卡 + [catalog](./catalog.md) 补一行 + lever README 卡表补一行 | 所有骨架 |
 | 新样本只到候选 | [BACKLOG](./BACKLOG.md) 一行（写清缺什么 / 复核条件） | 所有骨架 |
 | 现有卡掉门 / 退役 | 卡 `status` + 十位改 `9`，保留编号 | 所有骨架 |
 | 某条公共规则被推翻 | [BORROW](./BORROW.md) 改一行 | 其他 |
+| 观察样本评估 | 在样本文件内写“是否升卡/理由/条件”；不占正式卡位 | 卡号与卡表 |
 | 新 lever 出现 | 必须满足：交付物不同 + ≥2 个过门样本 + 现有三 lever 都装不下；才加目录/README/[00-map](./00-map.md) 枚举/[catalog](./catalog.md) | 三个 lever 正文 |
 | 上游同步 | 只改受影响卡的 `updated` 与 `[DSH]` 断言 | 其他 |
 | 数字口径变 | 卡头数字 + [00-map §7](./00-map.md) 一行 | 其他 |
@@ -143,6 +145,8 @@ Q2 交付的是"一块能力"，还是"一整套产品形态"？
 ```sh
 node _leverage/verify.mjs
 ```
+
+该脚本检查 Markdown 编码/链接/frontmatter、catalog/card 双向覆盖及 profile 样本第 5 节七列表结构和源码复核 memo 是否存在。它不判断研究主张是否真实、来源范围是否充分或洞察是否具备迁移价值；这些仍按 [RESEARCH](./RESEARCH.md) 人工反向审查。
 
 `_leverage/verify.mjs` 是**自包含**的校验器，只读 `_leverage/` 这一棵树（不依赖 `_digested/` 的脚本或数据）：严格 UTF-8、LF、相对链接与锚点、frontmatter 契约（domain 固定 `reshape-product`）、`sample` 必须有借鉴节；另外校验本册 `catalog.md` 与本目录 Markdown 集合双向一致、三个 lever README 卡表覆盖本 lever 全部编号卡、门槛数字与 `00-map` §7 同数、卡片页头影响力过门槛（或标"机制例外"）。`leverage/` 三域由同一支校验器一并覆盖。
 

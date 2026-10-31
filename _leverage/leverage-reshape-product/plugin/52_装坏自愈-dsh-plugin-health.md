@@ -3,20 +3,21 @@ title: "装坏自愈 · dsh-plugin-health"
 domain: reshape-product
 kind: sample
 positioning: "`EasonMWS/dsh-plugin-health`：插件被宿主拒了，先在一次性 home 里真启动一次，再决定放不放行。"
-takeaway: "修复的前提是复现：隔离开局预演能启动，才写一条可撤销的官方豁免。"
+takeaway: "先预演后写豁免；但预演只是 base-only Cordis boot，不是用户真实 web/desktop bundle，也不是安全沙箱；runs 默认保留。"
 read_when: "要做安装/升级后的兼容检查；或要设计「修复前先证明」的写操作。"
 status: observed
 updated: 2026-10-31
 ---
 # 装坏自愈 · dsh-plugin-health:别猜它坏没坏，先在一边把它跑起来
 
+> **研究范围**：`dsh-plugin-health@1.1.0`；npm `gitHead=1c4b67d`（无 ref 指向）与 tag `v1.1.0=db3ad66` 是父子提交，源码差异仅 README/SECURITY 文档，故代码结论对发布物成立。DSH 对照 `0.2.1-rc.3`。只读，未安装/构建/运行。详见[`14 源码复核`](./_证据/14_装坏自愈-dsh-plugin-health-源码复核.md)。
 > **状态**:`observed` · **基线**:DSH `0.2.1-rc.3`（README 的实测数字跑在 `rc.3` / `rc.4`） · **读于**:2026-10-31
 > **类**:`5` 分发 · **层**:**7**（分发）→ 3（设置页告警）→ 6（首启前的自检）
 > **★ 4 / npm 月下载 4,377**（2026-10-31；npm 过 `2,000` 门槛，★ 未过 200 —— 按插件侧门槛的 **npm 一条**成立）
 > **一句话**:DSH 会拦"装不上"的新插件，但**不复查已经装着、后来宿主升级了的插件**；它补的正是这个缺口——而且**不在你的 profile 上试，先在一份一次性的 home 里试**。
 > **借鉴价值**:**① 静态检查只算第一层,第二层是"隔离开局预演",没有它第三层的"修复"就是猜;② 写入的必须是一条**官方**豁免,可一键撤销、并在上游发版时被提醒撤销;③ 顺序就是安全属性:先豁免再测试 = 放行一个你还没证明能跑的东西;④ 宿主起不来时,工具必须在宿主体外还能跑;⑤ 没问题时什么都不显示。**
 
-> **证据深度**:README 级（README 全文 24.9 KB + registry 条目；未读源码）（2026-10-31）
+> **证据成熟度**：预演路径、base-only profile、激活判据、豁免写入/回滚与体外 CLI 为固定源码 `机制参考`；真实 profile 复现、Windows 孤儿检测、npm 包字节一致性与 30–60s 文案未验证，无 `[RUN]`。
 > **样本档案**
 > **repo**:[`EasonMWS/dsh-plugin-health`](https://github.com/EasonMWS/dsh-plugin-health) · **npm**:`dsh-plugin-health` · **版本**:`1.1.0`
 > **目录条目**:`data/plugins/EasonMWS__dsh-plugin-health.yml`（`dev`；条目描述仍是旧的"只读诊断"，与 README 的修复能力不一致）
@@ -140,7 +141,7 @@ README 举了三个实测例子（`0.2.1-rc.4` 上）来说明"静态检查会�
 |---|---|
 | 用官方机制 | 宿主自己的 `allow-version` 豁免，落在 `compatibility.json` |
 | 可撤销 | 撤销恢复**原来的值**（不是删掉整条） |
-| 不等于支持 | 确认页明写：临时豁免只证明"能启动"，不证明"每个功能都好用" |
+| 不等于支持 | 临时豁免只证明 base-only loader 能激活；不代表真实 web/desktop profile 能启动或功能可用 |
 | 会过期 | 上游发版后，记录提醒你**撤销并升级** |
 
 > **这条最值得抄**：修复动作要写成**结构化的、可枚举的、可撤销的记录**，而不是一次性的"我已经帮你改好了"。
@@ -222,29 +223,28 @@ README 给了一条可回读的影响力证据（不是形容词）：
 
 - ★ 4 说明它**还没有社区声量**；下载高更可能是"被装进别的发行版/被 CI 拉起"。**不要把 4,377 当成 4,377 个用户。**
 - 目录条目的描述是旧的（"只读诊断工具"），与 README v1.1 的修复能力不符——**引用目录描述会低估它**。
-- 本卡 **README 级**；"隔离预演"的隔离强度（临时 home 真隔离到什么程度）未读源码核实，标 `[OPEN]`。
+- 源码已核：预演是临时 home + base-only profile，不复制/软链真实 profile；但它会执行被测插件安装/启动、继承环境、runs 默认保留，且可能在真实 home 写宿主缓存。
+- 判据细节：`runs` 只看 `runtime.details.ok`（不看 `runtime.ok`）；`broken` 还覆盖 worker 超时/崩溃、缺 profile-boot、宿主侧故障；激活审计跳过 `disabled` 行，而宿主 preflight 判别不兼容时正是把行置 disabled，故可能误判。
+- `rehearse` 的 `runtimeVersion` 未传入 smoke，也无“预演宿主==写入版本”校验；缓存旧宿主 + 新请求会产生“证明旧、写入新”。
+- 豁免 writer 不是 DSH 官方 writer：compatibility.json 写入无锁/原子 rename/备份；undo 在 previous 为 null 时删整键；grant 与账本之间崩溃会留下不可撤销的孤儿豁免。
+- `boot safe` 只枚举 profile 自己的 `cordis.patch.yml`；默认 profile 该文件为 `[]`（bundle 行来自 bundle 层），在 bundle-only profile 上可能什么都不禁用，且无匹配时写无 id 的 overlay 会被 DSH 跳过。
 - 1.0.x 有安全通告（GHSA-vj8q-543v-9hw5）；引用旧版本行为时先看版本。
 
 ---
 
-## 5. 借鉴食谱表（本卡的产出物）
+## 5. 可迁移洞察
 
-| 要解决的问题 | 照它的做法 | 你要改的地方 | 抄错的后果 |
-|---|---|---|---|
-| 升级后插件悄悄坏掉 | 先补"装之后复查"这条门：扫全部已装，比对声明 vs 实跑 | 声明从哪读、实跑版本从哪拿 | 只做安装时检查 → 升级即坏且无提示 |
-| 静态检查误报 | **隔离里真启动一次**再下结论 | 隔离要一次性、可丢弃 | 直接报"不兼容" → 误杀好插件 |
-| 修复写入不可逆 | **只写一条官方豁免；记录；一键撤销恢复原值** | 用宿主的机制，不自造配置 | 直接改 bundle 列表 → 用户无法复原 |
-| 预演失败还想修 | **什么都不改**，给两个真选项（关掉 / 生成 brief） | brief 要能直接交给 agent | 强行豁免 → 放行一个会崩的插件 |
-| 顺序错了 | **先测试，后写入** | 把"顺序"写进 UI 文案 | 先豁免后测试 → 门禁失效 |
-| 宿主起不来 | **宿主体外的 CLI**：diagnose / safe / restore | 崩溃日志路径按宿主换 | 救生工具自己也在宿主里 → 一起死 |
-| 救生要能解释 | `boot safe` 只追加 overlay、不删、不碰用户 patch、**不禁自己** | overlay 形状按宿主 | 删文件式修复 → 无法解释、无法回退 |
-| 平时不打扰 | **没问题就什么都不显示** | 有问题的入口要唯一 | 常驻红点 → 用户学会无视 |
-| 给 agent 的接口 | 工具名与 schema 在 1.x 内冻结 | 版本策略写进 README | 今天加字段明天改名 → 下游编排崩 |
-| 上游修好后 | 记录提醒**撤销豁免并升级** | 需要盯上游发版 | 豁免永久留着 → 下次真的不兼容也放行 |
-
----
-
-## 6. 失效条件与降级
+| 触发问题 | 可迁移洞察 | 机制依据 | 为什么有效 / 代价 | 移植时改什么 | 成立边界 | 抄错后果 |
+|---|---|---|---|---|---|---|
+| 升级后插件被静默拒载 | 把“装后复查”做成独立门：扫 bundles/dependencies/patch insert，声明范围 vs 实跑版本。 | `[DOC][SRC-TARGET]` detect 层；`[SRC-DSH]` allow-version 豁免机制。 | 把安装期检查补到运行期；代价是要枚举所有装载来源。 | 定义声明来源、实跑版本来源与去重规则。 | 扫描“装着什么”不等于验证运行。 | 只看安装时检查 → 升级即坏且无提示。 |
+| 静态判定误杀/漏判 | 在一次性 home 里真启动再下结论，而不是只读 manifest。 | `[SRC-TARGET]` `runRuntimeSmoke`：mkdtemp home、`health-smoke` profile、`runProfile` boot、遍历 loader entries。 | 用真实 loader 判激活；代价是分钟级耗时与宿主依赖。 | 写清预演 profile 的 bundle 组成、超时和激活判据。 | **base-only**（`dsh-base`）而非用户 web/desktop bundle；base 无 `webServer`，需 webServer 的插件会误判 broken；反之冲突也看不到。 | 把“预演通过”当“你的 profile 能用” → 放行后仍崩或误杀。 |
+| 修复写入不可逆 | 只写一条宿主支持的豁免，记录原值，提供 undo；上游修好提醒撤销。 | `[SRC-TARGET]` allow-version 写 compatibility.json 单条；undo 恢复原值。 | 可撤销、可审计；代价是要跟随上游版本提醒撤销。 | 定义写入键、并发写、原值不存在时的恢复语义。 | 豁免只证明能启动，不证明功能；临时豁免只在临时 home。 | 直接改 bundle/patch → 用户无法复原或放行会崩的插件。 |
+| 预演失败仍想“修” | 失败就什么都不改，只给“关掉/生成 brief”两个出口。 | `[DOC]` UI 无豁免按钮；`[SRC-TARGET]` 判 ok=false 时不给 repair。 | 守住“未证明不放行”；代价是用户要自己处理。 | brief 要可直接交给 agent，包含路径/版本/失败原因。 | 若预演环境本身不代表真实 profile，失败也可能是假阴性。 | 强行豁免 → 下一次启动仍失败，救生路径失效。 |
+| 顺序错把门禁废掉 | 把“先预演后写入”写成强制顺序，而不是 UI 建议。 | `[SRC-TARGET]` 先 allow-version/add 到临时 home、boot 校验，再写真实 profile。 | 顺序即安全属性；代价是失败路径也要清理临时状态。 | 用状态机/事务记录保证写入在验证之后。 | 本次未运行验证真实顺序；runs 默认保留、无自动清理。 | 先写豁免后测试 → 门禁形同虚设。 |
+| 宿主起不来时无处救 | 在宿主体外提供 CLI：diagnose/safe/restore；safe 只追加 `disabled: true` overlay，不删文件、不碰用户 patch、不禁自己。 | `[SRC-TARGET]` bin 命令与 overlay；`[DOC]` 崩溃日志路径。 | 救生工具不依赖坏宿主；代价是 OS 路径/权限差异。 | 定义 overlay 形状、dry-run 默认、日志解析与回退。 | 只对能定位到宿主安装的场景；Windows 祖先孤儿检测缺失。 | 救生工具自己装在宿主里 → 一起死；或删文件式修复不可回退。 |
+| 预演“隔离”被误当沙箱 | 明确预演会执行被测插件安装/启动、以用户权限运行、继承环境、runs 保留；不是安全沙箱。 | `[DOC]` SECURITY 明说；`[SRC-TARGET]` 无复制/软链真实 profile，但可能把宿主 npm-install 到真实 home 的 `.plugin-health/host`。 | 用户知道风险边界；代价是恶意插件仍可访问用户环境。 | 在 UI 首次运行前展示“这不是沙箱”，提供 opt-in 与清理命令。 | 无自动清理；真实 home 的 host 缓存写入发生在 verdict 前。 | 把“隔离”当安全边界 → 用户在不信任插件上运行预演。 |
+| 给 agent 的接口频繁变 | 工具名/schema 在 1.x 冻结，版本策略写进 README。 | `[DOC]` 版本策略。 | 下游编排稳定；代价是升级要兼容旧字段。 | 定义 schema 版本与弃用窗口。 | 本卡未运行工具接口。 | 改名/加必填 → 下游编排崩。 |
+## 6. 已知失效边界与降级
 
 | 触发 | 行为 |
 |---|---|
@@ -259,7 +259,12 @@ README 给了一条可回读的影响力证据（不是形容词）：
 
 ## 7. 开放问题
 
-- [ ] `[OPEN]` "一次性 home"到底隔离到什么程度（独立的 `DSH_HOME`？独立的 node_modules？）——这决定"预演通过"有多可信。
+- [ ] `[OPEN]` `runs` 只看 `details.ok`、激活审计跳过 disabled 行 → 预演可能对“被宿主 preflight 拒载的插件”给出错误结论；需构造 fixture。
+- [ ] `[OPEN]` 预演宿主版本与申请写入的 `runtimeVersion` 无相等校验；需验证缓存旧宿主场景。
+- [ ] `[OPEN]` `boot safe` 在 bundle-only 默认 profile 上是否 no-op、无 id overlay 是否被宿主跳过，需在隔离 profile 实测。
+- [ ] `[OPEN]` base-only 预演与真实 web/desktop profile 的差异有多大：需在隔离环境对比同一插件在两种 profile 下的结果。
+- [ ] `[OPEN]` Windows 下父进程退出后的后台子孙检测不可用；孤儿进程清理与端口占用需实测。
+- [ ] `[OPEN]` npm 包与 tag 文档差异（advisory 表/信任边界段是否随包发布）需下载 tarball 比对。
 - [ ] `[OPEN]` `compatibility.json` 里一条豁免的键结构是什么？撤销"恢复原值"的语义要读到源码才能抄准。
 - [ ] `[OPEN]` top 120 的扫描口径（哪 120 个、怎么选）没写死；5 → 1 这个数字下次复核要重跑。
 - [ ] `[OPEN]` 它和 `dsh-doctor` / `dsh-plugin-doctor` / `dsh-plugin-clinic` 的关系：是替代还是互补？同装会不会重复写 `compatibility.json`？

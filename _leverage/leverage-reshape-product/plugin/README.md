@@ -16,9 +16,9 @@ budget: 240
 > **状态**:`observed`(机制已核) · **基线**:DSH `0.2.1-rc.3` · 名单 @ `efe602e7b` · **指标**:2026-10-31 重采
 > **范围**:只收兼容 **DSH `0.2.x`** 的样本；0.1.x 时代的东西只作对照与反例。
 > **视角**:**用户体验**，并且**只做借鉴用途**:一卡一插件，每张卡要交代"它好在哪、为什么好、**别人具体抄哪一行**"。
-> **借阅入口**:想抄 → [18 条](../BORROW.md) · 想选型 → [卡表](#4-卡表) · 想评审 → [边界](#5-边界) · 想回源 → [样本坐标](#41-样本坐标总表要精确复现再深挖从这里开始) · 跨域 → [BORROW](../../leverage/BORROW.md)
-> **规则源**:准入/分级以 [`horizon`](../../leverage/horizon.md) 为准;本线的副本是摘要。
-> **全量卡片**:本表是精选;全部文件(kind/定位/能拿走什么/何时读)见 [`catalog`](../../leverage/catalog.md)。
+> **借阅入口**:想抄 → [22 条](../BORROW.md) · 想研究样本 → [RESEARCH](../RESEARCH.md) · 想选型 → [卡表](#4-卡表) · 想回源 → [样本坐标](#41-样本坐标总表要精确复现再深挖从这里开始)
+> **规则源**:产品线准入/分级看 [`horizon`](../horizon.md)，样本研究按 [`RESEARCH`](../RESEARCH.md) 执行。
+> **全量卡片**:本表是精选;全部文件(kind/定位/能拿走什么/何时读)见 [`catalog`](../catalog.md)。
 
 ---
 
@@ -64,9 +64,9 @@ budget: 240
 
 ---
 
-## 2. 公共产出：18 条
+## 2. 公共产出：22 条
 
-**18 条已上移到产品线根目录**：[`BORROW.md`](../BORROW.md)。它跨三个 lever，不再挂在 plugin 侧。
+**22 条已上移到产品线根目录**：[`BORROW.md`](../BORROW.md)。它跨三个 lever，不再挂在 plugin 侧。
 
 ---
 
@@ -103,27 +103,24 @@ budget: 240
 |---|---|---|---|---|
 | [`领域模型`](../horizon.md) | — | — | **三个 lever 共用**的门：四条口径、七层、编号法、证据级别 | **13 行上游接缝索引**：每层「改得动 / 改不动」以及该挂哪个服务 |
 | **`1` 壳与工作台** | | | |
-| [`薄基座`](./11_薄基座-dock.md) | `AKS1st/dock` | 10 / 1,673 | 只给注册表、不给能力：六个 API + 六个兄弟包 | **一个服务面 + 零内部依赖 + 安装顺序不敏感**；UI 依赖写成可选 peer，缺失时"不激活"；任何隐藏都留两条逃生通道 |
-| [`厚工作台`](./12_厚工作台-better-sidebar.md) | `omdsh-dev/DSH-better-sidebar` | 4,765 / 245,373 | 一个插件把自己做成 IDE，**自己就是第一个插件** | **一种扩展点形状 + 内置也走它**；原型方法注册表；`ns.v1.sessionId` 持久化 + 引用完整性；"先数扇出点再优化主路由" |
+| [`薄基座`](./11_薄基座-dock.md) | `AKS1st/dock@0.2.4` | 10 / 1,673 | Workbench shell/provider + sibling UI packages | typed registry/disposer; stores are browser-global localStorage with memory fallback; optional React runtime absence unverified; filesystem security belongs to sibling routes |
+| [`厚工作台`](./12_厚工作台-better-sidebar.md) | `omdsh-dev/DSH-better-sidebar` | 4,765 / 245,373 | 一个插件把自己做成 IDE，并提供第三方扩展注册表 | 显式 disposer 与调用方生命周期；按会话布局隔离/局部 sanitize；按 session 合并冷 cwd 读取；fs 路由不提供 workspace 沙箱 |
 | **`2` 内容形态** | | | |
-| [`生成式界面`](./21_生成式界面-dsh-genui.md) | `omdsh-dev/dsh-genui` | 827 / 48,798 | 回复本身变成可操作界面：本地优先、"诚实 UI" | **内容协议当扩展面**；节点级丢弃 + 块级退回原文；同轮纠错；无 `action` 渲染成 disabled；主题只暴露一层变量 |
+| [`生成式界面`](./21_生成式界面-dsh-genui.md) | `omdsh-dev/dsh-genui` (`@changfenhuang`) | 827 / 48,798 | Pinned source `0.15.0` 用 DOM fence observer 将 assistant `dsh-ui` JSON 转 UI（历史 npm artifact pin 未对齐） | 内容协议/fallback、action与授权必须分开；strict JSON/whitelist 不等于 sandbox；测试文件不等于同 SHA 测试通过 |
 | **`3` 驾驶舱** | | | |
-| [`驾驶舱`](./31_驾驶舱-dsh-context.md) | `bowenliang123/dsh-context` | 3,909 / 264,177 | 五块面回答"它吃了什么、为什么变笨、钱花在哪" | **同源出数**；估算与真实并列；兼容性写成 `Rule/Limitation/Check/Procedure`；"mirror, don't import" |
+| [`驾驶舱`](./31_驾驶舱-dsh-context.md) | `bowenliang123/dsh-context` | 3,909 / 264,177 | 五块面回答"它吃了什么、为什么变笨、钱花在哪" | 读宿主投影而非服务；同源但精度/回退不同；分类锚定实测；成本本地估算、价格书第三方；compatibility 文档可抄 |
 | **`4` 上手** | | | |
-| [`环境搬家`](./42_环境搬家-dsh-config-manager.md) | `xiajiajun516/dsh-config-manager` | 277 / 19,723 | 装完第一件事：把整套环境从旧机器/旧 agent 搬过来，先出计划再写 | **十二步导入流水线，写入放最后**；外部来源先翻译成标准包再走同一条路径；冲突必须逐条裁决；写前快照 + 失败回滚；读不到写"读失败"不写 0 |
-| [`会话搬家`](./43_会话搬家-dsh-chat-import.md) | `Nwflower/dsh-chat-import` | 270 / 15,185 | 把 13+ 家 agent 的对话搬成**可续聊**的会话，能预览、能撤回、能搬回去 | **发现/保真/可撤销三件套**；预览=真解析的只读 dry-run（跳过插件注入）；解析失败列出每个解析器放弃的原因并给一条可发给 agent 的任务说明 |
+| [`环境搬家`](./42_环境搬家-dsh-config-manager.md) | `xiajiajun516/dsh-config-manager` | 277 / 19,723 | 装完第一件事：把整套环境从旧机器/旧 agent 搬过来，先出计划再写 | 计划零配置写；确认后快照+journal；自动回滚不含卸载插件；未决冲突仅 UI 门；外部包兼容分被目标机版本拉满 |
+| [`会话搬家`](./43_会话搬家-dsh-chat-import.md) | `Nwflower/dsh-chat-import@0.26.3` | 270 / 15,185 | 把 33 源/34 格式的外部转录转成**原生 DSH 事件流**；预览零写入 | 预览 failures 仅预览面且 path-hint 短路；撤回分删记录/删会话两条；cwd auto 改写；密钥只报告不脱敏 |
 | **`5` 分发** | | | |
-| [`环境搬家`](./42_环境搬家-dsh-config-manager.md) | `xiajiajun516/dsh-config-manager` | `dsh-config-manager` | `xiajiajun516__dsh-config-manager.yml` (`tools`) | `dsh plugin --profile web add dsh-config-manager@latest` → 重启 | `_证据/05_上手与修复-原始挖掘.md` §一 | `dcm` CLI 子命令、migration consult 判决枚举、market 配置包校验 |
-| [`会话搬家`](./43_会话搬家-dsh-chat-import.md) | `Nwflower/dsh-chat-import` | `dsh-chat-import` | `Nwflower__dsh-chat-import.yml` (`session`) | `dsh plugin --profile web add dsh-chat-import` → 重启 | `_证据/05_上手与修复-原始挖掘.md` §二 | `docs/USAGE.md` 行级规则、13+ 来源的保真分级 |
-| [`分发与救生页`](./51_分发与救生页-dsh-market.md) | `dsh-market/dsh-market` | 9,902 / 813,066 | 把发现与安装搬进产品，并给"起不来"留救生页 | **救生页由进程外 helper 在原地址提供**；只给一个决定；外部索引每次使用前校验；自动重启先问"会不会杀死自己" |
-| [`装坏自愈`](./52_装坏自愈-dsh-plugin-health.md) | `EasonMWS/dsh-plugin-health` | 4 / 4,377 | 升级后插件被静默拒载：先在一次性的 home 里真启动一次，再决定放不放行 | **静态检查只是第一层，隔离预演才是修复的前提**；只写一条可撤销的官方豁免；顺序即安全（先测后写）；宿主起不来时工具必须在宿主体外还能跑 |
+| [`分发与救生页`](./51_分发与救生页-dsh-market.md) | `dsh-market/dsh-market@1.73.6` | 9,902 / 813,066 | 把发现/安装与崩溃恢复一起做 | 恢复页是独立 recovery 进程在回环原端口；supervisor 只认 systemd 且显式覆盖优先；外部目录无快照；写回失败不重启 |
+| [`装坏自愈`](./52_装坏自愈-dsh-plugin-health.md) | `EasonMWS/dsh-plugin-health@1.1.0` | 4 / 4,377 | 一次性 home + base-only profile 真启动，再写一条可撤销官方豁免 | 预演非沙箱且非用户真实 profile；runs 默认保留；顺序即安全；体外 CLI safe 只加 disabled overlay |
 | **`6` 多端** | | | |
-| [`装坏自愈`](./52_装坏自愈-dsh-plugin-health.md) | `EasonMWS/dsh-plugin-health` | `dsh-plugin-health`（CLI）+ 同名 bundle | `EasonMWS__dsh-plugin-health.yml` (`dev`) | CLI `npm i -g dsh-plugin-health`；或 `dsh plugin --profile web add dsh-plugin-health` | `_证据/05_上手与修复-原始挖掘.md` §三 | `compatibility.json` 键结构、隔离预演的实现、top-120 扫描口径 |
-| [`多端与远程`](./61_多端与远程-dsh-mobile.md) | `saya-ch/dsh-mobile` | 690 / 21,057 | 手机是**一台要配对的设备**，不是一个断点 | **配对码 + 可撤销(删哈希)+ 回环准入**；二进制供应链四项固定；`purge --yes` 式卸载清理 |
+| [`多端与远程`](./61_多端与远程-dsh-mobile.md) | `saya-ch/dsh-mobile@0.8.0` | 690 / 21,057 | 配对码 + 自有 TLS 网关 + 共享 upstream cookie；手机获完整 DSH 权限 | 配对是 bearer + 一次性摘要码；无设备级分区；APK 只比大小；health 恒 200；purge 只删自身目录 |
 | **`7` 感官与模型** | | | |
-| [`感官接入`](./71_感官接入-modlens.md) | `liustack/modlens` | 4,667 / 176,983 | 给纯文本模型装上眼睛：粘贴即读、零配置 | **未确认就放过**("absent means unknown")；加元数据条目不换路由；`meta.attempts`/`warnings` 让回退不静默 |
+| [`感官接入`](./71_感官接入-modlens.md) | `liustack/modlens@3.27.2` | 4,667 / 176,983 | 四条图像入口：tool/provider wrapper/paste/autoRead | “absent=unknown”仅 verdict 严格；dsh 面丢弃 attempts/warnings，回退静默；零配置仍需引擎 |
 | **`8` 协作** | | | |
-| [`81_协作`](./81_协作-dsh-agent-teams.md) | `NanmiCoder/dsh-agent-teams` | 2,597 / 50,995 | 队长 + 任务 DAG + **执行前计划**，实时活动面板 | **计划先行 + 唯一授权点 + 三层否定**；完成时审计而非写入拦截；磁盘真相并坦白"不跨进程" |
+| [`81_协作`](./81_协作-dsh-agent-teams.md) | `NanmiCoder/dsh-agent-teams@0.1.28` | 2,597 / 50,995 | 计划审批 + 任务 DAG + 文件态团队状态 | 审批三入口（create 默认 automatic）；三层否定非 durable；任务互斥≠文件互斥；跨进程会互相覆盖 |
 
 **shell 侧那 2 张不在这张表里**：[`终端即产品`](../shell/14_终端即产品-dsh-TUI.md) 与 [`冻结 fork`](../shell/91_冻结分叉-better-sidebar-N23.md)，见 [`shell`](../shell/README.md)。
 
@@ -136,8 +133,8 @@ budget: 240
 | 卡 | repo | npm 包名 | 目录条目(`data/plugins/…`) | 装法(0.2.x) | 已挖 | 未挖/待深挖 |
 |---|---|---|---|---|---|---|
 | [`厚工作台`](./12_厚工作台-better-sidebar.md) | `omdsh-dev/DSH-better-sidebar` | `dsh-better-sidebar` | `omdsh-dev__DSH-better-sidebar.yml` (`ui`) | `dsh plugin --profile web add dsh-better-sidebar@latest` | `_证据/01_壳与工作台-原始挖掘.md` §一 | 版本对照表全表、`CHANGELOG`、`ctx.betterSidebar` 类型声明 |
-| [`薄基座`](./11_薄基座-dock.md) | `AKS1st/dock` | `dock-base` + 兄弟包 `dock-files`/`dock-editor`/`dock-images`/`dock-markdown`/`dock-git`/`dock-spreadsheet` | `AKS1st__dock.yml` + `AKS1st__dock-*.yml` (`ui`) | `dsh plugin --profile web add dock-base` 后逐条装 | `_证据/01_壳与工作台-原始挖掘.md` §二 | 仓库 `src/client/contract.ts`、0.2.x 实测(本卡 `[OPEN]`) |
-| [`生成式界面`](./21_生成式界面-dsh-genui.md) | `omdsh-dev/dsh-genui`(npm scope 是 `@changfenhuang`) | `@changfenhuang/dsh-genui` | `omdsh-dev__dsh-genui.yml` (`ui`) | `dsh plugin --profile web add @changfenhuang/dsh-genui` | 本轮直接读 README 全文(429 行),行号已内联 | **`SKILL.md` 字段级 schema**、`docs/map.md`、action payload 信封 |
+| [`薄基座`](./11_薄基座-dock.md) | `AKS1st/dock` | `dock-base@0.2.4` + siblings | `AKS1st__dock.yml` + `AKS1st__dock-*.yml` (`ui`) | README: base then optional siblings (未实测) | `_证据/01_壳与工作台-原始挖掘.md` §二；`_证据/07_薄基座-dock-源码复核.md` | tarball bytes; other sibling pins; React missing-peer runtime; dock-files sandbox/auth; rc.3 DOM fallback match |
+| [`生成式界面`](./21_生成式界面-dsh-genui.md) | `omdsh-dev/dsh-genui` | `@changfenhuang/dsh-genui`（审计 source version 0.15.0；npm artifact provenance 未对齐） | `omdsh-dev__dsh-genui.yml` (`ui`) | README add 命令（未实测） | `_证据/08_生成式界面-dsh-genui-源码复核.md` | schema guard 完整边界；action authorization/idempotency；observer lifecycle；npm tarball/source 对齐与实际 host run |
 | [`驾驶舱`](./31_驾驶舱-dsh-context.md) | `bowenliang123/dsh-context` | `dsh-context` | `bowenliang123__dsh-context.yml` (`usage`) | GUI Add plugin,或 `dsh plugin --profile web add dsh-context` | 本轮直接读 README 全文(237 行)+ 上游 `dsh-token-meter` 源码 | git tag `v0.78.2` 快照、`docs/compatibility.md`、`docs/model-pricing-mapping.md` 与页脚两行 **0.2.2-alpha.2** 核实 |
 | [`分发与救生页`](./51_分发与救生页-dsh-market.md) | `dsh-market/dsh-market` | `dshmarket`(商店内显示 **Plugin Market**) | `dsh-market__dsh-market.yml` (`market`) | Desktop:Settings→Plugins;web:`dsh plugin --profile web add dshmarket` | `_证据/02_首启与分发-原始挖掘.md` §二 + §四 | issue #227/#139 原文、救生页 HTML 的实际实现 |
 | [`多端与远程`](./61_多端与远程-dsh-mobile.md) | `saya-ch/dsh-mobile` | `dsh-mobile`(+ Android App) | `saya-ch__dsh-mobile.yml` (`remote`) | 见卡 §3.1(Android App / 浏览器两条路) | `_证据/03_移动与视觉-原始挖掘.md` §一 | `compat.js` 的语法下限实测(Chromium 92 那档 `[OPEN]`) |

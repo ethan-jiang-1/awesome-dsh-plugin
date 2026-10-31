@@ -11,14 +11,15 @@ budget: 186
 ---
 # 桌面应用 · DSH Desktop（Dataelem）:把 Harness 装成普通桌面软件
 
-> **状态**:`observed`(README 级核过) · **基线**:DSH `0.2.1-rc.3`(其 README 自述的预览基线) · **读于**:2026-10-31
+> **研究范围**：`dataelement/dsh-desktop` HEAD [`1a6212e`](https://github.com/dataelement/dsh-desktop/commit/1a6212edb321509c3ee00e5d857fadfce13a7790)，最近 tag `v0.13.0` → `2c197a55`（比 HEAD 早 10 个提交）；宿主 pin `@deepseek-ai/dsh@0.2.1-rc.3`，但发行版用 patch-package 修改了宿主 CLI。只读，未安装/构建/运行。详见[`04 源码复核`](./_证据/04_桌面应用-dsh-desktop-源码复核.md)。
 > **类**:`1` 壳与工作台 · **层**:2(表层)+ 5(默认值)+ 6(首启)+ 7(分发) · **★ 16,975 / forks 586 / open issues 136**(GitHub API,2026-10-31)
 > **一句话**:它不是"给 Web GUI 加个窗口",而是**把运行时、安装包、更新通道、恢复面、手机通道一起当产品做**:安装即用、数据在应用目录外、坏了进 Safe Mode。
 > **借鉴价值**:**① "Safe Mode = 只挂官方 core bundle 的隔离 profile",把插件故障变成可退出的状态而不是白屏;② 安装包按**目标平台各自构建**,签名/公证是分发的一部分;③ 更新**先问再下、装完再重启**,并且允许"跳过这一版";④ 手机是**独立配对桥**,不是把 127.0.0.1 打个洞;⑤ 渲染器**无 Node + 上下文隔离 + 沙箱**,壳的安全基线不靠自觉。**
 
-> **证据深度**:README 级 + `docs/architecture.md`（未读源码）（2026-10-31）
+> **证据成熟度**：DSH_HOME/profile 归属、`web` 参数启动、Safe Mode profile、进程/更新/恢复面为固定源码 `机制参考`；安装包签名/公证实态、tag↔manifest 注入、真实崩溃恢复与手机配对未验证，无 `[RUN]`。
 > **样本档案**
-> **repo**:[`dataelement/dsh-desktop`](https://github.com/dataelement/dsh-desktop) · **npm**:无(桌面发行版,不走 `dsh plugin add`) · **许可证**:MIT
+> **repo**:[`dataelement/dsh-desktop`](https://github.com/dataelement/dsh-desktop) · **npm**:无(桌面发行版) · **许可证**:MIT · **版本注意**：tag `v0.13.0` 的 `package.json` 仍是 `0.12.1`，安装包实际版本由发布流水线注入
+> **宿主注意**：发行版 pin rc.3 但打了 36 个 patch（含改 `dsh/lib/bin.js` 的退出行为），不能把其 CLI 等同于 npm 上的 rc.3
 > **目录条目**:**无**(口径外样本:它不在插件目录里,这正是"宿主侧会被目录系统性漏掉"的实例)
 > **装法**:官网 <https://www.dshdesktop.com/> 下载 stable;或 GitHub Releases 取 Pre-release
 > **平台**:macOS(Apple Silicon / Intel,签名+公证) · Windows x64(代码签名 NSIS) · **不支持 Linux / Windows ARM64**
@@ -35,26 +36,27 @@ budget: 186
 
 **用户价值。** 装之前，用户要自己解决 Node、npm 全局权限、终端与端口；装之后，下载对应平台安装包、打开即用，profiles / plugins / sessions / 模型设置全在应用目录之外，覆盖安装、换版本、卸载重装都不搬家。感到“值”的是只想把活干完的人：PPT 用户、非开发同事、临时在客户机器上演示的人。代价分给两边——作者持续付 macOS 公证与 Windows 代码签名，用户要接受没有 Linux、preview 可能与社区插件不兼容，以及异地连手机得回电脑看一眼 6 位口令。
 
-**表达（界面与交互）。** 第一屏没有安装向导：装完打开就是完整界面，菜单栏/托盘常驻，**关窗口不等于退出**。更新被拆成三个可分别拒绝的动作——启动后不久检查一次、之后每 6 小时一次，发现新版**先问**，下载完还要点 **Restart and install**，并给 **skip this version** 且不隐藏后续版本。出事的表达更克制：启动失败被归因到**具体哪个插件**，恢复面直接给升级/批量升级/移除的动作，诊断只写 `harness.log` 而不要求用户翻目录；再不行退到 **Safe Mode**（只挂官方 core bundle 的隔离 profile，数据不动），连界面都进不去还有 `--safe-mode`。手机侧它不显示端口、不暴露 127.0.0.1：扫码走局域网，公网隧道才要那 6 位、默认 5 分钟只存内存的口令。
+**表达（界面与交互）。** 第一屏没有安装向导：装完打开就是完整界面，菜单栏/托盘常驻，**关窗口不等于退出**（Windows hide-to-tray；macOS 走 darwin `window-all-closed` 分支）。更新被拆成三个可分别拒绝的动作——启动后不久检查一次、之后每 6 小时一次，发现新版**先问**，下载完还要点 **Restart and install**，并给 **skip this version** 且不隐藏后续版本。出事的表达更克制：启动失败被归因到**具体哪个插件**，恢复面直接给升级/批量升级/移除的动作，诊断只写 `harness.log` 而不要求用户翻目录；再不行退到 **Safe Mode**（只挂官方 core bundle 的隔离 profile，数据不动），连界面都进不去还有 `--safe-mode`。手机侧它不显示端口、不暴露 127.0.0.1：扫码走局域网，公网隧道才要那 6 位、默认 5 分钟只存内存的口令。
 
 ## 0. 一页速览(想抄的人只看这 20 行)
 
 | 问题 | 它的答案 | 支撑 |
 |---|---|---|
 | 它是不是"插件" | **不是**。它是独立安装的应用:启动本地 Harness 运行时,运行时就绪后打开完整界面 | `[OBS]` README §What DSH Desktop adds |
-| 数据放哪 | profiles / plugins / workspaces / sessions / 模型设置**全部在应用目录之外**,升级不搬家 | `[OBS]` 同上 |
+| 数据放哪 | profiles/plugins/workspaces/sessions/模型设置放应用目录外（`userData/harness` 作为 DSH_HOME）；但正常启动会调 `maybeImportWebHome`，不能声称“完全不碰 `~/.dsh`” | `[SRC-TARGET]` |
 | 版本通道 | stable 与 **preview** 两条;preview "may be incompatible with community plugins",只给尝鲜者 | `[OBS]` §Download |
 | 更新节奏 | 启动后**不久**检查一次 + **每 6 小时**一次;发现新版**先问**,用户点 **Restart and install** 才装 | `[OBS]` §Download |
 | 能不能跳过 | 能,**跳过这一版**且不隐藏后续版本 | `[OBS]` 同上 |
 | 坏在哪看得见吗 | 启动失败与前端插件故障会被识别,诊断留在 **`harness.log`**,并给出**引导式恢复动作** | `[OBS]` §What it adds |
 | 最坏情况 | **Safe Mode**:只挂官方 core bundle 的**隔离 profile**;Agent/会话/模型/工作区照常可用 | `[OBS]` §Safe Mode and recovery |
 | 连界面都进不去 | 命令行 `--safe-mode` 直接起 | `[OBS]` 同上 |
-| 手机怎么办 | Harness 只在**随机 127.0.0.1 端口**;手机走**独立配对桥**,口令默认 **5 分钟、只存内存**,可选持久化 | `[OBS]` §Phone access |
+| 手机怎么办 | Harness 默认固定 `43129`（冲突才临时）；手机走**独立配对桥**，口令默认 5 分钟、只存内存，可选持久化 | `[SRC-TARGET]`；端口文案与代码不一致 |
 | 隧道 | Cloudflare Quick Tunnel 为主;**Pinggy 兜底**(约 60 分钟过期,给 Cloudflare 不可达的地区) | `[OBS]` 同上 |
 | 渲染器权限 | **没有 Node 权限** + context isolation + sandbox;webview / 非受信导航 / 意外权限请求一律拦 | `[OBS]` §Local data and security |
 | 外链 | 全部交给系统浏览器 | 同上 |
 | 平台边界 | macOS 双架构 + Windows x64;Linux 与 Windows ARM64 **明确不支持** | `[OBS]` §Platform support |
 | 安装包怎么来 | **每个产物在匹配的 OS/架构上构建**(Harness 带目标原生依赖) | 同上 |
+| 插件开关权威 | `.dsh-market/state.json#disabled` 是唯一权威，`dsh.profile.bundles` 是派生；显式开关会最小同步用户 patch 层（只改矛盾 row/disabled） | `[SRC-TARGET]`；“壳从不改用户配置”是错的 |
 | 最该抄的一句 | "**non-destructive Safe Mode**":恢复不删你的东西 | `[OBS]` |
 
 ## 1. 它在产品里的位置
@@ -104,7 +106,7 @@ budget: 186
 
 - **non-destructive**:隔离的是插件,不是数据;
 - **可归因**:从运行时 + 前端证据**指认**某个插件,而不是"某个插件有问题";
-- **两条入口**:菜单里的 "Restart as Safe Mode…" 与命令行的 `--safe-mode`——后者是**逃生死锁**。
+- **三条入口**:菜单 "Restart as Safe Mode…"、App argv `--safe-mode`（不是 `dsh --safe-mode`）、preflight 自动 `safe-recovery`。
 
 > **照抄点**:恢复面必须**比故障面更早可用**。插件的插件化恢复(第 4 条"三层否定"的宿主版)在这里是:当前启动 / 安全启动 / 命令行启动。
 
@@ -154,17 +156,16 @@ profiles / plugins / workspaces / sessions / 模型设置都放在 Electron 的 
 - **已核（2026-10-31）**：`docs/architecture.md` 写明 DSH_HOME 在 **Electron userData 下**（`harness/ DSH_HOME`，:42），启动时"**inspecting the web Profile**"（:29），正常状态是"the normal **web profile**"（:72）；Safe Mode 是**另一个只含官方 core bundle 的 profile**（:35）。所以它既不占 `desktop`，也不碰用户的 `~/.dsh`——**自带一套宿主数据根**。
 - `[OPEN]` preview 通道与社区插件的兼容矩阵没有公开表,只有一句"may be incompatible"。
 
-## 5. 借鉴食谱
+## 5. 可迁移洞察
 
-| 要解决的问题 | 照它的做法 | 要改的地方 | 抄错的后果 |
-|---|---|---|---|
-| 装完就能用,别让用户先装 Node | 安装包内置/拉起运行时,首次启动只做"就绪探测" | 你要为每个目标平台各构建一次(原生依赖不可交叉) | 交叉打包 → 用户装完打不开,且错误发生在最不可诊断的时刻 |
-| 更新别在对话中途把应用重启 | 检查 / 下载 / 安装三段分离,安装必须用户点按钮 | 加"跳过这一版"且不隐藏后续版本 | 静默更新 → 用户正在跑的长任务被杀,归因给整个产品 |
-| 插件把应用弄崩了怎么办 | **Safe Mode**:隔离 profile,只挂官方 bundle,数据不动 | 需要一条**不依赖插件栈**的启动路径(命令行 flag) | 安全模式也挂在坏 profile 上 → 和坏应用一起起不来 |
-| 失败要能指认 | 运行时 + 前端证据 → 指认具体插件 → 给升级/移除动作 | 证据采集要在启动早期就开着 | 只说"启动失败" → 用户只能全删重装 |
-| 手机要能连,但不能把 Harness 暴露出去 | 随机回环端口 + 独立配对桥 + 短时口令 + 双隧道兜底 | 口令要能持久化,但必须显式选择 | 直接把 3080 转发到局域网/公网 → 整个会话对同网段开放 |
-| 壳里能不能跑任意网页 | 无 Node + 上下文隔离 + 沙箱 + 拦非受信导航 | 外链要显式交系统浏览器 | 图省事给 renderer Node → 后面所有安全承诺失效 |
-
+| 触发问题 | 可迁移洞察 | 机制依据 | 为什么有效 / 代价 | 移植时改什么 | 成立边界 | 抄错后果 |
+|---|---|---|---|---|---|---|
+| 桌面应用起不来要能自救 | 用隔离的 `desktop-safe-mode` profile（base+web-app），共享 DSH_HOME、继承模型行；三条入口（菜单/argv/preflight）。 | `[SRC-TARGET]` safe-mode-profile、`--safe-mode` 为 App argv、`safe-recovery` 自动。 | 不搬数据即可恢复；代价是 Safe Mode 也可能受坏模型配置影响。 | 定义 Safe Mode bundle 集合、继承字段与入口矩阵。 | 共享 DSH_HOME，不是全新环境。 | 以为 Safe Mode=干净 profile → 仍被坏配置拖垮。 |
+| 壳启动 Harness 的所有权 | 壳只碰进程/端口/日志/更新/恢复；profile 内容交给 CLI/pnpm；用 launch token + 回环探针判就绪。 | `[SRC-TARGET]` spawn 子进程嵌入 runCli；token/401 亦健康；45s/180s 超时；崩溃不自动重启。 | 清晰边界；代价是 Harness 崩溃后需用户操作。 | 定义就绪信号、超时、SIGTERM→KILL 与进程恢复范围。 | `ProcessRecovery` 只管 Electron 自身。 | 壳重启 Harness 时杀掉用户附加实例。 |
+| 插件开关的权威状态 | 用一个明确权威（`.dsh-market/state.json#disabled`），bundle 列表是派生；显式开关最小同步用户 patch。 | `[SRC-TARGET]` state→bundles 派生；结构化改矛盾 row，歧义 YAML 拒绝。 | 避免两套真相；代价是壳会改用户 patch 层。 | 明确权威文件、派生规则与“绝不改”的边界。 | “壳从不改用户配置”不成立。 | 照抄该宣传 → 批量开关后 patch 被删。 |
+| 端口与本地访问 | 固定优先端口、冲突再临时；绑回环并加独立鉴权。 | `[SRC-TARGET]` DEFAULT 43129；回环 + token/cookie。 | 可预期；代价是端口冲突需回退。 | 文档与代码统一：不要写“随机端口”。 | 文档自述 random，代码固定优先。 | 防火墙/脚本按随机端口配置 → 连不上。 |
+| 更新与版本注入 | 更新分检查/下载/重启三步，允许跳过；版本号由发布流水线注入而非 tag 名。 | `[SRC-TARGET]` update 流程；tag v0.13.0 的 manifest 仍 0.12.1。 | 用户可控；代价是 tag↔版本不透明。 | 在安装包与 UI 显示真实版本，CI 校验 tag 与 manifest。 | 安装包版本注入未读到。 | 依据 tag 判断版本 → 升级/回滚错配。 |
+| 第三方壳与 profile 保留名 | 第三方壳用自有 DSH_HOME + `web` profile，不要去占 `desktop`。 | `[SRC-TARGET]` harness-node-entry 只调 runCli({packageManager})；patch/docs 自述 web profile。 | 避开官方保留名冲突；代价是失去 `desktop` 的官方语义。 | 定义自己的 profile 命名空间与迁移策略。 | 上游 `desktop` 契约不含产品名，第三方非“官方 Electron 应用”。 | 冒用 desktop → CLI 拒绝或与官方应用冲突。 |
 ## 6. 失效条件与降级
 
 - **平台**:Linux / Windows ARM64 不支持;每个产物只能在匹配 OS/架构上构建。

@@ -221,8 +221,19 @@ const PRODUCT_CATALOG = PRODUCT_ROOT + 'catalog.md';
 if (mdFiles.includes(PRODUCT_CATALOG)) {
   const text = readFileSync(join(repoRoot, PRODUCT_CATALOG), 'utf8');
   const listed = new Set();
-  for (const m of text.matchAll(/\]\((\.\/[^)#\s]+\.md)\)/g)) {
-    listed.add(m[1].replace(/^\.\//, ''));
+  const seen = new Map();
+  // 只把“表格行首列链接”视为目录条目，正文导航里的重复链接不算重复行。
+  for (const line of text.split('\n')) {
+    if (!/^\s*\|/.test(line)) continue;
+    const first = line.match(/^\s*\|\s*\[`?[^\]]*`?\]\((\.\/[^)#\s]+\.md)\)/);
+    if (!first) continue;
+    const target = first[1].replace(/^\.\//, '');
+    if (seen.has(target)) {
+      fail(PRODUCT_CATALOG, null, `catalog 重复行：${target}`);
+    } else {
+      seen.set(target, true);
+    }
+    listed.add(target);
   }
   const files = mdFiles
     .filter((f) => f.startsWith(PRODUCT_ROOT))
@@ -264,6 +275,68 @@ for (const lever of ['plugin', 'profile', 'shell']) {
         if (!text.includes(`★ ≥ ${star}`)) fail(t, null, `门槛与 00-map 不一致：缺 ★ ≥ ${star}`);
         if (!text.includes(`npm 近 30 天 ≥ ${npm}`)) fail(t, null, `门槛与 00-map 不一致：缺 npm ≥ ${npm}`);
       }
+    }
+  }
+}
+
+// ---------- 样本卡：七列洞察表 + 每张正式卡必须有固定版本 memo ----------
+{
+  const isSampleCard = (rel) => /^(plugin|profile|shell)\/\d{2}_.*\.md$/.test(rel.slice(PRODUCT_ROOT.length));
+  const memoFor = {
+    'plugin/11_薄基座-dock.md': 'plugin/_证据/07_薄基座-dock-源码复核.md',
+    'plugin/12_厚工作台-better-sidebar.md': 'plugin/_证据/06_厚工作台-better-sidebar-源码复核.md',
+    'plugin/21_生成式界面-dsh-genui.md': 'plugin/_证据/08_生成式界面-dsh-genui-源码复核.md',
+    'plugin/31_驾驶舱-dsh-context.md': 'plugin/_证据/09_驾驶舱-dsh-context-源码复核.md',
+    'plugin/42_环境搬家-dsh-config-manager.md': 'plugin/_证据/10_环境搬家-dsh-config-manager-源码复核.md',
+    'plugin/43_会话搬家-dsh-chat-import.md': 'plugin/_证据/12_会话搬家-dsh-chat-import-源码复核.md',
+    'plugin/51_分发与救生页-dsh-market.md': 'plugin/_证据/13_分发与救生页-dsh-market-源码复核.md',
+    'plugin/52_装坏自愈-dsh-plugin-health.md': 'plugin/_证据/14_装坏自愈-dsh-plugin-health-源码复核.md',
+    'plugin/61_多端与远程-dsh-mobile.md': 'plugin/_证据/15_多端与远程-dsh-mobile-源码复核.md',
+    'plugin/71_感官接入-modlens.md': 'plugin/_证据/16_感官接入-modlens-源码复核.md',
+    'plugin/81_协作-dsh-agent-teams.md': 'plugin/_证据/17_协作-dsh-agent-teams-源码复核.md',
+    'profile/11_全家桶-dsh-web.md': 'profile/_证据/04_全家桶-dsh-web-源码复核.md',
+    'profile/12_界面套件-dsh-codex-ui.md': 'profile/_证据/10_界面套件-dsh-codex-ui-源码复核.md',
+    'profile/13_组合包-dsh-suite.md': 'profile/_证据/09_组合包-dsh-suite-源码复核.md',
+    'profile/14_聚合补丁-dsh-all.md': 'profile/_证据/08_聚合补丁-dsh-all-源码复核.md',
+    'profile/15_接管套件-dsh-plugins-plus.md': 'profile/_证据/06_接管套件-dsh-plugins-plus-源码复核.md',
+    'profile/16_套件市场-dsh-agent-plugins-market.md': 'profile/_证据/05_套件市场-dsh-agent-plugins-market-源码复核.md',
+    'profile/17_闭环装配-better-session.md': 'profile/_证据/07_闭环装配-better-session-源码复核.md',
+    'profile/18_视觉资产-dsh-wallpaper-engine.md': 'profile/_证据/11_视觉资产-dsh-wallpaper-engine-源码复核.md',
+    'shell/11_桌面应用-dsh-desktop.md': 'shell/_证据/04_桌面应用-dsh-desktop-源码复核.md',
+    'shell/12_单文件桌面壳-windowos.md': 'shell/_证据/06_单文件桌面壳-windowos-源码复核.md',
+    'shell/13_内置运行时-tauriapp.md': 'shell/_证据/05_内置运行时-tauriapp-源码复核.md',
+    'shell/14_终端即产品-dsh-TUI.md': 'shell/_证据/02_dsh-TUI-源码复核.md',
+    'shell/15_终端工作区-seektty.md': 'shell/_证据/07_终端工作区-seektty-源码复核.md',
+    'shell/91_冻结分叉-better-sidebar-N23.md': 'shell/_证据/03_冻结分叉-better-sidebar-N23-源码复核.md',
+  };
+  const columnCount = (line) => line.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').length;
+  for (const rel of mdFiles) {
+    if (!rel.startsWith(PRODUCT_ROOT) || !isSampleCard(rel)) continue;
+    const text = textsByFile.get(rel) ?? '';
+    const fm = parseFrontmatter(text);
+    if (fm.error || fm.meta.kind !== 'sample') continue;
+    const card = rel.slice(PRODUCT_ROOT.length);
+    const isAntiRecipe = /反例|反食谱/.test(`${fm.meta.title ?? ''} ${fm.meta.positioning ?? ''}`);
+    if (!isAntiRecipe) {
+      const sectionMatch = text.match(/^## 5\. 可迁移洞察[^\n]*\n([\s\S]*?)(?=^## )/m);
+      if (!sectionMatch) {
+        fail(rel, null, '正式样本卡缺少 `## 5. 可迁移洞察`（反例卡请标注“反例/反食谱”）');
+      } else {
+        const lines = sectionMatch[1].split('\n').filter((line) => /^\s*\|.*\|\s*$/.test(line));
+        if (lines.length < 3) {
+          fail(rel, null, '可迁移洞察表缺 header/divider/洞察行');
+        } else {
+          for (const [index, line] of lines.entries()) {
+            if (columnCount(line) !== 7) fail(rel, null, `可迁移洞察表应为 7 列（表行 ${index + 1}）`);
+          }
+        }
+      }
+    }
+    const memo = memoFor[card];
+    if (!memo) fail(rel, null, '正式样本卡缺少源码复核 memo 映射');
+    else if (!mdFiles.includes(PRODUCT_ROOT + memo)) fail(rel, null, `缺少固定版本证据 memo：${memo}`);
+    else if (!text.includes(memo.split('/').pop())) {
+      fail(rel, null, `卡片未链接其固定版本证据 memo：${memo}`);
     }
   }
 }

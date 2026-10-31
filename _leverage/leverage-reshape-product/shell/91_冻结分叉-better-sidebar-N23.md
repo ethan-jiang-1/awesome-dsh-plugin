@@ -2,21 +2,21 @@
 title: "冻结 fork · dsh-better-sidebar-N23"
 domain: reshape-product
 kind: sample
-positioning: "`All3nCN/dsh-better-sidebar-N23`：0.1.x 冻结 fork，用一次失联证明「改得太深就只能分家」。"
-takeaway: "反食谱：peer 上界 = 死亡日期；只写下界 + CI 矩阵，或换接缝，别 fork。"
+positioning: "反例样本：`dsh-better-sidebar-N23@0.1.0`，从上游 v0.12.3 复制树后冻结；npm 0.1.0=tag 树，HEAD 另有 8 个未发布提交。"
+takeaway: "反食谱：peer 上界把兼容范围钉到 0.1；复制树 90/89/19 处改动后，上游 72 天走了 1,154 个提交；且上游只补齐了 diff/暂存，没补活动栏。"
 read_when: "想 fork 上游；或要判断一个深改插件的升级风险。"
 status: observed
 updated: 2026-10-31
 ---
 # 冻结分叉 · dsh-better-sidebar-N23:改得太深,就只能分家
 
-> **状态**:`observed`(声明)/ `[OPEN]`(0.2.x 实测) · **基线**:`0.2.1-rc.3` 上**不适用** · **读于**:2026-10-31
+> **研究范围**：fork HEAD [`ca9694b`](https://github.com/All3nCN/dsh-better-sidebar-N23/commit/ca9694b4d232ff47eefec07e395b23eef0766831)、tag `v0.1.0` → `8604e63`，npm `0.1.0` 与 tag 树 171/171 文件哈希一致（HEAD 比 tag 多 8 个未发布提交）；上游对照 v0.12.3 `ab785d71` 与 v0.28.2 `b0e0fab5`。DSH 0.2.1-rc.3。只读比对，未安装/构建/运行。详见[`03 源码复核`](./_证据/03_冻结分叉-better-sidebar-N23-源码复核.md)。
 > **类**:`9` 反例与退役 · **层**:3(与 [`厚工作台`](../plugin/12_厚工作台-better-sidebar.md) 同层)
-> **★ / npm**:★ 0 / npm 1,350（2026-10-31 实时）
+> **★ / npm**:★ 0 / npm 1,350（2026-10-31 实时）；本卡按“机制例外”收录——它是本线唯一的冻结分叉反例（门槛见 [`00-map` §7](../00-map.md)）。
 > **一句话**:本 lever 最好的一张**反证**:同一个作者、同一套代码,只因为**绑定了一个小版本**,在 `0.2.x` 的世界里彻底失联。
 > **借鉴价值**:**① 什么时候该 fork(以及为什么"功能更多"救不了它);② peer 区间写 `>= X < Y` 是一种延迟死亡;③ 深改的插件必须有"上游一升级我怎么活"的预案;④ fork 的运维成本与它替代的东西不成比例。**
 
-> **证据深度**:README 级（目录条目 + upstream README 对照）（2026-10-31）
+> **证据成熟度**：分叉坐标、发布物=tag 树、树上差异与 peer 闸门为固定提交 `机制参考`；“上游已补齐”需收窄：diff/暂存已补，活动栏没有；终端/浏览器是宿主补的。无 `[RUN]` 安装/启动。
 > **样本档案**
 > **repo**:[`All3nCN/dsh-better-sidebar-N23`](https://github.com/All3nCN/dsh-better-sidebar-N23) · **npm**:`@all3cn/dsh-better-sidebar-n23` · **版本**:钉 `0.1.x`(peer `>= 0.1.0-rc.6 < 0.2.0`)
 > **目录条目**:`data/plugins/All3nCN__dsh-better-sidebar-N23.yml`(`ui`)
@@ -30,9 +30,9 @@ updated: 2026-10-31
 
 **意图。** 作者想把 `better-sidebar` 再往前推一步:真 diff 与 VSCode 式 diff tab、右键暂存/提交/还原、多标签内嵌浏览器、xterm.js + node-pty 的真 shell(可选给模型注入 `terminal_*` 工具),外加**全宽 48px 顶栏 + 活动栏**。交付单位是一个独立发版的社区 fork,`@all3cn` 作用域、MIT 上游代码。它明确不做的是跟随 0.2.x:验证只到 `0.1.1-rc.2`,peer 写死 `>= 0.1.0-rc.6 < 0.2.0`,也没有 `engines.dsh`。
 
-**意义。** 它没换接缝——仍保留上游 `ctx.betterSidebar` 与 `registerTab` / `registerFileViewer`,内置 tab 与第三方同一套接口——于是既没有独立生态,又必须跟上游改布局,深度重写 + 兼容原接口 + 钉死版本被绑成一个死结。上界不是"谨慎",是**主动设了一个死亡日期**:在 `0.2.1-rc.3` 上每个 `@deepseek-ai/dsh*` peer 都必须满足,`< 0.2.0` 必然失败,宿主在安装期抛 `ManagementFailure('incompatible-version')`,什么都没装。它的功能优势全在自己的代码里,`0.2.x` 用户根本看不到;生态按包名选插件而不按接口形状,名单内被引只有 **1** 条。
+**意义。** 它没换接缝——仍保留上游 `ctx.betterSidebar` 与 `registerTab` / `registerFileViewer`，且**行 id、服务名、settings namespace、localStorage key 全部沿用上游**；因此与上游/聚合包双挂载会撞 `duplicate prefix route` 与 `ctx.provide` 二次注册。上界不是 fork 独立决策：上游基点 `^0.1.0-rc.6` 展开即 `<0.2.0-0`，fork 手写 `<0.2.0` 反而略宽；真正的死因是**冻结在 0.1.x**。在 `0.2.1-rc.3` 上 peer 不满足，安装期抛 `incompatible-version`；抛错后是否完全无落盘未证，标 `[OPEN]`。它的功能优势全在自己的代码里,`0.2.x` 用户根本看不到;生态按包名选插件而不按接口形状,名单内被引只有 **1** 条。
 
-**用户价值。** 对 `0.1.x` 用户,它一度是"更好的那个版本":功能比当年上游更全,装得上就能用。对读者,价值不在"装它",而在拿到一条反食谱:peer 带上界 = 已排定退役;深度 fork 的理由只能是"上游拒绝这个方向",且要有持续跟进的人力,否则用户弃用你的成本远低于你追更的成本——上游 `0.28.x` 已把 diff、暂存、活动栏补齐。代价是双向的:用户被推进"降级 DSH 还是失去插件"的两难,作者则要同时维护 `dsh-qa-suite-N23` 两份追更。
+**用户价值。** 对 `0.1.x` 用户,它一度是"更好的那个版本":功能比当年上游更全,装得上就能用。对读者,价值不在"装它",而在拿到一条反食谱:peer 带上界 = 已排定退役;深度 fork 的理由只能是"上游拒绝这个方向",且要有持续跟进的人力,否则用户弃用你的成本远低于你追更的成本——上游 `0.28.x` 已补 diff、暂存/提交/还原（**活动栏没有**；终端与浏览器是宿主补的，不是上游）。代价是双向的:用户被推进"降级 DSH 还是失去插件"的两难,作者则要同时维护 `dsh-qa-suite-N23` 两份追更。
 
 **表达（界面与交互）。** 它交付的界面确实有产品感:48px 顶栏 + 活动栏把 sidebar 变成工作台,diff tab、浏览器多标签、真 shell 都指向"在 DSH 里少开一个 IDE"。但这次失联的"表达"恰恰是反面教材:升级到 `0.2.0` 时用户只看到 `dsh plugin add` 的 peer 冲突,第一反应是"是不是我命令写错了",README 里那句"针对 `0.1.1-rc.2` 验证"是唯一线索。它没有升级前的提示、没有迁移入口、也没有可回退的中间态——唯一给出的退路是"降级宿主",而那会砸掉 `0.2.x` 的其他插件。
 
@@ -40,13 +40,14 @@ updated: 2026-10-31
 
 | 问题 | 它的答案 | 支撑 |
 |---|---|---|
-| 它是什么 | 上游 `dsh-better-sidebar`(MIT)的**社区 fork**,`@all3cn` 作用域独立发版 | `[CAT]` |
+| 它是什么 | 上游 v0.12.3 的**复制树**（根提交无父、非 GitHub fork），`@all3cn` 作用域，npm 仅 0.1.0 | `[SRC-TARGET]` |
+| 身份是否换 | **没换**：行 id `better-sidebar`、服务 `betterSidebar`、settings ns、`dsh-sidebar:v1` 全沿用上游 | `[SRC-TARGET]`；双挂载会撞路由/服务名 |
 | 保留了上游什么 | `ctx.betterSidebar` 服务、`registerTab` / `registerFileViewer`、内置 tab 与第三方**同一套注册接口**、按会话持久化布局、zh/en 跟随 DSH 语言 | `[CAT]` |
 | 它多出什么 | 真 diff + VSCode 式 diff tab、右键暂存/提交/还原、**内嵌浏览器**(多标签、沙箱 iframe)、xterm.js + node-pty **真 shell**(可选给模型注入 `terminal_*` 工具)、**全宽 48px 顶栏 + 活动栏**、可拖拽拆合的 Tab | `[CAT]` |
 | 它的**致死声明** | 针对 **DSH `0.1.1-rc.2`** 验证;peer `@deepseek-ai/* >= 0.1.0-rc.6 < 0.2.0` | `[CAT]` |
-| 这行的意思 | 它在设计上**承诺不支持 0.2.x**——不是"还没来得及",是"明确不要" | — |
+| 这行的意思 | 上界继承自上游 `^0.1.0-rc.6`（展开 `<0.2.0-0`）；fork 写成 `<0.2.0` 还略宽。真正的死因是冻结在 0.1.x | `[SRC-TARGET]` |
 | 宿主怎么判 | 有 `engines.dsh` 就它独占判定,否则**每个** peer 都得满足;`<0.2.0` 必然失败 → `ManagementFailure('incompatible-version')` | `[DSH]` `dsh-app-boot/lib/index.js:279-331` |
-| 名单内被引 | **1** 条 | `[CAT]` |
+| 分叉规模 | 相对 v0.12.3：**90 新增 / 89 删除 / 19 改动**；上游到 v0.28.2 已走 **1,154 提交 / 27 tag / 72 天** | `[RUN]` 树比对 |
 | 同作者还发了 | `dsh-qa-suite-N23` | `[CAT]` |
 | 读法 | 它**不是山寨**,是一次**有意识的并行维护**,功能甚至比当年上游更全 | `[CAT]` |
 | 但它结果是 | `0.2.x` 上**装不上**,而 [`厚工作台`](../plugin/12_厚工作台-better-sidebar.md) 有 **30+** 插件基于其 API、**4,765★ / 245,373** 月下载（2026-10-31） | 对照 |

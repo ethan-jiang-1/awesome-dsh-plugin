@@ -24,6 +24,7 @@ budget: 191
 > **产物**:npm 包 + `deepseek` 全局 launcher;可选 companion bundles(Creator / Browser / Computer)
 > **已在本地挖掘**:[`../_证据/01_桌面与终端-原始挖掘.md`](./_证据/01_桌面与终端-原始挖掘.md) §二.4
 > **再深挖去哪**:`docs/release-v1.3.0.md`、`docs/pnpm11-layout-acceptance.md`、`docs/terminal-background-compatibility.md`
+> **证据链**：固定 v1.3.0 的 peer 闸门、GVS、native tail opt-in 与 teardown 见[`07 源码复核`](./_证据/07_终端工作区-seektty-源码复核.md)。
 
 ---
 
@@ -159,17 +160,17 @@ Clarify 的问答、选项、预览、refine 反馈留在 Host 内存,**默认 1
 - **已核（2026-10-31）**：`dsh-TUI` 用的是 **`dsh-tui`** profile（其 README："`dsh plugin --profile dsh-tui add …`"、"`dsh --profile dsh-tui`"），与 SeekTTY 的 `tui` **不同名**，不存在 profile 撞车。真正的冲突面在 **patch 行 id**：两者都覆盖 `system-prompt`、`hmr`、`session-query-sqlite` 等宿主行（各自 `cordis.patch.yml` 开头即说明按 id 覆盖），所以**装进同一个 profile 才会打架**。
 - `[OPEN]` 已测宿主是 `0.2.0-rc.2`,比本线基线 `0.2.1-rc.3` 落后一个 rc;`0.2.1-rc.3` 上未验证。
 
-## 5. 借鉴食谱
+## 5. 可迁移洞察
 
-| 要解决的问题 | 照它的做法 | 要改的地方 | 抄错的后果 |
-|---|---|---|---|
-| 表层想换,又不想跟上游对着干 | 明确"表层归我、状态归你",能力全从运行中的宿主发现 | 发现失败要**降级**而不是硬编码兜底 | 硬编码能力清单 → 上游一加功能你就落后一个版本 |
-| 壳的更新把宿主带崩 | self-first、一次一个组件、不跨未验证区间 | 失败要**不阻塞启动**并提供回退 | 一次更新装三个组件 → 失败无法归因 |
-| 宿主版本对不上 | 低于下限拒;高于已测提示;未知契约 fail closed | 兼容区间要**显式枚举** | 只写"支持 0.2.x" → 上游一改就靠用户报错 |
-| 包管理器布局把应用弄挂 | 只对自己发起的变更加局部开关,给双语诊断 + 恢复命令 | 绝不改全局 pnpm 配置 | 全局改 GVS → 修好自己,坑所有项目 |
-| 终端里滚动/搜索很难用 | 提供**原生模式**:把历史写进 scrollback,交出所有权 | 切换时要明确谁重绘;回填可中断 | 两套模式都自己重绘 → 历史重复/错位 |
-| 首启问密钥,用户想先看看 | 三个出口 + Esc 推迟 + 保留草稿 + 不回读密钥 | 推迟后配置成功要**自动继续** | 强制填 key → 用户第一次打开就流失 |
-
+| 触发问题 | 可迁移洞察 | 机制依据 | 为什么有效 / 代价 | 移植时改什么 | 成立边界 | 抄错后果 |
+|---|---|---|---|---|---|---|
+| 终端 UI 与宿主状态的边界 | 表层进程内渲染，状态/模型/权限仍归宿主；不要自建 Web 服务器。 | `[SRC-TARGET]` launcher spawn `dsh --profile tui`；无 createServer/listen；InProcessConnectionService。 | 少一层网络与生命周期；代价是进程内耦合与版本绑定。 | 定义进程内服务契约、启动参数与退出清理。 | 仍会通过 patch 改宿主行/预设。 | 自建端口 → 鉴权/清理/双开问题。 |
+| 宿主版本兼容 | 用精确 tested pin + 兼容表 + 明确的 allow-version 逃生，而不是模糊 range。 | `[SRC-TARGET]` 63 精确 peers、minimum=tested=`0.2.0-rc.2`；无 `engines.dsh`。 | 测试矩阵可控；代价是新宿主直接被上游预检拒绝。 | 给每个宿主版本准备兼容证据与豁免流程。 | 在 0.2.1-rc.3 上需 `allow-version` 才能装。 | 宣传“高于已测可启动提示” → 实际安装期被拒。 |
+| 自动更新 | self-first、最多一个组件、绝不装未测缺口；但默认模式与回滚要写清。 | `[SRC-TARGET]` updateMode 默认 auto；兼容区间退化为单 pin；无 previous 版本保存。 | 减少版本漂移；代价是启动前安装、失败无回滚。 | 默认改为 check 或显式 opt-in，加 previous pin 与回滚。 | 失败不阻塞启动，但成功装坏不会自动降级。 | 以为默认只提示 → 每次启动静默改环境。 |
+| pnpm 11 GVS | 只在自身发起的 pnpm 变更加 `--config.enable-global-virtual-store=false`，不改全局配置。 | `[SRC-TARGET]` launcher/plugin/self-update 局部加参；不 pnpm config set/NODE_PATH。 | 避免全局副作用；代价是每次调用都要带参。 | 统一封装 pnpm 调用并测试 GVS 开/关。 | 上游 loader 在 GVS 下失败。 | 改全局配置 → 影响其他工具。 |
+| 原生 scrollback | 切换/回填/关鼠标上报可做；增量“只刷尾部”应作为 opt-in 并有 terminal matrix。 | `[SRC-TARGET]` SEEKTTY_NATIVE_TAIL=1 门控 NativeHistory/NativeOutput。 | 兼容终端复制/滚动；代价是默认路径仍走主屏重绘。 | 定义终端矩阵与默认开关，测重绘边界。 | 默认未启用 tail 机制。 | 宣称默认“不重着色” → 与实现不符。 |
+| Profile 管理 | 若在 TUI 内做 `/plugin`、`/profile`，要承认自己成为 profile 写入者，并用宿主 manifest helper。 | `[SRC-TARGET]` profile-plugin-manager 跑 pnpm、改 bundles、克隆/转换 profile。 | 一体化体验；代价是承担 profile 损坏/迁移责任。 | 加事务/备份/回滚与冲突检测。 | README “native reconciliation”仅是同一 helper。 | 认为从不改 profile → 出问题无法归因。 |
+| Teardown/重启交接 | 同步恢复终端、fatal/suspend guard、限时清理、一次性 0600 交接文件并定期清扫。 | `[SRC-TARGET]` teardown/restart handoff。 | 崩溃后终端可用；代价是实现复杂。 | 定义信号处理、超时清理与交接文件生命周期。 | 未在真实终端验证全部路径。 | 崩溃后终端乱码/交接文件泄漏。 |
 ## 6. 失效条件与降级
 
 - **宿主版本**:低于下限直接拒;高于已测只提示,自动更新停在显式区间。

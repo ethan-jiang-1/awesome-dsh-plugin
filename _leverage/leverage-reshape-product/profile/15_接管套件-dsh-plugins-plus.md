@@ -3,26 +3,25 @@ title: "接管套件 · dsh-plugins-plus"
 domain: reshape-product
 kind: sample
 positioning: "`sidleo/dsh-plugins-plus`：一个 bundle 装两个「-plus」组件，按 preset 接管宿主自带的插件行。"
-takeaway: "接管要可逆：停原行、加己行、按 preset 生效、回退精确到删除覆写行。"
+takeaway: "README 描述按 preset 接管 built-in rows；npm 0.2.0 源码 pin 尚未对齐，接管与回滚行为暂列概念参考。"
 read_when: "要替换宿主自带实现；或要设计「按 preset 生效」的默认值管线。"
 status: observed
 updated: 2026-10-31
 ---
 # 接管套件 · dsh-plugins-plus:不叠加能力，换掉宿主自带的那一行
 
-> **状态**:`observed` · **基线**:DSH `0.2.1-rc.3`（README 未写死版本，机制只用 profile patch 与 preset 语义） · **读于**:2026-10-31
+> **研究范围**：npm `@sidleo3/dsh-plugins-plus@0.2.0` 的 registry tarball metadata、integrity 和版本化 README 已核；**尚未找到与该 tarball 对齐的目标仓库 commit/tag**。metadata `gitHead=b0f2337…` 实际 GitHub manifest 标 `0.1.8`，另一个 `0.2.0` 发布提交也不是 metadata `gitHead`，故本卡不引用目标 checkout 源码为 npm 0.2.0 的实现。DSH 通用接缝对照为 `@deepseek-ai/dsh@0.2.1-rc.3`。细节见[`06 源码复核`](./_证据/06_接管套件-dsh-plugins-plus-源码复核.md)。
+> **证据成熟度**：产品概念为 `概念参考`；目标接管 planner、回滚、迁移和 HMR 只能按 `[DOC]`，不是目标包的机制参考；无 `[RUN]`，不能称行为参考。
 > **类**:`1` 壳与工作台 · **层**:**4**（身份/preset）→ 5（默认值）→ 3（设置槽位）
-> **★ 0 / npm 月下载 6,094**（2026-10-31；目录外样本，只有 npm 口径）
-> **一句话**:绝大多数插件往宿主里**加**东西；它做的是**换**——把宿主自带的 `agent-instructions`、`skill-filesystem` 两行按 preset 停掉，换成自己的 `-plus` 行，并且**能精确退回**。
-> **借鉴价值**:**① 接管一个内置实现要同时做三件事:停原行、加己行、只在选中的 preset 生效;② 组件命名 = 内置行 id + 后缀,新组件不发行新包;③ 回退是「删掉覆写行」,不是「再写一次默认值」;④ 直接写 profile patch,不另立配置文件;⑤ 会话创建时才固化 preset,所以接管只影响之后的会话。**
+> **采用信号**：★ 0 / npm 月下载 6,094（2026-10-31；npm 下载≠用户数；无目录收录）
+> **一句话 [DOC]**：README 将其描述为一个 bundle，为两个 built-in discovery components 提供按 agent preset 的接管开关、preset 配置和 legacy import。
+> **借鉴价值（概念级）**：**① takeover 应明确替换目标和作用域；② 默认不开启破坏性替换；③“恢复默认”、旧配置导入、已有 session 的生效时点都必须在文档中说明。以上是设计问题清单，不代表目标包 0.2.0 的实现已核。**
 
-> **证据深度**:README 级（README 全文 7 KB + npm manifest；未读源码）（2026-10-31）
 > **样本档案**
 > **repo**:[`sidleo/dsh-plugins-plus`](https://github.com/sidleo/dsh-plugins-plus) · **npm**:`@sidleo3/dsh-plugins-plus` · **版本**:`0.2.0`
-> **目录条目**:**无**——仓库声明了 `dsh.bundle.patch`，但没有进 `data/plugins/`（这是本卡的第一个 `[OBS]`）
-> **装法**:`dsh plugin --profile <profile> add @sidleo3/dsh-plugins-plus` → 重启
-> **已在本地挖掘**:`_证据/02_产品形态-原始挖掘.md` §一（接管语义、回退、配置管线、迁移的原文摘录）
-> **再深挖去哪**:`GET /api/dsh-plugins-plus/log` 的字段；接管引擎在 pre-step 的时序；旧配置导入的边界
+> **目录条目**:**无**（npm/repo 有发布声明，但本仓 `data/plugins/` 未收录）
+> **装法**:`dsh plugin --profile <profile> add @sidleo3/dsh-plugins-plus` → 重启（README；本次未实测）
+> **证据链**：README 摘录见[`02 产品形态`](./_证据/02_产品形态-原始挖掘.md) §一；npm tarball、`gitHead` 冲突、可确认的 DSH 通用契约及待补 provenance 见[`06 源码复核`](./_证据/06_接管套件-dsh-plugins-plus-源码复核.md)。
 
 ---
 
@@ -30,28 +29,21 @@ updated: 2026-10-31
 
 **意图。** 把宿主自带的 `agent-instructions` 与 `skill-filesystem` 两行换成**可配置版本**：AGENTS.md 扫哪几层、技能从哪些父目录找、顺序与预算——按 agent preset 分别生效。它不新增能力，只想让“默认值”变成“可调的产品”。
 
-**意义。** 生态里绝大多数产品在做加法，它是少见的**减法**：证明 bundle 可以替换内置实现，而且能精确退回。它还顺手回答了一个上游没回答的问题——**“发现规则”应该是用户可配置的默认值，而不是写死在宿主里**。
+**意义 [DOC/OPEN]**：README 将产品定位为替换 discovery rules，而非新增工具能力。由于 npm `0.2.0` 的 `gitHead` 与 GitHub manifest 版本不一致，当前无法把仓库中任一 planner/HMR/rollback 实现认作该发布包源码；因此不能据当前 source claim“takeover 可逆机制已核”。
 
-**用户价值。** 多项目、多 preset 的用户，第一次能控制“哪一层 AGENTS.md 被读进来”“技能从哪几个目录扫”；不用改宿主、不用 fork。代价是要理解 preset 作用域：接管只影响**之后创建的会话**，旧会话不会追溯——这一点必须提前说清。
+**用户价值 [DOC]**：README 称多项目、多 preset 用户可调整 AGENTS.md 与 skill search roots；本轮只能把它作为产品假设。其真实作用域、是否影响现有 session、失败/部分写入如何处理均待对齐版本源码或隔离复现。
 
-**表达（界面与交互）。** 安装后**什么都不变**，两个组件默认关；用户主动拨开关才接管。设置里只有一页 `DSH Plus`：全局 preset、每个组件的卡片、每个 preset 的接管状态，一屏看完“现在是谁在生效”；运行日志开在**页内浮层**（桌面壳拒绝 `window.open`），不弹新窗。**把“什么都没发生”当成默认体验，就是它对用户最大的尊重。**
+**表达 [DOC]**：README 描述两个 component toggles 默认 disabled、通过 DSH Plus settings/log UI 操作。该项可以说明作者预期的保守启用体验，不能推断真实发布包中 default rows 与 UI 完全一致，待比对 npm tarball。
 
 ## 0. 一页速览(想抄的人只看这 20 行)
 
-| 问题 | 它的答案 | 可抄性 |
+| 主张/实现面 | 可确认内容 | 证据边界 |
 |---|---|---|
-| 它交付什么 | 一个 bundle + 两个组件行：`agent-instructions-plus`、`skill-filesystem-plus` | ✅ |
-| 每个组件做什么 | **替换**一个宿主内置行，而不是再加一个能力 | ✅✅ 这是整张卡的分界线 |
-| 怎么命名 | **内置行 id + `-plus`**；再扩一个组件 = 一个 export + 一行 patch + 一节 schema + 一节 UI，**不发行新包** | ✅ |
-| 安装时会怎样 | **什么都不变**：只有核心行默认启用，两个组件行发出去就是 `disabled: true` | ✅ 默认保守 |
-| 启用时发生什么 | 在**选中的 preset** 里停掉内置行，追加自己的发现行 | ✅ 按 preset 作用 |
-| 停用时发生什么 | **精确撤销**；组合等于出厂层之后，DSH 会把覆写行整条删掉 | ✅✅ 回退语义 |
-| 配置在哪 | **profile 的 `cordis.patch.yml`**，核心行下面；不另立 settings 文件 | ✅ |
-| 怎么改 | 设置 → DSH Plus；三个入口同一页；保存立即生效，核心行不重挂 | ✅ |
-| 继承语义 | 全局选 preset，组件可继承或自己选；"恢复默认" = `unset`，回落到 schema 默认值 | ✅ |
-| 什么时候生效 | **会话创建时**固化 preset 组合 → 只影响**之后**创建的会话 | ⚠️ 必须写进文案 |
-| 旧版怎么迁移 | 两个独立包 → 装新包、卸旧包、重启；引擎把旧 JSON 里**尚未声明**的字段导入一次，记 `legacyImport` 时间戳 | ✅ |
-| 运行日志在哪 | 设置页底部的**页内浮层**，同文走 `GET /api/dsh-plugins-plus/log` | ✅ |
+| 0.2.0 发布源码 | npm metadata 的 tarball `gitHead=b0f2337…`，GitHub 该 commit manifest 却是 `0.1.8`；`d85af4c` 发布 commit 是 `0.2.0` 但不是 tarball gitHead，源码对应关系未解决 | 不能将 d85af4c checkout / tests / CI 当作 npm 0.2.0 的源码事实。见[`06 源码复核`](./_证据/06_接管套件-dsh-plugins-plus-源码复核.md) |
+| 接管算法/默认状态 | README 描述 core row + 两个 disabled component activators、preset takeover 和回退 | 均是 `[DOC]`，未取得与 tarball 对齐的 `[SRC-TARGET]` |
+| 配置、unset、迁移 | README 声称 preset inheritance、`unset`、legacy marker 和逐字段导入 | schema/merge/idempotency 实现未知；不要改写为源码已核 |
+| DSH 一般接缝 | rc.3 支持有序 patch layering、config editor edit/reconcile、session 使用创建时 preset composition | `[SRC-DSH]` 不证明目标插件正确调用或实际 UI 行为 |
+| 测试/CI/运行 | npm metadata 有 smoke/build scripts；目标 gitHead 对应源码与 test 尚未找到；无 `[RUN]` | 只作概念参考，接管/回滚不能作机制或行为承诺 |
 
 ---
 
@@ -87,142 +79,103 @@ updated: 2026-10-31
 
 ---
 
-## 2. 机制（可照抄的部分）
+## 2. 文档描述的接管设计与待核实现
 
-### 2.1 组件 = 内置行 id + `-plus`
+**目标发布源码仍未对齐**：以下均为 `[DOC]` 产品承诺，DSH 通用行为另标 `[SRC-DSH]`。不要引用同仓 `0.1.8` checkout 推导 npm `0.2.0` 实现。
 
-| 组件（Loader 行 id） | 替换谁 | 做什么 |
-|---|---|---|
-| `dsh-plugins-plus` | — | 核心行：唯一的配置 schema、接管引擎、只读状态 API |
-| `agent-instructions-plus` | `agent-instructions` | AGENTS.md 注入：四层扫描（cwd / 项目 / 每一级祖先 / 全局），文件名与预算可编辑 |
-| `skill-filesystem-plus` | `skill-filesystem` | 技能发现：四层扫描 + 父目录名可编辑、可排序 |
+### 2.1 接管单位与 preset 作用域
 
-**命名规则本身就是扩展协议**："built-in row id + `-plus`"。再加一个组件不用发新包——一个 export、一行 patch、一节 schema、一节 UI。
+`[DOC]` README 描述一个 bundle 含 core 与两个可独立启停组件；组件分别替换 `agent-instructions` 与 `skill-filesystem` 的发现行为，并按 agent preset 选择。README 声称组件 id 沿用 built-in row id 加 `-plus`，扩组件不增包。发布 tarball 是否确实只插入 activator、planner 是否按目标 preset row owner 写入，目前为 `[OPEN]`。
 
-> **抄这条**：如果你的产品是"替换宿主行为"，**让名字直接说出它替换的是哪一行**。维护者、用户、排障脚本都能一眼对上。
+> **概念洞察**：替换型产品要让“替换谁、在哪个 scope、谁拥有覆盖值”在模型和 UI 中可见。命名成 `builtin-id-plus` 只是文档惯例，不能当 host id 稳定契约。
 
-### 2.2 启用与回退：停原行 + 加己行
+### 2.2 Config layering 与 unset
 
-```text
-打开 skill-filesystem-plus
-  → 引擎在「选中的 preset」里停掉内置 skill-filesystem 行
-  → 追加本 bundle 的发现行
-关闭
-  → 精确撤销上面两步
-  → 组合等于出厂层时，DSH 删除整条覆写行
-```
+`[DOC]` README 称配置通过 profile `cordis.patch.yml` 和 DSH configForms/editor 管线，global/component preset 有继承关系，恢复默认用 `unset`。`[SRC-DSH]` rc.3 确有有序 bundle/profile/home/CLI patch layering、带 lock/reconcile 的 ConfigEditor；该契约只说明 host 支持这种写法，不证明目标包使用正确或 schema 中所有字段可 unset。
 
-两条语义值得抄：
+> **概念洞察**：覆盖值和继承态需要不同表示；移植时逐字段定义 owner、scope、inherit/reset 语义和 home/CLI overlay 冲突，而不是只给一个“默认值”按钮。
 
-1. **作用域是 preset，不是全局**（全局选择也可以表示"全部"）。同一个插件在不同 preset 里可以开关不同。
-2. **回退是"删除覆写"，不是"再写一次默认值"**。写默认值会留下一条"看起来像用户改过"的行，下次上游改默认值时它不会跟着变。
+### 2.3 生效时间、回退与外部修改
 
-### 2.3 配置：只有一个 schema，落在 profile patch
+`[DOC]` README 称关闭组件会移除 takeover、session 创建时固定 preset composition；两者的实际恢复范围、当前 session 是否刷新与 HMR transaction 顺序，没有可对齐 npm 0.2.0 的 target source。本卡不写“精确可逆”或“只影响新会话”为已验证事实。DSH rc.3 ConfigEditor 在候选值等于 lower layer 时可清理 override，且对 overlay 冲突/写失败有自己的拒绝和恢复规则；不能代替 target planner 验证。
 
-- 配置住在 **profile 的 `cordis.patch.yml`**、核心行下面；**不另立 settings 文件**。
-- 所有写入走宿主自己的管线：`ctx.configForms` → settings → config editor → profile patch。
-- 每个字段保留**继承**语义：全局选一个 preset，组件可以继承或自选；"恢复默认"是 `unset`，不是写一个等于默认值的值。
-- 保存立即生效；核心行不重挂（它的字段是 volatile 的）。
+> **待核洞察**：接管只能在能识别其所有权的配置行上回滚；若一个 preset override 同时含用户/其它插件字段，整体删除可能丢状态。确认前须做 foreign-edit 冲突与 rollback 测试。
 
-> **抄这条**：**"默认值"与"没设置"必须是两种状态**。用 `unset` 表达后者，上游换默认值时用户才跟得上。
+### 2.4 Legacy import
 
-### 2.4 接管只影响之后的会话
+`[DOC]` README 称会把旧独立包中的“尚未声明”字段导入新 schema，并用 `legacyImport` timestamp 控制一次迁移；旧文件留存。字段 allowlist、marker 与写入是否原子、失败重试、同一 home 多 profile ownership，以及旧 pipeline row adoption 均未能由目标发布源码确认，保留 `[OPEN]`。
 
-> "A session fixes its preset composition when it is created, so takeover changes affect **sessions created afterwards**."
-
-这是上游语义，不是产品选择——但产品必须**写出来**。否则用户打开旧会话发现没变，会以为接管失败。
-
-### 2.5 迁移：从两个独立包并进来
-
-旧世界是两个包：`@sidleo3/agent-instructions-plus`、`@sidleo3/skill-filesystem-plus`。迁移步骤：
-
-1. 装新包；2. 卸旧包；3. 重启。
-
-重启时引擎做一次导入：把 `~/.dsh/dsh-instruction-scan.json` 与 `~/.dsh/dsh-skill-filesystem-plus.json` 里**profile 尚未声明**的字段并进新 schema，并在自己的配置里记一个 `legacyImport` 时间戳。
-
-> **抄这条**：合并产品时，"旧配置文件怎么办"是必答题。**只导入尚未声明的字段** + **记一次性时间戳**，比"全量覆盖"或"忽略"都好排查。
+> **概念洞察**：迁移规则需同时声明字段优先级、scope、重复执行语义和旧数据所有权；“导入一次”必须测试 partial failure 后重试是否幂等。
 
 ---
 
-## 3. 体验
+## 3. 产品体验（npm 0.2.0 README 主张，未实测）
 
-### 3.1 首次使用逐屏
+### 3.1 首次使用文档流程
 
-| 时刻 | 看到 | 设计 |
+| README 描述的步骤 | 用户预期 | 当前证据界限 |
 |---|---|---|
-| 装 | 一条 `dsh plugin add` + 重启 | 说明"安装本身不改任何东西" |
-| 打开插件页 | `DSH Plugins Plus` 卡片；两个组件行的开关**默认关** | 用户不点，就还是宿主原样 |
-| 开组件 | 开关一拨 → 内置行在该 preset 停用 | 只有两个状态，没有"半接管" |
-| 配置 | 设置 → `DSH Plus`；全局 preset + 每组件卡片 + 每个 preset 的接管状态 | 一页看完"现在是谁在生效" |
-| 看日志 | 页脚"运行日志"浮层：生效配置、组件状态、迁移结果、最近 20 次原因、写入、失败 | **不开新标签页**——桌面壳拒绝 `window.open` |
-| 回退 | 关组件 → 内置实现回来；覆写行被删 | 精确可逆 |
+| 安装 bundle 后重启 | 安装本身不做 takeover | npm 0.2.0 README；未核对 tarball patch content |
+| 打开插件页 | core row 存在；两个 component activators 显示开关 | README 声称；没有对齐源码确认 effective default rows |
+| 开组件/配置 preset | 停用内置行、写 replacement；global/component selection 可继承 | README 声称；planner/inheritance implementation 暂不可与 0.2.0 对齐 |
+| 查看日志 | 页内浮层/API 提供 pass/failure 记录 | README 声称；route/auth/redaction 未验证 |
+| 关闭/回退 | 移除替换效果并让 built-in 恢复 | README 声称；只撤销 owner edits、保留 foreign config 等关键语义未知 |
 
-### 3.2 两处"诚实"
+### 3.2 可读性上的设计意图
 
-- **默认全关**：安装后什么都不变，用户必须主动拨开关。
-- **日志在页内**：因为桌面壳 `window.open` 被拒——这是把宿主限制写进交互设计，而不是留给用户一个"点了没反应"的按钮。
+`[DOC]` 安装默认不触发接管、设置里显示 preset/component 状态、将日志留在页内而非新窗口。可作为交互意图参考：先让用户看清作用对象和当前 owner，再允许替换宿主行为。实际 UI、桌面壳 `window.open` 限制、失败日志质量均未运行验证。
 
-### 3.3 模型看到的
+### 3.3 模型可见行为
 
-接管的是**发现层**：AGENTS.md 从哪几层读、技能从哪些父目录扫。模型最终看到的指令/技能清单因此改变，但**没有新增一个工具**。
-
-> 这正是它和"加能力"类插件的区别：模型侧看不到新工具，只看到**不同的上下文**。
+`[DOC]` 产品文档称它改的是 discovery context（AGENTS.md / skill search roots），不是新增 tool。真实 session 中哪些 prompt/skill 变化、旧 session 是否保持快照，目标 `0.2.0` 源码未对齐，当前只能作概念定位。
 
 ---
 
 ## 4. 证据与边界
 
-| 口径 | 值（2026-10-31） |
+| 口径 | 值/范围 |
 |---|---|
-| ★ / forks / issues | 0 / 0 / 0（仓库 2026-09-25 建，2026-10-19 最后推送） |
-| npm 近 30 天 | 6,094（含 CI 与镜像） |
-| npm 版本 | `0.2.0` |
-| 目录条目 | **无**（未进 `data/plugins/`） |
+| GitHub | ★ 0 / forks 0 / issues 0（API 快照 2026-10-31；repo 较新） |
+| npm | `@sidleo3/dsh-plugins-plus@0.2.0`；月下载 6,094（last-month，含 CI/镜像） |
+| 目录 | 未收录于 `data/plugins/`；来自直接 npm/repo 发现 |
+| release source pin | registry `gitHead=b0f2337…` 对应仓库 manifest v0.1.8；GitHub `d85af4c` 提交写 v0.2.0，但不是 `gitHead`，且没有 tag 与 tarball provenance 证明二者内容相同 |
 
-**为什么它过门槛**：npm 6,094 ≥ 3,000（★ 0，按 profile 门的 npm 一条成立）。这是本线第二张**只靠 npm 过门槛**的卡。
+**证据结论**：产品定位与交互为概念参考；npm `0.2.0` 的 takeover planner、migration、rollback 不能标机制参考，直到目标 tarball 源码与源码 pin 对齐。DSH rc.3 的 patch/config-editor/session 通用契约可独立引用，但不得代替目标实现证据。
 
-**已知偏差**：
-
-- **★ 0 与 6,094 下载严重倒挂**。可能解释：被某个发行版/模板拉起、或作者自己的 CI。**不要把 6,094 当成 6,094 个用户**——引用时带这句。
-- 目录里没有它：说明"能 `dsh plugin add` + 声明了 bundle"仍可能不进目录（投稿制），**按目录普查会系统漏掉这类替换型套件**。
-- 本卡 **README 级**；接管引擎的实现（pre-step 时序、与 HMR 的交互）未读源码，标 `[OPEN]`。
+**采用信号限制**：npm 6,094 不等于用户数；★ 0 / 下载倒挂无法仅凭公开指标解释，不能据此推断是发行版内置或 CI 来源。
 
 ---
 
-## 5. 借鉴食谱表（本卡的产出物）
+## 5. 可迁移洞察
 
-| 要解决的问题 | 照它的做法 | 你要改的地方 | 抄错的后果 |
-|---|---|---|---|
-| 想替换宿主自带实现 | **停原行 + 加己行**，别在旁边再加一份 | 替换哪一行要写进名字 | 两份同时生效 → 一份被另一份遮蔽，行为随机 |
-| 组件越加越多 | **命名 = 内置行 id + 后缀**；组件不发行新包 | 后缀固定 | 每加一个组件发一个包 → 安装 N 次、版本分裂 |
-| 用户不敢开 | **安装后默认全关**，拨开关才接管 | 开关文案写清"会停掉内置 X" | 装完即接管 → 用户以为是 bug |
-| 回退怎么做 | **删掉覆写行**,让出厂层回来 | 判断"组合是否等于出厂层" | 写一份"等于默认值"的配置 → 上游改默认值时跟不上 |
-| 配置放哪 | **profile patch 的核心行下**，走宿主 config 管线 | 字段设计要可继承 | 另立配置文件 → 与 profile 两套真相 |
-| 恢复默认 | **`unset`**,不是写默认值 | 每个字段都要能 unset | 无法区分"没设置"与"设成了默认" |
-| 作用域 | **按 preset**，可全局也可单组件 | preset 列表从宿主读 | 全局生效 → 想只在某个 preset 用的人没法用 |
-| 生效时点 | **会话创建时**固化 | 文案写明"只影响新会话" | 用户开旧会话以为没生效 |
-| 合并旧产品 | 只导入**尚未声明**的字段 + 记 `legacyImport` | 旧文件名与字段映射 | 全量覆盖 → 用户自定义被吞 |
-| 运行日志 | **页内浮层**（桌面壳拒 `window.open`），同文给 API | 日志字段与保留条数 | 新开窗口 → 桌面端点了没反应 |
+npm `0.2.0` 发布源码尚未与 GitHub source commit 对齐。以下表只提炼版本化 README 的**设计问题**，不把实现表述当作源码已证或直接进入 `BORROW.md`。精确 provenance 与缺口见[`06 源码复核`](./_证据/06_接管套件-dsh-plugins-plus-源码复核.md)。
+
+| 触发问题 | 可迁移洞察（概念） | 文档依据 | 为什么可能有效 / 代价 | 移植时改什么 | 成立边界 / 待核 | 抄错后果 |
+|---|---|---|---|---|---|---|
+| 替换 host behavior 容易被误认为额外功能 | 命名和 UI 应同时说明“替换哪个能力、在什么 scope”；README 的 `builtin id + -plus` 只能作命名假设。 | `[DOC]` 0.2.0 README；源码版本未对齐。 | 让替换对象可发现；代价是依赖 host row identity 稳定。 | 对自家系统使用稳定 contract id，而非短期实现行名；显示 disable/enable 影响。 | 不能把该后缀当作 DSH 协议约定。 | host id 演进会令替换落空，或误替换不相干 row。 |
+| takeover 有丢用户 config 风险 | 先展示 target/scope/diff，再执行有 ownership 的计划；绝不默认重写整份用户 preset。 | `[DOC]` README 对预览/接管的说明；target planner 未由 npm pin 证明。 | 透明的变更面降低恐惧；成本是实现 diff、冲突和 rollback。 | 定义目标字段 owner、foreign edit 策略与并发写保护。 | rollback 是否仅反转自有 edits 仍待 target source/运行核实。 | 全量写回会覆盖用户/其他插件的 preset 定制。 |
+| 配置要支持恢复继承 | UI 将“恢复默认”语义设计为回到 inherited/default 层，而不是写一份静态默认值。 | `[DOC]` README 声称用 `unset`；具体 schema/persistence 未核。 | 上游默认可演进；代价是配置模型要区分 unset 与显式值。 | 为每个字段定义 inherit/empty/default 和迁移语义。 | 不是每个字段都必然支持 unset，须查 schema。 | 无法区分“继承”与“显式等于当前默认”，后续升级行为错误。 |
+| 旧配置要合并进新 bundle | 迁移需要字段级 precedence、一次性 marker、可重试/幂等和保留原文件策略。 | `[DOC]` README migration notes；marker 原子性、字段 map 未核。 | 降低重复导入/覆盖；代价是处理 partial failure 和多 profile shared home。 | 定义 owner/scope、冲突处理、marker 写入顺序、恢复方式。 | npm `0.2.0` migration implementation 未验证。 | partial import 后重试重复覆盖，或多 profile 互相争夺一次性 marker。 |
+| 配置改动有不同生效时点 | 在设置页和预览里明确区分 HMR/reconcile、当前 session state 与新 session snapshot。 | `[DOC]` README 声称只影响之后创建的 session；target + DSH call chain 未全核。 | 用户能判断何时看到效果；代价是说明/支持 session refresh semantics。 | 为每种状态定义何时读取、何时固化、能否重建。 | 当前 session 行为仍需 source trace / runtime test。 | 用户重复切换开关，以为没有生效或误以为旧 session 已更新。 |
 
 ---
 
-## 6. 失效条件与降级
+## 6. 已知失效条件与验证缺口
 
-| 触发 | 行为 |
-|---|---|
-| 未选中任何 preset | 接管不生效，内置行继续跑 |
-| 会话在接管前创建 | 按创建时固化的组合走，不追溯 |
-| 组件关闭 | 精确撤销；组合等于出厂层时覆写行被删 |
-| 旧配置文件不存在 | 跳过导入，不报错 |
-| 桌面壳 `window.open` 被拒 | 日志走页内浮层 + API |
-| 宿主升级改了内置行 id | 命名规则失效 → 替换落空（本卡 `[OPEN]`：是否有检测） |
+目前目标 npm `0.2.0` 的内部行为仍属 `[DOC]`，以下为 README 主张/须核项，不表述为已观测 runtime：
 
----
+| 情形 | 文档主张 | 尚缺证据 |
+|---|---|---|
+| 任一组件未选中 | 接管不生效 | target package 的有效默认 rows 未与 tarball 解包比对 |
+| 已存在 session | 使用创建时 preset composition，新 session 才受改变 | DSH Agent 创建 preset snapshot 的准确调用点与目标端到端行为 |
+| 关闭组件/恢复默认 | 移除 takeover，必要时清 preset override | foreign rows/自定义 override 是否被保留；npm 对应 planner 源未 pin |
+| 旧 config 未存在或已导入 | migration 按 marker/已声明字段跳过 | marker 原子性、partial failure retry、多 profile 共享 home owner |
+| 桌面 `window.open` 受限 | README 称使用页内 log overlay/API | route auth/scope、脱敏、桌面运行体验未核实 |
+| 内置 row id / preset schema 演进 | 命名惯例要求 built-in identity 稳定 | ID 变更检测和 schema migration 未证 |
 
-## 7. 开放问题
+## 7. 下一步验证
 
-- [ ] `[OPEN]` 接管引擎在 pre-step 的时序：停原行与加己行之间有没有"两边都不生效"的窗口？
-- [ ] `[OPEN]` 它怎么检测"内置行 id 变了"？命名规则是强约定，宿主改名就是静默失效。
-- [ ] `[OPEN]` `GET /api/dsh-plugins-plus/log` 的字段与鉴权（只读？回环？）。
-- [ ] `[OPEN]` 6,094 下载 / 0 星的倒挂到底是什么：发行版内置、CI、还是模板？这直接决定"npm 门槛"可不可信。
-- [ ] `[OBS]` 它没进目录，但完全符合目录的收录条件。**目录漏检的不只是"首启"，还有"替换型"。**
+- [ ] 取得能与 npm `0.2.0` tarball 对齐的 source provenance（当前 registry `gitHead` 指向仓库 0.1.8 manifest）。在此之前不把邻近 commit 的源码、测试或 CI 归给 0.2.0。
+- [ ] 若取得匹配源码：核验 component defaults、planner diff ownership、ConfigEditor conflict/rollback、preset inheritance/unset、legacy marker/idempotency、多 profile migration、HMR/session snapshot 和 log API auth/redaction。
+- [ ] 若要行为参考：在一次性 scratch profile 对两组件逐个启停、foreign row edits、保存失败/reconcile retry、legacy partial import、已有/新建 session 与桌面 log UI 做隔离实测。
+- [ ] 采用量 6,094 与 ★0 的成因未知，不能据此推断 bundled installs 或实际用户数。

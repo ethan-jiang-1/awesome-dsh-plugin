@@ -2,8 +2,8 @@
 title: "内置运行时 · dsh-desktop-tauriapp"
 domain: reshape-product
 kind: sample
-positioning: "把 Node sidecar 与 dsh 依赖树打进安装包：零前置依赖，运行时可在应用内换版本。"
-takeaway: "内置运行时 + 连接级健康探测 + 自愈 3 次封顶（健康 2 分钟才重置）。"
+positioning: "`dsh-desktop-tauriapp@0.12.0`：安装包带 Node sidecar 与 dsh 0.2.0-rc.2 依赖树；无 lock、无自动回滚、无自动更新，sidecar 缺失会回退 PATH node。"
+takeaway: "内置运行时只是打包属性；依赖树无 lock 不可复现；健康探测单次 TCP 失败即重启、3 次封顶、120s 连续健康才清零。"
 read_when: "要做零前置依赖的桌面壳；或要设计运行时版本管理与多 profile 多窗口。"
 status: observed
 updated: 2026-10-31
@@ -11,12 +11,12 @@ budget: 180
 ---
 # 内置运行时 · dsh-desktop-tauriapp:把运行时一起打包
 
-> **状态**:`observed`(README 级；上游接缝已实测) · **基线**:DSH `0.2.1-rc.3`(其内置版本由脚本 pin,README 未给具体号) · **读于**:2026-10-31
+> **研究范围**：`dsh-desktop-tauriapp` tag `v0.12.0` → commit [`2c4ba10`](https://github.com/hyperion2144/dsh-desktop-tauriapp/commit/2c4ba10e29278184424ae56a1ec02d0f45de8ea3)，源码复核按 HEAD [`577a6d3`](https://github.com/hyperion2144/dsh-desktop-tauriapp/commit/577a6d3ac95aeb956e7bb8134efb574294ea63d2)（比 tag 多 4 个提交）。内置运行时 pin 为 **`0.2.0-rc.2`**，不是本机 CLI 的 0.2.1-rc.3。只读，未安装/构建/运行。详见[`05 源码复核`](./_证据/05_内置运行时-tauriapp-源码复核.md)。
 > **类**:`1` 壳与工作台 · **层**:2(表层)+ 5(默认值)+ 6(首启)+ 7(分发) · **★ 1 / open issues 25**(GitHub API,2026-10-31)
 > **一句话**:它是三条宿主路线里**最"自成一体"的一条**:Node sidecar + dsh 依赖树随包分发,**双击即用、零前置依赖**,并且把"运行时版本"做成应用内的可换件。
 > **借鉴价值**:**① 内置运行时把"装 Node / 装 dsh / 配 PATH"三个失败点一次性消掉;② 健康探测是**连接级**的(TCP 连不上才算异常),不靠进程存在;③ 自愈要**封顶 + 冷却重置**(3 次封顶,持续健康 ≥2 分钟才重置);④ 桌面 chrome **局部注入**,不禁用 stock `ui-layout`;⑤ 依赖状态**只提示、不自动重建**(#124 的教训)。**
 
-> **证据深度**:README 级 + 上游接缝**实测**（未读其全部源码）（2026-10-31）
+> **证据成熟度**：打包资源映射、内置版本 pin、启动路径、健康/自愈与运行时管理为固定源码 `机制参考`；发布产物是否含该树、sidecar 补丁版本、真实崩溃恢复与签名/更新均未验证，无 `[RUN]`。
 > **影响力**：机制例外——唯一的"内置运行时"样本，证明这条路线可行（门槛见 [`00-map` §7](../00-map.md)）。
 
 > **样本档案**
@@ -32,7 +32,7 @@ budget: 180
 
 ## 它想干什么 · 为什么值得借鉴
 
-**意图。** 把“装 Node / 装 dsh / 配 PATH”三个失败点一次性消掉：安装包里带 **Node 24 sidecar + dsh 依赖树**，启动走内部 API 代码路径而不是 shell out 到 CLI，内置版本由 `BUILTIN_DSH_VERSION` 精确 pin。它交付的单位是**一个自带运行时的安装包**，并把“运行时版本”做成应用内可换件（下载 / 切换 / 卸载，源可选 github / npm）。有两件它明确不做：不自动重建依赖（#124 起只提示），也不接管 stock `ui-layout`。
+**意图。** 把“装 Node / 装 dsh / 配 PATH”三个失败点一次性消掉：安装包里带 **Node 24 sidecar + dsh 依赖树**，启动走内部 API 代码路径而不是 shell out 到 CLI，内置版本由 `BUILTIN_DSH_VERSION` pin 到 `0.2.0-rc.2`。它交付的单位是**一个自带运行时的安装包**，并把“运行时版本”做成应用内可换件（下载 / 切换 / 卸载，源可选 github / npm）。有两件它明确不做：不自动重建依赖（#124 起只提示），也不接管 stock `ui-layout`；此外**没有自动回滚**（结构有效但启动即崩时只停自愈）与**没有自动更新通道**。
 
 **意义。** 这是本线唯一的“内置运行时”样本，★ 只有 1，却证明这条路可行，也顺手回答了代价问题：macOS dmg ~200 MB、Windows msi ~240 MB。它改的边界是**兼容性责任**——钉死运行时等于承诺“这一版 dsh 与这一版壳一起验过”，把散落在用户机器上的版本不确定性收回产品侧。它同时是一根探针：`desktop` 这个 profile 名被上游判给官方 Electron 应用，CLI 三条路径全部拒绝，它能跑是靠 launcher 直调内部 `runProfile`、用自有参数 `--init-from-default` 从 `web` 模板初始化。
 
@@ -50,7 +50,7 @@ budget: 180
 | 能在应用内换运行时吗 | 能:下载 / 切换 / 卸载;源可配 **github / npm**;托盘有「运行时版本」子菜单 | `[OBS]` §特性 |
 | 健康判据 | **连接级**:TCP 连不上才判异常;异常 → 回启动页重建 | `[OBS]` |
 | 自愈上限 | **3 次封顶**;持续健康 **≥2 分钟** 才重置计数;复用外部/远程实例**只提示不代拉** | `[OBS]` |
-| 多 profile | **per-profile 端口**:`web=3080`、`desktop=3081`,其余**散列分配并持久化**;托盘按 profile 分组,可**就地切换本窗口的 profile** | `[OBS]` |
+| 多 profile | per-profile 端口：web=3080、desktop=3081，其余用确定性散列（不写 settings；只有显式覆盖才持久化）；托盘按 profile 分组 | `[SRC-TARGET]` |
 | 默认 profile | 全新安装默认 **`desktop`**;它**不是出厂模板**,经 `--from-default-profile` 初始化 | `[OBS]` |
 | 桌面 chrome | **插件式局部注入**:在标准布局内加拖拽区/状态条,**不禁用 stock `ui-layout`** | `[OBS]` |
 | 标题栏 | macOS `titleBarStyle: Overlay`(保留原生红绿灯);Windows `decorations:false` **自绘** | `[OBS]` |
@@ -75,7 +75,7 @@ budget: 180
 - 也可切**外部 dsh**:`DSH_BIN` → PATH → npm 全局;
 - 应用内可**下载 / 切换 / 卸载**运行时版本(源 github / npm),托盘里"已装点击即切,未装点击 = 下载→自动切换",全程系统通知反馈。
 
-> **照抄点**:**"零前置依赖"不是省事,是把兼容性责任拿回来。** 你钉死运行时版本,就等于承诺"这一版 dsh 与这一版壳一起验过"。代价是包大(macOS dmg ~200 MB / Windows msi ~240 MB)。
+> **照抄点**：内置运行时是把兼容性责任拿回来，但“零前置依赖”只是发布包属性：sidecar 缺失会回退 PATH 上的 node，依赖树用 `npm install --no-save` 无 lock、Node 取 `latest-v24.x` 浮动，因此不能声称同 commit 可复现。
 
 ### 2.2 进程守护:连接级健康 + 封顶自愈
 
@@ -92,7 +92,7 @@ budget: 180
 
 > **照抄点**:健康检查的**观测点**要贴近用户感知(连不上),而不是贴近实现(进程存在)。
 
-### 2.3 多 profile 多窗口:端口是持久化的事实
+### 2.3 多 profile 多窗口:端口是确定性散列 + 显式覆盖
 
 - `web=3080`、`desktop=3081`,其余**散列分配并持久化**;设置页可改;
 - 托盘按 profile 分组:聚焦已有窗口 / 新窗打开 / **就地切换本窗口 profile** / 新建 / **全量迁移 A→B**;
@@ -148,17 +148,16 @@ budget: 180
 - **口径警告**:★ 1 只说明社区可见度极低，**本卡不足以证明"内置运行时"是主流选择**，只能证明它可行。
 - **已实测（2026-10-31）**：上游 CLI **三条路都拒绝 `desktop`**——`dsh --profile desktop --dump-config`、`dsh plugin --profile desktop add …`、以及加 `--from-default-profile web`，全部返回 `error: profile "desktop" is managed exclusively by the Electron application`。它能跑，是因为 launcher **直调内部 `runProfile` API、不经 CLI**（`desktop/src-tauri/src/runtime/builtin/launcher.mjs:1`），并用自有参数 `--init-from-default` 从 `web` 模板初始化（同文件 :25）。**代价**：它会在 `$DSH_HOME/profiles/desktop` 建 profile——与官方 Electron 应用**同名同目录**。
 
-## 5. 借鉴食谱
+## 5. 可迁移洞察
 
-| 要解决的问题 | 照它的做法 | 要改的地方 | 抄错的后果 |
-|---|---|---|---|
-| 用户装不上 Node / dsh | 内置 Node sidecar + 依赖树,版本精确 pin | 准备脚本要本地/CI 同一套 | 只 pin 应用不 pin 运行时 → 用户机器上解析到别的 dsh |
-| 进程还在但已失联 | **连接级**健康探测(TCP 连不上才算异常) | 探测频率与超时要可配 | 用"进程存在"判活 → 僵尸进程让用户对着白屏 |
-| 崩溃后自动恢复 | 重建 + **3 次封顶** + 健康 2 分钟才重置 | 封顶后要有**人能读的下一步** | 无限重拉 → 崩溃循环;一次就封顶 → 偶发抖动就永久放弃 |
-| 多 profile 多窗 | 端口散列 + 持久化 + 托盘分组 + 就地切换 | 迁移要处理锁/临时文件/符号链接 + 备份 | 按"再来一个窗口"实现 → 用户分不清哪个窗是哪个 profile |
-| 想加桌面 chrome | **局部注入**(拖拽区/状态条),stock `ui-layout` 不动 | 配色走主题 token | 禁用 stock 布局 → 上游一升级就白屏 |
-| 会话跑着时别断电 | 只在会话运行期持防休眠断言 | 等待输入/审批不持有 | 应用一开就防休眠 → 用户电池被吃干 |
-
+| 触发问题 | 可迁移洞察 | 机制依据 | 为什么有效 / 代价 | 移植时改什么 | 成立边界 | 抄错后果 |
+|---|---|---|---|---|---|---|
+| 用户机器缺 Node/DSH，装不起来 | 把运行时作为随包资源（依赖树+sidecar）分发，首次运行不下载、不解压。 | `[SRC-TARGET]` resources/dsh + externalBin dsh-node；builtin.rs 直接读资源目录。 | 消除前置安装失败点；代价是 200–240MB 体积与每版运行时同步。 | 定义资源映射、启动器写盘位置、sidecar 查找顺序与缺件回退。 | 仓库 gitignore resources/binaries，不能证明发布产物实际含该树。 | 假定“零依赖”是代码不变量 → sidecar 缺失时静默跑系统 node。 |
+| 运行时要跟 DSH 版本走 | 把内置版本 pin 成常量，并在 UI 显示；升级应用=升级运行时。 | `[SRC-TARGET]` `BUILTIN_DSH_VERSION=0.2.0-rc.2`；launcher 传 profile/bundles。 | 版本可预期；代价是应用与插件生态版本耦合。 | 固定 dsh+pnpm+node 三个坐标，并保存构建产物清单。 | 依赖树用 `npm install --no-save` 无 lock；Node 取 `latest-v24.x` 浮动；不可复现。 | 声称“同一 commit 可复现” → 每次构建依赖树不同。 |
+| 启动/health 失败要自愈 | 对主实例做连接级探测（TCP），失败重启并设累计上限与健康冷却，避免无限重启。 | `[SRC-TARGET]` 5s tick、TCP 2s timeout、单次失败即重启、3 次封顶、120s 连续健康清零。 | 快速恢复；代价是只覆盖主实例/远程地址，次窗无守护。 | 定义探测对象、失败阈值、封顶计数、冷却和“重启会杀谁”。 | 重启前 `stop_port_owner` 会杀占用端口的任何监听者。 | 把“3 次”当连续失败阈值 → 实际是累计自愈失败计数。 |
+| 多个 profile/窗口需要稳定端口 | 用确定性散列分配端口，冲突避让；只有用户显式覆盖才持久化。 | `[SRC-TARGET]` FNV-1a%512+3082；Rust 注释明确不写 settings；显式改端口经 client→settings 落盘。 | 重启稳定、无需状态；代价是端口可能与其它服务冲突。 | 定义散列输入、冲突策略、显式覆盖的持久化 owner。 | 不是“端口持久化到设置”；跨启动稳定靠散列确定性。 | 以为端口写在配置里 → 手改/迁移后行为不符。 |
+| 运行时下载/切换/卸载 | 用内置 node+pnpm 在 app_data 重建依赖树；切换写设置并重启；卸载 rename 到 .trash 后清理。 | `[SRC-TARGET]` registry/commands；下载失败清半成品。 | 无需外部工具；代价是无 lock、无 hash/签名、无自动回滚。 | 加校验（hash/签名）、lock、事务与回滚策略。 | 结构有效但启动即崩不会自动退回；无应用自动更新。 | 把“可换版本”当“可安全回滚” → 坏版本留在设置里。 |
+| 桌面权限与签名 | 最小 capability + 明确信任边界；发布包签名/公证。 | `[SRC-TARGET]` default capability 无 shell/fs/http；remote capability 对 loopback 放行大量命令；withGlobalTauri+csp null；macOS ad-hoc、无公证。 | 功能可用；代价是攻击面与 Gatekeeper/SmartScreen 摩擦。 | 收紧 remote capability、恢复 CSP、配置签名与公证。 | 本卡未做渗透/签名验证。 | 把“没有 shell 插件权限”当无危险 → loopback 页面可调大量命令。 |
 ## 6. 失效条件与降级
 
 - **profile 名冲突**(§4):若上游继续收紧 `desktop`,它必须改 profile 名或改走"自带 profile 向导"。

@@ -3,19 +3,19 @@ title: "驾驶舱 · dsh-context"
 domain: reshape-product
 kind: sample
 positioning: "`bowenliang123/dsh-context`：把上下文、成本、编队做成可读可归因的五块面。"
-takeaway: "同源出数；估算与真实并列；兼容性写成 Rule/Limitation/Check/Procedure。"
+takeaway: "读宿主投影（useProjection）而非 tokenMeter 服务；估算与实测并列；但头部占用率有未标注的四级回退，成本本地估算且价格来自第三方库。"
 read_when: "要做用量/成本/上下文面板；或要避免面板数字与用户已知数字打架。"
 status: observed
 updated: 2026-10-31
 ---
 # 驾驶舱 · dsh-context:给「智能体在扛什么」造一间驾驶舱
 
-> **状态**:`observed` · **基线**:DSH `0.2.1-rc.3` · **读于**:2026-10-31 · **版本**:`dsh-context@0.78.2`
+> **研究范围**：npm `dsh-context@0.78.2`，registry `gitHead` 与 tag `v0.78.2` → commit [`32982aa`](https://github.com/bowenliang123/dsh-context/commit/32982aa6aa2c70fbda6b81281de98a72ea625001) 同一 SHA（轻量 tag）。DSH 对照 `dsh-v0.2.1-rc.3`。源码、测试与 workflow 已读；未安装、构建、运行，也未下载 tarball 做字节比对。完整来源见[`09 源码复核`](./_证据/09_驾驶舱-dsh-context-源码复核.md)。
 > **类**:`3` 驾驶舱 · **层**: 3(槽位)+ 4(提示词前后缀) · Apache-2.0 · ★ 3,909 / npm 264,177（2026-10-31 实时）
 > **一句话**:它把"上下文"从一个**进度条**变成一间**可读、可追、可归因**的驾驶舱。
-> **借鉴价值**:**① **数字必须与用户已经相信的那个数字同源**,否则整套面板一次失信、永久失信;② **估算与真实并列**,而不是二选一;③ 一份**把"上游每个接缝"写成可执行断言清单**的兼容文档(`docs/compatibility.md`),这是本线最可直接抄的交付物。
+> **借鉴价值**:**① 数字应与用户已相信的宿主数字同源（但同源≠同精度：本插件占用率保留一位小数且有四级回退，可能显示 67.4% 而输入框环显示 67%）**,否则整套面板一次失信、永久失信;② **估算与真实并列**,而不是二选一;③ 一份**把"上游每个接缝"写成可执行断言清单**的兼容文档(`docs/compatibility.md`),这是本线最可直接抄的交付物。
 
-> **证据深度**:源码级（上游 token-meter 源码 + README）（2026-10-31）
+> **证据成熟度**：投影读取、占用率回退/精度差、分类锚定、客户端成本与价格书刷新为固定 0.78.2 源码 `机制参考`；tarball 字节一致性、真实 UI 与账单对账未验证，无 `[RUN]`。
 > **样本档案**
 > **repo**:[`bowenliang123/dsh-context`](https://github.com/bowenliang123/dsh-context) · **npm**:`dsh-context` · **版本**:`0.78.2`
 > **目录条目**:`data/plugins/bowenliang123__dsh-context.yml`(`usage`)
@@ -27,9 +27,9 @@ updated: 2026-10-31
 
 ## 它想干什么 · 为什么值得借鉴
 
-**意图。** 作者要让“智能体在扛什么”从输入框旁一个百分比，变成能追到每一行、每个子代理的驾驶舱——上下文、成本、编队分五块面（Insights 页、Context Tab、Fleet Tab、右栏面板、`/context` 弹窗）。它不自己算总量：凡用户已见过的数字一律读官方 `ctx.tokenMeter` 的 `tokenUsage` / `contextPressure` / `contextBreakdown` 三份投影，只在官方没导出处镜像。它也不接管模型，唯一进模型的是 System Prompt 的 Prefix/Suffix。
+**意图。** 作者要让“智能体在扛什么”从输入框旁一个百分比，变成能追到每一行、每个子代理的驾驶舱——上下文、成本、编队分五块面（Insights 页、Context Tab、Fleet Tab、右栏面板、`/context` 弹窗）。它不调用 `ctx.tokenMeter` 服务，而是读会话 props 上的 `useProjection('tokenUsage' | 'contextPressure' | 'contextBreakdown')` 三份宿主投影；官方没有导出的公式/字段才镜像实现。它也不接管模型，唯一进模型的是 System Prompt 的 Prefix/Suffix。
 
-**意义。** 它补的是“可解释性”的空缺：生态里不缺图表，缺的是敢写进界面的诚实——分类之和与 `projectedTokens` 不等就不强行对齐，差额标成四字符一 token 启发式的误差，CJK 与 JSON schema 被低估写进 tooltip。它改的惯例是面板各算一套数：同源出数让头部百分比与输入框的环对得上。更硬的一层是 `docs/compatibility.md` 把每个上游接缝写成 Rule/Limitation/Check/Procedure，连“已退役接缝不存在”都要断言。
+**意义。** 它补的是“可解释性”的空缺：生态里不缺图表，缺的是敢写进界面的诚实——分类环在锚定后已按实测计费输入等比缩放；只有锚定前的估算分类才与 `projectedTokens` 不等，差额来自四字符一 token 启发式（CJK 与 JSON schema 被低估）。它读的是宿主投影而不是自算一套，但占用率镜像保留一位小数、且有四级回退，可能与输入框环的整数百分比差一格。更硬的一层是 `docs/compatibility.md` 把每个上游接缝写成 Rule/Limitation/Check/Procedure，连“已退役接缝不存在”都要断言。
 
 **用户价值。** 装之前，用户看到上下文快满只能猜“是不是工具结果太多”；装之后，六色条指出工具结果占 62%、压缩保留区只剩一条缝，Trend 的柱子能跳到那一步的真实工具输出，Insights 按天看推理 41%、工具 schema 9% 与峰谷价。被“面板数字和输入框对不上”坑过的人最知道值。代价由作者背：镜像 6 处官方实现（占用率公式在内核包内无导出），上游一改就要重拟合；用户则要接受估算与账单本来不等。
 
@@ -39,8 +39,8 @@ updated: 2026-10-31
 
 | 问题 | 它的答案 | 你能直接抄吗 |
 |---|---|---|
-| 数字从哪来 | **不自己算总量**:读官方 `ctx.tokenMeter` 的三份投影 `tokenUsage` / `contextPressure` / `contextBreakdown`;只在官方**没有导出**的地方镜像实现 | ✅ 抄"镜像清单 + 归因说明"那张表 |
-| 分类数字与总量对不上怎么办 | 明说:**两者本来就不等**,差额 = 固定密度启发式的全部误差;**CJK 与 JSON schema 在四字符一 token 下严重低估** | ✅ 抄这句话的措辞:`[OBS]` 原文写进 UI 的 tooltip |
+| 数字从哪来 | **不调服务**:读会话 props 的 `useProjection` 三份宿主投影 `tokenUsage`/`contextPressure`/`contextBreakdown`；投影缺失字段时逐字段判空，形态不对按无数据处理 | ✅ 抄"投影读取 + 逐字段重证 + 镜像清单" |
+| 分类数字与总量对不上怎么办 | 官方三分类先定段、messageTokens 按折叠五类比拆分；再按实测 prompt 总量**等比缩放**（anchoredParts），环上没有"不对齐"。只有锚定前的原始分类才与 `projectedTokens` 不等 | ⚠️ 两个口径要分开讲，别笼统说"绝不强行对齐" |
 | 估算准不准 | 钉住视图里**并列** provider 上报的 Actual Prompt / Output / Cache | ✅ 直接抄交互 |
 | 为什么可信 | 它自带 `docs/compatibility.md`:**规则 + 局限 + 检查方式 + 操作步骤**四类条目,每条挂证据路径 | ✅✅ **本卡最值得抄的东西** |
 | 能点到多细 | 每个 token 元素能展开成**真实内容**(系统提示、每个工具的 JSON schema、消息、推理、工具输出),并标出**引入它的 step** | ✅ 但如果只做一层分类,别自称驾驶舱 |
@@ -68,13 +68,13 @@ updated: 2026-10-31
 
 | 数字 | 谁算 | 抄的时候注意 |
 |---|---|---|
-| 头部占用率 % | **复用官方** `contextPressure`(`pressureTokens` / `projectedTokens` / `contextWindow`)+ `occupancyPercent` 公式 | `[OBS]` 该公式在 `ui-conversation/src/client/context-occupancy.ts`,**内核包内部、无包导出**,所以它只能**镜像一份** |
+| 头部占用率 % | 优先读 `contextPressure`；缺失时四级回退 `projectedTokens → pressureTokens → derived → 折叠 current.total`；百分比镜像 `occupancyPercent`（一位小数），而宿主 `contextOccupancy()` 是整数 % | `[SRC-TARGET]` 回退链无来源标记，界面无法区分“官方投影”与“自推值”；精度差可造成 67.4% vs 67% |
 | 六色条的各类占比 | **复用官方** `contextBreakdown`(`systemTokens` / `toolsTokens` / `messageTokens`)+ 自己补齐细类 | 官方只有三类;它拆到六类(系统提示 / 工具 schema / 用户消息 / 注入上下文 / 助手回复 / 工具结果) |
 | 计费 token | **复用官方** `tokenUsage`(`uncachedInputTokens` / `outputTokens` / `cacheReadTokens` / `cacheWriteTokens`) | `[DSH]` 重试时 `llm/retry-started` 会结束替换域,**同一步的重试算另一次计费尝试** |
 | 每类估算 | **镜像**官方 `estimate.ts`(`estimateSystemMessage`、`estimateContent` 的 reasoning / text / tool-call 三条分支) | `[OBS]` compatibility §4 逐行列出镜像点 |
 | 文件 token | **镜像** `fileHandleText`:一个 `file` 块按**请求里的 handle 文本**计价,**永不按其字节数** | ✅ 这条最容易抄错,抄错会高估几十倍 |
 | 压缩保留区(斜纹) | **镜像** `compaction-basic` 的两个默认值:`thresholdRatio` **0.8**、`headroomTokens` **65536** | ⚠️ 它明说"预设域让部署策略不可读",所以只能读**出厂默认**;`[OBS]` `contextWindow − reservedOutput − headroomTokens ≤ 0` 时后端直接拒绝,此时**不画斜纹** |
-| 输出成本 | `models.dev` 列表价;DeepSeek **列表价=谷时**,峰时 **×2** | ✅ 抄"把单价口径写成一份文档"的做法(`docs/model-pricing-mapping.md`) |
+| 成本 | 价格来自第三方 `@opencode-ai/models`（devDependency；运行期是内置快照还是联网未核）；成本在客户端按 `cacheRead/cacheWrite/uncached/output` 四桶单价求和，DeepSeek 峰时 ×2，CNY 用固定 0.15 汇率 | ⚠️ 是本地估算，不是账单；未定价 route 从总和中跳过 |
 | 首 token 时间 | **镜像** `assistantStreamFirstTokenTime` | 同上,镜子之一 |
 
 **规则(可直接抄)**:凡是"用户已经见过的数字",**只允许一员出数**;自己补的那部分,必须能一句话说清"我补的是哪一段、从哪算起"。
@@ -103,7 +103,7 @@ updated: 2026-10-31
 
 ### 2.4 兼容性:本线**最值得抄的一份交付物**
 
-`[OBS]` `docs/compatibility.md`(读于 2026-10-31,`dsh-context@0.78.2`)的结构本身就是方法论:
+`[OBS]` `docs/compatibility.md`(0.78.2，最后核验日 2026-10-30，基线为 rc.2 两条 tag；不是 rc.3 实测)的结构本身就是方法论:
 
 ```
 支持集合 → 准入 → 折叠(fold) → 计量一致性 → 客户端面 → 投影缓存 → 打包 → 验证
@@ -191,23 +191,17 @@ updated: 2026-10-31
 
 ---
 
-## 5. 借鉴食谱表(本卡的产出物)
+## 5. 可迁移洞察
 
-| 要解决的问题 | 照它的做法 | 你要改的地方 | 抄错的后果 |
-|---|---|---|---|
-| 用户不信你的数字 | **同源出数**:凡是用户已经见过的数字,直接读上游那份投影,不重算 | 上游没导出的公式 → 镜像,并在文档里登记"镜子了哪个文件" | 你的 68.4% 与输入的 67% 差一格 → **整套面板永久失信** |
-| 估算必须有误差 | **并列显示** provider 的真实值(`Actual Prompt / Output / Cache`),分类数字加 `≈` | 你的 provider 若上报更多桶(如 reasoning),优先用它 | 只显示估算 → 用户拿它当账单 |
-| 要能定位到"哪一行" | 分类 → 元素 → **真实内容**三层展开,每行标**引入它的 step**;压缩前历史从归档重建并**标注近似** | 你的数据源未必有归档,那就**明说"这段无法重建"** | 只做一层分类却叫"驾驶舱",用户点两下就走了 |
-| 新技能/新插件"偷偷吃上下文" | 给**来源芯片**(一方包 / 能力包 / `mcp:<server>` / 具体插件),并**给技能单独一类** | 你的来源维度可能不同(如按 preset),换维度而不是删功能 | 混在"注入上下文"里 → 归因永远查不清 |
-| 装到旧宿主上崩 | **每个能力走可选接缝**:延迟 `ctx.inject`,用前复查,注册加保护 | 需要在 mount 时就可用的,写进 `dsh.client.inject`;一次性读用 `ctx.get` | 硬 `inject` → 缺服务时 fiber 挂起或抛错,整个界面白屏 |
-| 上游升级后不知道还灵不灵 | 写一份 `docs/compatibility.md`:**Rule / Limitation / Check / Procedure** 四类,**每条挂证据路径**;再写一份**接缝矩阵测试**(按基线 tag 拉上游真源码,断言退役接缝**不存在**) | 你没有上游源码仓库,就退一步:断言**面存在 + 形状对**(宿主的公开导出足够) | 只有一句"支持 0.2.x" → 上游一改就靠用户报错 |
-| 声明支持范围 | **`engines.dsh` 地板 + `dshReleases` 枚举**两个都写;文档说清"地板会放行矩阵未覆盖的预览版" | 你的插件若无预览版风险,可只写地板 | 只写 peer → 在 `0.2.1-alpha.4+` 上不再生效 |
-| 界面在窄容器里崩 | `tab.visible` 为假时**不挂卡片、暂停订阅**;全量摊平**在卡片内滚动** | 你的容器如果是浮层,改用 `ResizeObserver` 判定 | 撑爆右栏 → 把对话挤没 |
-| 反向代理下 404 | 客户端请求**一律用相对路径**,不写根绝对 `/api/...` | — | 部署在 `/app/dsh/` 时全部 404 |
-| 前后端各算一套成本 | 把**单价口径**写成独立文档(含峰谷、币种、取整) | 换成你的价目源 | 两处差一档,用户只信便宜的那个 |
-
----
-
+| 触发问题 | 可迁移洞察 | 机制依据 | 为什么有效 / 代价 | 移植时改什么 | 成立边界 | 抄错后果 |
+|---|---|---|---|---|---|---|
+| 面板数字必须与宿主 UI 一致 | 优先读取宿主公开投影/字段，不复制总量算法；镜像仅限未导出的公式，并登记镜像清单与上游版本。 | `[SRC-TARGET]` 0.78.2 `useProjection(contextPressure/contextBreakdown/tokenUsage)` + 逐字段判空；`[DOC]` compatibility “Mirror, don't import” 6 行镜像表。 | 同源减少“68.4% vs 67%”式失信；代价是上游投影形态变化时逐字段重证、镜像点要跟版。 | 列出投影 key/owner/字段、缺字段语义、镜像文件与拟合检查。 | 镜像点含内核未导出占用率公式；上游改实现时需重拟合。 | 自己另算总量 → 与宿主显示差一格，用户永久不信面板。 |
+| 估算值与供应商实测值容易混用 | 同屏并列 Estimated 与 Actual，并明确估算密度/误差与供应商上报口径；不要给单一“精确”数字。 | `[SRC-TARGET]` `Estimated ≈` 与 `Actual` 标签，页脚说明 4 字符≈1 token、Actual 来自供应商用量。 | 让用户知道何时可拿它对账；代价是要维护两套数据与文案。 | 定义 estimate 函数来源、provider usage 字段、口径脚注与取整规则。 | 四字符密度对 CJK/JSON schema 等严重低估，只能标 approx。 | 只显示估算并标成精确 → 用户拿去当账单，失真即失信。 |
+| 分类合计与总量不相等 | 把“官方分类定段 + 折叠占比拆分 + 按实测总量等比锚定”写成流水线；向用户解释锚定前后两个口径。 | `[SRC-TARGET]` `officialParts`/`anchoredParts`/`billedParts`：先把 messageTokens 按内容比拆分，再缩放到目标总量；环用 billed 输入锚。 | 环与输入总量一致，细分仍保留相对比例；代价是细分数字不再是独立测量。 | 明确哪一层是测量、哪一层是按比例分摊，UI 标注“按比例”。 | 锚定后“分类≠总量”不再成立；把旧的“绝不强行对齐”当通则就错了。 | 声称每类都是实测 → 用户拿分类做审计时对不上账。 |
+| 成本展示与真实账单混淆 | 把成本做成客户端估算：记录币种、单价来源、峰谷倍率、汇率与未定价 route 跳过策略，并声明不代表账单。 | `[SRC-TARGET]` 四桶单价求和、DeepSeek peak ×2、固定 USD_PER_CNY=0.15、misses 仅 tooltip；价格来自 `@opencode-ai/models`。 | 给用户相对量级与优化方向；代价是价目源第三方、汇率固定、未定价 route 静默跳过。 | 让价目源 owner/刷新语义可审计，UI 标“部分合计”与估算币种。 | 运行期是内置快照还是联网取价未核（devDependency + 构建产物）；本卡未验证账单一致性。 | 把本地估算当账单 → 与供应商对账差异被当成 bug。 |
+| 宿主缺服务/缺投影时面板崩或空转 | 每个能力走可选接缝：缺服务→无能力，缺投影→逐字段判空并走无数据 UI；不挂 pending fiber、不抛错。 | `[SRC-TARGET]` `tab.visible=false` 不挂卡片/暂停订阅；投影形状不对整体 null；冷读限流跳过走无数据路径。 | 部署裁剪能力强时面板仍可用或安静消失；代价是多条降级路径要测。 | 给每个 optional seam 写 present/missing/degraded 三态与 UI。 | 本卡未见全部可选接缝的运行验证；`contextPressure` 缺失时头部会回退到自算值且未标注。 | 硬 inject/假定投影齐全 → 缺服务时白屏或假数据。 |
+| 上游升级后兼容性靠口头声明 | 用 Rule/Limitation/Check/Procedure 写兼容文档，每条挂证据；并把接缝矩阵测试固定到基线 tag。 | `[DOC]` docs/compatibility.md 结构 + `dshReleases` 枚举与 engines 地板；`[SRC-TARGET]` package.json 双门禁字段。 | 使“支持哪些宿主”可审计；代价是文档与测试跟版维护。 | 给每基线列:检查命令、断言接口存在/不存在、失败处置。 | 文档自述 6 条 limitation；卡只摘了 3 条，不能称“全部”。 | 只写“支持 0.2.x” → 上游改接缝后靠用户报错。 |
+| 高频读数导致重复计算与抖动 | 读数走缓存/投影，价格书懒加载单例 + 退避重试，最后一个订阅者离开后停摆。 | `[SRC-TARGET]` modelPrices 懒加载单例、30s×2^n（上限 240s）、reset 只清内存；价格不落盘。 | 减少重复请求；代价是同一账单刷新前后可能变化。 | 明确缓存 TTL、重试上限、离线 fail-closed 与“价格不可用”提示。 | 未定价 route 跳过且总价无“部分合计”标记，是本实现的可改进边界。 | 每次渲染重取价格 → 数字跳动且拖慢面板。 |
 ## 6. 失效条件与降级
 
 | 触发条件 | 它会怎样 | 会不会说 |

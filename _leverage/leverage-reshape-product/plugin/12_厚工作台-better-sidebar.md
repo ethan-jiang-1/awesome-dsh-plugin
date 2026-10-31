@@ -3,25 +3,25 @@ title: "厚工作台 · better-sidebar"
 domain: reshape-product
 kind: sample
 positioning: "`omdsh-dev/DSH-better-sidebar`：一个插件把自己做成 IDE，且内置功能也走自己的扩展点。"
-takeaway: "一种扩展点形状 + 内置也走它；原型方法注册表；版本前缀 key + 引用完整性。"
+takeaway: "显式 disposer 的扩展注册表；按会话隔离的布局状态；按 session 合并跨路由冷 cwd 读取。"
 read_when: "要做厚工作台/多面板 IDE；或要设计第三方可扩展的注册表。"
 status: observed
 updated: 2026-10-31
 ---
 # 厚工作台 · better-sidebar:一个插件,把自己做成了 IDE
 
-> **状态**:`observed` · **基线**:DSH `0.2.1-rc.3`(本卡主要引用 `0.28.x` 线,要求宿主 `0.2.1-rc.1+`)· **读于**:2026-10-31
+> **状态**:`observed` · **DSH 兼容声明**:`0.2.1-rc.1+`（目标仓库声明；CI mount lane 固定 rc.1；本机安装产物为 rc.3）· **样本版本**:`dsh-better-sidebar@0.28.2`
 > **类**:`1` 壳与工作台 · **层**: 3(槽位)→ 3+5 · **★ 4,765 / npm 245,373**（2026-10-31 实时；本线第 3）
-> **一句话**:不换表层、不碰官方布局,只在右侧栏"旁边"和"下面"各加一层,然后把文件、编辑器、终端、Git、任务、侧聊全塞进去。
-> **借鉴价值**:**① 扩展点只留一种形状 `registerX(descriptor) => disposer`,且内置功能走同一条路;② 自建注册表的方法必须是原型方法,否则插件卸载不回收;③ 持久化的"版本前缀 key + 三道回落 + 引用完整性校验";④ 让第三方能力"装它才有、没装不显示";⑤ 把 40 MB 会话的冷读从 6 次全读压到 1 次 header 读的那套扇出修复。**
+> **一句话**:不换表层、不碰官方布局，在右侧栏与底部增加组合工作台，把文件、编辑器、终端、Git、任务与侧聊放进同一个插件。
+> **借鉴价值**:**① 扩展注册显式返回 disposer，注销由调用方生命周期持有；② 每会话布局独立存储，结构修复采取局部 sanitize，而非假定全局约束；③ 当多个路由争用冷数据时，按 session 缓存并合并 in-flight 请求，同时把性能数字与测量来源分开。**
 
-> **证据深度**:源码级（上游接缝 + 仓库 README）（2026-10-31）
-> **样本档案**
-> **repo**:[`omdsh-dev/DSH-better-sidebar`](https://github.com/omdsh-dev/DSH-better-sidebar) · **npm**:`dsh-better-sidebar` · **版本**:`0.28.2`(本卡引用线)
+> **来源基线**：目标仓库 `v0.28.2` tag 指向 commit [`b0e0fab`](https://github.com/omdsh-dev/DSH-better-sidebar/commit/b0e0fab50e68f54b07a1fc1e7898030409c7d979)（tag 未签名）；源码/测试复核见 [`源码复核`](./_证据/06_厚工作台-better-sidebar-源码复核.md)。未运行目标代码。
+> **证据成熟度**：注册和状态机制为 `机制参考`（固定目标源码已追踪、相关测试已读但未运行）；性能数值为作者报告、非本次复现；安全边界由目标源码与测试断言明确（测试未运行），不代表本次行为实测。各项证据不要合并成一个“全卡源码已验证”。
+> **repo**:[`omdsh-dev/DSH-better-sidebar`](https://github.com/omdsh-dev/DSH-better-sidebar) · **npm**:`dsh-better-sidebar` · **目标版本**:`0.28.2`
 > **目录条目**:`data/plugins/omdsh-dev__DSH-better-sidebar.yml`(`ui`)
-> **装法**:`dsh plugin --profile web add dsh-better-sidebar@latest`;或 `bash scripts/install.sh 0.28.2`;或把三行提示词粘给 DSH 让它自己装
-> **已在本地挖掘**:`_证据/01_壳与工作台-原始挖掘.md` §一(better-sidebar 的 8 小节,含 19 条降级清单)
-> **再深挖去哪**:README 里那张**宿主→插件版本对照表**(§Pick the plugin version)和 `CHANGELOG`;性能数字全部出自 README §v0.28.2 的修复说明
+> **装法**:`dsh plugin --profile web add dsh-better-sidebar@0.28.2`;或 `bash scripts/install.sh 0.28.2`;或把三行提示词粘给 DSH 让它自己装
+> **证据记录**:`_证据/01_壳与工作台-原始挖掘.md` 保留早期 README/DSH 摘录；[`06 源码复核`](./_证据/06_厚工作台-better-sidebar-源码复核.md) 对准目标 tag `v0.28.2` 与 DSH `0.2.1-rc.1`。
+> **需继续复核**：目标仓库当前 HEAD 是否已改变此卡所写的 `0.28.2` 行为；本卡不把 HEAD 结论回推到 `0.28.2`。
 
 ---
 
@@ -29,24 +29,26 @@ updated: 2026-10-31
 
 **意图。** 它要把右栏从“一个可替换的导航列”扩成一整套 IDE：文件树、编辑器、终端、Git、任务、侧聊都装进右栏与底部自绘工作台，同时给第三方一条与内置完全同形的扩展路径——`registerTab` / `registerFileViewer`，收 descriptor、返 disposer、由 `ctx.effect` 持有。它不换表层、不碰官方布局，也明确不做 push/pull/fetch。
 
-**意义。** 它补的是 single 槽装不下复合工作台的缺口：上游 `sidebar`/`rightbar` 注册即替换（“OCCUPIED”），所以它自建 `ctx.betterSidebar`，并让内置 6 个 tab 与 4 个 viewer 走同一条 API。这一条是“扩展点可信”的唯一证明，也长出了 30+ 生态插件。它改的惯例是基座只借槽位、不造平台：一个插件把自己做成 IDE 的同时，也把自己变成了别人的分发面。
+**意义。** 它面对的是 single 槽无法容纳复合工作台的问题：DSH 把 `sidebar` / `rightbar` 声明为 single/root，注册是替换，不是多方并列；目标项目因此另建 `ctx.betterSidebar` 注册面。前半是 `[SRC-DSH]` 槽位契约与 `[SRC-TARGET]` 项目选择之间的对应，因果解释属 `[OBS]`。README 另称内置 tab/viewer 走同一 API，且已有 30+ 插件；本次没有逐个审计这些生态采用数据和内置 descriptor，分别保留为 `[DOC]` 主张。
 
 **用户价值。** 装之前，右栏只能挂一个替代导航栏的页面；装之后，一个包带来六个原生 tab 加底部工作台，窄屏 `<768px` 自动收敛成右栏全宽抽屉。重度用户在一个窗口里看文件、改代码、跑终端、查 Git，“值”发生在不再切窗口的那一刻。代价分两层：用户升级后必须硬刷新；部署者要接受 `fs` 路由自 v0.23.0 起不做 workspace 包含检查——作者把这条写在明处，而不是暗示有沙箱。
 
-**表达（界面与交互）。** 第一屏是右栏 6 个原生 tab 与底部自绘工作台，三步安装、没有向导，装完/升级后必须硬刷新（页面保留自己的 module bootstrap）。每会话布局存 `dsh.sidebar-right.v1.${sessionId}`，读坏就删 key 回默认，写失败只 console；关 tab、删文件、刷新前确认未保存草稿，外部修改后再保存是拒绝而不是静默覆盖。跨插件联动只探测能力：dsh-context 的 Context 页没注册就“完全不显示”，灰按钮被明确排除；一次跳转在飞时所有入口一起禁用，失败只在 frame 底部报一次。
+**表达（界面与交互）。** README 描述第一屏为右栏 tabs 与底部工作台，三步安装、没有向导，装完/升级后必须硬刷新（页面保留自己的 module bootstrap）。布局数据见 §2.3，和上游另一套 sidebar-right surface state 不混同。README 还描述关 tab、删文件、刷新前确认未保存草稿，外部修改后拒绝静默覆盖；跨插件联动只在 dsh-context 的 Context 页注册时显示，一次跳转在飞时禁用所有入口，失败只报一次。这几项目前为 `[DOC]`，除 layout state 外未逐项源码核验。
 
 ## 0. 一页速览(想抄的人只看这 20 行)
 
 | 问题 | 它的答案 | 支撑 |
 |---|---|---|
-| 扩展点形状 | 自建 `ctx.betterSidebar`,只有两个方法 `registerTab` / `registerFileViewer`,**都返回反注册函数,都要 `ctx.effect` 包住** | `[CAT]` README §Plugin Ecosystem |
-| 为什么可信 | **内置 6 个 tab + 4 个 viewer 走同一条 API**;这套 API 长出 **30+ 生态插件** | 同上 |
-| 状态存哪 | **每会话** localStorage(不是全局 blob),key 形如 `dsh.sidebar-right.v1.${sessionId}` | `[DSH]` `dsh-client-ui-sidebar-right/lib/client.js:846-896` |
-| 坏了怎么办 | `localStorage` 不存在 → return;读抛 → return;schema 失败 → **主动删 key**;写抛(配额满)→ **只 console** | 同上 |
-| 还有什么校验 | 除 schema 外一层 **`validateReferences()`**:id 与 key 一致、序号 ≤ `minted`、split 恰 2 子、`sizes` 和≈1、全节点可达 | 同上 `:821-844` |
-| 首屏体积 | **~325 KB core**,重 chunk 按需加载 | `[CAT]` README §Features |
-| 最有说服力的数字 | 40.2 MB 会话 + 12 路由 + 36 次 bypass:修复后 **1 header read / 0 full / 3 ms / +0.3 MB RSS**;修复前 **6 次 = 6 次 full read / +1.0 GB**(36 次外推 ≈6 GB) | `[CAT]` README §v0.28.2 |
-| 那次没修好的原因 | single-flight 只覆盖 `/sidebar/api`,真实扇出是"**每个被 watch 的目录一帧 fs-watch + 每个 file/html 资源一次 cwd 解析**" | 同上 §v0.28.2 |
+| 扩展点形状 | 自建 `ctx.betterSidebar` 注册 tabs / viewers / file icons；注册返回 disposer，生命周期由调用者持有 | `[DOC]` README Plugin Ecosystem；`[SRC-TARGET]` `service.ts:898-974`；[`源码复核`](./_证据/06_厚工作台-better-sidebar-源码复核.md) |
+| 注册表数据与注销 | 三个独立 Map；重复 id 抛错；disposer 仅在当前 descriptor 仍相同才删除并通知订阅者 | `[SRC-TARGET]` `service.ts:898-974`；`[TEST]` `service.spec.ts:26-77` |
+| 为什么可信 | README 称内置 6 个 tab + 4 个 viewer 使用同一 API；目标源码 memo 未逐个审计内置 descriptor，不把这点写成已独立验证 | `[DOC]` README；核查范围见[`源码复核`](./_证据/06_厚工作台-better-sidebar-源码复核.md) |
+| 布局存哪 | 每会话 localStorage key 为 `dsh-sidebar:v1:<sessionId>`；bottom workbench state 含 `bottomSplits`，不是旧卡所写的 `dsh.sidebar-right.v1` / `{layout,minted}` | `[SRC-TARGET]` `state.ts:644-708` |
+| 坏布局如何恢复 | 缺失/读抛/JSON 或 sanitize 失败回默认；坏 key 不自动删除；显式 `?dsh-sidebar-reset` 尝试清理。写入 debounce 200ms，写失败吞掉并保留内存态 | `[SRC-TARGET]` `state.ts:644-708,1195-1216`；`[TEST]` `state.spec.ts:527-620` |
+| 状态一致性 | `sanitizeState` / `sanitizeNode` 做结构修复、ID 重铸和 active pane 回落；没有旧卡所述七条 `validateReferences()`，不验证 sizes 总和≈1 | `[SRC-TARGET]` `state.ts:719-779,800-893`；`[TEST]` `state.spec.ts:640-681` |
+| 存储作用域与上限 | per activation store；session map LRU 上限 32，淘汰前 flush pending persist；`reduceFor` 可定向更新后台 session 而不发布当前 UI | `[SRC-TARGET]` `state.ts:905-918,965-985,1117-1216,1246-1255`；`[TEST]` 见 memo |
+| 首屏体积 | **~325 KB core**,重 chunk 按需加载 | `[DOC]` README Features；未重新构建 |
+| 性能结果 | 作者报告 40.2 MB 会话下，v0.28.2 为 1 header read / 0 full / 3ms / +0.3MB RSS；这不是本次运行结果 | `[DOC]` README / CHANGELOG；`[SRC-TARGET]` cwd cache/in-flight 实现在 `index.ts:134-241`；`[TEST]` `smoke.spec.ts:791-855`（已读未运行）|
+| 为什么 v0.28.1 不够 | README/CHANGELOG 归因 API-local single-flight 未覆盖 fs-watch、file/html、upload/write 路径；v0.28.2 增加按 session 的 header cache 与 in-flight stat | `[DOC]` README/CHANGELOG；`[SRC-TARGET]` `index.ts:134-241,699-727`；非本次复现 |
 | 有界读的常数 | 每页 **200** commits、offset 上限 **10,000**、**1,000** branches;tag 保留 **5,000** 个,再被 **8 MiB** 截断,**省略但不让图失败** | `[CAT]` README §Git Graph |
 | 版本策略 | README 里一张 **7 行"宿主版本 → 插件精确版本"表**,含一行"**无兼容版本,先升宿主**";旧版一律 pin exact | `[CAT]` README §Pick the plugin version |
 | 不匹配时 | 市场只装 `latest`,老宿主得到 **version-rejection error**(拒绝安装,不是运行时警告) | `[CAT]` + `[DSH]` `dsh-app-boot` 判定 |
@@ -64,7 +66,7 @@ updated: 2026-10-31
 | 5 默认值 | 每个会话的 tab/面板布局 | 每会话 localStorage |
 | 4 身份(边际) | 一个 `sidebar_open` 工具,让**模型自己**打开侧栏 | 模型唯一可见面 |
 
-**关键结构判断**:上游的 `sidebar` / `rightbar` 都是 **single 槽**——注册即**替换**而非叠加(注释原文 "OCCUPIED"、"registering here replaces the navigation column outright")。所以"厚工作台"要装下文件树 + Git + 编辑器 + 终端,只能**绕过 single 槽、自建一层注册表**。这不是品味问题,是槽位粒度倒逼的结果。
+**关键结构判断**:`v0.28.2` 复核的 DSH `dsh-client-ui-layout` / sidebar 契约将 `sidebar` / `rightbar` 声明为 root single 槽，注册即替换而非叠加；上游调用与类型引用以 DSH `dsh-v0.2.1-rc.1` 为界。样本作者据此自建 `ctx.betterSidebar` registry，以容纳多个 tab/viewer。**产品归因是观察，槽位形态是 DSH 源码事实**；不是说所有宿主 single 槽都只能用自建 registry。
 
 ### 1.1 上游槽位的真实形状(写代码前必读)
 
@@ -97,7 +99,7 @@ ctx.slots.inject("sidebar", () => ctx.slots.register({
 ### 2.1 扩展点:一种形状,内置也走它
 
 ```ts
-// [CAT] README §Plugin Ecosystem —— 官方给出的第三方样例形状
+// [DOC] README §Plugin Ecosystem —— 项目作者给出的第三方示例（非实现证据）
 import type {} from 'dsh-better-sidebar'   // 触发 ctx.betterSidebar 的类型合并
 export const inject = ['betterSidebar']
 export function apply(ctx: Context) {
@@ -111,42 +113,30 @@ export function apply(ctx: Context) {
 
 四个可照抄的字段:`id`(**带前缀**)、`title`(字符串,**不是 thunk**)、`component`(入参 `{ scope }`)、返回 disposer 并由 `ctx.effect` 持有。
 
-**自证**:内置 6 tab + 4 viewer **用同一条 API**。这一条是"扩展点可信"的唯一证明——**如果你的内置功能走了后门,第三方永远不知道自己是不是二等公民**。
+**作者主张**：内置 6 tab + 4 viewer 使用同一 API（`[DOC]` README）。源码复核没有逐个追踪内置 descriptor，因此这里作为可核查主张保留，不写成已独立验证的“唯一证明”。若要把它抽成借鉴规则，应补查内置注册调用与测试。
 
-### 2.2 自建注册表最重要的一个技术细节(几乎人人会踩)
+### 2.2 注册 API 的 disposer 与 Cordis 生命周期
 
-`[DSH]` `dsh-client-ui-renderer/lib/types/client/registry.d.ts:70-84` 的注释:registry 的 `register` **必须是原型方法**。原因是 Cordis 的服务代理在调用时把 `this.ctx` 绑到**调用方** context;如果写成实例箭头属性,effect 会被冻结到**服务自己**的 root ctx,于是"**silently break per-plugin disposal**"(插件卸载时注册项不会被回收)。
+`[SRC-TARGET]` `v0.28.2` 的 `createBetterSidebarService` 用闭包维护 tabs / viewers / fileIcons 三个 Map；注册函数返回 disposer，调用者必须通过 Cordis 生命周期持有它。disposer 检查当前 id 仍指向同一个 descriptor 后才删除并通知订阅者，避免旧 disposer 删除后来替换的注册项。实现见 `service.ts:898-974`；登记/去重/通知有测试覆盖（`tests/service.spec.ts:26-77,741-820`）。
 
-> 抄这条:凡是你要 `ctx.reflect.provide('myService', obj)` 出去、让别人 `ctx.myService.registerX(...)`,**`registerX` 必须是 prototype 上的方法**。写成 `registerX = () => ...` 会静默泄漏,而且只在"卸载插件"时暴露。
+`[SRC-DSH]` 上游 `SlotRegistry.register` 另有 prototype-method 契约：Cordis proxy 以调用方 context 执行方法，从而让 `ctx.effect` disposer 归属插件 fiber（DSH `dsh-v0.2.1-rc.1` `registry.ts:145-164,610-627`）。这是理解 DSH slot/factory registry 的规则，**不是 better-sidebar 自建闭包 registry 的实现证据**；两种 registry 不应混为一谈。
 
-`ctx.reflect.provide(name, value) => () => void`(`@deepseek-ai/cordis/lib/types/reflect.d.ts:41`);上游实例把两条 disposer 塞进同一个 `ctx.effect`(`dsh-client-ui-sidebar-right/lib/client.js:4965-4971`)。
+> 可迁移洞察：若 API 让插件注册长期存在的扩展项，返回幂等/有归属的 disposer，并明确由谁持有其生命周期；采用 DSH `SlotRegistry` 时再遵守其 prototype 契约。不要把某一实现要求无条件推广给所有 registry。
 
-### 2.3 持久化:三道回落 + 一层引用完整性
+### 2.3 会话布局持久化：局部 sanitize 与显式 reset
 
-`[DSH]` `dsh-client-ui-sidebar-right/lib/client.js:846-896`(本卡最值得整段抄的代码):
+`[SRC-TARGET]` `v0.28.2` 的自建 sidebar store 按 session 分开 localStorage，布局键为 `dsh-sidebar:v1:<sessionId>`；状态含 `bottomSplits` 树。读取路径在 storage 缺失、读取抛错、JSON 无法解析或 sanitize 失败时回到默认状态；无效 key 不会自动删除。用户可用 `?dsh-sidebar-reset` 显式尝试删除该 session key。写入按 session debounce 200ms；写失败被吞掉，内存状态继续使用。见 `state.ts:644-708,1195-1216`。
 
-| 情形 | 处理 | 为什么 |
-|---|---|---|
-| `typeof localStorage === 'undefined'` | 直接 `return` | SSR / 受限环境**无痕降级** |
-| `getItem` 抛 | `catch { return }` | 存储不可用不是错误 |
-| JSON 或 schema 失败 | `clearSidebarLayout(sessionId)` 后 `return` | **主动删坏 key**,下次从默认布局起——否则每次启动都读坏数据 |
-| `setItem` 抛(配额满) | `console.error` 后继续 | 布局存不下不该让界面崩 |
+`sanitizeState` / `sanitizeNode` 做局部结构修复：夹限 bottom height；异常树回空 leaf；重复 pane/split ID 重新铸造并重映射 active pane；split 至少需要两个 child 且 sizes 数量与 child 数匹配、值为有限正数；未知 tab type 保留，便于插件之后载入恢复；diff 状态在恢复时移除。**不**存在旧稿所述 `validateReferences()` 七点全树可达检查、`minted` 序号界限或 sizes 总和≈1 约束。见 `state.ts:719-779,800-893`；相关 sanitize/migration/unknown extension 情形由 `state.spec.ts:527-620,640-681,716-845` 覆盖（本次只读测试，未运行）。
 
-**key 设计**:`dsh.sidebar-right.v1.${sessionId}`——**命名空间 + 版本号 + 会话身份**,三者都要。落盘只写 `{ layout, minted }`,**不写** `history`。
+状态归属不只一个 localStorage key：store 按插件激活实例创建，内存 session map 是 32 项 LRU；淘汰前 flush pending persistence，`reduceFor` 能对后台 session 定向修改且不通知当前 UI。见 `state.ts:905-918,965-985,1117-1216,1246-1255`。
 
-**第二层校验 `validateReferences()`**(`:821-844`)——"schema 过了不代表引用自洽":
+> 可迁移洞察：恢复布局时先界定每个会话的状态边界，再对结构损坏做可解释的局部修复；只有在实际 schema 有跨引用不变量时，才增加对应完整性检查。不要把“坏值回默认”说成“坏记录已删除”，也不要借用别的 registry 实现中的校验规则。
 
-1. `id` 必须与它在 map 里的 key 一致
-2. 序号不得大于 `minted`
-3. split 必须**恰好 2 个**子节点
-4. `sizes` 之和与 1 的差 **≤ 1e-9**
-5. pane 的 `host` 必须与遍历来源一致(来自 dock root / 来自 float)
-6. float 必须带 `rect` 且**只有一个 tab**
-7. 所有 node / tab **必须被访问到**(无孤儿)
+### 2.4 性能：一次“只修了一半”的修复，比修复本身更有教学价值
 
-> 第 5–7 条是"恢复半个布局"和"恢复崩溃"的分界。抄的时候别省略——**schema 校验器天然不检查跨引用**。
+`[DOC]` v0.28.2 README/CHANGELOG 报告本机 40.2 MB fixture 的测量；下表数字是作者报告，不是本次运行或独立复现。目标源码确认 v0.28.2 的实现增加 session-keyed header cache / in-flight stat（`src/index.ts:134-241`），相关并发与 fallback 由 `tests/smoke.spec.ts:791-855` 覆盖；测试本次未运行。
 
-### 2.4 性能:一次"只修了一半"的修复,比修复本身更有教学价值
 
 | 版本 | 做了什么 | 结果 |
 |---|---|---|
@@ -157,19 +147,18 @@ export function apply(ctx: Context) {
 > **抄这条方法论**:① memoize 的键要是**身份**(这里 session),不是调用点;② 合并 in-flight 请求(single-flight);③ **先找扇出点,再优化主路由**——把 N 个入口的最热路径数出来,而不是看哪个函数在 profile 里最靠前。
 > 另有一处同样值得抄的"减法":病态 `git status` 输出加 **latch + 进程树 kill**,把"宿主死于 `RangeError`"降级成"一次失败的 SCM refresh"。
 
-### 2.5 让第三方能力"装它才有,没装不显示"
+### 2.5 让第三方能力“装它才有，没装不显示”
 
-| 原文 | 机制含义 |
+| README 主张 `[DOC]` | 可迁移解释 `[OBS]` |
 |---|---|
-| "The entries **appear only** while dsh-context's `Context` page is actually registered: a deployment without it (or with that page hidden) shows **no control at all**" | 探测**能力**,不是探测包名 |
-| "while one jump is in flight every entry point is disabled" | 一次在飞,全部禁用(不排队、不重入) |
-| "A failed jump is reported **once**, in a dismissible alert at the frame's bottom edge; **nothing is polled while idle**" | 失败只报一次;空闲零轮询 |
+| dsh-context 的 `Context` 页注册后才出现入口；没装或隐藏则不显示控件。 | 探测**能力是否已注册**，不要只检查包是否安装。 |
+| 一次跳转在飞时所有入口禁用；失败只报一次，空闲不轮询。 | 若多个入口共享同一操作，统一在途状态与失败通道可减少重复提交和噪声。 |
 
-> 抄这条:跨插件联动**不要**用"我依赖它"的方式写死;探测它注册了没有,没注册就**整个控件不渲染**。灰按钮是最差的中间态——用户会点,然后以为坏了。
+> 此处是文档级产品行为描述；目标源码复核未追踪该联动组件的实现。抽入通用规则前需补对应源码/测试证据。
 
 ### 2.6 版本:一张表代替一段说明
 
-`[CAT]` README §Pick the plugin version for your DSH version:
+`[DOC]` README §Pick the plugin version for your DSH version（版本映射是作者文档声明，不等同于逐版本 CI 实测）：
 
 | 宿主 DSH | 插件版本 |
 |---|---|
@@ -227,27 +216,18 @@ export function apply(ctx: Context) {
 
 ---
 
-## 5. 借鉴食谱表(本卡的产出物)
+## 5. 可迁移洞察（本卡产出）
 
-| 要解决的问题 | 照它的做法 | 你要改的地方 | 抄错的后果 |
-|---|---|---|---|
-| 想给别人留扩展点 | **只有一种形状**:`registerX(descriptor) => disposer`,调用方 `ctx.effect` 包住 | 你的 descriptor 字段换成你的域 | 留两套 API → 第三方不知道该用哪套;不留 disposer → 卸载后幽灵注册项 |
-| 扩展点怎么让人信 | **内置功能走同一条 API**,并在 README 里明说 | — | 内置走后门 → 第三方默认自己是二等公民,不贡献 |
-| 自建服务要 `provide` 出去 | `registerX` 写成**原型方法**,不要箭头属性 | 检查你的 service 类写法 | 箭头属性 → effect 冻结在服务 root,**插件卸载不回收**,且只在卸载时暴露 |
-| 注册表槽位选错 | 先看上游槽是 single 还是 keyed:`single` 是**替换**,装不下多个功能插件 | 你的宿主若有 single 槽,就自建注册表 | 往 single 槽塞第二个 → 第一个被顶掉或整页被遮蔽 |
-| 要按会话记状态 | `${ns}.v1.${sessionId}` 这种**三段 key**,不要一个全局 JSON blob | 你的身份可能是 workspace / 项目 | 全局 blob → 切会话后布局乱串;无版本号 → 格式一改全炸 |
-| 持久化会坏 | 四道回落:环境不存在→return、读抛→return、**schema 失败→删 key**、写抛→只 console | — | 只 try/catch 不删坏 key → 每次启动都读坏数据,用户以为"设置不保存" |
-| schema 通过但状态错乱 | 再加一层**引用完整性**:id 对 key、序号 ≤ minted、split 恰 2 子、比例和≈1、**所有节点可达** | 按你的数据结构改写这 7 条 | 只做 schema → 恢复出半个布局,点一下就崩 |
-| 大对象被并发读爆 | memoize **按身份** + 共享 in-flight;**先数扇出点**再优化主路由 | 你的扇出可能在 watcher/静态资源 | 只给主路由加 single-flight → 仍被并行全量解码几十次 |
-| 病态输入能杀宿主 | 给外部命令输出加 **latch + 进程树 kill**,降级成"一次失败的刷新" | — | 不设界 → 一次畸形 `git status` 让整个宿主 OOM |
-| 资源有界读 | 把上限写成常数并公开;**超限显式报错**;对装饰性数据**省略不失败** | 200/10,000/1,000、5,000 tags/8 MiB | 静默截断 → 用户以为"只有 200 条提交";装饰数据报错 → 图整体画不出来 |
-| 跨插件联动 | 探测对方**能力注册了没有**,没有就**整个控件不渲染** | — | 渲染灰按钮 → 用户点,然后以为坏了 |
-| 一次操作在飞 | **所有入口一起禁用**;失败只报 **一次**;空闲**零轮询** | — | 每个入口各自 spun → 重复提交;失败弹三次 |
-| 改了浏览器侧代码 | README **第一屏**就写"装完/升级后必须硬刷新",并说原因 | — | 等用户报"改了没用" → 你会查一整天 |
-| 要给多版本宿主发版 | README 放一张**"宿主版本 → 插件精确版本"表**,并给"无兼容版本怎么办" | 你的矩阵行数按宿主线数定 | 只写"支持 0.2.x" → 老宿主装 latest 直接被拒,用户不知道该怎么办 |
-| 想论证"抬版本无风险" | 贴**全树 diff 统计**("355 个文件,全是 package.json,零源码改动") | — | 只说"兼容" → 用户不敢升 |
-| 权限边界 | 直接写"**fs 路由不做 workspace 包含检查**",别暗示有沙箱 | 你没有就是没有 | 暗示安全 → 用户以为读了也白读 |
-| 外部修改冲突 | 保存时检测外部修改,**拒绝并告知**,绝不静默覆盖 | — | 静默覆盖 → 用户丢一次工作就再也不信这个编辑器 |
+每行都是一条带前提的设计决策；来源等级不能混读。完整来源与精确引用见[`06 源码复核`](./_证据/06_厚工作台-better-sidebar-源码复核.md)。
+
+| 触发问题 | 可迁移洞察 | 机制依据 | 为什么有效 / 代价 | 移植时改什么 | 成立边界 | 抄错后果 |
+|---|---|---|---|---|---|---|
+| 插件/模块要注册可扩展 UI | 当扩展项需要跨组件存活时，返回显式 disposer，并让**调用方生命周期**持有它。 | `[SRC-TARGET]` 三个 Map + identity-checked disposer：`service.ts:898-974`；`[TEST]` duplicate/dispose/subscription：`tests/service.spec.ts:26-77`。 | 生命周期归属明确，可注销且避免旧 disposer 删除新 descriptor；代价是调用方必须正确绑定 effect/fiber。 | 换成自己的 descriptor、owner scope、重名策略、替换语义与 disposer 幂等规则。 | 本仓服务用闭包注册表；DSH `SlotRegistry` 的 prototype-method 规则是**另一种实现**，不能误套。 | 忘传 disposer 会遗留入口；沿用错误的原型结论可能修错层或漏掉真正 owner。 |
+| 某会话工作区布局需持久化 | 当状态只属于一个 session 时，用 session id 隔离存储，并明确恢复/淘汰策略，不写跨会话共享 blob。 | `[SRC-TARGET]` `dsh-sidebar:v1:<sessionId>`、`bottomSplits`、32-session LRU/evict flush：`state.ts:644-708,905-918,1117-1216`；`[TEST]` migration/LRU。 | 切会话不串状态，LRU 限制内存并先 flush；代价是 32 项上限与跨会话后台读写逻辑。 | 若身份实际是 workspace/user/device，改 key 与 owner；定义多设备同步和淘汰后的可恢复性。 | 该 key 只覆盖 sidebar state，不代表产品所有偏好都 per-session。 | 身份粒度选错会串数据或丢状态；忽略 flush 会在 LRU 淘汰时丢待写变更。 |
+| 持久化布局可能损坏或来自旧版本 | 当布局 schema 可兼容修复时，对字段/树做局部 sanitize 并有默认回退；只有在产品确实需要取证/清理时才删除坏记录。 | `[SRC-TARGET]` sanitizer/recovery：`state.ts:719-779,800-893`；`[TEST]` malformed tree / unknown type / migration：`state.spec.ts:527-620,640-681`。该版本坏 key不自动删除，reset query 才尝试清理。 | 局部修复可保留可识别 tabs/状态；但静默回默认可能隐藏损坏原因，key 保留也可能反复触发 sanitize。 | 定义可恢复字段、不可恢复阈值、诊断可见性、何时迁移/隔离/删除；依据自家 schema 写不变量。 | v0.28.2 **没有**旧卡所述 `validateReferences()` 七项、`minted` 与总和校验。 | 抄不存在的校验会产生虚假安全感；把“回默认”写成“删坏数据”会让运维步骤无效。 |
+| 多路由并发读取同一会话的冷元数据 | 当多个入口争用同一 session 的慢 I/O，先量扇出，再按 session 共享缓存与 in-flight 请求；不要只在一个路由局部 single-flight。 | `[SRC-TARGET]` `storedCwdCache` / `storedCwdInFlight` 与 `sessionPersistence.stat()`：`index.ts:134-241,699-727`；`[TEST]` 12 concurrent requests share one stat：`smoke.spec.ts:791-855`。 | 跨入口消掉重复解析；代价是缓存失效、并发、fallback 优先级与 stale client hint 都需定义。 | 按数据权威源选 cache key/TTL/invalidation；实现时定义当前值、header、用户 hint 的优先级。 | 40.2 MB / 3ms 等数字是作者报告，本次未运行；不得直接外推到其他文件大小和机器。 | 只优化主 API 会漏掉 watcher/资源路径的扇出；无效缓存会选错 workspace 或掩盖真实状态。 |
+| 文件功能容易被误当成 workspace sandbox | 当插件以宿主用户权限读写文件，必须明确威胁边界；cwd/path normalization 不等于授权围栏。 | `[SRC-TARGET]` lexical `resolveTarget` 无 containment/realpath：`path-security.ts:1-76`；`[TEST]` workspace 外路径与外部 symlink 可 list/read/write：`smoke.spec.ts:1063-1116,1534-1584`。 | 清晰告知用户真实 OS 权限边界，避免虚假隔离承诺；代价是访问面宽，需要信任安装包/宿主授权策略。 | 若需 sandbox，加入真实路径 containment、symlink policy、拒绝码和测试；别只检查 `cwd`。 | 这是明确的产品安全边界，不是可照搬的安全设计；HTML sandbox/CSP 不改变文件系统授权。 | 宣称 workspace 受限会使用户在错误安全假设下开放敏感文件。 |
+| 兼容范围需要帮助用户选版本 | 若同一插件需服务多条宿主线，给宿主版本到插件版本的明确映射，并写出无兼容版本时的下一步。 | `[DOC]` v0.28.2 README compatibility table；`[SRC-DSH]` install gate；详见卡§2.6与来源 memo。 | 用户可选精确版本，降低 `latest` 被拒的惊讶；代价是矩阵必须随 release 更新，README 声称仍需 CI/测试佐证。 | 映射按自己的宿主分支维护；区分“声明兼容”和“CI 实测”；给无匹配路径。 | 当前矩阵是文档指导，不能仅凭它证明每一行都运行通过。 | 过期矩阵会推荐不可装版本；把推荐配对写成已测试矩阵会误导兼容承诺。 |
 
 ---
 
@@ -262,7 +242,7 @@ export function apply(ctx: Context) {
 | 宿主版本不在表里(`0.1.7-alpha.x`) | **没有兼容版本**,先升宿主 |
 | 老宿主装 latest | 安装期 **version-rejection**,不下载、不跑 build script |
 | `<768px` | 无底部面板,tab 并入右栏抽屉 |
-| 存储不可用/损坏 | 删坏 key,回默认布局;写失败只 console |
+| 插件布局存储不可用/损坏 | v0.28.2 读错/sanitize 失败回默认但不自动删 key；`?dsh-sidebar-reset` 显式尝试删除；写失败吞掉并继续内存态（见 §2.3） |
 | 升级后界面没变 | **没硬刷新**(页面保留 module bootstrap) |
 | pnpm 11 拦传递依赖 build script | `pnpm approve-builds`;24 小时 `minimumReleaseAge` → 等或加 exclude |
 | `Profile directory not found` | 先跑一次 `dsh web` 初始化 `~/.dsh/profiles/web` |
