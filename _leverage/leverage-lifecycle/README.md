@@ -38,7 +38,7 @@ budget: 170
 
 横切两篇：[`SURFACES`](./reference/SURFACES.md)（web 与 Desktop 的同一性与分叉点）、[`REFERENCE`](./reference/REFERENCE.md)（被认可的那一条路）。
 
-## 3. 七条硬结论
+## 3. 八条硬结论
 
 每条都挂了标签，标注方式见 §5。
 
@@ -50,6 +50,7 @@ budget: 170
 6. **原生首启只有一道令牌门，没有向导。** 一条带 token 的 URL → 303 + 30 天 HttpOnly cookie → SPA；无 token 401。首启账本只提供"设置面板里的一串步骤"，不是"装完第一屏"。`[RUN]` `[DSH]`
 7. **启动体验不必另造 launcher。** 首屏注入、预置会话、工作区都在 host 服务层（`webServer.tapIndex`、`agents.create`、`workspaceRegistry.create`），写在 bundle 里的插件即可，天然跨面。`[RUN]`
 
+8. **机制做得对，不等于产品成立。** 本册唯一「机制过门、影响力不过」的样本放在 [`negative/91`](./negative/91_机制对但没人用-dsh-bootstrap.md)——它的机制值得抄，但它回答了用户不会问的问题。**门槛的意义就是承受这种误伤。**
 ### 15 张样本落地后的三个跨样本发现
 
 1. **"说明与包体不一致"是装阶段的结构性风险。** 四张装阶段的卡里，三张（`install/11`、`install/13`、`install/14`）都源于"文档承诺的东西在包里/在语义上不成立"。它不是个别疏忽，已进 [`TRAPS` 第 14 条](./practice/TRAPS.md)。
@@ -78,6 +79,8 @@ budget: 170
 | `[OPEN]` | 未复核 |
 
 **实测环境**：macOS · Node `v22.23.1` · pnpm `12.5.1` · `@deepseek-ai/dsh@0.2.1-rc.3` · **隔离 `DSH_HOME`**（`.work/feas/home`）。全过程未触碰真实 `~/.dsh` 的 profile、凭据与会话。
+
+**样本卡的证据级别**：**4 张已到实测级**——[`install/11`](./install/11_装后自证-cfbridge.md)、[`install/13`](./install/13_三条安装路径与空安装器-dsh-free-models-hub.md)、[`boot/21`](./boot/21_启动期注入-dsh-rhine-splash.md)、[`config/31`](./config/31_全禁状态-dsh-isolation-gate.md)；其余 11 张为源码级。实测记录见 [`_证据/03`](./_证据/03_样本实测记录.md)。
 
 **Desktop 面是源码级**：本机无 `desktop` profile、无 Electron 应用，Desktop 相关结论一律按 `[DSH]` 计，不冒充实测。这条边界写在 [`SURFACES`](./reference/SURFACES.md) 页头。
 

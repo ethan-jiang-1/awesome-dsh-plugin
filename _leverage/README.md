@@ -18,12 +18,12 @@
 
 | 你要… | 去哪 |
 |---|---|
-| 判断一个插件占了哪个位置、影响面多大 | [`leverage/horizon.md`](./leverage/horizon.md) → 对应三域 README |
-| 抄一条协作的现成做法 | [`leverage-agent-collaboration/BORROW.md`](./leverage-agent-collaboration/BORROW.md)（待建） |
+| 判断一个插件占了哪个位置、影响面多大 | [`leverage/horizon.md`](./leverage/horizon.md) → 对应两域 README |
+| 抄一条协作的现成做法 | [`leverage-agent-collaboration/BORROW.md`](./leverage-agent-collaboration/BORROW.md) |
 | 抄一条门禁 / 权限的现成做法 | [`leverage/BORROW.md`](./leverage/BORROW.md) |
 | 判断一个东西该发插件、发 profile 还是发应用 | [`leverage-reshape-product/README.md`](./leverage-reshape-product/README.md) §4 的三步判定 |
-| **判断一个装法在 web 和 Desktop 上是否都成立** | [`leverage-lifecycle/REFERENCE.md`](./leverage-lifecycle/reference/REFERENCE.md) → [`SURFACES.md`](./leverage-lifecycle/reference/SURFACES.md) |
-| **发布前自检** | [`leverage-lifecycle/CHECKLIST.md`](./leverage-lifecycle/practice/CHECKLIST.md) |
+| **判断一个装法在 web 和 Desktop 上是否都成立** | [`leverage-lifecycle/reference/REFERENCE.md`](./leverage-lifecycle/reference/REFERENCE.md) → [`reference/SURFACES.md`](./leverage-lifecycle/reference/SURFACES.md) |
+| **发布前自检** | [`leverage-lifecycle/practice/CHECKLIST.md`](./leverage-lifecycle/practice/CHECKLIST.md) |
 | 找某个产品/插件的坐标 | [`leverage-reshape-product/catalog.md`](./leverage-reshape-product/catalog.md) |
 | 查「它为什么还没成卡」 | 有候选池的册，各自的 `BACKLOG.md` |
 
@@ -36,34 +36,35 @@ _leverage/
 ├── README.md                        ← 本文件(四册共同入口,固定名)
 ├── verify.mjs                       ← 自包含校验器(只读本目录)
 ├── leverage/                        ← 两域:门禁 / 权限
-│   ├── README.md  00-map.md  horizon.md  BORROW.md  catalog.md
-│   ├── lever-prove-output/  lever-draw-limit/
-│   └── _证据/
+│   ├── README.md  00-map.md  horizon.md  BORROW.md  catalog.md  AUDIT.md  EVIDENCE.md
+│   └── lever-prove-output/  lever-draw-limit/
 ├── leverage-agent-collaboration/    ← 协作:delegation / teams / pipelines / crossing / coordination
-│   ├── README.md  00-map.md  EVIDENCE.md  catalog.md  BORROW.md
+│   ├── README.md  00-map.md  EVIDENCE.md  encyclopedia.md  catalog.md  BORROW.md
 │   └── <family>/samples/ + _证据/
 ├── leverage-reshape-product/        ← 产品线:plugin / profile / shell
-│   ├── README.md  00-map.md  horizon.md  BORROW.md  BACKLOG.md  catalog.md
+│   ├── README.md  00-map.md  horizon.md  BORROW.md  BACKLOG.md  RESEARCH.md  catalog.md
 │   ├── plugin/  profile/  shell/
 │   └── _证据/
 └── leverage-lifecycle/              ← 分发与首启:装 / 起 / 配 / 首启
-    ├── README.md  00-map.md  REFERENCE.md  SURFACES.md  catalog.md
-    ├── INSTALL.md  BOOT.md  CONFIG.md  FIRST-RUN.md
-    ├── TRAPS.md  CHECKLIST.md
+    ├── README.md  00-map.md  BORROW.md  catalog.md
+    ├── reference/  practice/  research/          ← 那条路 / 拿得走的两篇 / 研究法
+    ├── install/  boot/  config/  first-run/  negative/   ← 阶段篇 README + NN_ 样本
     └── _证据/
 ```
 
+树只列到固定骨架与目录；每册文件的权威清单在各册的 `catalog.md`，这里不重抄。
+
 ## 共同纪律(四册一致)
 
-1. **证据标签**:`[DSH]`(上游包与版本)/ `[CAT]` 或 `[CARD]`(目录条目 / 已立卡结论)/ `[OBS]`(观察者判断,带反例)/ `[OPEN]`(待核)/ `[RUN]`(隔离实测)。每条断言都要挂一个。
+1. **证据标签**:`[DSH]`(上游包与版本)/ `[CAT]` 或 `[CARD]`(目录条目 / 已立卡结论)/ `[OBS]`(观察者判断,带反例)/ `[OPEN]`(待核)/ `[RUN]`(隔离实测)；各册另有细分(`[PKG]` 包清单、`[SRC-*]` 目标仓源码)。每条断言都要挂一个，字面以该册的标签表为准。
 2. **三种数不可互证**:★(GitHub API,带时点)/ npm 近 30 天下载(含 CI 与镜像)/ 仓库边车快照(只作历史对照)。卡片页头必须写时点。
-3. **先过门,再立卡**:卡片数随「机制被验证」涨,不随名单涨。准入分别写在 `leverage/horizon.md`(三域)、`leverage-reshape-product/00-map.md` §7(三个 lever)、`leverage-lifecycle/00-map.md` §6(四阶段骨架)。
-4. **骨架不随样本长**:固定名(`README` / `00-map` / `horizon` / `BORROW` / `BACKLOG` / `catalog`) + 卡片 `NN_` 编号;新增的是叶子。第四册没有样本,所以也不使用 `NN_`。
+3. **先过门,再立卡**:卡片数随「机制被验证」涨,不随名单涨。准入分别写在 `leverage/horizon.md`(三域)、`leverage-reshape-product/00-map.md` §7(三个 lever)、`leverage-lifecycle/00-map.md` §4(两道门:影响力 + 机制)。
+4. **骨架不随样本长**:每册的固定骨架由该册 `00-map` 定义(`README` 入口 + `00-map` 规则源 + `catalog` 清单为四册共有)；样本一律 `NN_` 编号、全书唯一,新增的是叶子。第四册的固定目录是 `reference/` `install/` `boot/` `config/` `first-run/` `negative/` `practice/` `research/`,样本按 1x 装 · 2x 起 · 3x 配 · 4x 首启 · 9x 反例 分段。
 5. **不碰用户环境**:凡是有实测的册,实测必须在隔离 `DSH_HOME` 下完成,产物落在 `.work/`(已 gitignore)。
 
 ## 自包含边界
 
-**这一层是自包含的**:四册的骨架(`README` / `00-map` / `horizon` / `BORROW` / `catalog` / `BACKLOG`)、规则源、证据与校验器全部在这棵树里。唯一的运行入口是 `node _leverage/verify.mjs`,它只读 `_leverage/` 内的 Markdown——**不 import 外部脚本,不读外部数据文件**。
+**这一层是自包含的**:四册的骨架(`README` / `00-map` / `BORROW` / `catalog`,以及各册自定义的 `horizon` / `BACKLOG` / `REFERENCE` 等固定名)、规则源、证据与校验器全部在这棵树里。唯一的运行入口是 `node _leverage/verify.mjs`,它只读 `_leverage/` 内的 Markdown——**不 import 外部脚本,不读外部数据文件**。
 
 它与仓库同级的 `_digested/` 是两层并列的研究,不是上下游:
 

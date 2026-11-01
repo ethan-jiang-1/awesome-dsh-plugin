@@ -14,7 +14,7 @@ budget: 130
 > **阶段**：装 · **载体**：host-row + client-slot（面板）+ 本地代理端口 · **兼看**：首启
 > **影响力**：npm 近 30 天 **2,420**（2026-11-01，42 个过影响力门的 bundle 之一）
 > **研究范围**：`dsh-free-models-hub@0.3.1`，gitHead `a05a60f9…`，tarball sha256 `edabcae8…`（**32,986 B，7 文件**）；DSH 对照 `0.2.1-rc.3`
-> **证据成熟度**：源码级（包清单、patch、core 注释实读；未实机装）
+> **证据成熟度**：**实测级**（隔离 profile 真装后逐条核对脚本，[`_证据/03`](../_证据/03_样本实测记录.md) E21）+ 源码级（patch 与 core 实读）
 > **一句话**：它把"谁该怎么装"分得比谁都细，**而那三个安装器一个都不在包里**。
 > **借鉴价值**：**① 多路径安装说明要有配套产物；② 配置写宿主的 settings 命名空间；③ 面板位置做成可选项以适配不同构建。**
 
@@ -60,6 +60,8 @@ budget: 130
 `package.json` 的 `files` 是 `["lib","cordis.patch.yml","README.md","LICENSE"]` `[SRC-TARGET]`；tarball 解包后**只有 7 个文件**，没有任何 `.bat`，也没有 `scripts/`（而 `core.js` 自述由 `scripts/build.mjs` 生成）`[SRC-TARGET]`。
 
 所以：**三条安装路径对仓库克隆者成立，对 npm 安装者全部落空。**
+
+**已实测（E21）**：隔离 profile 装完后，包目录只有 `LICENSE / README.md / cordis.patch.yml / lib / package.json` 五项；三个 `.bat` 逐个检查**全部不存在** `[RUN]`。
 
 这和 [`install/11`](./11_装后自证-cfbridge.md) 是同一个错误——两个都在"安装说明写得越细"的地方翻车，说明它不是个别疏忽，而是这类写法的**结构性风险**。
 

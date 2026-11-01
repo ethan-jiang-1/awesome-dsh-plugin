@@ -1,8 +1,8 @@
 ---
-title: "TRAPS · 照抄就中招的十四条"
+title: "TRAPS · 照抄就中招的十五条"
 domain: lifecycle
 kind: guide
-positioning: "从 25 张产品卡、13 张本册样本与本轮实测里抽出的十四种失败形态：症状、机制、反例、正确做法。"
+positioning: "从 25 张产品卡、15 张本册样本与两轮实测里抽出的十五种失败形态：症状、机制、反例、正确做法。"
 read_when: "发布前自查；或排查“明明装好了却不对”的问题。"
 status: living
 updated: 2026-11-01
@@ -109,3 +109,10 @@ budget: 120
 **机制**：`package.json` 的 `files` 白名单只列了 `lib/` 与 patch，脚本目录没进包。**装的人拿不到,写的人永远发现不了。**
 **反例**：两条独立样本同一个错——`[SRC-TARGET]` `@wenaixi/cfbridge@0.13.2`（`files` 9 项无 `scripts/`，五条 npm scripts 全指向它）；`dsh-free-models-hub@0.3.1`（README 三条 `.bat`，tarball 7 个文件里一个没有）。
 **做法**：打包后看 `npm pack --dry-run` 清单，再**逐条执行 README 里写的命令**；把"命令存在性"写进发布检查（[`CHECKLIST`](./CHECKLIST.md) 装段）。
+
+## 15. 隔离环境里装插件，不代表它只碰隔离目录
+
+**症状**：在临时 `DSH_HOME` 里装好插件、启动，以为一切都在沙盒内；实际上插件读写了你的真实 home。
+**机制**：`DSH_HOME` 只决定**profile 与宿主数据**的位置；插件自己配置里的绝对路径（状态文件、名单、审计、备份目录）**不会跟着变**。
+**反例**：`[RUN]` `dsh-isolation-gate@1.13.7` 在隔离 profile 下回显的默认路径是 `~/.agents/门禁-授权.json`、`~/.agents/门禁-名单.txt`、`~/.dsh/dsh-isolation-gate/access-log.jsonl`，备份目录还是硬编码的 `D:\回收站\门禁-名单改前`——**四条里三条在真实 home，一条是 Windows 专用**。
+**做法**：测任何插件前，先读它 patch 里的路径配置，用 `--patch` 覆盖到隔离目录；测完核对真实 home 的目标文件**是否被创建或修改**（本次核对：均未被创建）。

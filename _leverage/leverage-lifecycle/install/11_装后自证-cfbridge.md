@@ -14,7 +14,7 @@ budget: 130
 > **阶段**：装 · **载体**：own-cli（npm scripts，不是 `bin`）+ host-row · **兼看**：起
 > **影响力**：npm 近 30 天 **2,495**（2026-11-01，42 个过影响力门的 bundle 之一）
 > **研究范围**：`@wenaixi/cfbridge@0.13.2`，gitHead `0e46aa20…`，tarball sha256 `64521a2d…`（200,864 B，32 文件）；DSH 对照 `0.2.1-rc.3`
-> **证据成熟度**：源码级（tarball 实读，非 README 转述）
+> **证据成熟度**：**实测级**（隔离 profile 真装并执行命令，[`_证据/03`](../_证据/03_样本实测记录.md) E20）+ 源码级（tarball 实读）
 > **一句话**：它把"装完怎么证明装上了"拆成五条可重跑命令——**但那五条脚本没有随包发布**。
 > **借鉴价值**：**① `files` 白名单是安装器的头号杀手；② 启动安全的默认值该写在 patch 里，不是代码里；③ 外部凭据用 `!!js` 读环境，绝不落盘进 patch。**
 
@@ -73,6 +73,8 @@ patch 插入两行，都是 `dsh-mcp-client` 的实例 `[SRC-TARGET]`：
 - 而 `package.json:63-67` 的五条命令全部指向 `scripts/*.js` `[SRC-TARGET]`。
 
 **结论**：对从 **npm** 安装的人，`npm run install:bundle` 等五条命令会直接找不到文件；对**从仓库克隆**的人，一切正常。作者的自证工具只在自己机器上成立——这正是"装后自证"最容易翻车的地方。
+
+**已实测（E20）**：在隔离 profile 里装完后执行同一条命令，得到 `Error: Cannot find module '…/@wenaixi/cfbridge/scripts/install-bundle.js'` `[RUN]`。安装本身 exit 0、roster 也写对了——**失败只发生在真正要用的时候**。
 
 ## 4. 与宿主既有行的边界
 

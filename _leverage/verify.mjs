@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // `_leverage/` 自校验：严格 UTF-8、LF 换行与单个结尾换行、相对链接与锚点、
-// 两册的 frontmatter 契约、产品线 catalog 与 lever 卡表的双向一致、卡片影响力门槛，
+// 四册的 frontmatter 契约、产品线与第四册 catalog 的双向一致、lever 卡表覆盖、
+// 样本卡必须有固定版本 memo、卡片影响力门槛，
 // 以及产品线每张样本卡必须有「它想干什么 · 为什么值得借鉴」一节（意图/意义/用户价值/表达）。
 // 自包含：只读 `_leverage/` 这一棵树，不依赖 `_digested/` 的任何脚本或数据。
 // 用法：node _leverage/verify.mjs   （在仓库根执行）

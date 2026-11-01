@@ -51,6 +51,7 @@ budget: 90
 | [`first-run/41_自检即首启-dsh-skill-cockpit.md`](./first-run/41_自检即首启-dsh-skill-cockpit.md) | sample | 用 doctor 退出码当首启验收面，并用测试锁住检查项与排障文档。 | 产品没有浏览器卡片；或检查项越加越多。 |
 | [`first-run/42_命令即验收面-dsh-tool-guardian.md`](./first-run/42_命令即验收面-dsh-tool-guardian.md) | sample | 会话内命令当唯一验收面；`input` 决定命令是给人还是给模型。 | 产品没有浏览器卡片；或要设计自检命令。 |
 | [`first-run/43_预置工作区与自有会话-dsh-24pa.md`](./first-run/43_预置工作区与自有会话-dsh-24pa.md) | sample | boot 时建工作区 + 两个可推导的会话；预设冲突换 id 不覆盖。 | 要让产品打开就落在自己的工作面。 |
+| [`negative/91_机制对但没人用-dsh-bootstrap.md`](./negative/91_机制对但没人用-dsh-bootstrap.md) | sample | 反例：机制齐全但 ★1/月 763，一次发布后再无更新。 | 想判断自己的机制是否“好但没人要”。 |
 
 ## 3. 证据
 
@@ -58,6 +59,7 @@ budget: 90
 |---|---|---|---|
 | [`_证据/01_DSH-源码定位.md`](./_证据/01_DSH-源码定位.md) | evidence | 全部 `[DSH]` 断言的包 + 文件:行号 + 保证了什么。 | 复核某条 `[DSH]`。 |
 | [`_证据/02_隔离实测记录.md`](./_证据/02_隔离实测记录.md) | evidence | E0–E19 的命令、输出与复现步骤。 | 复核某条 `[RUN]`。 |
+| [`_证据/03_样本实测记录.md`](./_证据/03_样本实测记录.md) | evidence | E20–E26：真装四个样本后的命令存在性、首屏注入、fail-closed 与隔离陷阱。 | 复核标了实测级的样本卡。 |
 | [`install/_证据/11_装后自证-cfbridge-源码复核.md`](./install/_证据/11_装后自证-cfbridge-源码复核.md) | evidence | cfbridge 0.13.2 的固定版本、tarball 摘要、符号命中与负向事实。 | 复核 `install/11`。 |
 | [`install/_证据/12_让安装器认你-dsh-origin-plugin-源码复核.md`](./install/_证据/12_让安装器认你-dsh-origin-plugin-源码复核.md) | evidence | origin-plugin 2.7.3 的固定版本、自挂载行与 apply 返回值的原始定位。 | 复核 `install/12`。 |
 | [`install/_证据/13_三条安装路径与空安装器-dsh-free-models-hub-源码复核.md`](./install/_证据/13_三条安装路径与空安装器-dsh-free-models-hub-源码复核.md) | evidence | free-models-hub 0.3.1 的七文件全量清单与 README 三条路径对照。 | 复核 `install/13`。 |
@@ -73,6 +75,7 @@ budget: 90
 | [`first-run/_证据/41_自检即首启-dsh-skill-cockpit-源码复核.md`](./first-run/_证据/41_自检即首启-dsh-skill-cockpit-源码复核.md) | evidence | skill-cockpit 1.5.1 的 doctor 退出码、四值状态与文档对账测试。 | 复核 `first-run/41`。 |
 | [`first-run/_证据/42_命令即验收面-dsh-tool-guardian-源码复核.md`](./first-run/_证据/42_命令即验收面-dsh-tool-guardian-源码复核.md) | evidence | tool-guardian 0.9.1-beta.1 的命令注册、input 路由与未就绪两态。 | 复核 `first-run/42`。 |
 | [`first-run/_证据/43_预置工作区与自有会话-dsh-24pa-源码复核.md`](./first-run/_证据/43_预置工作区与自有会话-dsh-24pa-源码复核.md) | evidence | 24pa 0.2.1-rc.5.1 的工作区创建、会话身份与冲突换 id 原文。 | 复核 `first-run/43`。 |
+| [`negative/_证据/91_机制对但没人用-dsh-bootstrap-源码复核.md`](./negative/_证据/91_机制对但没人用-dsh-bootstrap-源码复核.md) | evidence | bootstrap 0.1.0 的实时影响力、机制原文与仓库时间线。 | 复核 `negative/91`。 |
 
 ## 4. 速查：四阶段一句话
 
