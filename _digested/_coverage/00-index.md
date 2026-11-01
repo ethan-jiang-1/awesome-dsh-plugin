@@ -30,11 +30,11 @@
 
 **这一层已搬出 `_digested/`**:两册(`leverage/` 两域与 `leverage-reshape-product/` 产品线)连同各自的 `_证据/` 一起移到仓库根同级目录 [`_leverage/`](../../_leverage/README.md),统一入口见该目录的 README。**2026-11-01 协作域再独立为 [`leverage-agent-collaboration/`](../../_leverage/leverage-agent-collaboration/README.md),分发与首启成 [`leverage-lifecycle/`](../../_leverage/leverage-lifecycle/README.md)。** 下表保留覆盖状态,路径指到新位置。
 
-第二轴,不与 `ecosystem/` 的 23 类合并。四册成稿:宪章/索引、横向手册、机制卡、样本卡、原始证据各有其位。入口是 [`leverage/README.md`](../../_leverage/leverage/README.md);按任务借用看 [`BORROW.md`](../../_leverage/leverage/BORROW.md);全量清单见 [`catalog.md`](../../_leverage/leverage/catalog.md)。
+第二轴,不与 `ecosystem/` 的 23 类合并。四个方向成稿（协作/产品另册，第四册 `leverage-lifecycle` 另行成册）:宪章/索引、横向手册、机制卡、样本卡、原始证据各有其位。入口是 [`leverage/README.md`](../../_leverage/leverage/README.md);按任务借用看 [`BORROW.md`](../../_leverage/leverage/BORROW.md);全量清单见 [`catalog.md`](../../_leverage/leverage/catalog.md)。
 
 | 域 | 状态 | 已有正文 | 证据来源 |
 |----|------|----------|----------|
-| [`leverage-reshape-product`](../../_leverage/leverage-reshape-product/README.md)(另册,与 leverage 平级) | **成稿**;核心卡已读到源码/实测,其余 README 级;三个 lever(通用插件 / profile 级产品 / 自带宿主)+ 独立规则源 | 1 规则源 + 3 lever 宪章(11 / 8 / 6 卡)+ 1 门 + 1 借用指南 + 1 候选池 + 9 证据 = 43 篇 + 1 指标快照 | catalog + 插件 README + 2026-10-31 指标快照 |
+| [`leverage-reshape-product`](../../_leverage/leverage-reshape-product/README.md)(另册,与 leverage 平级) | **成稿**;核心卡已读到源码/实测,其余 README 级;三个 lever(通用插件 / profile 级产品 / 自带宿主)+ 独立规则源 | 1 规则源 + 3 lever 宪章(11 / 8 / 6 卡)+ 1 门 + 1 借用指南 + 1 候选池 + 9 证据 = 43 篇（2026-10-31 快照；2026-11-01 已增至 69 篇）+ 1 指标快照 | catalog + 插件 README + 2026-10-31 指标快照 |
 | [`leverage-agent-collaboration`](../../_leverage/leverage-agent-collaboration/README.md)(原 `lever-cross-boundary`,2026-11-01 另册) | **成稿**;四家族 17 样本源码逐文件读过,影响力用 2026-10-31 实时数据 | 1 规则源 + 5 家族(3/6/2/5/1 样本)+ 横向卷 | 2026-10-31 实时 GitHub/npm |
 | [`lever-prove-output`](../../_leverage/leverage/lever-prove-output/README.md) | **成稿**;12 样本,17 个仓库锁 `repo@commit` | 1 宪章 + 10 卡(含溯源卡/手册) | `repo@commit` + 实时抓取 |
 | [`lever-draw-limit`](../../_leverage/leverage/lever-draw-limit/README.md) | **成稿**;10 样本,多卡读过 src,坐标只锁版本 | 1 宪章 + 8 卡 + 1 手册 | npm 近 30 天 + `capabilities.json` |

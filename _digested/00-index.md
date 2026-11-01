@@ -38,7 +38,7 @@
 | [lever-prove-output](../_leverage/leverage/lever-prove-output/README.md) | 门禁装在哪一环,产物凭什么算完成 | 质量链六环;只有检查点与版本新鲜度是原生硬门禁 |
 | [lever-draw-limit](../_leverage/leverage/lever-draw-limit/README.md) | 谁能碰什么,由谁强制,留下什么证据 | 信任三层;沙箱只覆盖文件,网络与进程无策略词汇 |
 
-**入口**:[`_leverage/README.md`](../_leverage/README.md) 是这一站的读法;单册入口 [`leverage/README.md`](../_leverage/leverage/README.md) 首屏有三条路——拿走东西去 [BORROW.md](../_leverage/leverage/BORROW.md),查某一篇去 [catalog.md](../_leverage/leverage/catalog.md),知道凭什么去 [horizon.md](../_leverage/leverage/horizon.md)。四册成稿;**先过门再立卡,卡片数不随名单涨**。准入/分级见 horizon,**不维护全库计数与命中率**。
+**入口**:[`_leverage/README.md`](../_leverage/README.md) 是这一站的读法;单册入口 [`leverage/README.md`](../_leverage/leverage/README.md) 首屏有三条路——拿走东西去 [BORROW.md](../_leverage/leverage/BORROW.md),查某一篇去 [catalog.md](../_leverage/leverage/catalog.md),知道凭什么去 [horizon.md](../_leverage/leverage/horizon.md)。四个方向成稿（另加第四册 `leverage-lifecycle`）;**先过门再立卡,卡片数不随名单涨**。准入/分级见 horizon,**不维护全库计数与命中率**。
 
 ## 横切目录
 
