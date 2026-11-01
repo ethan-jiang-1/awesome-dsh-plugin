@@ -22,9 +22,10 @@ budget: 150
 | Electron carrier（程序化） | 桌面应用 | 只能它碰 `desktop` `[DSH]` |
 
 - CLI 通道的实质是**在 profile 目录里跑 pnpm**，外加一步 `reconcile()` `[DSH]`（`dsh-plugin-manager/lib/types/operations.js:95-122`）。
-- 首次使用会 `initProfile()`，用出厂模板的 bundle 列表；没有同名模板就用 `["@deepseek-ai/dsh-base"]` `[DSH]`（`operations.js:597`；`dsh-app-boot/lib/index.js:565`）。
+- 首次使用会 `initProfile()`，用出厂模板的 bundle 列表；没有同名模板就用 `["@deepseek-ai/dsh-base"]` `[DSH]`（`operations.js:597`；`dsh-app-boot/lib/index.js:570`）。
 - 兼容门在安装时判：不满足会列出 `incompatible` 并提示精确豁免命令 `dsh plugin --profile <p> allow-version <pkg>@<ver> --dsh-version <exact> --accept-risk` `[DSH]`（`lib/plugin-BiveYA7h.js:95`）。
 - git 来源的包会跑 `prepare`，被 pnpm 拦下时需要往 profile 的 `pnpm-workspace.yaml` 加 `allowBuilds` `[DSH]`（`lib/plugin-BiveYA7h.js:97`）。
+- **`file:` 相对路径按 profile 目录解析，不是当前工作目录**：`add file:./x.tgz` 会去找 `profiles/<p>/x.tgz`，报 `ERR_PNPM_LINKED_PKG_DIR_NOT_FOUND`；离线安装用绝对路径 `file:$PWD/x.tgz` `[RUN]`（E28 复现）。
 
 ## 2. 实测读到什么
 
@@ -55,25 +56,27 @@ budget: 150
 | `dsh plugin --profile <p> add`（主流） | 多数；含 `31`、`42`、`43`、`51`、`71`、`profile/11`–`17` |
 | 应用内 Plugins 页 | `51`、`61`、`81`（**都额外注明 Desktop 走 App 内**） |
 | `github:` 规格 | `81`、`profile/11`（均记录 `allowBuilds` 坑） |
-| npx 包一层 | `71`（`npx -y @deepseek-ai/dsh plugin … add`） |
-| 仓库脚本 | `12_厚工作台`（`bash scripts/install.sh`） |
+| npx 包一层 | `71`（`npx -y @deepseek-ai/dsh plugin … add`；仍是 CLI，必须标“仅 web”） |
+| 仓库脚本 | `12_厚工作台`（`bash scripts/install.sh`；只对克隆者成立，不是分发路径） |
 | OS 安装器 / 裸 exe / dmg-msi | `shell/11`、`shell/12`、`shell/13`、`shell/14` |
 | 装不上 | `shell/91`（peer 上界 `<0.2.0`，安装期 `incompatible-version`） |
 
 **三类偏离的判读**：
 
-- **允许**：自带安装器（那四张 shell 卡的产品本来就不是插件）；`.tgz`/`file:`（内网、离线 `[RUN]`）。
-- **允许但要写明**：只给 CLI 命令——必须标"仅 `dsh web`"。
-- **坑**：把 `--profile desktop` 写进说明（`profile/13` 卡头即如此，而 CLI 实测拒绝）；把非 bundle 包当插件发；只靠 `engines.dsh` 一条门（另一条宿主线上失效 `[CARD]`）。
+- **仅 shell 允许**：自带安装器（那四张 shell 卡的产品本来就不是插件；插件不要）。
+- **插件可用，但要自己保证来源**：`.tgz` / `file:`（内网、离线 `[RUN]`）。
+- 两类都登记在 [`REFERENCE` §4](../reference/REFERENCE.md)。
+- **允许但要写明**：只给 CLI 命令（含 `npx dsh plugin`）——必须标“仅 `dsh web`”；仓库脚本只对克隆者成立，不能当用户安装说明。
+- **坑**：把 `--profile desktop` 写进说明（`profile/13` 卡头即如此，而 CLI 实测拒绝）；把非 bundle 包当插件发；版本范围只写在 README 里（manifest 既无 `engines.dsh` 也无 DSH peer，宿主没有门可判，坏版本也会装进来 `[DSH]`）。
 
 **本册样本补充**（15 张阶段样本落地后）：
 
-- [`11_装后自证-cfbridge`](./11_装后自证-cfbridge.md)：五条自证命令，`files` 漏掉 `scripts/` → 对 npm 用户全 404。
-- [`12_让安装器认你-dsh-origin-plugin`](./12_让安装器认你-dsh-origin-plugin.md)：市场判"能装"看入口工件、判"活着"看 loader fiber。
-- [`13_三条安装路径与空安装器-dsh-free-models-hub`](./13_三条安装路径与空安装器-dsh-free-models-hub.md)：三条路径依赖的脚本全不在包里。
+- [`11_装后自证-cfbridge`](./11_装后自证-cfbridge.md)：五条 npm scripts（validate/dump/repair 可作自证；install/uninstall 应走 `dsh plugin`），`files` 漏掉 `scripts/` → 全 404。
+- [`12_让安装器认你-dsh-origin-plugin`](./12_让安装器认你-dsh-origin-plugin.md)：市场按“观察 > manifest > patch”判七态；carrier 用自己的 patch 行证明活着（1.73.6 已不需要自挂载空行）。
+- [`13_三条安装路径与空安装器-dsh-free-models-hub`](./13_三条安装路径与空安装器-dsh-free-models-hub.md)：**反例**——三条路径依赖的脚本全不在包里；插件只应发 bundle。
 - [`14_覆盖行的身份陷阱-dsh-tinyfish`](./14_覆盖行的身份陷阱-dsh-tinyfish.md)：覆盖宿主行只写 `id`；`name` 是断言不是重命名。
 
-四条里有三条是"**说明与包体不一致**"——这是装阶段的结构性风险，不是个案（见 [`practice/TRAPS`](../practice/TRAPS.md) §14）。
+四条里有两条（11、13）是同一种**"说明与包体不一致"**——装阶段的结构性风险，不是个案（见 [`practice/TRAPS`](../practice/TRAPS.md) §14）；14 是 patch 语义、12 是分发入口，不是同一个错。
 
 ## 4. 三条判据
 
@@ -91,7 +94,7 @@ budget: 150
 
 | 文件 | 一句话 |
 |---|---|
-| [`11_装后自证-cfbridge.md`](./11_装后自证-cfbridge.md) | 五条自证命令，`files` 白名单却漏了 `scripts/`。 |
-| [`12_让安装器认你-dsh-origin-plugin.md`](./12_让安装器认你-dsh-origin-plugin.md) | 市场判“能装”看入口工件、判“活着”看 loader fiber。 |
-| [`13_三条安装路径与空安装器-dsh-free-models-hub.md`](./13_三条安装路径与空安装器-dsh-free-models-hub.md) | 三条安装路径，靠的脚本全不在包里。 |
-| [`14_覆盖行的身份陷阱-dsh-tinyfish.md`](./14_覆盖行的身份陷阱-dsh-tinyfish.md) | 覆盖只写 id+config；`name` 是断言，写官方包名=冒名。 |
+| [`11_装后自证-cfbridge.md`](./11_装后自证-cfbridge.md) | 五条 npm scripts，`files` 漏了 `scripts/`；安装/卸载不该用脚本。 |
+| [`12_让安装器认你-dsh-origin-plugin.md`](./12_让安装器认你-dsh-origin-plugin.md) | 市场七态与三级证据；carrier 的 patch 行就能证明活着。 |
+| [`13_三条安装路径与空安装器-dsh-free-models-hub.md`](./13_三条安装路径与空安装器-dsh-free-models-hub.md) | 反例：三条安装路径，靠的脚本全不在包里。 |
+| [`14_覆盖行的身份陷阱-dsh-tinyfish.md`](./14_覆盖行的身份陷阱-dsh-tinyfish.md) | 覆盖只写 id+config；`name` 是断言，失配会被整条跳过。 |

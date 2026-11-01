@@ -35,7 +35,7 @@ budget: 150
 ## 3. 三处会"静默失效"的分叉
 
 1. **装错 profile**：在 Desktop 机器上执行 `dsh plugin --profile web add X`，包进了 `profiles/web`，App 用的是 `profiles/desktop`——报告成功但界面没有 `[CARD]`（产品线 `51` 卡已量到）。
-2. **home 层供货**：往 `~/.dsh/cordis.patch.yml` 插一个只装在某个 profile 的包，另一个 profile 启动时报 `did not activate`，**服务照常起来**，用户只看到功能缺失 `[RUN]`（[`_证据/02`](../_证据/02_隔离实测记录.md) E8）。
+2. **home 层供货**：往 `~/.dsh/cordis.patch.yml` 插一个只装在某个 profile 的包，另一个 profile 启动时报 `warning: 1 entry did not activate` + `ERR_MODULE_NOT_FOUND`，**服务照常起来**（第三方行不在 required 名单里），用户只看到功能缺失 `[RUN]`（[`_证据/02`](../_证据/02_隔离实测记录.md) E8）。
 3. **首启文案**：`welcome-notice` 这一步在 Desktop 里**不注册**（代码里 `if (!('dshDesktop' in globalThis))`）`[DSH]`（`dsh-client-ui-settings-models/lib/client.js:4502`）。依赖它做首屏的产品，在 Desktop 上会少一段而没有任何报错。
 
 ## 4. 两个面真正共享的东西

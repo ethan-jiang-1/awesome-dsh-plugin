@@ -67,18 +67,20 @@ commands.register({ name: 'context', description: 'Context pressure, cache hits 
 
 ## 4. 交叉验证
 
+**宿主侧复核** `[DSH]`：`dsh-client-ui-commands/lib/client.js:1661-1665`——有 `input` 才返回 claim；没有 `input` 且带参数时 `return void 0`，该行不再走命令通道。这条把本卡的 `[DOC]` 推论升级为宿主事实。
+
 `input` 陷阱在本册出现两次，且互相独立：
 
 | 样本 | 位置 | 证据强度 |
 |---|---|---|
 | `dsh-tool-guardian@0.9.1-beta.1` | `index.js:1134-1135` 注释 | `[DOC]` |
-| `dsh-context-guardian@0.3.0-beta.1` | `engine.js:1366-1367` 注释，含**实机观察日期 2026-09-20** | `[DOC]` + 观察记录 |
+| `dsh-context-guardian@0.3.0-beta.1` | `engine.js:1365-1366` 注释，含**实机观察日期 2026-09-20** | `[DOC]` + 观察记录 |
 
 两处都独立指向同一条宿主行为，可信度高于单点注释。
 
 ## 5. 未复核
 
 - `setup.mjs` 写入 preset 的确切位置与幂等性。
-- 从 npm 包安装（非仓库）的用户是否有等价的 setup 入口。
+- `setup.mjs` 随包发布（`files` 含它），但用户要先找到包目录；等价入口是否存在，按"包目录里 `npm run setup`"复核。
 - 无数据时三条命令的表现。
 - 未实机 setup。

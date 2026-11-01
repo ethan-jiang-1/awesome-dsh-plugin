@@ -6,7 +6,7 @@ positioning: "固定版本（无 gitHead）、tarball 摘要、三件重启证�
 read_when: "复核 boot/22；或想知道“重启成功”在源码里是怎么被证明的。"
 status: observed
 updated: 2026-11-01
-budget: 115
+budget: 125
 ---
 # update-checker 源码复核
 
@@ -92,14 +92,28 @@ json(res, 200, { ...status, instanceId: INSTANCE_ID, startedAt: INSTANCE_STARTED
 function probePortOpen(port, host = "127.0.0.1", timeoutMs = 1200) { ... }
 ```
 
+```sh
+# scripts/restart-watchdog.sh:45-66 —— 真正写结果的是看门狗，不是新进程
+write_result() {
+  ...
+  fs.writeFileSync(process.env.NR_RESULT, JSON.stringify(o));
+}
+# :165 —— 端口仍被占就拒绝 relaunch
+write_result false "" "port still listening after kill - refusing to relaunch"
+# :172 —— 没有 launcher 就明说
+write_result false "" "no launcher available (no node args and no launcher)"
+# :227 / :236 —— 恢复与失败各写一次
+write_result true "$(date -u +%Y-%m-%dT%H:%M:%SZ)" ""
+```
+
 ## 4. 本卡与其它卡的呼应
 
 - 与 [`BOOT`](../README.md) §2 的"应用内装给 restart-required、CLI 装没有"互补：**这里补的是重启之后怎么取证**。
-- 端口探针单独用会误判，与 [`TRAPS`](../../practice/TRAPS.md) §6「装完不重启以为已生效」是同一族问题。
+- 端口探针单独用会误判（见 `boot/22` §2 的失败态表）；`TRAPS` 目前没有对应条目——这条太具体，留在卡内。
 
 ## 5. 未复核
 
-- `DSH_RESTART_RESULT` 的消费点（谁读它、何时写、写什么 schema）未定位。
+- **已定位**：写方是 `scripts/restart-watchdog.sh:45-66`（ps1 同源）；`lib/index.js` 只把路径塞进 env（`:5827`）并读回（`:5882`）。schema 见脚本 `:57` 的 `o` 对象。
 - 旧进程让出端口的方式（主动退出？等待窗口？）未定位。
 - 三个探针的判组合逻辑未定位。
 - **无 `gitHead`**：本卡的物证只能到 tarball 摘要，无法上溯 commit。

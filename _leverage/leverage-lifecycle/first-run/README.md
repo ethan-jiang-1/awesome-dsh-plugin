@@ -34,7 +34,7 @@ budget: 160
 - **宿主自带两个**：`welcome-notice`（`order: -100`，**Desktop 里不注册**）与 `deepseek-official`（`order: 0`，模型登录）（`dsh-client-ui-settings-models/lib/client.js:4502-4515`）；
 - 它只是"设置面板里的一串步骤"，**不保证抢到首屏**；完成或跳过把所有权交给下一个 `[CARD]`。
 
-**另有 `OPTIONAL_BUNDLES`**：12 个出厂自带但默认关闭的实验 bundle，由插件管理器以"关着"的形式提供 `[DSH]`（`dsh-app-boot/lib/index.js:575-590`）。这是原生离"再装点什么"最近的东西，但它是开关，不是推荐。
+**另有 `OPTIONAL_BUNDLES`**：12 个出厂自带但默认关闭的实验 bundle，由插件管理器以"关着"的形式提供 `[DSH]`（`dsh-app-boot/lib/index.js:579-590`）。这是原生离"再装点什么"最近的东西，但它是开关，不是推荐。
 
 ## 2. 实测读到什么
 
@@ -82,9 +82,10 @@ budget: 160
 - `[OPEN]` Desktop 上 `welcome-notice` 缺失后，`deepseek-official` 是否仍然成为第一步。
 - `[OPEN]` 客户端能否感知"这是首次运行"（本册未找到原生 API；样本多是自建标志位）。
 
-## 6. 启动体验的载体：不另造安装器
+## 6. 启动体验的七个原语：不另造安装器
 
 > 想要一个自己的"打开就是这样"的体验，除了自带 launcher，还有一条更便宜的路：**在 bundle 里放一个 host 插件**。launcher 是最后手段，不是第一手段。
+> **术语**：这里列的是"启动体验"的七个原语，不是 [`CARRIERS`](../reference/CARRIERS.md) 的九类生命周期载体——同一张卡可以同时是"载体 1 + 原语 3"。
 
 | 想要的效果 | 原语（`ctx.*`，web profile 里都在） | 证据 |
 |---|---|---|

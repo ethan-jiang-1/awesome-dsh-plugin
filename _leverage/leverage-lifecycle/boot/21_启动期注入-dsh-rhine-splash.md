@@ -15,6 +15,7 @@ budget: 130
 > **影响力**：npm 近 30 天 **2,243**（2026-11-01，42 个过影响力门的 bundle 之一）
 > **研究范围**：`dsh-rhine-splash@0.2.8`，gitHead `8aa0961…`，tarball sha256 `bfae5708…`（588,189 B，24 文件）；DSH 对照 `0.2.1-rc.3`
 > **证据成熟度**：**实测级**（隔离 profile 真装真启动，首屏已抓到注入标记，[`_证据/03`](../_证据/03_样本实测记录.md) E22）+ 源码级（host 注入与客户端配置实读）
+> **DSH 立场**：**符合**——`webserver/index-inject` 是 host 暴露的接缝；只追加行，不替换渲染管线。
 > **一句话**：它不抢槽位，而是**在 HTML 生成的那一刻**把品牌、主题和开屏塞进去——代价是顺序与转义全归自己。
 > **借鉴价值**：**① 首屏注入要 append，不能 prepend；② 往 HTML 里写用户配置必须双转义；③ 开屏频率是配置项，不是硬编码；④ 用 `ctx.inject` 而不是静态 `inject` 接可选服务。**
 
@@ -53,6 +54,20 @@ ctx.on('webserver/index-inject', (table) => {
 2. `{ kind: 'script', placement: 'body' }`：赋值 `__RHINE_BRAND__` / `__RHINE_SPLASH__`，并**同步**写 root 属性；
 3. 全部字符串先过 `safeJson` / `safeStyle`（见 §4）。
 
+### 宿主侧：表是每次渲染现收的
+
+**这不是“启动时注入一次”，而是每个 index.html 请求现场收表** `[DSH]`（`dsh-host-webserver/lib/index.js:517-535`）：
+
+- `collectIndexInjections()` 每次渲染 emit 一次 `webserver/index-inject`，订阅者按**激活顺序**往同一个数组 push；
+- 渲染器把 `head` 行拼在 `<head>` 之后、`body` 行拼在 `<body>` 之后，**组内保持表序**，最后才跑 `tapIndex` 字符串变换（`:84-100`、`:529-535`）；
+- `script` / `style` 行的文本**原样进 HTML**，宿主只转义属性值（`:23-60`）——转义责任确实全在插件。
+
+**所以“行序”不是优先级，是你插件挂载的先后**。想要“在主题引导行之后”，只能晚激活/后 push；用 prepend 抢到前面，反而会把数据依赖倒过来。
+
+**为什么 append 是硬要求，不是风格**：`lib/splash.js:99-105` 读取 `documentElement.dataset.dsThemeSource` 与 `body[data-ds-dark-theme]` 来决定明暗；这两个标记由主题引导行先写入。注入若抢在它之前，脚本只能回退到 `prefers-color-scheme`——系统深色、DSH 浅色时会闪错主题，而且日志里没有任何报错。
+
+**静态资产与用户配置的快照边界** `[SRC-TARGET]`：CSS/JS/图片在 `apply` 时一次性读入（`lib/index.js:393-436`），而 `readConfig(config)` 在**每次 index-inject** 时重新求值（`:438-439`）。所以改 `splashWhen`/主题色刷新页面即生效，换资产或升级包必须重启——这是“哪些输入在挂载时快照、哪些每请求读取”的一个干净样本。
+
 ### 三条失败态
 
 | 态 | 表现 | 用户看到什么 |
@@ -67,7 +82,8 @@ ctx.on('webserver/index-inject', (table) => {
 |---|---|---|
 | 改外观的时机 | 注入 HTML，而不是 React 挂载后再改 | 必须自己负责顺序、转义、冷却；换来无闪烁 |
 | 注入顺序 | **append（不传 prepend）**，让宿主主题引导行先落地 `[SRC-TARGET]`（`:438`） | 自己的样式只能覆盖，不能抢先 |
-| 开屏频率 | 配置项 `splashWhen`：`launch`（每次启动）/ `daily`（每天第一次）/ `update`（更新后），且 `command: true` 可从命令面板改 `[SRC-TARGET]`（`lib/client.js:30`；文案 `:311-312`） | 三档语义要各自实现，且要存"上次播到哪" |
+| 开屏频率 | `splashWhen` 三档，外加两个“不再播”的闸：`sessionStorage` 每会话一次、`localStorage` 记 `{day, version}` `[SRC-TARGET]`（`lib/splash.js:69-85`） | 三档语义要各自实现；`replayOnReload`/`force` 还要绕过冷却 |
+| 快照边界 | 资产挂载时读一次、配置每请求读一次 | 改资产/升级要重启，改配置刷新即可 |
 | 可选服务 | `ctx.inject(['workspaceRegistry','sessionPersistence'], child => …)` 延迟挂载 `[SRC-TARGET]`（`lib/host/archives.js:131`） | 比静态 `inject` 多一层回调 |
 
 ## 4. 与宿主既有行的边界
@@ -83,17 +99,17 @@ ctx.on('webserver/index-inject', (table) => {
 | 触发问题 | 可迁移洞察 | 机制依据 | 为什么有效 / 代价 | 移植时改什么 | 成立边界 | 抄错后果 |
 |---|---|---|---|---|---|---|
 | 首屏换主题会闪一下 | 在 HTML 生成期注入：先赋值数据全局，再由**同步脚本**改 `documentElement` 属性 | `[SRC-TARGET]` `lib/index.js:326-328`（赋值 + 同步改 root）；`:439-445`（注册追加入口） | 样式在首帧前就位；代价是失去 React 的状态管理，只能靠属性与 CSS 变量 | 定义"注入体里只做同步副作用、不含异步等待" | 只对"允许追加 HTML 注入"的宿主成立 | 改成挂载后再改 → 用户看到闪白 |
-| 注入顺序会决定谁生效 | 用 **append**，显式不传 prepend，让宿主的主题引导行先落地 | `[SRC-TARGET]` `lib/index.js:438` 的注释与实现 | 宿主默认值不被第三方抢；代价是自己只能覆盖、不能抢先 | 在文档里写清"本插件不 prepend"，并给出验证方法 | 只对存在"主题引导行"的宿主成立 | prepend → 闪白或被后到行覆盖，且难定位 |
+| 注入顺序会决定谁生效 | 用 **append**：宿主按订阅者激活顺序收表、按表序渲染；抢在前面会倒置数据依赖 | `[DSH]` `dsh-host-webserver/lib/index.js:517-535`、`:84-100`；`[SRC-TARGET]` `lib/index.js:438`、`lib/splash.js:99-105`（读主题行写下的标记） | 主题判断读到的是宿主已经落好的状态；代价是自己只能覆盖、不能抢先，且顺序取决于挂载时机 | 在文档里写清“本插件不 prepend、必须在主题行之后”，并给出验证方法（看 body 上有没有主题属性） | 只对存在“主题引导行”的宿主成立 | prepend → 明暗判断回退到系统偏好，闪错主题；或样式被后到行覆盖 |
 | 往 HTML 写用户配置 | 双转义：JSON 的 `<` → `\u003c`、U+2028/29 转义；CSS 的 `</style` 转义 | `[SRC-TARGET]` `lib/index.js:313-317`（`safeJson` / `safeStyle`） | 防脚本/样式逃逸；代价是注入体不可读、排错要解转义 | 规定所有进 HTML 的字符串必须过同一对函数 | 只对"把配置塞进内联脚本/样式"的写法成立 | 漏转义 → `</script>` 截断页面，白屏 |
-| 开屏频率不该写死 | 做成三档配置（每次/每天/更新后），并从命令面板可改 | `[SRC-TARGET]` `lib/client.js:30`（`splashWhen` 三选一 + `command: true`） | 用户可关、可降频；代价是要维护"上次播放"状态与三档语义 | 定义默认档，并给"关掉"的最短路径 | 只对"首屏有额外动画"的产品成立 | 写死成每次启动 → 高频用户第一件事就是卸载 |
+| 开屏频率不该写死 | 三档配置 + **两种存储的分工**：`sessionStorage` 管“本会话只播一次”，`localStorage` 的 `{day, version}` 管“每天/每版一次”；`replayOnReload` 与 `force` 显式绕过 | `[SRC-TARGET]` `lib/splash.js:69-85`（`rhine-splash:played` / `rhine-splash:splash-seen`）；开关在 `lib/client.js:30` | 用户可关、可降频，预览不污染计数；代价是两套存储语义要分别解释，storage 被禁时退化为每次都播 | 定义默认档、两种冷却键、以及“预览不算一次”的规则 | 只对“首屏有额外动画”的产品成立 | 只用一个 key → 每天第一次与每次启动无法区分；预览一次就把当天额度用掉 |
 | 需要可选服务时 | 用 `ctx.inject([...], child => …)` 延迟挂载，而不是把它写进静态 `inject` | `[SRC-TARGET]` `lib/host/archives.js:131` | 服务缺失只让那块功能不挂，不至于让整行 pending | 把可选依赖统一走 `ctx.inject`，必选才写静态 `inject` | 只对支持 `ctx.inject` 的 loader 成立 | 静态 `inject` 里写可选服务 → 行停在 pending（见 `TRAPS` §11） |
 
 ## 6. 失效与开放问题
 
-- `[OPEN]` 开屏"每天第一次 / 更新后"的判定实现：本卡只核到配置项与文案（`client.js:30`、`:311-312`），**没定位到读取"上次播放"的代码**。复核动作：在 `client.js` 里追 `splashWhen` 的消费点。
+- **已关**：开屏“每天第一次 / 更新后”的判定在 `lib/splash.js:69-85`：`sessionStorage['rhine-splash:played']` 做每会话一次，`localStorage['rhine-splash:splash-seen']` 存 `{day, version}`；`replayOnReload`（`:69`）与预览的 `force`（`:77`、`:672`）绕过冷却，storage 被禁时退化为每次都播。
+- **已关**：`maxWait` 存在且参与收尾：默认 8000ms（`lib/index.js:109`、`:264-267`），客户端用 `Math.max(cfg.maxWait, exitAt)` 兜底（`lib/splash.js:121`），到点强制离场（`:640-641`）。
 - `[OPEN]` 注入失效时是否有任何告警（本卡判断为静默降级，未实测）。
 - `[OPEN]` 宿主换 HTML 骨架后注入点是否仍存在（未实测）。
-- `[OPEN]` `maxWait` 兜底是否存在（fanout 提过，源码未命中，暂不写入结论）。
 
 ## 7. 兼看
 

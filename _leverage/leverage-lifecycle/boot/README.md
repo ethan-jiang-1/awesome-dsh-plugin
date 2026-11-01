@@ -41,8 +41,8 @@ bundle 层（按 dsh.profile.bundles 的顺序）
 | 级 | 表现 | 进程 |
 |---|---|---|
 | bundle 级 | `skipping profile bundle "<pkg>": <reason>` 后继续 | 活 `[DSH]` |
-| **row 级（pending）** | `pending (waiting for service: <name>)`——依赖的服务没就绪，**既没激活也没失败** | **活** `[RUN]` |
-| **row 级（import 失败）** | `warning: N entry did not activate` + 该行 import 错误 | **活** `[RUN]` |
+| **row 级（pending，非 required）** | `pending (waiting for service: <name>)`——依赖的服务没就绪，**既没激活也没失败** | **活** `[RUN]`；命中 `requiredStartupEntryIds` 时升级为整体失败 |
+| **row 级（import 失败，非 required）** | `warning: N entry did not activate` + 该行 import 错误 | **活** `[RUN]`；命中 `requiredStartupEntryIds` 时升级为整体失败 |
 | 整体 | 组合失败抛错，退出 | 死 |
 
 > **pending 与失败要分开读。** 启动摘要是一句 `did not activate`，但 pending 说的是"等一下就好了"，失败说的是"这行根本起不来"。把 pending 当失败去改代码，是常见误判 `[RUN]`。
@@ -62,7 +62,7 @@ bundle 层（按 dsh.profile.bundles 的顺序）
 | 说法 | 谁做 | 宿主知道吗 |
 |---|---|---|
 | **重启** | 用户 | 重启后必然生效 |
-| **页面刷新** | 用户 | 只换客户端模块，宿主侧行不重载 |
+| **页面刷新** | 用户 | 只重载宿主**已经下发**的模块列表；新增/更换 `dsh.client` 模块不会出现（E13），宿主侧行也不重载 |
 | **HMR** | 宿主自己 | 有 `hmr` 服务时 `reconcileProfile` 可能直接应用；否则返回 `restart-required` `[DSH]`（`dsh-plugin-manager/lib/types/index.js:944-953`） |
 
 **关键差别**：应用内装是宿主自己动手，所以能给出 `restart-required` + `restartReason`（例如 `no-hmr`）；**CLI 装是另一个进程，宿主根本不知道**——所以 CLI 装完必须重启，而且没有任何提示。
@@ -84,14 +84,14 @@ bundle 层（按 dsh.profile.bundles 的顺序）
 **本册样本补充**：五张卡覆盖五种"怎么生效"——
 
 [`21`](./21_启动期注入-dsh-rhine-splash.md) 首屏注入（append 不 prepend）·
-[`22`](./22_重启取证-dsh-update-checker.md) 自重启取证（结果文件+实例身份+端口）·
+[`22`](./22_重启取证-dsh-update-checker.md) 自更新应用的重启取证（结果文件+实例身份+端口；非插件推荐路径）·
 [`23`](./23_外部进程生命周期-dsh-noema.md) 子进程生死（懒起/保活/退避）·
 [`24`](./24_事务式修复-dsh-doctor.md) 修完可回滚 ·
 [`25`](./25_装完还要一步-dsh-context-guardian.md) 生效是显式一步且默认 dry-run。
 
 ## 4. 三条判据
 
-1. 文档里的动词对不对：**改宿主行 → 重启**；**只换客户端模块 → 刷新**；**宿主自己应用 → HMR**。
+1. 文档里的动词对不对：**改宿主行 → 重启**；**新增/更换客户端模块 → 重启**（E13：刷新不会让新模块出现）；**宿主自己应用（有 `hmr` 服务）→ 不用重启**。只有"同一批模块内容变了、宿主已重新下发"时，刷新才等于重载视图。
 2. 每一个"装完即可用"的承诺，都问一句：宿主是怎么知道的？CLI 装的情况下答案是"它不知道"。
 3. 不要用"全有或全无"描述启动；写成三级（bundle / row / 整体）。
 

@@ -6,7 +6,7 @@ positioning: "固定版本、tarball 摘要、命令注册与自检返回形态�
 read_when: "复核 first-run/42；或想知道 input 字段到底改了什么行为。"
 status: observed
 updated: 2026-11-01
-budget: 90
+budget: 100
 ---
 # tool-guardian 源码复核
 
@@ -68,6 +68,22 @@ return { kind: 'success', text: lines.join('\n') }
 return { kind: 'error', text: 'tool-guardian is not ready yet -- /toolguardian shows why.' }
 if (!resolveOptions(source()).allowRuntimeActivation) return { kind: 'error', text: 'restore needs allowRuntimeActivation: true.' }
 ```
+
+## 3.5 宿主侧复核（`input` 路由）
+
+`[DSH]` 对照 `@deepseek-ai/dsh@0.2.1-rc.3`：
+
+```js
+// dsh-client-ui-commands/lib/client.js:1659-1666
+const canonical = `/${name}${trimmed.slice(token.length)}`;
+if (desc.input !== void 0) {
+  if (envelope.attachments > 0 && desc.input.attachments !== true) refuseAttachments();
+  return { claim: this.leadingClaim(desc, session, token.slice(1)) };  // 参数交给命令
+}
+if (!bare) return void 0;   // ← 没有 input 且带参：不再按命令处理，按普通输入发给模型
+```
+
+另：`:1554` 的候选过滤 `req.position === "leading" || c.hint === void 0` 说明带 `hint` 的命令在空格后也不再出现在补全候选里；`:1695-1706` 的 `leadingClaim` 把 `input.hint` 与 attachments 一并交给 composer。
 
 ## 4. 未复核
 

@@ -2,9 +2,9 @@
 title: "重启取证 · update-checker：怎么证明“它真的换了一个进程”"
 domain: lifecycle
 kind: sample
-positioning: "自更新重启后如何确认新版已接管：结果文件交接 + 实例身份 + 端口探测三件套。"
-takeaway: "端口有人应答不等于新进程起来了；要把“重启成功”变成可读事实，必须自己给新进程一个身份并让它留下凭据。"
-read_when: "要做自更新/自重启；或排查“重启后还是旧版”。"
+positioning: "自更新应用重启后如何确认新版已接管：结果文件交接 + 实例身份 + 端口探测三件套（非插件推荐路径）。"
+takeaway: "若产品必须自更新：端口有人应答不等于新进程起来了；要把“重启成功”变成可读事实，必须给新进程一个身份并让它留下凭据。默认仍应让宿主 `restart-required`。"
+read_when: "排查“重启后还是旧版”；或评估自更新是否该由插件做。"
 status: observed
 updated: 2026-11-01
 budget: 135
@@ -15,18 +15,21 @@ budget: 135
 > **影响力**：npm 近 30 天 **6,347**（2026-11-01，42 个过影响力门的 bundle 之一）
 > **研究范围**：`dsh-update-checker@1.7.3`（**registry 无 `gitHead`**，只能按版本 + tarball 摘要钉），sha256 `e3765648…`（174,086 B，63 文件）；DSH 对照 `0.2.1-rc.3`
 > **证据成熟度**：源码级（重启、身份、探针三处实现均实读；未实机重启）
+> **DSH 立场**：**有条件偏离**——插件自更新/自重启宿主不是原生路径；默认应让应用内装返回 `restart-required`、由用户重启。本卡只解决“产品本身就是自更新应用”时的取证。
 > **一句话**：重启这个动作**没有返回值**，所以它造了三件证据：一个结果文件、一个实例身份、一条端口探针。
-> **借鉴价值**：**① 用环境变量把结果文件路径交给新进程；② 实例身份用 `pid+时间戳`，暴露成 HTTP 可读；③ 端口可连 ≠ 新进程，必须核身份。**
+> **借鉴价值**：**⓪ 首选不自己重启，用宿主 `restart-required`；① 若必须自更新，用环境变量把结果文件路径交给看门狗；② 实例身份用 `pid+时间戳` 暴露成 HTTP；③ 端口可连 ≠ 新进程；④ 失败也要留结构化记录。**
+
+> **不要抄**：插件自行重启/替换宿主进程。原生路径是应用内装返回 `restart-required` + `restartReason`，由用户重启；本卡的看门狗/结果文件只适用于“产品本身就是自更新应用”的少数场景。
 
 ## 它想干什么 · 为什么值得借鉴
 
-**意图。** 让 DSH 能检查并**自行完成**更新，包括重启宿主后继续活着——这是自更新类产品最难的一步 `[SRC-TARGET]`（`lib/index.js:5776`、`:5849` 的 `detached: true` 起进程）。
+**意图。** 让 DSH 能检查并**自行完成**更新，包括重启宿主后继续活着——这是自更新类产品最难的一步 `[SRC-TARGET]`（`lib/index.js:2209-2214` 的 relaunch；`:5849` 的 POSIX 看门狗脚本）。
 
 **意义。** 生命周期里"装完"和"生效"是两件事（见 [`BOOT`](./README.md) §2）。多数自更新实现到"我起了个新进程"就结束了，用户看到的仍是旧界面。这个样本把"生效"做成了**可查询状态**，而不是一句话。
 
 **用户价值。** 装之前，用户面对的是"点了更新，等了一会儿，好像还是旧的"；作者的答案是暴露 `/dsh-update-checker/restart-status.json` 与带 `instanceId` 的状态端点 `[SRC-TARGET]`（`:5879-5886`、`:5402`）。代价是所有判断都依赖文件系统与端口，跨机器/容器就未必成立（见 §6）。
 
-**表达。** 它把重启写成三拍：**交接**（父进程把结果文件路径塞进环境变量）→ **起**（`detached` + `unref`，父进程可安全退出）→ **取证**（新进程写结果、旧身份作废）。没有一句"重启成功"的自我宣告。
+**表达。** 它把重启写成三拍：**交接**（父进程把结果文件路径塞进环境变量）→ **起**（`detached` + `unref`，父进程可安全退出）→ **取证**（看门狗写结果；新进程只负责暴露身份）。没有一句"重启成功"的自我宣告。
 
 ## 1. 阶段与载体
 
@@ -40,31 +43,47 @@ budget: 135
 
 | 证据 | 实现 | 位置 |
 |---|---|---|
-| **交接** | 父进程把结果文件路径放进子进程环境 `DSH_RESTART_RESULT` | `[SRC-TARGET]` `lib/index.js:5827`（`env`）、`:195`（`RESTART_RESULT = join(DSH_HOME, "dsh-update-checker-restart-result.json")`） |
+| **交接** | 父进程把结果文件路径放进看门狗进程环境 `DSH_RESTART_RESULT` | `[SRC-TARGET]` `lib/index.js:5827`（`env`）、`:195`（`RESTART_RESULT = join(DSH_HOME, "dsh-update-checker-restart-result.json")`） |
 | **新身份** | `INSTANCE_ID = pid + '-' + Date.now().toString(36)`，`INSTANCE_STARTED_AT` 同刻 | `[SRC-TARGET]` `lib/index.js:211`、`:213` |
 | **可查询** | `/dsh-update-checker/restart-status.json` 读结果文件，读不到返回 404；状态端点带 `instanceId` | `[SRC-TARGET]` `lib/index.js:5879-5886`、`:5402` |
 
 起进程本身是**完全脱离**的 `[SRC-TARGET]`（`:2209-2214`）：
 
 ```js
+// 原文 :2209-2214 是多行调用，这里压成一行
 spawn(plan.file, plan.args, { cwd: plan.root, detached: true, stdio: 'ignore' }).unref()
 ```
 
-`detached + unref + stdio:'ignore'` 三件套的含义：**父进程退出不会带走它，但也拿不到它的退出码**。所以"成功"只能靠新进程自己留凭据——这就是为什么必须有结果文件。
+`detached + unref + stdio:'ignore'` 三件套的含义：**父进程退出不会带走它，但也拿不到它的退出码**。所以"成功"不能从 `spawn` 的返回值读，只能靠看门狗把结果写进文件。
 
-### 三条失败态
+### 看门狗：恢复链与“拒绝假装成功”
+
+真正写结果的是 `scripts/restart-watchdog.sh`（PowerShell 版 `restart-watchdog.ps1`），**不是新进程** `[SRC-TARGET]`：
+
+| 动作 | 行为 | 位置 |
+|---|---|---|
+| 恢复链 | node argv → `systemctl --user restart dsh-web.service` → launcher；都没有就明确写失败 | `:92`、`:112-113`、`:172` |
+| 端口仍被占 | **拒绝** relaunch，写 `port still listening after kill` | `:165` |
+| 结果 | 结构化 JSON：`recovered` / `recoveredBy` / `attempts` / `relaunches` / `processExits` / `listening` / `mounted` / `error` | `:45-66` |
+| 终态 | 只有真的恢复才写 `recovered: true`；任何失败都写 `false` + 原因，不谎报 | `:227`、`:236` |
+
+**这一层比“三件证据”更值得抄**：它把“没恢复”也做成一等公民——可读、带原因、可轮询，而不是让客户端一直等一个不会来的新版本。
+
+### 四条失败态
 
 | 态 | 表现 | 用户看到什么 |
 |---|---|---|
-| **新进程没起来** | 结果文件不存在 | `/restart-status.json` 返回 404 `no restart recorded yet` `[SRC-TARGET]`（`:5885`） |
+| **看门狗没来得及写** | 结果文件不存在 | `/restart-status.json` 返回 404 `no restart recorded yet` `[SRC-TARGET]`（`:5885`） |
+| **看门狗写了失败** | `recovered:false` + `error`（端口没让出、没有 launcher） | 可查询的失败，不是静默 `[SRC-TARGET]`（`scripts/restart-watchdog.sh:165`、`:172`） |
 | **旧进程还占着端口** | `probePortOpen()` 为真，但状态端点的 `instanceId` 是旧的 | **看着像成功**——这是最危险的态 |
-| **新进程起来但立刻挂** | 端口短暂可连，结果文件可能已写 | 状态与端口互相矛盾，需要第三条证据（`startedAt`）来分辨 |
+| **新进程起来但立刻挂** | 端口短暂可连，`processExits` 增加 | 状态与端口互相矛盾，用 `startedAt` / `processExits` 分辨 |
 
 ## 3. 设计取舍
 
 | 取舍 | 选择 | 代价 |
 |---|---|---|
-| 重启怎么做 | `detached + unref`，不等待 | 拿不到退出码，只能间接取证 |
+| 要不要自更新 | **不推荐**；宿主已有 `restart-required` | 自更新 = 自己维护启动、回滚、与宿主升级的竞态 |
+| 若必须重启，怎么做 | `detached + unref`，不等待 | 拿不到退出码，只能间接取证 |
 | 结果怎么回传 | 文件 + 环境变量路径，不靠 stdout | 依赖 `DSH_HOME` 可写；容器里挂载不对就失效 |
 | 实例身份怎么定义 | `pid + 时间戳(base36)`，进程内常量 `[SRC-TARGET]`（`:211`） | 重启机器或容器重建后不可比；只能判"是否同一个进程" |
 | 判定顺序 | 端口探针（`probePortOpen`，`:1950`）+ 状态端点 + `instanceId` | 三处都可能被别的实例满足，需组合判断 |
@@ -77,14 +96,15 @@ spawn(plan.file, plan.args, { cwd: plan.root, detached: true, stdio: 'ignore' })
 
 | 触发问题 | 可迁移洞察 | 机制依据 | 为什么有效 / 代价 | 移植时改什么 | 成立边界 | 抄错后果 |
 |---|---|---|---|---|---|---|
-| 重启动作没有返回值，怎么知道成没成 | 父进程把**结果文件路径**通过环境变量交给新进程；新进程写文件，旧的/任意进程都能读 | `[SRC-TARGET]` `lib/index.js:195`（路径）、`:5827`（env 交接）、`:5879-5886`（读取端点） | 跨进程可观测、可幂等读；代价是依赖一个可写目录与约定文件名 | 定义结果文件的 schema、写入时机（起来就写 vs 就绪才写）与清理策略 | 只在父子进程共享文件系统时成立 | 不落文件 → 永远只能"等一会儿看看" |
+| 如果你必须自己重启，怎么知道成没成 | 父进程把**结果文件路径**通过环境变量交给看门狗；看门狗写文件，旧的/任意进程都能读（前提：已决定自更新） | `[SRC-TARGET]` `lib/index.js:195`（路径）、`:5827`（env 交接）、`:5879-5886`（读取端点） | 跨进程可观测、可幂等读；代价是依赖一个可写目录与约定文件名 | 定义结果文件的 schema、写入时机（起来就写 vs 就绪才写）与清理策略 | 只在父子进程共享文件系统时成立 | 不落文件 → 永远只能"等一会儿看看" |
 | "端口有人应答"被当成重启成功 | 给进程一个**身份**（`pid+时间戳`），并要求身份变化才算数 | `[SRC-TARGET]` `lib/index.js:211`（`INSTANCE_ID`）、`:5402`（暴露在状态端点） | 能区分"旧进程还活着"与"新进程接管"；代价是身份不跨机器可比 | 定义"实例身份"字段并把它写进状态端点 | 只对单机、单实例场景成立 | 只看端口 → 旧进程占着端口时永远误判成功 |
-| 重启后父进程要不要等 | 用 `detached + unref + stdio:'ignore'`，父进程立即放手 | `[SRC-TARGET]` `lib/index.js:2209-2214` | 父进程能安全退出；代价是完全失去子进程退出信息 | 规定 `unref` 后必须留一条结果回传通道 | 只在"父进程会退出"的重启模型里成立 | 同步等待 → 更新卡住整个服务 |
+| 重启后父进程要不要等（仅自更新场景） | 用 `detached + unref + stdio:'ignore'`，父进程立即放手 | `[SRC-TARGET]` `lib/index.js:2209-2214` | 父进程能安全退出；代价是完全失去子进程退出信息 | 规定 `unref` 后必须留一条结果回传通道 | 只在"父进程会退出"的重启模型里成立 | 同步等待 → 更新卡住整个服务 |
 | 重启期间请求落到谁 | 结果文件"没有就 404"，让"还没重启过"成为可读状态 | `[SRC-TARGET]` `lib/index.js:5885`（404 `no restart recorded yet`） | 未发生 ≠ 失败，客户端能区分；代价是要客户端处理 404 语义 | 给状态端点定义三态：未重启 / 重启中 / 已重启 | 只对"有独立客户端轮询"的产品成立 | 用 500 表示 → 客户端无法区分"没发生"和"炸了" |
+| 重启脚本自己也会失败 | 失败也要留结构化记录，并**拒绝假装成功**（端口仍被占就不 relaunch；没有 launcher 就报错） | `[SRC-TARGET]` `scripts/restart-watchdog.sh:165`、`:172`、`:227`；字段 `:45-66` | 客户端能区分“没重启”“重启失败”“已恢复”；代价是 sh 与 ps1 两套要同步 | 定义结果字段与三种终态，失败必带原因 | 只对“有独立看门狗”的重启模型成立 | 失败也写成功 → 客户端永远在等一个不会来的新版本 |
 
 ## 6. 失效与开放问题
 
-- `[OPEN]` 结果文件由谁、在什么时机写入（`DSH_RESTART_RESULT` 的消费点本卡未定位）。复核动作：`grep -n "DSH_RESTART_RESULT" lib/` 并读写入处。
+- **已关**：结果文件由**看门狗脚本**写，不是新进程——POSIX `scripts/restart-watchdog.sh:45-66`（node 写 JSON，失败回退 printf）、PowerShell `scripts/restart-watchdog.ps1:9`；`lib/index.js:5827` 只负责把路径塞进 env，`:5882` 负责读回 `[SRC-TARGET]`。
 - `[OPEN]` 旧进程如何让出端口（是否主动退出、有无等待窗口）。复核动作：读重启前的 shutdown 路径。
 - `[OPEN]` 三个探针的**判组合**（端口 ∧ 200 ∧ 新 id？还是任一？）。复核动作：读用到 `instanceId` 的客户端/宿主侧调用点。
 - `[OPEN]` `gitHead` 缺失：本卡无法把 npm 物证与源码 commit 对齐，只能按 tarball 摘要钉。
@@ -92,4 +112,4 @@ spawn(plan.file, plan.args, { cwd: plan.root, detached: true, stdio: 'ignore' })
 ## 7. 兼看
 
 - 起：CLI 装完宿主不知道 → 应用内装才给 `restart-required`（[`BOOT`](./README.md) §2）。本卡补的是**重启之后**那一段。
-- 装：自更新属于分发侧，与 [`INSTALL`](../install/README.md) §3 的"自带更新器"偏离同一类。
+- 装：自更新属于分发侧，与 [`REFERENCE` §4](../reference/REFERENCE.md) 的“自带更新器”偏离同一类。

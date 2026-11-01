@@ -3,7 +3,7 @@ title: "证据 11 · cfbridge 源码复核（0.13.2）"
 domain: lifecycle
 kind: evidence
 positioning: "固定版本、tarball 摘要、符号命中与 files 白名单的原始记录，用于复核装后自证卡。"
-read_when: "复核 samples/install/11；或想知道这条结论是怎么从 tarball 里读出来的。"
+read_when: "复核 install/11；或想知道这条结论是怎么从 tarball 里读出来的。"
 status: observed
 updated: 2026-11-01
 budget: 90
@@ -39,7 +39,7 @@ grep -rnoE 'tapIndex|index-inject|webServer\.register|commands\.register|agents\
 | `!!js` | 3 | `lib/config-healer.js`、`cordis.patch.yml:23` |
 | 其他载体符号 | 0 | — |
 
-**说明**：没有 `webServer.register` / `commands.register` / `agents.create` / `installBundle` 命中，所以本卡的载体是 `host-row` + npm scripts，不是自带 CLI。
+**说明**：没有 `webServer.register` / `commands.register` / `agents.create` / `installBundle` 命中，所以本卡的载体是 `host-row` + npm scripts——按本册定义算"命令行入口"，但不是 `bin` 型 CLI。
 
 ## 3. 关键原文
 
@@ -76,7 +76,7 @@ $ find . -name '*install-bundle*' -o -name 'scripts' -maxdepth 2
 - tarball 内不存在 `scripts/` 目录，也不存在任何 `*-bundle.js`；
 - 而五条 npm scripts 全部指向 `scripts/*.js`。
 
-**结论**：五条自证命令只对仓库克隆者可用；对 npm 安装者全部不可执行。这是一条 `[SRC-TARGET]` 级负向事实，不是推测。
+**结论**：五条 npm scripts 只对仓库克隆者可用；对 npm 安装者全部不可执行。这是一条 `[SRC-TARGET]` 级负向事实，不是推测；其中 install/uninstall 两条本就不该用脚本（应走 `dsh plugin`），可作自证的是 validate/dump/repair。
 
 ## 5. 未复核
 

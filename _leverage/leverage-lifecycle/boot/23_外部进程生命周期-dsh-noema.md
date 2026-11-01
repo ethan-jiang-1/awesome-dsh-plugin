@@ -15,6 +15,7 @@ budget: 140
 > **影响力**：npm 近 30 天 **2,101**（2026-11-01，42 个过影响力门的 bundle 之一）
 > **研究范围**：`@zseven-w/dsh-noema@0.1.0-rc.6`（**registry 无 `gitHead`**，按版本 + tarball 摘要钉），sha256 `0c3f85c1…`（1,124,455 B，74 文件）；DSH 对照 `0.2.1-rc.3`
 > **证据成熟度**：源码级（进程管理与配置默认值实读；未实机拉起）
+> **DSH 立场**：**符合**——外部进程是插件自己的运行时，宿主不接管；插件负责 dispose 收尾，不碰宿主进程。
 > **一句话**：它把"外部进程活得怎么样"写成了六个默认值，而不是散在代码里的 if。
 > **借鉴价值**：**① 空闲退出默认关、保活默认开；② 重启要退避且只认 `exited`；③ 并发调用共享同一次 spawn。**
 
@@ -45,11 +46,30 @@ budget: 140
 
 ## 2. 机制
 
-### 三条循环
+### 状态机：四个 state，两种“不运行”
+
+`McpStdioClient` 只有四个状态 `[SRC-TARGET]`（`lib/mcp-stdio.js:58`、`:95`、`:154`、`:160`）：
+
+| state | 谁设置 | 含义 |
+|---|---|---|
+| `stopped` | 初始 / dispose / 主动停 | 没有子进程，**也不打算有** |
+| `starting` | `start()` 进入 | 子进程已起，握手未完成 |
+| `running` | 握手成功 | 可调用 |
+| `exited` | 子进程退出 | 崩溃/被杀，**要决定是否拉起** |
+
+**“主动停”与“崩溃”靠对象在不在区分**：主动停时 `stop()` 先把 `this.client = undefined`（`server-manager.js:173-181`），崩溃时 client 还在、state 是 `exited`；`keepAliveTick` 只对 `state === 'exited'` 重启（`:106-121`）。所以空闲停不会被保活打回去，**停止的意图不需要额外布尔量**。
+
+### 三条策略（不是三条循环）
 
 1. **懒起 / 预起**：`autoStart` 决定挂载即起还是首次使用才起 `[SRC-TARGET]`（`settings.js:10`；`server-manager.js:4`）。
-2. **保活**：`keepAliveTick` 每 `keepAliveIntervalMs` 检查一次，**只在 `state === 'exited'` 且距退出超过 `restartDelayMs` 时**才重启 `[SRC-TARGET]`（`:106-121`）。
-3. **空闲退**：`idleTimeoutMs > 0` 时才挂 `setTimeout`，否则永不退 `[SRC-TARGET]`（`:260`）。
+2. **保活**：计时器每 1000ms tick，但 `keepAliveIntervalMs` 再门控一次实际检查（`:87-104`、`:106-113`）——默认配置下**检查粒度是 5s，不是 tick 的 1s**；重启条件还要求距退出超过 `restartDelayMs`。
+3. **空闲退**：`armIdle` 在启动成功与**每次成功调用后**重置计时器（`:154`、`:242`、`:256-265`），`idleTimeoutMs <= 0` 时根本不挂；计时器 `unref()`，不阻止进程退出。
+
+**退避被复用到了手动重启**：`restart()` = `stop()` + `ensureRunning()`，而 `start()` 开头会等 `restartDelayMs - sinceStop`（`:167-171`、`:225-233`）——所以“设置页点重启”也要多等 1 秒。这是把“防崩溃风暴”的闸门顺手套在人工操作上的代价。
+
+### 状态出口：不是裸路由
+
+`webServer.register` 的 handler 先过三道门：loopback、same-origin（写操作还要求 JSON content-type）、body 上限 `[SRC-TARGET]`（`lib/status-route.js:146-160`、`:100-133`）；`status()` 在 await 之后**重新核对 client 身份与 state**，避免把旧 client 的结果当成新状态（`server-manager.js:182-214`）。
 
 ### 并发：只起一个
 
@@ -82,13 +102,15 @@ budget: 140
 |---|---|---|---|---|---|---|
 | 外部进程该常驻还是闲时退出 | 把两个选择都做成配置，**默认选"常驻"**（`idleTimeoutMs: 0` + `keepAlive: true`） | `[SRC-TARGET]` `settings.js:11-12`（`idleTimeoutMs: 0`、`keepAlive: true`）；`server-manager.js:260`（空闲计时器） | 默认"一直在"，用户无需担心；代价是占资源 | 明确默认档，并给出"省资源"的开关 | 只对"功能价值在随时可用"的产品成立 | 默认闲时退出 → 每次冷启动都有延迟，用户以为坏了 |
 | 崩了要不要自动拉起 | 后台 tick + **只认 `exited`** + `restartDelayMs` 退避 | `[SRC-TARGET]` `server-manager.js:106-121` | 自愈且不风暴；代价是有一段空窗 | 定义"什么算崩"、"多久后重启" | 只对"可重启且有状态恢复"的进程成立 | 无退避 → 崩溃循环把 CPU 打满 |
-| 并发调用起多个进程 | 在途去重（`starting`），`ensureRunning` 被多处共享 | `[SRC-TARGET]` `server-manager.js:123`（注释与实现） | 一个进程；代价是要处理"启动中"的等待语义 | 给 spawn 加 single-flight 包装 | 只对"多入口触发启动"的产品成立 | 不去重 → 两个进程抢同一数据目录 |
+| 并发调用起多个进程 | 在途去重（`starting` promise），`ensureRunning` 被多处共享 | `[SRC-TARGET]` `server-manager.js:124-136` | 一个进程；代价是要处理“启动中”的等待与失败传播 | 给 spawn 加 single-flight 包装 | 只对“多入口触发启动”的产品成立 | 不去重 → 两个进程抢同一数据目录 |
+| 主动停止被保活又拉起来 | 用**对象是否存在**区分“主动停”与“崩溃”：停时清空 client，保活只认 `exited` | `[SRC-TARGET]` `server-manager.js:173-181`（stop 清 client）、`:106-121`（只重启 exited） | 省掉“请勿自动重启”标志位；代价是读代码的人要理解这两种“不运行” | 在状态机里显式区分 `stopped` 与 `exited`，不要把两者都压成 undefined | 只对“有后台保活”的产品成立 | 只判 `client == null` → 空闲停后立刻被拉回，省资源配置形同虚设 |
+| 状态端点要不要自守门 | 走 `webServer.register` 也要自己判 loopback、same-origin、content-type、body 上限 | `[SRC-TARGET]` `status-route.js:146-160`、`:100-133` | 本地面板能用、跨源页面不能读/写；代价是每个路由重复四道检查 | 给“会改配置的状态端点”统一加同一组守卫 | 只对“监听 localhost 的宿主”成立 | 裸路由 → 任意网页可读状态、甚至提交配置 |
 | 超时用哪个 | 调用超时与重启节流**分开两个字段** | `[SRC-TARGET]` `settings.js:14-15` | 语义清晰；代价是多一个配置 | 调用级、重启级、启动级各一个 | 只对"有远程调用"的进程成立 | 共用一个 timeout → 调慢点就触发重启 |
 
 ## 6. 失效与开放问题
 
-- `[OPEN]` 宿主退出时是否清理子进程（未见 shutdown hook；孤儿进程风险）。
-- `[OPEN]` `idleTimeoutMs > 0` 时的实际行为（计时器在 `:260`，触发条件未逐行读）。
+- **已核**：插件 `dispose()` 会 `stopKeepAlive()` + `stop()`，后者 `await client.dispose()`（`server-manager.js:215-223`、`:173-181`）——**正常卸载有收尾**；风险只剩宿主被强杀/崩溃时来不及 dispose。
+- **已核**：`idleTimeoutMs > 0` 时，启动成功与每次成功调用都会重置计时器；到点 `stop()` 并打日志（`:256-265`、`:154`、`:242`）。
 - `[OPEN]` `bundled-binary.js` 的二进制探测与版本校验（本卡未展开）。
 - `[OPEN]` **无 `gitHead`**，物证止于 tarball 摘要。
 - `[OPEN]` 未实机拉起。

@@ -19,10 +19,10 @@ budget: 120
 | `desktop` 不可由 CLI 启动 | `dsh` · `lib/bin.js:35-37`（启动路径）、`:119`（`plugin` 路径） | 两处都调 `rejectElectronProfile`；除非 carrier 传入 `manageDesktopProfile` |
 | carrier 才能管 | `dsh` · `lib/bin.js:98-101`、`:209-210` | 该开关是**程序化选项**，不是命令行参数 |
 | profile 只能单选 | `dsh` · `lib/bin.js:31-34` | `selectProfile` 拒绝重复 `--profile` |
-| 自定义 profile 不由启动创建 | `dsh-app-boot` · `lib/index.js:1068-1069` | 抛 `profile "X" does not exist; create it with 'dsh plugin --profile X add <package>'` |
+| 自定义 profile 不由启动创建 | `dsh-app-boot` · `lib/index.js:1068-1070` | 抛 `profile "X" does not exist; create it with 'dsh plugin --profile X add <package>'` |
 | 出厂模板只有五个 | `dsh-app-boot` · `lib/index.js:551-559` | `acp` / `web` / `headless` / `sdk` / `sdk-minimal`，**无 `desktop`** |
-| 无模板时的默认层 | `dsh-app-boot` · `lib/index.js:565` | `DEFAULT_PROFILE_BUNDLES = ["@deepseek-ai/dsh-base"]` |
-| 出厂可选 bundle | `dsh-app-boot` · `lib/index.js:575-590` | 12 个实验 bundle，默认关闭，由插件管理器以"关着"提供 |
+| 无模板时的默认层 | `dsh-app-boot` · `lib/index.js:570` | `DEFAULT_PROFILE_BUNDLES = ["@deepseek-ai/dsh-base"]` |
+| 出厂可选 bundle | `dsh-app-boot` · `lib/index.js:579-590` | 12 个实验 bundle，默认关闭，由插件管理器以"关着"提供 |
 
 ## 2. 安装
 
@@ -35,7 +35,7 @@ budget: 120
 | 安装后 reconcile | `dsh-plugin-manager` · `lib/types/operations.js:95-122`、`:559` | 新装且声明 `dsh.bundle` 的包被 `push` 进 `dsh.profile.bundles`；**不重新启用旧依赖** |
 | 非 bundle 只警告 | `dsh-plugin-manager` · `lib/types/operations.js:111` | 输出 `declares no dsh.bundle — installed as a plain dependency, not a profile layer` |
 | 安装语义是"当前 profile" | `dsh-plugin-manager` · `package.json` description；`lib/types/tools.js:1`；`lib/types/index.js:540` | 包自述 *Current-profile plugin and bundle management shared by dsh CLI, Web and agent tools*；`installBundle(spec, options)` 无 profile 参数 |
-| 移除需要停宿主（无 HMR 时） | `dsh-plugin-manager` · `lib/types/tools.js:16` | 文案：*This profile runs without HMR; tell the user to stop DSH and run `dsh plugin --profile <profile> remove <bundle>`* |
+| 移除需要停宿主（无 HMR 时） | `dsh-plugin-manager` · `lib/types/tools.js:17` | 文案：*This profile runs without HMR; tell the user to stop DSH and run `dsh plugin --profile <profile> remove <bundle>`* |
 
 ## 3. 启动
 

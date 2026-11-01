@@ -37,7 +37,7 @@ budget: 95
 ## 3. 关键原文
 
 ```js
-// lib/index.js:3712-3713 —— 接管开关与条件
+// lib/index.js:3713-3714 —— 接管开关与条件
 // 是否在 web.fetchProvider 为空/出厂默认 http 时接管 fetch（#83：显式 pin http 的用户可关掉）。
 fetchProviderTakeover: z.boolean().default(true).volatile(),
 ```
@@ -51,13 +51,15 @@ const logOnce = (log, level, message) => { if (loggedOnce.has(message)) return; 
 ```
 
 ```js
-// lib/index.js:4536-4548 —— 被重置后补一次接管
+// lib/index.js:4536-4552 —— 被重置后补一次接管
 // #86：DSH 设置里的「DeepSeek 搜索 API」开关关掉时会把整行 `- id: web` 删掉，
 // provider 回到出厂默认 `deepseek-official`（模型搜索，更慢更贵），而插件只在加载时接管过一次。
 // 这里在 web 配置变化后补一次运行时接管；只认「出厂默认」，绝不抢显式选择的 `deepseek-search-api`。
 let reclaimAttempted = false;
 const reclaimOfficialDefaults = (next) => {
   if (reclaimAttempted) return;
+  const config = next.config ?? {};
+  const ops = [];
   if (config.searchProvider === "deepseek-official") takeOverOps(ctx.web, "searchProvider", provider.id, ops);
   if ((config.fetchProvider === "http" || config.fetchProvider === undefined) && current().fetchProviderTakeover !== false)
     ...

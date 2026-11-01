@@ -1,26 +1,29 @@
 ---
-title: "装后自证 · cfbridge：安装器写好了，却没随包发出去"
+title: "装后自证 · cfbridge：五条脚本写好了，却没随包发出去"
 domain: lifecycle
 kind: sample
-positioning: "把装完自证拆成五条可重跑命令的样本，以及 files 白名单如何把它们全部弄丢。"
-takeaway: "安装器属于包的一部分：files 白名单漏掉 scripts/，五条命令对 npm 用户全部 404，而仓库里一切正常。"
-read_when: "要发带安装/校验脚本的包；或想知道“装完怎么证明装上了”。"
+positioning: "把装后自证拆成可重跑命令的样本，以及 files 白名单如何让它们全部 404；并标出哪两条不该用脚本。"
+takeaway: "自证命令属于包的一部分：files 漏掉 scripts/，validate/dump/repair 对 npm 用户全部 404；但安装/卸载应走 DSH 原生，不要包进 npm scripts。"
+read_when: "要发带自检脚本的包；或判断“安装脚本”为什么不要用。"
 status: observed
 updated: 2026-11-01
 budget: 130
 ---
 # 装后自证 · cfbridge
 
-> **阶段**：装 · **载体**：own-cli（npm scripts，不是 `bin`）+ host-row · **兼看**：起
+> **阶段**：装 · **载体**：命令行入口（own-cli，npm scripts，不是 `bin`）+ host-row · **兼看**：起
 > **影响力**：npm 近 30 天 **2,495**（2026-11-01，42 个过影响力门的 bundle 之一）
 > **研究范围**：`@wenaixi/cfbridge@0.13.2`，gitHead `0e46aa20…`，tarball sha256 `64521a2d…`（200,864 B，32 文件）；DSH 对照 `0.2.1-rc.3`
 > **证据成熟度**：**实测级**（隔离 profile 真装并执行命令，[`_证据/03`](../_证据/03_样本实测记录.md) E20）+ 源码级（tarball 实读）
-> **一句话**：它把"装完怎么证明装上了"拆成五条可重跑命令——**但那五条脚本没有随包发布**。
-> **借鉴价值**：**① `files` 白名单是安装器的头号杀手；② 启动安全的默认值该写在 patch 里，不是代码里；③ 外部凭据用 `!!js` 读环境，绝不落盘进 patch。**
+> **DSH 立场**：**有条件偏离**——自证思路符合“装完可核”；但 `npm run install:bundle` / `uninstall:bundle` 不是 DSH 安装路径（绕过 pluginManager/roster/版本门），只保留自检，不用它做安装。
+> **一句话**：它把“装完怎么证明装上了”拆成五条 npm scripts——**五条都没随包发布**；其中安装/卸载两条本就不该用脚本。
+> **借鉴价值**：**① 装后自证要可重跑（validate / dump / repair 三条思路）；② 安装/卸载入口用 DSH 原生 `dsh plugin add/remove`，不要用 npm scripts；③ `files` 要带上你承诺的每个脚本；④ 启动安全默认值写 patch，凭据用 `!!js` 读环境。**
+
+> **不要抄**：`npm run install:bundle` / `uninstall:bundle` 不是 DSH 安装路径——它绕过 `pluginManager`/roster/版本门。原生是 `dsh plugin --profile <p> add/remove`；本卡保留的只是“装完怎么自证”（validate / dump / repair）。
 
 ## 它想干什么 · 为什么值得借鉴
 
-**意图。** 让一个 DSH bundle 的安装变成**可验证、可回滚**的动作，而不是"装完祈祷"。它同时把外部 MCP server 挂进宿主：`mcp-cloudflare` 走 `dsh-mcp-client`，`cfbridge` 自己按包名挂载技能 Provider `[SRC-TARGET]`（`cordis.patch.yml:16-32`）。
+**意图（作者）。** 让一个 DSH bundle 的安装变成**可验证、可回滚**的动作，而不是“装完祈祷”——但实现用了 npm scripts，而不是 DSH 原生入口。它同时把外部 MCP server 挂进宿主：`mcp-cloudflare` 走 `dsh-mcp-client`，`cfbridge` 自己按包名挂载技能 Provider `[SRC-TARGET]`（`cordis.patch.yml:16-32`）。
 
 **意义。** 生命周期里最缺的不是"能装"，是"**装完知道装成了**"。生态里多数包只给一条 `dsh plugin add`，装完靠肉眼。这个样本把 add、校验、导出配置、卸载拆成四个独立入口，是这条路线上少见的完整度。
 
@@ -31,7 +34,7 @@ budget: 130
 ## 1. 阶段与载体
 
 - **阶段**：装。它不改变界面、不注册命令，价值全在"装完能不能自证"。
-- **载体**：`own-cli`——但注意，它**没有 `bin`**（`[PKG]` `bin: false`）。所谓命令行入口是 **npm scripts**（`package.json:63-67`），只能 `npm run`，不能被 `dsh` 或 shell 直接调到。
+- **载体**：命令行入口（own-cli）——但注意，它**没有 `bin`**（`[PKG]` `bin: false`）。所谓命令行入口是 **npm scripts**（`package.json:63-67`），只能 `npm run`，不能被 `dsh` 或 shell 直接调到。
 - **兼看**：起。`failOnStartupError: false` 决定它装坏时**不拖垮启动**，那是启动侧的事。
 
 ## 2. 机制
@@ -54,7 +57,7 @@ patch 插入两行，都是 `dsh-mcp-client` 的实例 `[SRC-TARGET]`：
 
 1. **凭据在 patch 里是表达式，不是值。** `!!js` 在启动期求值，patch 文件因此可以进版本库 `[SRC-TARGET]`（`cordis.patch.yml:23`）。
 2. **启动失败被降级为日志。** `failOnStartupError: false` `[SRC-TARGET]`（`cordis.patch.yml:25`），配 `reconnect` 退避（500ms → 30s，最多 10 次）。
-3. **自证链在 package.json 里。** `install:bundle` / `validate:bundle` / `dump:config` / `repair:config` / `uninstall:bundle` 五条 `[SRC-TARGET]`（`package.json:63-67`），每条指向 `scripts/*.js`。
+3. **五条 npm scripts 里有两种性质。** `install:bundle` / `uninstall:bundle` 是安装入口（**不该用脚本**，应走 `dsh plugin`）；`validate:bundle` / `dump:config` / `repair:config` 是自证入口 `[SRC-TARGET]`（`package.json:63-67`）。
 
 ### 三条失败态
 
@@ -64,7 +67,7 @@ patch 插入两行，都是 `dsh-mcp-client` 的实例 `[SRC-TARGET]`：
 | **装不进 roster** | 包在 `dependencies`，但 `dsh.profile.bundles` 没有它 | 什么都不发生，**退出码 0**（见本册 `TRAPS` §1） |
 | **起了不生效** | 行加载了，但 `dsh-mcp-client` 连不上 | 只有日志；工具不注册 `[SRC-TARGET]` |
 
-## 3. 设计取舍：**安装器没随包发布**
+## 3. 设计取舍：**五条脚本没随包发布**
 
 这是本卡最重要的一处，也是 fanout 的 README 判断修正后的结果。
 
@@ -72,7 +75,7 @@ patch 插入两行，都是 `dsh-mcp-client` 的实例 `[SRC-TARGET]`：
 - **`scripts/` 不在其中**；tarball 解包后只有 32 个文件，`find . -name '*install-bundle*'` 为空 `[SRC-TARGET]`。
 - 而 `package.json:63-67` 的五条命令全部指向 `scripts/*.js` `[SRC-TARGET]`。
 
-**结论**：对从 **npm** 安装的人，`npm run install:bundle` 等五条命令会直接找不到文件；对**从仓库克隆**的人，一切正常。作者的自证工具只在自己机器上成立——这正是"装后自证"最容易翻车的地方。
+**结论**：对从 **npm** 安装的人，`npm run install:bundle` 等五条命令会直接找不到文件；对**从仓库克隆**的人，一切正常。作者的自证工具只在自己机器上成立——这正是“装后自证”最容易翻车的地方。**正确修法不是把 `scripts/` 补进包，而是删掉 install/uninstall 两条、改用 DSH 原生 `dsh plugin`；只留 validate / dump / repair 做自检。**
 
 **已实测（E20）**：在隔离 profile 里装完后执行同一条命令，得到 `Error: Cannot find module '…/@wenaixi/cfbridge/scripts/install-bundle.js'` `[RUN]`。安装本身 exit 0、roster 也写对了——**失败只发生在真正要用的时候**。
 
@@ -86,7 +89,7 @@ patch 顶部有一句自我约束：**不在 patch 里重复声明 `persona` / `
 
 | 触发问题 | 可迁移洞察 | 机制依据 | 为什么有效 / 代价 | 移植时改什么 | 成立边界 | 抄错后果 |
 |---|---|---|---|---|---|---|
-| 装完无法证明装上了 | 把安装拆成 add → validate → dump-config → repair → uninstall 五条**可单独重跑**的命令，而不是一条黑箱 | `[SRC-TARGET]` `package.json:63-67` 五个 scripts 各指一个 `scripts/*.js` | 每步可单独重跑、失败点可定位；代价是要维护五个脚本并保证它们随包发布 | 定义四件套语义（装/验/卸/修），并把 scripts 目录写进 `files` | 只对能执行 npm scripts 的安装者成立 | `files` 漏 `scripts/` → 五条命令全部 404（本卡实测） |
+| 装完无法证明装上了 | 自证链只做 validate → dump-config → repair 三段**可单独重跑**；安装/卸载本身走 DSH 原生命令，不要包进 npm scripts | `[SRC-TARGET]` `package.json:63-67` 五个 scripts 各指一个 `scripts/*.js` | 每步可单独重跑、失败点可定位；代价是要维护五个脚本并保证它们随包发布 | 定义四件套语义（装/验/卸/修），并把 scripts 目录写进 `files` | 只对能执行 npm scripts 的安装者成立 | `files` 漏 `scripts/` → 三条自检命令全部 404（本卡实测）；若连安装也包进脚本，npm 用户连装都装不成 |
 | 缺凭据不能拖垮启动 | 把"启动容错"写成 **patch 里的行配置**（`failOnStartupError: false` + 退避重连），不写进代码分支 | `[SRC-TARGET]` `cordis.patch.yml:25`（`failOnStartupError`）、`:26-31`（`reconnect`） | 用户可以按行覆盖；代价是容错策略对每个 MCP 行都要重复声明 | 给出每个外部依赖行的容错字段与默认值 | 只对"宿主支持按行配置"的接缝成立 | 写死在代码里 → 用户想收紧或放宽都得改包 |
 | 凭据要进版本库又不想泄露 | patch 里只放 `!!js` 表达式读环境变量，真实值留在被忽略的 `.dsh/.env` | `[SRC-TARGET]` `cordis.patch.yml:23`；`[DOC]` `:11-12` 的说明 | 同一份 patch 可共享；代价是排错时看不见值，只能看"求值后是否为 undefined" | 规定表达式只读环境、不读文件；给出 `.env` 的忽略规则 | 表达式的求值时机在启动期，环境必须先就绪 | 把 token 写进 patch → 一旦提交就永久泄露 |
 | 与宿主的 agent 栈抢行 | 只在 patch 里声明**宿主没有的**行，宿主已有的（人格、指令、技能文件系统）一律复用 | `[DOC]` `cordis.patch.yml:9-12` 的注释约定 | 避免重复注册与覆盖默认；代价是作者必须知道宿主到底提供了什么 | 列出"宿主已有行"白名单，patch 只写增量 | 只对同一宿主版本成立，升级要重核 | 重复插入 → 静默覆盖宿主默认值 |

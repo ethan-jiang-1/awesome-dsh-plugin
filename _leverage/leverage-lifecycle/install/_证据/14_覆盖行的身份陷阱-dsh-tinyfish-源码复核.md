@@ -71,7 +71,7 @@ budget: 90
 
 ## 5. 未复核
 
-- 宿主 patch 安全检查判"冒名"的具体实现。
+- **已核**：rc.3 没有独立的"冒名"安全检查；`name` 与目标行不符时宿主 `warn ... skipping`（`dsh-app-boot/lib/index.js:100-101`），整条 patch 不生效。作者注释里的 impersonation 是措辞。
 - `searchProvider: tinyfish` 的凭据要求与缺凭据降级。
 - 与 free-search 同时装时的优先级。
 - 未实机装。

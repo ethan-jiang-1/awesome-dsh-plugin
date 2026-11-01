@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // `_leverage/` 自校验：严格 UTF-8、LF 换行与单个结尾换行、相对链接与锚点、
 // 四册的 frontmatter 契约、产品线与第四册 catalog 的双向一致、lever 卡表覆盖、
-// 样本卡必须有固定版本 memo、卡片影响力门槛，
+// 样本卡必须有固定版本 memo、DSH 立场行、卡片影响力门槛，
 // 以及产品线每张样本卡必须有「它想干什么 · 为什么值得借鉴」一节（意图/意义/用户价值/表达）。
 // 自包含：只读 `_leverage/` 这一棵树，不依赖 `_digested/` 的任何脚本或数据。
 // 用法：node _leverage/verify.mjs   （在仓库根执行）
@@ -271,6 +271,9 @@ for (const root of [LEVERAGE_PREFIX, AGENT_PREFIX, PRODUCT_ROOT, LIFECYCLE_ROOT]
     if (fm.error || fm.meta.kind !== 'sample') continue;
     if (!/^## 它想干什么 · 为什么值得借鉴$/m.test(text)) {
       fail(rel, null, '缺「它想干什么 · 为什么值得借鉴」一节');
+    }
+    if (!/^> \*\*DSH 立场\*\*：\*{0,2}(符合|有条件偏离|反例)/m.test(text)) {
+      fail(rel, null, '缺 DSH 立场行，或取值不是 符合 / 有条件偏离 / 反例');
     }
     const section = text.match(/^## 5\. 可迁移洞察[^\n]*\n([\s\S]*?)(?=^## )/m);
     if (!section) {

@@ -15,16 +15,17 @@ budget: 135
 > **影响力**：npm 近 30 天 **2,701**（2026-11-01，42 个过影响力门的 bundle 之一）
 > **研究范围**：`dsh-tool-guardian@0.9.1-beta.1`，gitHead `ec61be43…`，tarball sha256 `0b7f2987…`（189,410 B，27 文件）；DSH 对照 `0.2.1-rc.3`
 > **证据成熟度**：源码级（命令注册、自检与返回形态实读；未实机运行）
+> **DSH 立场**：**符合**——`commands.register` 是 host 服务；命令只做自检/临时放行，不改宿主行为。
 > **一句话**：它没有客户端、没有面板，**唯一的用户面就是 `/toolguardian` 这一条命令**。
 > **借鉴价值**：**① `input` 决定命令是给人还是给模型；② “还在启动”与“起失败了”必须分开说；③ 命令注册要放进可选的 `ctx.inject`。**
 
 ## 它想干什么 · 为什么值得借鉴
 
-**意图。** 在工具调用离开宿主之前做一道守卫（后端路由、token 节省、更新检查），并给人一条随时能问"你现在什么状态"的命令 `[SRC-TARGET]`（`index.js:1045` 的 `USAGE`、`:1049` 的 `selftestReport`）。
+**意图。** 在工具调用离开宿主之前做一道守卫（后端路由、token 节省、更新检查），并给人一条随时能问"你现在什么状态"的命令 `[SRC-TARGET]`（`index.js:1046` 的 `USAGE`、`:1049` 的 `selftestReport`）。
 
 **意义。** 生命周期里"首启"最尴尬的情形是：**产品没有界面**。它不能像面板那样"你自己看"，也不能像 doctor 那样另起一个进程。剩下的唯一入口是**会话里的斜杠命令**——而且这条命令必须同时回答"能不能用""为什么不能用""怎么临时放过"。
 
-**用户价值。** 装之前，用户面对的是一个静默生效的守卫，出了问题只看到工具被拦；装之后，`/toolguardian selftest` 直接给出后端、token、更新的三元结论，`/toolguardian bypass 24h` 临时放行，`/toolguardian restore` 撤回 `[SRC-TARGET]`（`:1122-1124`）。
+**用户价值。** 装之前，用户面对的是一个静默生效的守卫，出了问题只看到工具被拦；装之后，`/toolguardian selftest` 直接给出后端、token、更新的三元结论，`/toolguardian bypass 24h` 临时放行，`/toolguardian restore` 撤回 `[SRC-TARGET]`（`:1113-1122`）。
 
 **表达。** 没就绪时的文案分两种 `[SRC-TARGET]`（`:1051-1053`）：
 
@@ -44,7 +45,7 @@ budget: 135
 ## 2. 机制
 
 ```js
-// index.js:1129-1137
+// index.js:1130-1138
 ctx.inject(['commands'], (inner) => {
   inner.commands.register({
     name: 'toolguardian',
@@ -58,8 +59,8 @@ ctx.inject(['commands'], (inner) => {
 
 三个点：
 
-1. **`input` 决定路由，不是装饰**。注释写明：**没有 `input` 时，DSH 把命令当作"无参数"处理，于是 `/toolguardian bypass` 会被当成提问发给模型** `[SRC-TARGET]`（`:1134-1135`）。
-2. **命令注册是可选能力**：`ctx.inject(['commands'], …)`，注释是 *a host without the command registry still gets the tools* `[SRC-TARGET]`（`:1127-1129`）。没有命令注册表的宿主照样能用工具，只是没法自检。
+1. **`input` 决定路由，不是装饰**。宿主侧可核：命中 `input` 的命令返回 leadingInput claim，参数交给命令；**没有 `input` 且命令后带空格参数时，`matchEnter` 直接 `return void 0`——这一行不再按命令处理，而是按普通输入发给模型** `[DSH]`（`dsh-client-ui-commands/lib/client.js:1661-1665`）；带 `hint` 的命令在空格之后也不再出现在候选里（`:1554`）。作者注释（`:1134-1135`）只是把这条行为写在自己代码旁。
+2. **命令注册是可选能力**：`ctx.inject(['commands'], …)`，注释是 *a host without the command registry still gets the tools* `[SRC-TARGET]`（`:1129-1130`）。没有命令注册表的宿主照样能用工具，只是没法自检。
 3. **注册是 effect**：插件卸载或热替换时命令自动注销 `[SRC-TARGET]`（`:1140` 注释）。
 
 ### 三条失败态
@@ -87,9 +88,9 @@ ctx.inject(['commands'], (inner) => {
 
 | 触发问题 | 可迁移洞察 | 机制依据 | 为什么有效 / 代价 | 移植时改什么 | 成立边界 | 抄错后果 |
 |---|---|---|---|---|---|---|
-| 产品没有界面，首启怎么验收 | 用**一条会话内命令**当唯一验收面：自检 + 状态 + 临时放行三合一 | `[SRC-TARGET]` `index.js:1045`（USAGE）、`:1049`（selftest）、`:1122-1124`（bypass/restore） | 零界面成本、随时可问；代价是用户得记住命令 | 定义命令名、子命令与每种子命令的输出 | 只对"活在会话里"的产品成立 | 不给自检命令 → 用户只能猜它有没有生效 |
-| 带参数的命令行为诡异 | 注册时写 `input.hint`；**不写 `input` 会被当成无参数命令发给模型** | `[SRC-TARGET]` `index.js:1134-1135`（注释与 `input` 字段） | 参数被当命令处理；代价是多一个字段要维护 | 每个带子命令的命令都写 `input` | 只对"把命令与提问分流"的宿主成立 | 不写 `input` → `/x bypass` 被当成提问发出去，用户以为命令坏了 |
-| “起不来”与“还没起”混为一谈 | 同一种 `kind: 'error'`，但文本必须区分"还在起"与"起失败了+去哪儿看日志" | `[SRC-TARGET]` `index.js:1051-1053` | 用户知道该等还是该查；代价是文案要多写 | 给每个未就绪分支定义一句可执行提示 | 只对"有启动窗口"的产品成立 | 一律回 "not ready" → 用户反复重试，或直接卸载 |
+| 产品没有界面，首启怎么验收 | 用**一条会话内命令**当唯一验收面：自检 + 状态 + 临时放行三合一 | `[SRC-TARGET]` `index.js:1046`（USAGE）、`:1049`（selftest）、`:1122-1124`（bypass/restore） | 零界面成本、随时可问；代价是用户得记住命令 | 定义命令名、子命令与每种子命令的输出 | 只对"活在会话里"的产品成立 | 不给自检命令 → 用户只能猜它有没有生效 |
+| 带参数的命令行为诡异 | 注册时写 `input.hint`；**不写 `input` 会被当成无参数命令发给模型** | `[DSH]` `dsh-client-ui-commands/lib/client.js:1661-1665`（无 input + 带参 → 交给模型）；`[SRC-TARGET]` `index.js:1134-1135`（作者注释） | 参数被当命令处理；代价是多一个字段要维护 | 每个带子命令的命令都写 `input` | 只对"把命令与提问分流"的宿主成立 | 不写 `input` → `/x bypass` 被当成提问发出去，用户以为命令坏了 |
+| “起不来”与“还没起”混为一谈 | 同一种 `kind: 'error'`，但文本必须区分"还在起"与"起失败了+去哪儿看日志" | `[SRC-TARGET]` `index.js:1052-1053` | 用户知道该等还是该查；代价是文案要多写 | 给每个未就绪分支定义一句可执行提示 | 只对"有启动窗口"的产品成立 | 一律回 "not ready" → 用户反复重试，或直接卸载 |
 | 宿主可能没有某个能力（如命令注册表） | 用 `ctx.inject(['commands'], …)` 注册，而不是静态 `inject` | `[SRC-TARGET]` `index.js:1127-1129`（注释：*a host without the command registry still gets the tools*） | 缺能力时降级而不是整行 pending；代价是自检面消失 | 把"锦上添花"的能力都走 `ctx.inject` | 只对支持 `ctx.inject` 的 loader 成立 | 静态 `inject` → 没有命令注册表的宿主整行 pending（`TRAPS` §11） |
 
 ## 6. 失效与开放问题

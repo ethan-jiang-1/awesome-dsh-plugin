@@ -54,12 +54,12 @@ budget: 120
 **反例**：`[RUN]` 运行中装 bundle，同一进程再取首屏，`__DSH_BOOT__` 里没有新模块；宿主 stderr 静默；重启后才出现。
 **做法**：CLI 场景写明"重启"；不要写"装完刷新即可"。
 
-## 7. 只声明 peer，不声明 `engines.dsh`
+## 7. 版本门只写在 README 里
 
-**症状**：在一条宿主线上被拦，在另一条线上悄悄放行。
-**机制**：`engines.dsh` 是地板门，`dsh.compatibility.dshReleases` 是逐版本枚举，两者在不同宿主线上各自是门禁。
-**反例**：产品线 `BORROW` 第 4 条已把这条列为规则 `[CARD]`。
-**做法**：两个都写；只在 README 里写"支持 0.2.x"不算门。
+**症状**：README 写"支持 0.2.x"，一台机器装得上、另一台直接判不兼容；或坏版本也照装进来。
+**机制**：宿主只读 manifest——有 `engines.dsh` 就只看它，没有才回落到 `@deepseek-ai/dsh*` peer 范围 `[DSH]`（`dsh-app-boot/lib/index.js:252-304`）。`dsh.compatibility.*` 是给市场、CI 与安装证据看的元数据，`0.2.1-rc.3` 不读它。
+**反例**：产品册 `31_驾驶舱` 同时写 `engines.dsh` 与 `dshReleases`，其 memo 已复核 **rc.3 内没有任何读取 `dshReleases` 的代码** `[CARD]`——把 `dshReleases` 当第二道门是误读。
+**做法**：manifest 里写 `engines.dsh`（或精确的 DSH peer 范围），README 的范围只作说明；说"某条门已生效"必须带宿主版本。
 
 ## 8. 把首启交给 `welcome-notice`
 
@@ -103,11 +103,12 @@ budget: 120
 **反例**：`[SRC-TARGET]` `dsh-origin-plugin@2.7.3` `index.js:80` 显式 `return void 0`，并在 `:76-79` 注明是 issue #1、DSH ≥0.1.5 必现。
 **做法**：`apply` 只做副作用、**不返回值**；插件描述走单独 export。验收时真启动一次，别只看装成功。
 
-## 14. README 里的安装器不在包里
+## 14. README 里的安装器/脚本不在包里
 
 **症状**：照 README 跑 `install.bat` 或 `npm run install:bundle`，报找不到文件；而仓库里一切正常。
 **机制**：`package.json` 的 `files` 白名单只列了 `lib/` 与 patch，脚本目录没进包。**装的人拿不到,写的人永远发现不了。**
 **反例**：两条独立样本同一个错——`[SRC-TARGET]` `@wenaixi/cfbridge@0.13.2`（`files` 9 项无 `scripts/`，五条 npm scripts 全指向它）；`dsh-free-models-hub@0.3.1`（README 三条 `.bat`，tarball 7 个文件里一个没有）。
+**前提**：首选不要自带安装器——插件走 `dsh plugin add` + 应用内装；只有 shell/仓库脚本才谈 `files` 白名单。
 **做法**：打包后看 `npm pack --dry-run` 清单，再**逐条执行 README 里写的命令**；把"命令存在性"写进发布检查（[`CHECKLIST`](./CHECKLIST.md) 装段）。
 
 ## 15. 隔离环境里装插件，不代表它只碰隔离目录

@@ -2,7 +2,7 @@
 title: "REFERENCE · 被 DSH 认可的那一条分发路径"
 domain: lifecycle
 kind: playbook
-positioning: "一条能同时写进 web 与 Desktop 文档的装法：发 bundle、在应用内装，CLI 只作 web 面的自动化。"
+positioning: "一条能同时写进 web 与 Desktop 文档的装法：发 bundle、在应用内装，CLI 只作 web 自动化；附偏离登记表。"
 takeaway: "应用内安装是当前 profile 相对的，所以两面同一句话；--profile 是面绑定的，所以必然要写两条、必然错一条。"
 read_when: "要定一个产品的分发方式；或解释为什么只写 --profile web 会让 Desktop 用户装不上。"
 status: living
@@ -48,7 +48,7 @@ budget: 190
 
 **`dsh.client` 只有你带浏览器部分时才写**；`inject` 写你实际用到的客户端包，不要多写。
 
-可选但建议的两个版本声明：`engines.dsh`（地板）与 `dsh.compatibility.dshReleases`（逐版本枚举）。两者在不同宿主线上各自是门禁，只写一个会在另一条线上失效 `[CARD]`。
+可选但建议的版本声明：`engines.dsh`——宿主真读的门，缺省时回落到 `@deepseek-ai/dsh*` peer 范围 `[DSH]`（`dsh-app-boot/lib/index.js:252-304`）。`dsh.compatibility.*`（如 `dshReleases` / `minimum` / `tested`）是给市场、CI 与安装证据看的元数据，`0.2.1-rc.3` 的宿主**不读**它，**不能当第二道门**（产品册 `plugin/_证据/09_驾驶舱-dsh-context-源码复核` 已同向复核）。
 
 ## 2. 用户怎么装
 
@@ -71,25 +71,43 @@ budget: 190
 2. **必须用稳定的 row id + 自己的命名空间。** id 发布后不改；与"单装同款"并存时，同 id 会重复注册或互相覆盖 `[CARD]`。
 3. **必须自己回答首启。** 原生只给一道令牌门，没有向导 `[RUN]`；不回答就等于把"第一次看到什么"交给用户猜。做法与代价见 [`FIRST-RUN`](../first-run/README.md)。
 
-## 4. 允许的偏离（附代价）
+## 4. 偏离登记表（单源）
 
-| 偏离 | 什么时候可以 | 代价 |
-|---|---|---|
-| **自带安装器 / launcher**（shell 那条路） | 用户根本不用 `dsh web`，或要在他机器上装运行时 | 两面从此各维护一套更新与恢复；用户多一条升级线 `[CARD]` |
-| **只发 CLI 一条命令** | 产品明确只面向 `dsh web` | **必须在文档里写"仅 web"**；否则 Desktop 用户会装进 `profiles/web` 然后看不到东西 `[CARD]` |
-| **配置放自己的文件**而不是 DSH settings | 配置项与宿主无关，或需要跨 profile 共享 | 不跟随 profile 备份/迁移；用户要记第二个配置文件位置 |
-| **自带更新器** | 你发的是应用而不是插件 | 与宿主升级竞态；必须自己定义"宿主版本不在区间时怎么办" `[CARD]` |
-| **发 `.tgz` / 本地路径** | 内网、离线、审计环境 | 包的来源与签名要自己保证；`file:` 依赖写进了 profile 的 `package.json` `[RUN]` |
-| **启动体验用 bundle 内的插件实现**（首屏注入、预置会话、工作区） | 要"打开就是这样"，但不想换入口 | **不构成偏离**：仍是应用内装、同一份 bundle，只是多一块 UI 或一次首启动作。载体见 [`FIRST-RUN`](../first-run/README.md) §6 |
+> 这里登记所有“不在原生路径上”的做法。**卡片只链接本表，不重复论证。** 没有登记 = 不允许；每个偏离都要写代价与退出条件。
 
-**偏离不是错，不写明才是错。**
+| 模式 | 何时允许 | 代价 | 退出条件 | 代表卡 |
+|---|---|---|---|---|
+| 自带安装器 / launcher | 产品根本不是插件（shell） | 安装/启动/更新/降级全归自己；两面各维护一套 | 产品回到 bundle + 应用内装 | shell 卡 |
+| 只发 CLI 一条命令 | 明确只面向 `dsh web` | Desktop 用户装进 `profiles/web` 后看不到；必须写“仅 web” | 提供应用内装 | [`INSTALL`](../install/README.md) §2 |
+| 配置放自己的文件 | 与宿主无关 / 需跨 profile | 用户记第二个位置；不跟随 profile 备份 | settings 能表达 | [`CONFIG`](../config/README.md) §1 |
+| 自带更新器 | **不推荐**；仅应用/shell | 与宿主升级竞态；自己定义降级 | 宿主升级路径覆盖 | [`boot/22`](../boot/22_重启取证-dsh-update-checker.md)（有条件） |
+| `.tgz` / 本地路径 | 内网/离线/审计 | 来源签名自负；`file:` 相对路径按 profile 目录解析 | 有 registry | [`INSTALL`](../install/README.md) §2 |
+| 运行时 reclaim 宿主行 | 必须与宿主设置开关共存 | 所有权竞态；宿主改语义就失效 | 宿主提供正式设置项 | [`config/32`](../config/32_三档接管-dsh-free-search.md)（有条件） |
+| 外部工具直接改 profile | 宿主起不来 / 救援 | 绕过 `pluginManager` 与版本门；必须显式告知 | 宿主救援（`--from-default-profile`）可用 | [`boot/24`](../boot/24_事务式修复-dsh-doctor.md)（有条件） |
+| npm scripts 做自检/生效 | 只在仓库/包目录内自证；安装/卸载不要用脚本 | 用户找不到入口；不是原子安装；脚本漏发就 404 | 有 `dsh plugin` / settings 入口 | [`install/11`](../install/11_装后自证-cfbridge.md)、[`boot/25`](../boot/25_装完还要一步-dsh-context-guardian.md)（有条件） |
 
-## 5. 四条禁止
+**启动体验用 bundle 内的插件实现**（首屏注入、预置会话、工作区）**不构成偏离**：仍是应用内装、同一份 bundle，只是多一块 UI 或一次首启动作。载体见 [`FIRST-RUN`](../first-run/README.md) §6。
+
+### 4.1 不接受的做法（不要抄）
+
+1. **插件自更新/自重启宿主**：原生给 `restart-required`；自己重启 = 接管宿主生命周期。
+2. **运行时抢别人行的所有权**：默认用安装期 patch；reclaim 只作共存补丁。
+3. **写死用户 home / `D:\`**：路径必须从 `DSH_HOME`/settings 派生。
+4. **用“无 peer”绕版本门**：应声明 `engines.dsh`/peer，让宿主在安装期拦。
+5. **把第三方市场当语义标准**：host 的 `pluginManager`/loader 才是事实源；市场只是消费者。
+6. **给插件发明自带安装器/`.bat`**：原生是 bundle + 应用内装；只有 shell 才谈安装器（见 [`install/13`](../install/13_三条安装路径与空安装器-dsh-free-models-hub.md)）。
+
+**偏离不是错，不登记才是错。**
+
+## 5. 七条禁止
 
 1. **禁止把 `dsh plugin --profile desktop add ...` 当安装说明。** 普通 CLI 直接被拒（见 [`SURFACES`](./SURFACES.md) §2）。
 2. **禁止在文档里只写 `--profile web` 且不提 Desktop。** 这正是本册存在的理由。
-3. **禁止用 `$DSH_HOME/cordis.patch.yml` 给所有 profile 供货。** 它能覆盖行，不能提供包；插入未安装的包会 `ERR_MODULE_NOT_FOUND`，表现为"功能静默缺失"；只有该行不是 `required` 时才降为告警，`required` 行会启动失败 `[RUN]` `[DSH]`。
-4. **禁止把"装完 exit 0"当安装成功。** 三态见 [`INSTALL`](../install/README.md) §2。
+3. **禁止用 `$DSH_HOME/cordis.patch.yml` 给所有 profile 供货。** 它能覆盖行，不能提供包；插入未安装的包会 `ERR_MODULE_NOT_FOUND` + `warning: 1 entry did not activate`，表现为"功能静默缺失"。只有宿主自己的启动关键行会升级为启动失败——`requiredStartupEntryIds` 固定 8 个（`agent-loop` / `webserver` / `web-runtime` / `modules` / `connection` / `headless-runner` / `acp` / `sdk-jsonrpc-server`），**第三方插入的行不在这个名单里，永远是告警** `[RUN]` `[DSH]`（`dsh-app-boot/lib/index.js:4270-4279`、`:4466`）。
+4. **禁止把“装完 exit 0”当安装成功。** 三态见 [`INSTALL`](../install/README.md) §2。
+5. **禁止在插件里重启/替换宿主进程。** 原生是应用内装返回 `restart-required` + `restartReason`，由用户重启；自己拉起新宿主 = 接管生命周期（见 [`boot/22`](../boot/22_重启取证-dsh-update-checker.md)）。
+6. **禁止把第三方市场判定当作 DSH 语义。** host 的 `pluginManager`/loader 是事实源，市场只是消费者（见 [`install/12`](../install/12_让安装器认你-dsh-origin-plugin.md)）。
+7. **禁止给插件发明自带安装器/`.bat`。** 插件只发 bundle、让用户在应用内装；安装器是 shell 的代价（见 [`install/13`](../install/13_三条安装路径与空安装器-dsh-free-models-hub.md)）。
 
 ## 6. 为什么这条算"被认可"
 

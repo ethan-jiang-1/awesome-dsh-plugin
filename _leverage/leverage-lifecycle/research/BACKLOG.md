@@ -2,7 +2,7 @@
 title: "BACKLOG · 候选池（分诊结果与缺口）"
 domain: lifecycle
 kind: index
-positioning: "42 个过影响力门的 bundle 的分诊结果：16 张已排期（15 已成卡）、12 个备选、8 条降级为 TRAPS、6 个被拒。"
+positioning: "42 个过影响力门的 bundle 的分诊结果：16 张已排期（15 已成卡）、11 个备选、8 条降级为 TRAPS、6 个被拒；分诊账尚有缺口。"
 read_when: "要补样本、或想知道某个包为什么没进卡。"
 status: living
 updated: 2026-11-01
@@ -34,9 +34,9 @@ budget: 90
 | 4 | `@dfy-plugins/dsh-bundle` | 配 | host-row | 迁移与导入 | 已成卡 |
 | 补 | `dsh-context-guardian` | 起 | own-cli + command | 生效边界 | 已成卡 |
 
-## 2. 备选（12 个，分诊为 candidate）
+## 2. 备选（11 个，分诊为 candidate）
 
-分诊给了 `candidate` 但没排期的，**任一主选核完不成立就顶上来**：
+分诊给了 `candidate` 但没排期的，**任一主选核完不成立就顶上来**（其中 `dsh-context-imports`、`dsh-code-pill` 已同时降级为 TRAPS，见 §3）：
 
 `dsh-plugin-save-token` · `@morlay/better-session`（产品册 `profile/17` 已有一张，注意重复）· `@viztor/dsh-tinyfish`（与 `dsh-tinyfish` 同代码双名，**只取其一**）· `dsh-scnet` · `dsh-qqbot-lite` · `dsh-context-imports` · `@try-works/dsh-stt` · `rolebox` · `@jiesou/dsh-opencode-zen-free-provider` · `dsh-code-pill` · `dsh-web3`
 
@@ -61,6 +61,7 @@ budget: 90
 
 ## 5. 缺口（下一轮普查方向）
 
+- **[OPEN] 分诊账未对平**：本节可核对的记录是 16 + 11 + 8 + 6 = 41，其中 2 条（`dsh-context-imports`、`dsh-code-pill`）在「备选」与「降级」各出现一次，去重 **39 条**；与 L2 的 42 差 **3 条**。复核动作：按 `bundle_sweep` 原始 42 条名单逐条标状态，补上缺的 3 条，再回填本节与 `RESEARCH` §1。
 - **反例（`negative/`）**现有 **1 张**（`negative/91`，机制对但没人用）。还缺一类：**"装了却永远不生效"的失败样本**——需要在真实用户机器上取证，本册暂无条件。
 - **自带安装器 / 自带运行时（载体 8、9）**在 42 个里各只出现极少，说明这类东西普遍不走 npm——**下一轮要从 Releases 与安装包方向召回**，而不是继续扫 npm。
 - **`desktop` 面**零实测：本册所有 Desktop 结论都是 `[DSH]` 级（见 [`reference/SURFACES`](../reference/SURFACES.md) 页头）。
