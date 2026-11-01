@@ -28,9 +28,9 @@ DSH 的扩展面是有限的、可枚举的:seam(fs/shell/sandbox/llm/subagent/w
 | [lever-prove-output](./lever-prove-output/README.md) | *Where is the gate that turns "looks done" into "proven"?*<br>门禁装在哪一环,产物凭什么算完成 | 门禁在哪一环?证据能否重放?产物是否原子? |
 | [lever-draw-limit](./lever-draw-limit/README.md) | *Who can touch what, who enforces it, what evidence remains?*<br>谁能碰什么,由谁强制,留下什么证据 | 信任谁?边界由谁强制?留下了什么证据? |
 
-**卡片编号**:`<域>/NN-<slug>.md`(一样本一篇时放 `<域>/samples/NN-<owner>-<repo>.md`)。编号**域内递增、不复用、不重排**,只表示写作顺序,不表示优先级,也不跨域比较。退役保留编号,改 `status` 并注明替代者;新增永远追加。**产品线有自己的一套编号法**（「首位 = 类别」+ 三个 lever），见 [`../leverage-reshape-product/`](../leverage-reshape-product/README.md)。
+**卡片编号**:`<域>/NN-<slug>.md`。本册**没有样本卡**（样本已随协作域迁出，样本编号与 memo 规程见 [`../leverage-agent-collaboration/`](../leverage-agent-collaboration/README.md)）。编号**域内递增、不复用、不重排**,只表示写作顺序,不表示优先级,也不跨域比较。退役保留编号,改 `status` 并注明替代者;新增永远追加。**产品线有自己的一套编号法**（「首位 = 类别」+ 三个 lever），见 [`../leverage-reshape-product/`](../leverage-reshape-product/README.md)。
 
-**为什么不用字母编号代号**:`L1–L4` 会让读者以为两域有强弱或先后,而它们实际是三种并列提问;`lift/link/lock/limit` 是为凑首字母造的近义词,彼此冗余。现在的后缀直接说动作,不需要额外解释。
+**为什么不用字母编号代号**:`L1–L4` 会让读者以为两域有强弱或先后,而它们实际是两种并列提问;`lift/link/lock/limit` 是为凑首字母造的近义词,彼此冗余。现在的后缀直接说动作,不需要额外解释。
 
 ## 杠杆阶梯:判断「为什么它影响面大」
 
@@ -55,16 +55,16 @@ DSH 的扩展面是有限的、可枚举的:seam(fs/shell/sandbox/llm/subagent/w
 | [PROVE](./lever-prove-output/README.md) | 门禁装在哪一环,产物凭什么算完成 | 一个门禁位置(一环一卡) |
 | [LIMIT](./lever-draw-limit/README.md) | 谁能碰什么,由谁强制,留下什么证据 | 一个控制点/预算(一卡一样本) |
 
-**协作域已迁至 [`../leverage-agent-collaboration/`](../leverage-agent-collaboration/README.md)**（14 样本 + 四家族 + 横向卷）。**卡片数不随名单涨。** 全量文件清单见 [catalog](./catalog.md),按任务借用见 [BORROW](./BORROW.md)。
+**协作域已迁至 [`../leverage-agent-collaboration/`](../leverage-agent-collaboration/README.md)**（17 样本 + 四家族 + 横向卷）。**卡片数不随名单涨。** 全量文件清单见 [catalog](./catalog.md),按任务借用见 [BORROW](./BORROW.md)。
 
 ## 文件约定:frontmatter 与生长
 
-**每一篇 Markdown 都有 frontmatter**,由 `verify.mjs` 校验。九个键:
+**每一篇 Markdown 都有 frontmatter**,由 `verify.mjs` 校验。共九个键（七个必填，`takeaway` 按 kind、`budget` 可选）:
 
 | 键 | 必填 | 取值 |
 |---|---|---|
 | `title` | 是 | 短标题,不含编号 |
-| `domain` | 是 | `layer` / `reshape-product`(产品线) / `cross-boundary` / `prove-output` / `draw-limit`(与路径绑定) |
+| `domain` | 是 | `layer` / `prove-output` / `draw-limit`(与路径绑定)；产品线、协作册各有自己的 domain |
 | `kind` | 是 | `index` `charter` `guide` `playbook` `card` `sample` `evidence` |
 | `positioning` | 是 | ≤120 字:它是什么、在整套研究里占哪一格 |
 | `takeaway` | card/sample/playbook | ≤80 字:能拿走什么 |
@@ -73,7 +73,7 @@ DSH 的扩展面是有限的、可枚举的:seam(fs/shell/sandbox/llm/subagent/w
 | `updated` | 是 | `YYYY-MM-DD`,上次核对日期 |
 | `budget` | 骨架类 | 行数上限;超了 `verify.mjs` 提醒 |
 
-**三条铁律**:① **不放会漂的数字**(星标/下载/版本/基线日期),它们留在正文页头;② `card`/`sample` 必须有**借用节**(标题含 借鉴/搬走/借用/照抄/食谱/配方/移植);③ **规则只有一个源**——准入/分级看 [`horizon.md`](./horizon.md),四域 README 里的副本是摘要,冲突以源为准。
+**三条铁律**:① **不放会漂的数字**(星标/下载/版本/基线日期),它们留在正文页头;② `card`/`sample` 必须有**借用节**(标题含 借鉴/搬走/借用/照抄/食谱/配方/移植);③ **规则只有一个源**——准入/分级看 [`horizon.md`](./horizon.md),两域 README 里的副本是摘要,冲突以源为准。
 
 **生长方式**:新样本 → 过门 → 新卡(frontmatter + 借用节)→ catalog 补一行 → 域 README 只在「本域最佳取法变了」时改一行。**加的是叶子,宪章不跟着长。**
 
@@ -136,6 +136,6 @@ DSH 包的事实来自本机安装目录(`dsh --version` 与各包 README),不�
 
 完整清单(含给上游的)在 [BORROW §6](./BORROW.md#6-还没解决的事);这里只留三条层级问题:
 
-- [ ] 四域的**反例样本**仍不足:E 级只有 2 条真判,其余失败模式多来自官方限制推演。
+- [ ] 两域与两个另册的**反例样本**仍不足:E 级只有 2 条真判,其余失败模式多来自官方限制推演。
 - [ ] RESHAPE 的「新队列更产品化」是真实趋势,还是「工作台类描述词」的放大?下一轮抽 30 条人工复核。
 - [ ] `[DSH]` 证据来自本机安装目录;是否需要一份上游 `deepseek-harness` 源码 checkout 做逐行核验?

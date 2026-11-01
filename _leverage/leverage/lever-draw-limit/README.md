@@ -2,8 +2,8 @@
 title: "lever-draw-limit：安全监管链"
 domain: draw-limit
 kind: charter
-positioning: "本域宪章：信任三层、强制点与失效方向、10 个样本坐标与 21 行借法一览。"
-takeaway: "21 行借法一览（问题→抄哪条）+ 三层监管链 + 名字会骗人的三个坑。"
+positioning: "本域宪章：信任三层、强制点与失效方向、10 个样本坐标与 20 行借法一览。"
+takeaway: "20 行借法一览（问题→抄哪条）+ 三层监管链 + 名字会骗人的三个坑。"
 read_when: "要做安全/权限/审批/供应链；或评审一个安全插件。"
 status: observed
 updated: 2026-10-31
@@ -13,7 +13,7 @@ budget: 320
 
 > **标语**:*Who can touch what, who enforces it, what evidence remains?* —— 安全是从安装到动作的监管链，最弱的一环决定整体。
 > **状态**:`observed`(机制已核) · **基线**:DSH `0.2.1-rc.3` · 名单 @ `efe602e7b`
-> **作业区**:**本目录自足、可独立开工**。只读共享件,不写共享件;不引用其他域的结论,不等待其他域的进度。四域并行契约见 [`../README.md`](../README.md#两域并行作业契约)。
+> **作业区**:**本目录自足、可独立开工**。只读共享件,不写共享件;不引用其他域的结论,不等待其他域的进度。两域并行作业契约见 [`../README.md`](../README.md#两域并行作业契约)。
 > **借阅入口**:想抄 → [借法一览](#借法一览八张卡各能抄走什么) · 想选型 → [样本坐标](#样本坐标要精确挖掘时去哪里) · 想评审 → [选择要求](#选择要求) · 想回源 → [名字坑](#三个名字会骗人的坑重挖前必读) · 跨域 → [BORROW](../BORROW.md)
 > **规则源**:准入/分级以 [`horizon`](../horizon.md) 为准;本域的准入副本是摘要。
 > **全量卡片**:本表是精选;全部文件(kind/定位/能拿走什么/何时读)见 [`catalog`](../catalog.md)。
@@ -226,12 +226,12 @@ curl -s "https://api.npmjs.org/downloads/point/last-month/@jayyuen66%2Fdsh-dange
 
 ## 边界契约(声明式,不依赖他域进度)
 
-四域并行研究时,**归属是事先划定的,不是商量出来的**。本域遇到下列情形只写划给自己的那一半,另一半留给它的归属域;若那一边尚未产出,本域照写,不等待、不代笔。
+两域并行（协作/产品为另册）时,**归属是事先划定的,不是商量出来的**。本域遇到下列情形只写划给自己的那一半,另一半留给它的归属域;若那一边尚未产出,本域照写,不等待、不代笔。
 
 | 情形 | 归属 | 本域只写到哪 |
 |---|---|---|
 | 证据链的**可重放性** | `lever-prove-output` | 只写「强制点留下了什么痕迹」 |
-| 跨机**身份与配对流程** | `lever-cross-boundary` | 只写「鉴权与强制」这一半 |
+| 跨机**身份与配对流程** | `../leverage-agent-collaboration/` | 只写「鉴权与强制」这一半 |
 | 分发通道、市场索引 | `lever-reshape-product` | 不写 |
 | 权限档作为**产品默认值** | `lever-reshape-product` | 只写强制与失效方向 |
 | 团队任务完成标准 | `lever-prove-output` | 不写 |
@@ -244,7 +244,7 @@ curl -s "https://api.npmjs.org/downloads/point/last-month/@jayyuen66%2Fdsh-dange
 
 **本域另用一份「安装量」口径**(catalog 不含此数据,故单列):npm 月下载数,**区间 2026-09-30 → 2026-10-29**,取法 `curl -s api.npmjs.org/downloads/point/last-month/<包名>`,包名以各仓 `package.json` 的 `name` 为准。已入卡样本:`@noob-stupid/dsh-plugin-console` 15,638 · `dsh-auto-review` 7,216 · `dsh-permission-rules` 6,420 · `dsh-defend` 4,511 · `dsh-approval-gate` 3,709 · `dsh-plugin-sentinel` 423(**同名不同人**,见样本坐标表) · `@jayyuen66/dsh-danger-guard`(API 不返回,**不估**)。此口径只作历史锚点,与冻结的名单不是同一时间点,引用时必须带日期。
 
-四域重叠是正常的:本域与 RESHAPE / CROSS / PROVE 都有样本交集。四域是**四个并列的提问**,不是互斥分类——独立性靠「编辑权 + 主读归属 + 不依赖他域结论」保证,不靠样本不重叠。
+样本重叠是正常的:本域与产品线 / 协作册 / PROVE 都有样本交集。四个方向是**并列的提问**,不是互斥分类——独立性靠「编辑权 + 主读归属 + 不依赖他域结论」保证,不靠样本不重叠。
 
 ## 复核方式
 

@@ -74,7 +74,7 @@ budget: 240
 
 ## 3. 怎么读这个目录
 
-文件名是 `N-关键短语-插件名.md`。
+文件名是 `NN_关键短语-插件名.md`。
 
 **十位数字就是类别**——不用记对照表，看见 `3` 打头就知道是驾驶舱：
 
@@ -140,6 +140,9 @@ budget: 240
 | [`多端与远程`](./61_多端与远程-dsh-mobile.md) | `saya-ch/dsh-mobile` | `dsh-mobile`(+ Android App) | `saya-ch__dsh-mobile.yml` (`remote`) | 见卡 §3.1(Android App / 浏览器两条路) | `_证据/03_移动与视觉-原始挖掘.md` §一 | `compat.js` 的语法下限实测(Chromium 92 那档 `[OPEN]`) |
 | [`感官接入`](./71_感官接入-modlens.md) | `liustack/modlens` | `@liustack/modlens` | `liustack__modlens.yml` (`vision`) | `npx -y @deepseek-ai/dsh plugin --profile web add @liustack/modlens@3.27.2` | `_证据/03_移动与视觉-原始挖掘.md` §二 | 六个引擎各自的质量差异、`docs/security.md` 全文 |
 | [`协作`](./81_协作-dsh-agent-teams.md) | `NanmiCoder/dsh-agent-teams` | `@nanmicoder/dsh-agent-teams` | `NanmiCoder__dsh-agent-teams.yml` (`workflow`) | Plugins→Add plugin 填 `github:NanmiCoder/dsh-agent-teams` | 本轮直接读 README + `compatibility.json` + manifest | **三层否定的实现方式**(会话状态还是提示词)、`<workspace>/.agent-teams/` 实际文件格式 |
+| [`环境搬家`](./42_环境搬家-dsh-config-manager.md) | `xiajiajun516/dsh-config-manager` | `dsh-config-manager` | `xiajiajun516__dsh-config-manager.yml` (`tools`) | `dsh plugin --profile web add dsh-config-manager@latest` → 重启 | `_证据/10_环境搬家-dsh-config-manager-源码复核.md` | 真实导入/回滚盘面、tarball 字节一致性、rc.3 侧契约定论 |
+| [`会话搬家`](./43_会话搬家-dsh-chat-import.md) | `Nwflower/dsh-chat-import` | `dsh-chat-import@0.26.3` | `Nwflower__dsh-chat-import.yml` (`session`) | `dsh plugin --profile web add dsh-chat-import` → 重启 | `_证据/05_上手与修复-原始挖掘.md` §二 · `_证据/12_会话搬家-dsh-chat-import-源码复核.md` | 真实导入/撤回、tarball 一致性、0.1.x 声明范围 |
+| [`装坏自愈`](./52_装坏自愈-dsh-plugin-health.md) | `EasonMWS/dsh-plugin-health` | `dsh-plugin-health@1.1.0` | `EasonMWS__dsh-plugin-health.yml` (`dev`) | CLI `npm i -g dsh-plugin-health`；或 `dsh plugin --profile web add dsh-plugin-health` | `_证据/14_装坏自愈-dsh-plugin-health-源码复核.md` | 真实 profile 复现、Windows 孤儿检测、npm 字节一致性 |
 
 **三条读这张表的规矩**:
 
@@ -157,7 +160,7 @@ budget: 240
 
 **不收**：纯能力增强（多一个工具、多一个 provider）、只支持 `0.1.x` 的样本、目录里查不到也拿不到任何计量的条目（除非机制独特且写明理由）。
 
-**不碰**：换表层 / 自带宿主的样本 → [`shell`](../shell/README.md)；上游代码本身的建议 → `lever-cross-boundary` / `lever-draw-limit` / `lever-prove-output` 三个域。本 lever 只写"下游把插件装进别人的产品里，装出了什么"。
+**不碰**：换表层 / 自带宿主的样本 → [`shell`](../shell/README.md)；上游代码本身的建议 → 协作册 / `lever-draw-limit` / `lever-prove-output` 三个方向。本 lever 只写"下游把插件装进别人的产品里，装出了什么"。
 
 **共享文件只读**：`00-map.md`、`horizon.md`、`leverage/README.md`、`data/` 由别的会话维护，本线只调用、不写。
 

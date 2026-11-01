@@ -2,7 +2,7 @@
 title: "证据规程：本册的版本、分源与升级门"
 domain: layer
 kind: guide
-positioning: "本册 46 篇的证据规程：样本必须固定版本并配 memo，章节主张必须分源；与产品册 RESEARCH 同级但适配本册结构。"
+positioning: "本册 29 篇的证据规程（原 46 篇，协作域 2026-11-01 迁出）：分源标签、机制卡/playbook 的证据节与固定版本要求。"
 read_when: "要新增/修订本册样本或机制卡；或质疑某条断言有没有来源时。"
 status: living
 updated: 2026-11-01
@@ -28,18 +28,11 @@ updated: 2026-11-01
 
 **铁律**：`[DOC]` 不能升级成 `[SRC-TARGET]`；上游行为不能当成目标行为；未验证一律 `[OPEN]`，不写“已验证”。
 
-## 2. 样本卡（14 张）
+## 2. 样本卡（0 张，已随协作域迁出）
 
-每张 `lever-cross-boundary/samples/NN-*.md` 必须：
+本册不再驻留样本卡；原 14 张协作样本连同 memo 已迁至 [`../leverage-agent-collaboration/`](../leverage-agent-collaboration/README.md)，其迁移后的样本规程（固定坐标、同家族 memo、主张改写、保留失效）见 [`../leverage-agent-collaboration/EVIDENCE.md`](../leverage-agent-collaboration/EVIDENCE.md) §2。本册只保留机制卡与 playbook 的证据要求（§3）。
 
-1. **固定坐标**：repo、npm 包、精确版本、tag/commit（或说明为何无法对齐），最近核对日期；
-2. **链接 memo**：`../_证据/NN-<slug>-源码复核.md`，并在卡头写“证据链”一行；
-3. **改写主张**：卡的每条机制断言要么有 memo 里的 `[SRC-TARGET]` 行号，要么降级为 `[DOC]`/`[OBS]`；
-4. **保留代价与失效**：无法验证的运行行为标 `[OPEN]`，不删。
-
-memo 最少包含：Provenance（npm↔tag↔commit 对齐/不对齐）、DOC 主张、SRC-TARGET 机制核对、与卡片的偏差表、TEST/CI/RUN、`[OPEN]`。
-
-## 3. 机制卡与 playbook（15 卡 + 6 篇横向）
+## 3. 机制卡与 playbook（15 卡 + 4 篇横向）
 
 每章必须新增 **`## 证据与边界`** 一节，至少 3 行，格式：
 
@@ -54,17 +47,17 @@ memo 最少包含：Provenance（npm↔tag↔commit 对齐/不对齐）、DOC �
 
 ## 4. 索引与门禁
 
-- 样本索引 `03-sample-encyclopedia.md` 的每行必须能点到样本卡与 memo；
+- 机制卡/playbook 的索引在 [`catalog.md`](./catalog.md)，一行一篇，与目录双向一致；
 - 顶层 `README`/`00-map`/`catalog`/`BORROW` 的计数以 `verify.mjs` 为准，不手写猜测；
-- `verify.mjs` 将强制：样本 memo 存在且被卡链接、章节含 `## 证据与边界` 且 ≥3 行、catalog 一行不多一行不少；
-- 负向测试：故意删 memo、删章节证据节、改坏表格列数，校验必须报错。
+- `verify.mjs` 将强制：机制卡/playbook 含 `## 证据与边界` 且 ≥3 行、catalog 一行不多一行不少（四册同款）；
+- 样本 memo 的门禁由协作册承担；负向测试：故意删章节证据节、删 catalog 行，校验必须报错。
 
 ## 5. 研究顺序
 
-1. 14 张样本（先做已有源码基础的 01/02/03/09）；
-2. cross-boundary 3 章（拓扑/机制/百科索引）；
-3. prove-output 10 章（门禁链/硬地板/对账/回执…）；
-4. draw-limit 9 章（信任层/审批预算/第二模型/注入缝…）；
-5. 顶层索引与 BORROW 收口。
+1. ~~14 张协作样本~~（2026-11-01 迁出，由协作册接管）；
+2. prove-output 10 章（门禁链/硬地板/对账/回执…）——已完成；
+3. draw-limit 9 章（信任层/审批预算/第二模型/注入缝…）——已完成；
+4. 顶层索引、BORROW 与 catalog 收口——本轮完成；
+5. 之后只做回源复核：数字过期、链接失效、结论被推翻时按 §3 改。
 
 每批完成后跑 `node _leverage/verify.mjs`，并把本批结论写回对应 memo/章节，不攒到最后。

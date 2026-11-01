@@ -2,7 +2,7 @@
 title: "Agent 协作册总章：四家族与横向协调"
 domain: agent-collab
 kind: charter
-positioning: "本册宪章：主-子/团队/流水线/跨界四家族 + coordination 横向卷；两根轴、判定树、样本归属与证据门。"
+positioning: "本册宪章：主-子/团队/流水线/跨界四家族 + coordination 横向卷；三根轴、判定树、样本归属与证据门。"
 read_when: "要判断一个多 agent 方案属于哪类、该读哪卷；或要新增样本/章节时。"
 status: living
 updated: 2026-11-01
@@ -19,7 +19,7 @@ updated: 2026-11-01
 
 所以本册只回答协作结构；质量门禁留在 [`../leverage/lever-prove-output/`](../leverage/lever-prove-output/README.md)，权限/审批留在 [`../leverage/lever-draw-limit/`](../leverage/lever-draw-limit/README.md)，产品化留在 [`../leverage-reshape-product/`](../leverage-reshape-product/README.md)。
 
-## 2. 两根轴先于分类
+## 2. 三根轴先于分类
 
 | 轴 | 取值 | 它决定什么 |
 |---|---|---|
@@ -27,7 +27,7 @@ updated: 2026-11-01
 | **控制流** | 提示词约定 / 声明式 DAG / 代码即编排 | 谁决定下一步，失败能否重放 |
 | **协调介质** | 父子消息 / 邮箱 / 任务板 / 文件总线 / broker / 同步盘 | 状态归属、冲突裁决、失败收敛 |
 
-四家族是这两根轴上的区域，不是互斥分类；一个样本可以落在两个家族里，但**只有一个主家族**。
+四家族是这三根轴上的区域，不是互斥分类；一个样本可以落在两个家族里，但**只有一个主家族**。
 
 ## 3. 四家族 + 横向卷
 
@@ -95,7 +95,7 @@ updated: 2026-11-01
 
 ## 9. 空白区（后续批次）
 
-- delegation：宿主契约 + fork/冷恢复 + 15/16 路由 + 17 截断 fork。
+- ~~delegation：宿主契约 + fork/冷恢复 + 15/16 路由 + 17 截断 fork~~（2026-11-01 已成稿：`delegation/01`、`02` 与样本 15–17）。
 - pipelines：声明式 DAG、`dsh-tool-workflow`/worker-thread、重放与幂等；
 - crossing：ACP/SDK 远端执行、跨实例订阅；
 - coordination：容量/成本、审批预算与协作的交叉（与 draw-limit 分工）。

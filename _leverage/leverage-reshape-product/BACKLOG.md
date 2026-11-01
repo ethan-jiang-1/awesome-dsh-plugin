@@ -14,7 +14,9 @@ budget: 70
 > 每行至少写清：类型（plugin / profile / shell）、硬指标（带日期）、**为什么还没成卡**、下次复核的条件。
 > 候选池**不参与**篇数统计，也不进 catalog 的"全量文件"以外的地方。
 
-## 1. 过了门槛、待深挖
+## 1. 已过门槛 / 近门槛、待深挖
+
+> **近门槛**：硬指标至少一条差一点，留档复核；不进卡，也不写进 catalog。
 
 | 候选 | URL | 类型 | 硬指标（2026-10-31） | 待办 / 风险 |
 |---|---|---|---|---|
@@ -29,9 +31,9 @@ budget: 70
 | `xiaoxiao44443/dfy-dsh-plugins` | <https://github.com/xiaoxiao44443/dfy-dsh-plugins> | profile | ★ 3 · npm 月 4,766 | 原生组合包（8 个自研插件 + 2 个公共库，`Symbol.for` ABI 共享 provider）；过 npm 门槛，先判与 `13_组合包` 是否同形态 |
 | `RevolutionLA/dsh-dream-skin` | <https://github.com/RevolutionLA/dsh-dream-skin> | plugin | ★ 297 · npm 月 41,441 | 皮肤资产包（8 套预设 + 主题包导入导出）；只换皮肤，暂按插件侧 1 类 |
 | `benz-ai-x/dsh-24pa` | <https://www.npmjs.com/package/@benz-ai-x/dsh-24pa> | profile | ★ 未采 · npm 月 5,111 | 飞书个人助理套件（垂直产品包）；仓库 404（改名/私有），先找新地址再判 |
-| `amplifthq/oh-my-dsh` | <https://github.com/amplifthq/oh-my-dsh> | shell/profile | ★ 16 · npm 月 481 | "overlay, not a fork" 发行版，装两个独立 profile；两条门槛都差一点，先判它算 profile 还是 shell |
-| `@huaweidevtools/aishell-dsh-base` | <https://github.com/yusheng-g/aishell-dsh-plugins> | profile | ★ 未采 · npm 月 1,386 | 企业 profile base layer（Huawei scope，叠在 dsh-base 上）；README 缺失，待采语义 |
-| `yhny1001/dsh-rp-distribution` | <https://github.com/yhny1001/dsh-rp-distribution> | profile | ★ 8 · 包未发布 | 垂直 RP 发行版（公共契约 + 包信任 + 组合发行）；npm 未发布，等可安装再判 |
+| `amplifthq/oh-my-dsh`（近门槛） | <https://github.com/amplifthq/oh-my-dsh> | shell/profile | ★ 16 · npm 月 481 | "overlay, not a fork" 发行版，装两个独立 profile；两条门槛都差一点，先判它算 profile 还是 shell |
+| `@huaweidevtools/aishell-dsh-base`（近门槛） | <https://github.com/yusheng-g/aishell-dsh-plugins> | profile | ★ 未采 · npm 月 1,386 | 企业 profile base layer（Huawei scope，叠在 dsh-base 上）；README 缺失，待采语义 |
+| `yhny1001/dsh-rp-distribution`（近门槛） | <https://github.com/yhny1001/dsh-rp-distribution> | profile | ★ 8 · 包未发布 | 垂直 RP 发行版（公共契约 + 包信任 + 组合发行）；npm 未发布，等可安装再判 |
 | `WYH66666666/DSH-Transparent-UI-Plugin` | <https://github.com/WYH66666666/DSH-Transparent-UI-Plugin> | profile | ★ 428 · npm 月 451 | 液态玻璃主题层（顶栏/侧栏/输入框/轨迹全玻璃）；与 `18_视觉资产` 同形态，先判是否需要第二张或作“外观类”对照 |
 | `anywhere-labs/dsh-desktop` | <https://github.com/anywhere-labs/dsh-desktop> | shell | ★ 34,231 | DSH 桌面端，全生态星标最高；归属 **shell** lever，建议在 `shell/README` §5 评估，不进本桶 |
 | `magian1127/deepseek-harness-zh_pro` | <https://github.com/magian1127/deepseek-harness-zh_pro> | plugin | ★ 36 · npm 月 5,580 | "综合增强"是否算产品化有争议（改默认语言/提示词，但仍是单插件）；先看它有没有自己的分发/首启 |

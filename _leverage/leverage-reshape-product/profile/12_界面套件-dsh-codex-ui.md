@@ -14,7 +14,7 @@ budget: 175
 > **研究范围**：`@michengai/dsh-codex-ui@2.0.9`，npm `gitHead` 与 fixed source commit [`29a999e`](https://github.com/MichengAI/dsh-codex-ui/commit/29a999ea8c41918e56a16542c669b258a5194e7a) / source manifest version 对齐。源码、测试与同 SHA CI 记录已读；未安装、构建或运行目标。详见[`10 源码复核`](./_证据/10_界面套件-dsh-codex-ui-源码复核.md)。
 > **证据成熟度**：row composition、theme/composer/sidebar effect paths、settings null-render 与 Slot tests 为 `机制参考`；“禁用即全局彻底清理”不成立为普遍规则：theme observer final dispose 不执行探活失败分支的 root/style restore，composer async probe 前已 activate；无 `[RUN]`。
 > **类**:`1` 壳与工作台 · **层**:2(表层)+ 3(槽位)+ 5(默认值) · npm 近 30 天 119,610 次下载（2026-09-30~10-29） · ★ 250 / forks 20 / issues 2（2026-10-31）
-> **一句话**：0.2.9 用六个 bundle rows 组合设置皮肤、theme、composer、sidebar、session-title 与 dependencies；源码同时显示不同模块的探活、激活及清理路径并不完全相同。
+> **一句话**：2.0.9 用六个 bundle rows 组合设置皮肤、theme、composer、sidebar、session-title 与 dependencies；源码同时显示不同模块的探活、激活及清理路径并不完全相同。
 > **借鉴价值**：**① 逐 row 设计激活/清理状态机，不能把统一“微内核可卸载”口号套给不同模块；② fail-closed probe 与最终 dispose 是不同路径，需分别恢复 DOM/token/root state；③ 设置卡片只在局部 branch 有 `return null`，不能扩大为所有禁用子插件全局 0 DOM；④ sidebar 使用宿主 DOM selector/CSS，settings skin 混用 slots 和 DOM，不是全量 primitive/slot；⑤ peer range 的声明不等于覆盖范围每版行为测试。**
 
 > **样本档案**

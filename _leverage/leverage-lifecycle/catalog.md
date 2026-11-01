@@ -16,8 +16,8 @@ budget: 90
 
 | 文件 | kind | 定位 | 何时读 |
 |---|---|---|---|
-| [`README.md`](./README.md) | index | 第四册入口：七条硬结论、四阶段路由、证据口径与实测环境。 | 第一次进本册。 |
-| [`00-map.md`](./00-map.md) | charter | 规则源：定位与边界、目录、命名、两道人选门、标签、不变量。 | 要新增/改名文件；或怀疑口径冲突。 |
+| [`README.md`](./README.md) | index | 第四册入口：八条硬结论、四阶段路由、证据口径与实测环境。 | 第一次进本册。 |
+| [`00-map.md`](./00-map.md) | charter | 规则源：定位与边界、目录、命名、两道入选门、标签、不变量。 | 要新增/改名文件；或怀疑口径冲突。 |
 | [`reference/REFERENCE.md`](./reference/REFERENCE.md) | playbook | 被认可的那一条路：发 bundle、应用内装、CLI 只作 web 自动化。 | 要定一个产品的分发方式。 |
 | [`reference/SURFACES.md`](./reference/SURFACES.md) | charter | web 与 Desktop 的同一性与三道闸，含三处静默失效。 | 判断某个写法在另一面是否成立。 |
 | [`reference/CARRIERS.md`](./reference/CARRIERS.md) | charter | 九类载体的判定依据与矩阵；分类只从包清单/源码来。 | 要判断一个插件属于哪类。 |
@@ -25,10 +25,10 @@ budget: 90
 | [`boot/README.md`](./boot/README.md) | playbook | 阶段②：profile 四件套、补丁叠加序、失败三级、重启/刷新/HMR。 | 写“装完重启”这类提示。 |
 | [`config/README.md`](./config/README.md) | playbook | 阶段③：四个配置的家、home 层能覆盖不能供货。 | 决定偏好放哪一层。 |
 | [`first-run/README.md`](./first-run/README.md) | playbook | 阶段④：令牌门、首启账本、启动体验的六种载体。 | 设计首次体验。 |
-| [`practice/TRAPS.md`](./practice/TRAPS.md) | guide | 十二条照抄就中招，每条带反例。 | 发布前自查；排查怪状态。 |
+| [`practice/TRAPS.md`](./practice/TRAPS.md) | guide | 十五条照抄就中招，每条带反例。 | 发布前自查；排查怪状态。 |
 | [`practice/CHECKLIST.md`](./practice/CHECKLIST.md) | guide | 十七项发布前检查，每项写“怎么核”。 | 要把 bundle 发出去之前。 |
 | [`research/RESEARCH.md`](./research/RESEARCH.md) | guide | 影响力漏斗、三轴分类、S1–S5 流水线、质量门与结论归属。 | 要新增样本；或复核别人的挖掘。 |
-| [`research/BACKLOG.md`](./research/BACKLOG.md) | index | 42 个过门 bundle 的分诊结果：15 张排期、12 备选、8 条降级、6 个被拒。 | 要补样本；或问某包为何没进卡。 |
+| [`research/BACKLOG.md`](./research/BACKLOG.md) | index | 42 个过门 bundle 的分诊结果：16 张排期、12 备选、8 条降级、6 个被拒。 | 要补样本；或问某包为何没进卡。 |
 | [`BORROW.md`](./BORROW.md) | guide | 按需求路由：我要做 X 抄哪一条；含三条“别抄”。 | 手上有具体需求，不想通读。 |
 | [`catalog.md`](./catalog.md) | index | 全量文件清单（手工维护）。 | 想一次看全。 |
 

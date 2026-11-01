@@ -27,4 +27,4 @@ updated: 2026-11-01
 ## 证据与边界
 
 - 证据规约见 [`../EVIDENCE.md`](../EVIDENCE.md)；跨家族对照见 [`../encyclopedia.md`](../encyclopedia.md)。
-- 本家族章节尚在扩写；引用样本机制前先读其 memo。
+- 章节已成稿；引用样本机制前先读其 memo，冲突以章节与卡片为准。

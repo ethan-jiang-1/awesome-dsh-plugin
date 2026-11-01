@@ -58,8 +58,8 @@ _leverage/
 
 1. **证据标签**:`[DSH]`(上游包与版本)/ `[CAT]` 或 `[CARD]`(目录条目 / 已立卡结论)/ `[OBS]`(观察者判断,带反例)/ `[OPEN]`(待核)/ `[RUN]`(隔离实测)；各册另有细分(`[PKG]` 包清单、`[SRC-*]` 目标仓源码)。每条断言都要挂一个，字面以该册的标签表为准。
 2. **三种数不可互证**:★(GitHub API,带时点)/ npm 近 30 天下载(含 CI 与镜像)/ 仓库边车快照(只作历史对照)。卡片页头必须写时点。
-3. **先过门,再立卡**:卡片数随「机制被验证」涨,不随名单涨。准入分别写在 `leverage/horizon.md`(三域)、`leverage-reshape-product/00-map.md` §7(三个 lever)、`leverage-lifecycle/00-map.md` §4(两道门:影响力 + 机制)。
-4. **骨架不随样本长**:每册的固定骨架由该册 `00-map` 定义(`README` 入口 + `00-map` 规则源 + `catalog` 清单为四册共有)；样本一律 `NN_` 编号、全书唯一,新增的是叶子。第四册的固定目录是 `reference/` `install/` `boot/` `config/` `first-run/` `negative/` `practice/` `research/`,样本按 1x 装 · 2x 起 · 3x 配 · 4x 首启 · 9x 反例 分段。
+3. **先过门,再立卡**:卡片数随「机制被验证」涨,不随名单涨。准入分别写在 `leverage/horizon.md`(两域)、`leverage-reshape-product/00-map.md` §7(三个 lever)、`leverage-lifecycle/00-map.md` §4(两道门:影响力 + 机制)。
+4. **骨架不随样本长**:每册的固定骨架由该册 `00-map` 定义(`README` 入口 + `00-map` 规则源 + `catalog` 清单为四册共有)；样本用两位编号、全书唯一（本层用 `NN_`、协作册用 `NN-`，以该册 `00-map` 为准）,新增的是叶子。第四册的固定目录是 `reference/` `install/` `boot/` `config/` `first-run/` `negative/` `practice/` `research/`,样本按 1x 装 · 2x 起 · 3x 配 · 4x 首启 · 9x 反例 分段。
 5. **不碰用户环境**:凡是有实测的册,实测必须在隔离 `DSH_HOME` 下完成,产物落在 `.work/`(已 gitignore)。
 
 ## 自包含边界
@@ -78,4 +78,4 @@ _leverage/
 node _leverage/verify.mjs
 ```
 
-**自包含的一支校验器**,只读 `_leverage/` 这一棵树:严格 UTF-8 / LF、相对链接与锚点、各册的 frontmatter 契约(路径绑定 `domain`:产品线 `reshape-product`、协作四域、杠杆两域、第四册 `lifecycle`)、产品线 `catalog.md` 与目录 Markdown 集合双向一致、第四册 `catalog.md` 同款双向一致、三个 lever README 卡表覆盖本 lever 全部编号卡、门槛数字与 `00-map` §7 同数、卡片页头影响力过门槛(或标"机制例外")。不读 `_digested/` 的脚本,也不依赖任何外部数据文件。
+**自包含的一支校验器**,只读 `_leverage/` 这一棵树:严格 UTF-8 / LF、相对链接与锚点、各册的 frontmatter 契约(路径绑定 `domain`:产品线 `reshape-product`、协作四家族 + 横向卷、杠杆两域、第四册 `lifecycle`)、四册 `catalog.md` 与各自目录的 Markdown 集合双向一致、三个 lever README 卡表覆盖本 lever 全部编号卡、门槛数字与 `00-map` §7 同数、卡片页头影响力过门槛(或标"机制例外")。不读 `_digested/` 的脚本,也不依赖任何外部数据文件。

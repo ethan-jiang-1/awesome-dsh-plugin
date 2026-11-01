@@ -2,7 +2,7 @@
 title: "TRAPS · 照抄就中招的十五条"
 domain: lifecycle
 kind: guide
-positioning: "从 25 张产品卡、15 张本册样本与两轮实测里抽出的十五种失败形态：症状、机制、反例、正确做法。"
+positioning: "从 25 张产品卡、15 张阶段样本（另有 1 张反例）与两轮实测里抽出的十五种失败形态：症状、机制、反例、正确做法。"
 read_when: "发布前自查；或排查“明明装好了却不对”的问题。"
 status: living
 updated: 2026-11-01

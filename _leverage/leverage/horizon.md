@@ -10,7 +10,7 @@ budget: 230
 ---
 # 研究对象怎么选:准入与分级
 
-> **状态**:`observed`(规则已经被四域成稿检验过) · **更新**:2026-10-31 · **基线**:名单 `main@efe602e7b` · DSH `0.2.1-rc.3`
+> **状态**:`observed`(规则已经被四册成稿检验过) · **更新**:2026-10-31 · **基线**:名单 `main@efe602e7b` · DSH `0.2.1-rc.3`
 > **一句话**:**不是抓到一个插件就琢磨。** 能进这份研究的条目,先要证明自己「有影响力」,再证明自己「有深度」,然后才分级;排不进 S/A 的,只配当反面教材或旁支脚注。
 
 ## 0. 纪律:没有「通过率」
@@ -25,7 +25,7 @@ budget: 230
 
 **计数不是证据。** 「全库只有 3 条」这类断言会随名单涨而失真;真要用,只能写成「截至 `<日期>`,人工回读所见」并标 `[OBS]`。
 
-**证据规格的单一源**：[`EVIDENCE.md`](../leverage-agent-collaboration/EVIDENCE.md)（样本 memo、章节“证据与边界”、`[SRC-*]` 标签与 `[OPEN]` 边界）。本文件只管准入与分级，不重复定义证据格式。
+**证据规格的单一源**：[`EVIDENCE.md`](./EVIDENCE.md)（机制卡/playbook 的“证据与边界”、`[SRC-*]` 标签与 `[OPEN]` 边界）；协作册样本的 memo 规程见 [`../leverage-agent-collaboration/EVIDENCE.md`](../leverage-agent-collaboration/EVIDENCE.md)。本文件只管准入与分级，不重复定义证据格式。
 
 ## 1. 入口条件(两组,缺一不立卡)
 
@@ -104,7 +104,9 @@ grep -rl "owner/repo" data/plugins | head
 
 `data/capabilities.json`(2026-09-24 静态扫描)。它说的是「会碰什么」,**不是「安不安全」,也不是「强不强」**。空披露要分两种情况写明:零依赖库/纯前端,还是扫描器没覆盖到。
 
-## 5a. 并行作业:主读单一归属
+## 5a. 并行作业:主读单一归属(历史契约,2026-11-01 协作域迁出)
+
+> **历史记录**：下表写的是拆册前的主读归属，保留作对照；`lever-cross-boundary` 一列现已由 [`../leverage-agent-collaboration/`](../leverage-agent-collaboration/README.md) 接管。
 
 四域曾由四个独立会话分头研究,因此**每份官方包、每个 S/A 级样本只能有一个主读域**。其他域可以「借用一句」写进自己的卡片,但不得深读、不得立卡。
 
@@ -127,13 +129,12 @@ grep -rl "owner/repo" data/plugins | head
 
 **「借用」的写法**:在自己卡片里直接引 `[DSH]`/`[CAT]` 原文,**不写「见某域」**。这样任何一域停更都不会让另一域的理由失效。
 
-## 5. 三域的专项条件(概括性优先)
+## 5. 两域的专项条件(概括性优先)
 
-> **产品线另册**：它的准入条件在 [`../leverage-reshape-product/00-map.md`](../leverage-reshape-product/00-map.md) §7/§8，不在此表。
+> **产品线另册**：它的准入条件在 [`../leverage-reshape-product/00-map.md`](../leverage-reshape-product/00-map.md) §7/§8；**协作域另册**：原 CROSS 的专项条件随样本迁至 [`../leverage-agent-collaboration/00-map.md`](../leverage-agent-collaboration/00-map.md) §4，均不在此表。
 
 | 域 | 入口条件之上,还要求 | 明确不收 |
 |---|---|---|
-| `lever-cross-boundary` | 必须跨**边界 1/2/3** 中可命名的一道;能说出**状态归谁、冲突谁裁、崩了谁收敛** | 子代理模型路由(那是 policy 钩子,只做旁支)、纯看板/活动球 |
 | `lever-prove-output` | 必须能指到**六环**中的一环,且**门禁位置可命名**(pre-execute / post-execute / pre-step / 持久化 flush / 独立验收器) | 提示词里写「请检查」的技能包、只统计不拦截的面板 |
 | `lever-draw-limit` | 必须落在**安装面/运行面/数据面**,且**强制点可命名**;纯披露的只能当旁证 | 密码保管类工具(除非它改了授权边界)、安全检查清单 |
 

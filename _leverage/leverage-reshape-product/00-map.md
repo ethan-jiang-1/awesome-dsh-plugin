@@ -11,7 +11,7 @@ budget: 280
 # 产品线宪章
 
 > **单一规则源。** [`README.md`](./README.md) 只做入口，[`horizon`](./horizon.md) 只做七层与接缝；**三条口径冲突时，以本文件为准**。
-> 与 [`../leverage/`](../leverage/README.md) 平级：那边回答"对上游的杠杆有多大"，这边只回答"**怎么把 DSH 装成产品**"；本目录不参与三域统计。
+> 与 [`../leverage/`](../leverage/README.md) 平级：那边回答"对上游的杠杆有多大"，这边只回答"**怎么把 DSH 装成产品**"；本目录不参与杠杆册的篇数统计。
 
 ---
 
@@ -19,7 +19,7 @@ budget: 280
 
 **收**：能改变"人怎么用它"的产品化样本——新入口、新首屏、新默认值、新身份、新分发/上手路径。
 
-**不收**：纯能力增强（多一个工具/provider）；只支持 `0.1.x` 的；上游代码本身的建议（去 `lever-draw-limit` / `lever-prove-output` / `lever-cross-boundary`）。
+**不收**：纯能力增强（多一个工具/provider）；只支持 `0.1.x` 的；上游代码本身的建议（去 `lever-draw-limit` / `lever-prove-output` / 协作册 `leverage-agent-collaboration`）。
 
 **不重复**：名单与生态统计在 `ecosystem/`；上游机制在 `mechanics/`；本目录只写"下游怎么把上游装成产品"。
 
@@ -79,7 +79,7 @@ leverage-reshape-product/
 | `2` | 内容形态（3/4 层） | 答案本身长什么样？ | plugin `21_` |
 | `3` | 驾驶舱（3 层） | 看不见的东西怎么被看见？ | plugin `31_` |
 | `4` | 上手（6 层） | 第一次打开看到什么？ | plugin `42_`–`43_`（`41_` 观察样本在 `_证据/`） |
-| `5` | 分发（7 层） | 从哪装、坏了怎么回？ | plugin `51_` |
+| `5` | 分发（7 层） | 从哪装、坏了怎么回？ | plugin `51_`–`52_` |
 | `6` | 多端（2/7 层） | 同一份 DSH 怎么上另一块屏？ | plugin `61_` |
 | `7` | 感官与模型（4 层） | 模型能感知什么？ | plugin `71_` |
 | `8` | 协作（4 层） | 一个会话怎么变成团队？ | plugin `81_` |
@@ -218,7 +218,7 @@ Q3 有插件入口，但产品不是插件？（如桌面应用的 in-page 半�
 | **改名** | 先全仓改链接，再改文件名；改完跑 `verify`；对外链接优先于内部整齐 |
 | **改口径** | 只改本文件与 `horizon.md`；各 lever README 是摘要，不重复定义 |
 | **同步上游** | 只改受影响卡的 `updated` 与 `[DSH]` 断言；`ecosystem/`、`_coverage/` 走原流程 |
-| **验证** | `node _leverage/verify.mjs`（自包含：两册 frontmatter/链接/锚点、产品线 catalog/卡表一致；profile 样本检查七列表头/列宽与固定 evidence memo 覆盖。仅结构门禁，不验证事实真伪或研究质量） |
+| **验证** | `node _leverage/verify.mjs`（自包含：四册 frontmatter/链接/锚点、产品线 catalog/卡表一致；profile 样本检查七列表头/列宽与固定 evidence memo 覆盖。仅结构门禁，不验证事实真伪或研究质量） |
 
 ## 11. 找样本、继续挖
 

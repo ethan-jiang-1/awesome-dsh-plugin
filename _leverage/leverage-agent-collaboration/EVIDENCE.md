@@ -26,9 +26,9 @@ updated: 2026-11-01
 
 **铁律**：`[DOC]` 不能升级成 `[SRC-TARGET]`；上游行为不能当成目标行为；未验证一律 `[OPEN]`，不写“已验证”。
 
-## 2. 样本卡（按家族归位，14 张起）
+## 2. 样本卡（按家族归位，17 张）
 
-每张 `lever-cross-boundary/samples/NN-*.md` 必须：
+每张 `<family>/samples/NN-*.md` 必须：
 
 1. **固定坐标**：repo、npm 包、精确版本、tag/commit（或说明为何无法对齐），最近核对日期；
 2. **链接 memo**：同家族 `_证据/NN-<slug>-源码复核.md`，并在卡头写“证据链”一行；
@@ -52,7 +52,7 @@ memo 最少包含：Provenance（npm↔tag↔commit 对齐/不对齐）、DOC �
 
 ## 4. 索引与门禁
 
-- 样本索引 `03-sample-encyclopedia.md` 的每行必须能点到样本卡与 memo；
+- 样本索引 [`encyclopedia.md`](./encyclopedia.md) 的每行必须能点到样本卡与 memo；
 - 顶层 `README`/`00-map`/`catalog`/`BORROW` 的计数以 `verify.mjs` 为准，不手写猜测；
 - `verify.mjs` 将强制：样本 memo 存在且被卡链接、章节含 `## 证据与边界` 且 ≥3 行、catalog 一行不多一行不少；
 - 负向测试：故意删 memo、删章节证据节、改坏表格列数，校验必须报错。

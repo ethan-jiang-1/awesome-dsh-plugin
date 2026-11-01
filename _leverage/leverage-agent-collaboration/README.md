@@ -24,7 +24,7 @@ updated: 2026-11-01
 
 | 卷 | 一句话问题 | 已有样本 |
 |---|---|---|
-| [delegation 主-子代理](./delegation/README.md) | 一次委派怎么发生、能不能续、结果怎么回 | 待补（DSH 契约先行） |
+| [delegation 主-子代理](./delegation/README.md) | 一次委派怎么发生、能不能续、结果怎么回 | 15/16/17 |
 | [teams 团队](./teams/README.md) | 多成员如何编队、调度、共享任务板 | 01/02/04/05/10/12 |
 | [pipelines 流水线](./pipelines/README.md) | 控制流怎么写、重放/暂停/幂等怎么做 | 03/11 |
 | [crossing 跨会话/实例/机器](./crossing/README.md) | handoff、broker、远端 worker、房间 | 06/08/09/13/14 |
@@ -48,5 +48,5 @@ updated: 2026-11-01
 
 ## 证据与边界
 
-- 迁移自 `leverage/lever-cross-boundary`；17 个样本与 memo 一一保留（见 [catalog](./catalog.md)）。
+- 迁移自 `leverage/lever-cross-boundary`：14 个既有样本与 memo 一一保留，另新增 15/16/17（见 [catalog](./catalog.md)）。
 - 证据规约：[EVIDENCE](./EVIDENCE.md)；本册仍在扩写，delegation/pipelines 的空白已列入 [00-map §9](./00-map.md#9-空白区后续批次)。

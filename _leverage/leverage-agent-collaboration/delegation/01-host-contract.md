@@ -34,14 +34,14 @@ updated: 2026-11-01
 ## 3. 权限在启动时固定
 
 - 子代理的权限范围在启动时固定，会话内不能扩大；需要审批的操作**自动拒绝**（`dsh-subagent/README.md:181,186`，注入的运行上下文声明）。
-- `agentOptions` 可覆盖 provider/model/reasoningEffort/outputTokens，但需要 provider 声明 `capabilities.agentOptions`（`types.d.ts:127-175`）。
+- `agentOptions` 可覆盖 provider/model/reasoningEffort/outputTokens，但需要 provider 声明 `capabilities.agentOptions`（`lib/types/types.d.ts:127-175`）。
 - `agentPreset` 可独立于父 composition；省略则加入父当前 preset；fork 与外部后端拒绝该选项（README:65）。
 
-**常见误解**：把 `persona` 当启动参数。rc.3 的 `SubagentStartRequest` 没有 `persona`/`toolFilter` 字段（`types.d.ts:127-175`）；`dsh-tool-subagent` 对 config persona 直接抛错（`lib/index.js:355`）。persona 的合法路径是 agent preset，冷恢复时从 descriptor v3 还原。
+**常见误解**：把 `persona` 当启动参数。rc.3 的 `SubagentStartRequest` 没有 `persona`/`toolFilter` 字段（`lib/types/types.d.ts:127-175`）；`dsh-tool-subagent` 对 config persona 直接抛错（`lib/index.js:355`）。persona 的合法路径是 agent preset，冷恢复时从 descriptor v3 还原。
 
 ## 4. 结果回传的三条通道
 
-1. **`activation.result`**：调用方 await 的最终结果；teardown 失败只影响 `dispose()`，不替换已捕获结果（`types.d.ts:40-51`）。
+1. **`activation.result`**：调用方 await 的最终结果；teardown 失败只影响 `dispose()`，不替换已捕获结果（`lib/types/types.d.ts:40-51`）。
 2. **父通知（settlement notice）**：`delivery:'parent'` 时，模型收到完成通知；通知可能重复，插件常做去重。
 3. **持久邮箱/会话事件**：本地 child 有 inbox，消息经 `agent/inbox/spliced` 持久化；但**不是**“结果自动进父邮箱”。
 
@@ -67,7 +67,7 @@ updated: 2026-11-01
 | `maxDepth` 默认 1、`maxActiveSubagents` 默认 8 | `[SRC-DSH]` | `dsh-subagent/lib/index.js:2979-2980` | zod 默认值；用户/配置可覆盖 |
 | 本地 child 可续、外部执行一次性 | `[SRC-DSH]`/`[DOC]` | README:59-61；`types.d.ts:25-51` | 外部 provider 的具体行为随实现 |
 | 权限启动时固定、需审批操作自动拒绝 | `[DOC]` | README:181,186（注入声明） | 未在真实审批场景实测 |
-| `SubagentStartRequest` 无 persona/toolFilter | `[SRC-DSH]` | `types.d.ts:127-175` | 冷恢复 descriptor v3 可还原 persona |
+| `SubagentStartRequest` 无 persona/toolFilter | `[SRC-DSH]` | `lib/types/types.d.ts:127-175` | 冷恢复 descriptor v3 可还原 persona |
 | 无 durable parent mailbox，父不在即拒 | `[SRC-DSH]`/`[DOC]` | README:207,212 | 只覆盖 in-process continuable child |
 | `agentPreset` 可独立，fork/外部拒绝 | `[DOC]` | README:65 | 具体 provider 能力需看 capabilities |
 

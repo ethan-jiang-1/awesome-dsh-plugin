@@ -235,52 +235,28 @@ for (const rel of mdFiles) {
   });
 }
 
-// ---------- 产品线 catalog：全量 Markdown 必须一行不多一行不少 ----------
+// ---------- 四册 catalog：全量 Markdown 必须一行不多一行不少 ----------
 const PRODUCT_ROOT = '_leverage/leverage-reshape-product/';
-const PRODUCT_CATALOG = PRODUCT_ROOT + 'catalog.md';
-if (mdFiles.includes(PRODUCT_CATALOG)) {
-  const text = readFileSync(join(repoRoot, PRODUCT_CATALOG), 'utf8');
+const LIFECYCLE_ROOT = '_leverage/leverage-lifecycle/';
+for (const root of [LEVERAGE_PREFIX, AGENT_PREFIX, PRODUCT_ROOT, LIFECYCLE_ROOT]) {
+  const catalog = root + 'catalog.md';
+  if (!mdFiles.includes(catalog)) continue;
+  const text = readFileSync(join(repoRoot, catalog), 'utf8');
   const listed = new Set();
-  const seen = new Map();
+  const seen = new Set();
   // 只把“表格行首列链接”视为目录条目，正文导航里的重复链接不算重复行。
   for (const line of text.split('\n')) {
     if (!/^\s*\|/.test(line)) continue;
     const first = line.match(/^\s*\|\s*\[`?[^\]]*`?\]\((\.\/[^)#\s]+\.md)\)/);
     if (!first) continue;
     const target = first[1].replace(/^\.\//, '');
-    if (seen.has(target)) {
-      fail(PRODUCT_CATALOG, null, `catalog 重复行：${target}`);
-    } else {
-      seen.set(target, true);
-    }
-    listed.add(target);
-  }
-  const files = mdFiles
-    .filter((f) => f.startsWith(PRODUCT_ROOT))
-    .map((f) => f.slice(PRODUCT_ROOT.length));
-  for (const f of files) if (!listed.has(f)) fail(PRODUCT_CATALOG, null, `catalog 缺行：${f}`);
-  for (const f of listed) if (!files.includes(f)) fail(PRODUCT_CATALOG, null, `catalog 多行：${f}`);
-}
-
-// ---------- 第四册 catalog：全量 Markdown 必须一行不多一行不少 ----------
-const LIFECYCLE_ROOT = '_leverage/leverage-lifecycle/';
-const LIFECYCLE_CATALOG = LIFECYCLE_ROOT + 'catalog.md';
-if (mdFiles.includes(LIFECYCLE_CATALOG)) {
-  const text = readFileSync(join(repoRoot, LIFECYCLE_CATALOG), 'utf8');
-  const listed = new Set();
-  const seen = new Set();
-  for (const line of text.split('\n')) {
-    if (!/^\s*\|/.test(line)) continue;
-    const first = line.match(/^\s*\|\s*\[`?[^\]]*`?\]\((\.\/[^)#\s]+\.md)\)/);
-    if (!first) continue;
-    const target = first[1].replace(/^\.\//, '');
-    if (seen.has(target)) fail(LIFECYCLE_CATALOG, null, `catalog 重复行：${target}`);
+    if (seen.has(target)) fail(catalog, null, `catalog 重复行：${target}`);
     else seen.add(target);
     listed.add(target);
   }
-  const files = mdFiles.filter((f) => f.startsWith(LIFECYCLE_ROOT)).map((f) => f.slice(LIFECYCLE_ROOT.length));
-  for (const f of files) if (!listed.has(f)) fail(LIFECYCLE_CATALOG, null, `catalog 缺行：${f}`);
-  for (const f of listed) if (!files.includes(f)) fail(LIFECYCLE_CATALOG, null, `catalog 多行：${f}`);
+  const files = mdFiles.filter((f) => f.startsWith(root)).map((f) => f.slice(root.length));
+  for (const f of files) if (!listed.has(f)) fail(catalog, null, `catalog 缺行：${f}`);
+  for (const f of listed) if (!files.includes(f)) fail(catalog, null, `catalog 多行：${f}`);
 }
 
 // ---------- 第四册样本卡：七列表 + 固定版本 memo ----------

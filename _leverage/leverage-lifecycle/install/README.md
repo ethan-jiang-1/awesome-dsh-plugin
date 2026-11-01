@@ -2,7 +2,7 @@
 title: "INSTALL · 阶段①：谁碰包管理器，什么算装上了"
 domain: lifecycle
 kind: playbook
-positioning: "三条安装通道、三种“成功”状态、版本门与离线安装；以及 24 张卡各自的通道分布。"
+positioning: "三条安装通道、三种“成功”状态、版本门与离线安装；以及 25 张产品卡里 24 张的装法通道分布。"
 takeaway: "安装有三个独立的成功：pnpm 成功、依赖写入、成为 profile 层；只有第三个才让功能存在。"
 read_when: "要定安装说明；或排查“装完了但功能不在”。"
 status: living
@@ -66,7 +66,7 @@ budget: 150
 - **允许但要写明**：只给 CLI 命令——必须标"仅 `dsh web`"。
 - **坑**：把 `--profile desktop` 写进说明（`profile/13` 卡头即如此，而 CLI 实测拒绝）；把非 bundle 包当插件发；只靠 `engines.dsh` 一条门（另一条宿主线上失效 `[CARD]`）。
 
-**本册样本补充**（15 张落地后）：
+**本册样本补充**（15 张阶段样本落地后）：
 
 - [`11_装后自证-cfbridge`](./11_装后自证-cfbridge.md)：五条自证命令，`files` 漏掉 `scripts/` → 对 npm 用户全 404。
 - [`12_让安装器认你-dsh-origin-plugin`](./12_让安装器认你-dsh-origin-plugin.md)：市场判"能装"看入口工件、判"活着"看 loader fiber。

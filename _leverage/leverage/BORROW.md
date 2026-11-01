@@ -2,7 +2,7 @@
 title: "怎么借：从这套研究里拿走东西"
 domain: layer
 kind: guide
-positioning: "跨域借用总入口：按需求路由到具体章节，并给出四域最小集、跨域法则与陷阱。"
+positioning: "跨域借用总入口：按需求路由到具体章节，并给出两域最小集、跨域法则与陷阱。"
 takeaway: "8 条任务路由 + 6 条跨域法则 + 7 个必答问题 + 19 个陷阱 + 回源五步。"
 read_when: "要写插件/做产品/做协作/做质量/做安全；或要评审、选型、回源、给官方提缺口。"
 status: living
@@ -20,11 +20,11 @@ budget: 420
 
 | 你有多久 | 读什么 | 会拿到 |
 |---|---|---|
-| **30 秒** | §2 四域最小充分集里你关心的那一行 | 这个方向「只做一件事」是什么 |
+| **30 秒** | §2 两域最小充分集里你关心的那一行 | 这个方向「只做一件事」是什么 |
 | **30 分钟** | §1 找到你的需求 → §3 六条法则 → §4 七个问题 | 判断框架 + 该抄什么 + 该躲什么 |
 | **半天** | 按 §1 的出处读一个域的宪章 + 2–3 张卡 + 坐标表 | 能动手的形状，以及哪里会塌 |
 
-**不要这样用**：不要拿它当推荐榜（`[CAT]` 只是作者自述）；不要跳过「反面」只读结论；不要把它当完整分类（四域是四个并列提问）；不要在没有坐标的情况下声称「某插件做到了」。
+**不要这样用**：不要拿它当推荐榜（`[CAT]` 只是作者自述）；不要跳过「反面」只读结论；不要把它当完整分类（四个方向是并列提问）；不要在没有坐标的情况下声称「某插件做到了」。
 
 ## 1. 按需求路由：八种需求，八个入口
 
@@ -52,9 +52,9 @@ budget: 420
 
 **答案**：协作是状态问题，不是 spawn 问题。先定权威状态在哪张纸上，再定冲突谁裁，最后定崩溃谁收敛；写冲突**只有** `tools/pre-execute` 返回 deny 真拦得住。
 
-- **先读**：[CROSS README](../leverage-agent-collaboration/00-map.md) 的「能借鉴什么」→ [CROSS-01](../leverage-agent-collaboration/coordination/01-taxonomy.md) 的四道边界。
+- **先读**：[协作册 00-map](../leverage-agent-collaboration/00-map.md) §3–§4 → [CROSS-01](../leverage-agent-collaboration/coordination/01-taxonomy.md) 的四道边界。
 - **再读**：[CROSS-02](../leverage-agent-collaboration/coordination/02-mechanisms.md) §5.5 的三张配方；[CROSS-07](../leverage-agent-collaboration/coordination/samples/07-Nwflower-dsh-file-claim.md) 的写冲突样本。
-- **拿到**：三笔税（状态 / 冲突 / 收敛）、配方 A/B/C、选型决策树、14 个样本坐标。
+- **拿到**：三笔税（状态 / 冲突 / 收敛）、配方 A/B/C、选型决策树、17 个样本坐标。
 - **必问**：你的租约有没有 epoch / fencing token？被接管时原主怎么知道自己已经输了？
 - **反例**：先写崩溃恢复，再发现状态存在两处 → 恢复逻辑重写一遍（CROSS-02 §5.5 的依赖顺序）。
 - **额外**：跨机把「谁在执行」与「谁持有连接」解耦（CROSS-06）；跨实例投递没有幂等键就是重复执行（CROSS-08）。
@@ -75,7 +75,7 @@ budget: 420
 
 - **先读**：[LIMIT README](./lever-draw-limit/README.md) 的「借法一览」→ [LIMIT-01](./lever-draw-limit/01-trust-layers.md) 的三层监管链。
 - **再读**：[LIMIT-09](./lever-draw-limit/09-control-budget.md) §9 的八个决定；按场景读 02（审批）/ 03（第二模型）/ 05（网络）/ 08（安装面）。
-- **拿到**：21 行「问题 → 抄哪条」、三层坐标、八个决定的施工图。
+- **拿到**：20 行「问题 → 抄哪条」、三层坐标、八个决定的施工图。
 - **必问**：强制点在哪条缝上？失效时是 fail-closed、fail-open 还是转人工？这三者写清楚了吗？
 - **反例**：把模型判定当授权（LIMIT-03）；判定器不可用就自动放行还不写出来（LIMIT-02）。
 
@@ -87,7 +87,7 @@ budget: 420
 - **再读**：该域 README 的样本坐标表；[PROVE-00](./lever-prove-output/00-sample-lineage.md)（要精确版本 / commit 时）。
 - **拿到**：版本、安装串、证据级别、已知失效条件。
 - **必问**：npm 上这个包名对应的是同一个仓库吗？（LIMIT README 记录了三个同名不同人的坑。）
-- **反例**：按星标选 → 4★ 有 3,103 次月下载、0★ 根本没上 npm（CROSS README 的影响力段）。
+- **反例**：按星标选 → 4★ 有 3,103 次月下载、0★ 根本没上 npm（CROSS-06 的影响力实测）。
 
 ### 1.7 我要评审别人的方案
 
@@ -108,7 +108,7 @@ budget: 420
 - **拿到**：repo / npm / 版本 / commit / 锚点文件 / 一条可复跑的 `curl`。
 - **必问**：你用 `main` 还是短 SHA？用 `main` 打开的代码三个月后是另一份（PROVE-00 的纪律）。
 - **反例**：没记 commit 的抓取 = 没抓（PROVE-00 §2 的两条自曝）。
-- **本册证据链**：14 张样本卡头部都有“证据链”指向 `_证据/NN-*-源码复核.md`（固定 npm/tag/commit 与偏差表）；15 张机制卡与 6 篇 playbook 末尾有“证据与边界”（`[DOC]/[SRC-TARGET]/[SRC-DSH]/[OBS]/[OPEN]`）。**引用任何机制断言前先读对应 memo/证据节**；README 主张不等于实现（见 [`EVIDENCE.md`](../leverage-agent-collaboration/EVIDENCE.md)）。
+- **本册证据链**：15 张机制卡与 4 篇 playbook 末尾都有“证据与边界”（`[DOC]/[SRC-TARGET]/[SRC-DSH]/[OBS]/[OPEN]`）；本册**没有样本卡**——14 张协作样本与其固定版本 memo 已随协作域迁出（[`../leverage-agent-collaboration/`](../leverage-agent-collaboration/README.md)）。**引用任何机制断言前先读对应证据节**；README 主张不等于实现（见 [`EVIDENCE.md`](./EVIDENCE.md)）。
 
 ## 2. 四个方向各自的最小充分集
 
@@ -126,7 +126,7 @@ budget: 420
 6. **版本锁不到就跳过**，不装近似版本；环境码「未包含 = 保持现状」（RESHAPE-4）。
 7. **宿主侧没有"宿主兜底"**：换成独立产品后，首启 / 分发 / 降级全归你（[RESHAPE-shell](../leverage-reshape-product/shell/README.md) §4）。
 
-### 2.2 [CROSS](../leverage-agent-collaboration/00-map.md) · 协作边界
+### 2.2 [CROSS](../leverage-agent-collaboration/00-map.md) · 协作边界（已迁册，保留指针）
 
 **只做一件事**：先定权威状态在哪张纸上。
 
@@ -136,7 +136,7 @@ budget: 420
 4. **消息 ack 放在「被 step 准入」那一刻**，不是投递成功那一刻（CROSS-01）。
 5. **租约必须有 epoch / fencing**，否则被接管方静默失锁（CROSS-02 配方 B）。
 6. **跨机把「谁在执行」与「谁持有连接」解耦**（CROSS-06）。
-7. **四态证据账本**：`CURRENT_OBSERVED / HISTORY_REPORTED / MISMATCH / UNAVAILABLE`（CROSS README）。
+7. **四态证据账本**：`CURRENT_OBSERVED / HISTORY_REPORTED / MISMATCH / UNAVAILABLE`（CROSS-09 四态账本）。
 
 ### 2.3 [PROVE](./lever-prove-output/README.md) · 质量门禁
 
@@ -194,8 +194,8 @@ budget: 420
 
 跨边界之后，你拿到的是「谁说的」，不是「你看到的」。所以状态要标来源，证据要分层，判决要绑定输入。
 
-- 出处：CROSS README 的四态证据账本 · PROVE-10 C9（声称 / 观测 / 决定）· LIMIT-01（披露 ≠ 策略 ≠ 强制 ≠ 判决）。
-- 反例：把成员自述的 `changedPaths` 当证据（CROSS README「六条别照抄」）。
+- 出处：CROSS-09 的四态证据账本 · PROVE-10 C9（声称 / 观测 / 决定）· LIMIT-01（披露 ≠ 策略 ≠ 强制 ≠ 判决）。
+- 反例：把成员自述的 `changedPaths` 当证据（CROSS-01 §3 的边界与税）。
 - 用法：任何跨进程/跨会话的数据，加一列「观察 / 报告 / 不一致 / 不可得」。
 
 ### 3.5 可逆性 > 预测 `[OBS]`
@@ -219,31 +219,31 @@ budget: 420
 - **租约必须带 epoch / fencing**（CROSS-02 配方 B）：没有它，原主要等到下一次写入被拒才知道自己输了。
 - **哈希链证「没被改」，不证「事是真的」**；连「文件被整个删掉」都证不了（PROVE-05）。
 - **沙箱是路径白名单，不提供原子性**；网络与进程不在它的词汇里（LIMIT-01 / LIMIT-04）。
-- **幂等键不能省**：没有幂等的重试通道，重投就是重复执行（CROSS README 五问 #5）。
+- **幂等键不能省**：没有幂等的重试通道，重投就是重复执行（协作册 `coordination/02` 七问 #7）。
 
 ## 4. 抄之前必答的七个问题
 
-> 这七问合起来，就是四域「评估清单」的交集。答不出的那一格，通常就是你以后会塌的那一格。
+> 这七问合起来，就是四个方向「评估清单」的交集。答不出的那一格，通常就是你以后会塌的那一格。
 
-| # | 问题 | 好答案长什么样 | 去哪看四域的答案 |
+| # | 问题 | 好答案长什么样 | 去哪看答案 |
 |---|---|---|---|
 | 1 | 它挂在哪条接缝 / 哪一层？ | 点名 `tools/pre-execute`、`agent/pre-step`、沙箱后端、HTTP 路由或安装流程 | RESHAPE-0 §4 · LIMIT README 强制点 · PROVE-01 六环 |
 | 2 | 它替换 / 接管了谁？撤掉它会怎样？ | 说得出被替换的对象，以及「撤掉后变松还是变紧」 | RESHAPE-5 · LIMIT-09 决定三 |
 | 3 | 它的判决能不能被推翻？谁有权推翻？ | 一票否决 / 可 steer / 只能报告，三选一并说明 | PROVE-10 Q3 · LIMIT-04 |
 | 4 | 失败时往哪倒？ | fail-closed / fail-open / 转人工，点名；解析失败也有归宿 | LIMIT-02 · PROVE-10 F4 · CROSS-02 配方 C |
 | 5 | 它凭什么算「完成」？证据能否被重放或定位？ | 绑定一次具体输入；别人能重放输入或定位日志某几行 | PROVE-01 · PROVE-05 · PROVE-08 |
-| 6 | 它收到的是观察还是报告？谁的状态是权威？ | 标出 `CURRENT_OBSERVED` / `HISTORY_REPORTED`，并指定唯一权威 | CROSS README 四态账本 · PROVE-10 C9 |
+| 6 | 它收到的是观察还是报告？谁的状态是权威？ | 标出 `CURRENT_OBSERVED` / `HISTORY_REPORTED`，并指定唯一权威 | CROSS-09 四态账本 · PROVE-10 C9 |
 | 7 | 什么条件下它会坏？坏了退化成什么？ | 具名失效路径（升级断裂、优先级暗战、绕过通道、依赖漂移） | 每张卡的「失败模式」节 |
 
 ## 5. 陷阱总表
 
-> 这些都是「读起来像能力、实际是空壳」的地方。四域已逐个核过；抄之前先看这一列。
+> 这些都是「读起来像能力、实际是空壳」的地方。四个方向已逐个核过；抄之前先看这一列。
 
 ### 5.1 假能力
 
 | 陷阱 | 真相 | 出处 |
 |---|---|---|
-| 「写范围 / 文件隔离」 | 官方 Team 的 `writeScopes` 自述「never block anything」；除 `file-claim` 外无人真拦 | CROSS-01 §3 · CROSS README |
+| 「写范围 / 文件隔离」 | 官方 Team 的 `writeScopes` 自述「never block anything」；除 `file-claim` 外无人真拦 | CROSS-01 §3 |
 | 「原子认领」 | `dsh-expert-mode` 的 taskboard 是「读 → 校验 → 整份覆写」，全仓无 `flock` / `O_EXCL` / `temp+rename` | CROSS-10 |
 | 「可恢复」 | `dsh_workflow` 是快照重跑；`team-gui` 重启后全部 interrupted——都不是断点续跑 | CROSS-02 §3.3 |
 | 「P2P 直连、零中转」 | 子代理只能被父唤醒；文件总线没有唤醒机制，投递仍要协调官再唤起一次 | CROSS-10 |
@@ -270,7 +270,7 @@ budget: 420
 
 | 陷阱 | 真相 | 出处 |
 |---|---|---|
-| 「星标 = 使用量」 | 4★ 有 3,103 次月下载、0★ 根本没上 npm；星标是滞后指标 | CROSS README · LIMIT README |
+| 「星标 = 使用量」 | 4★ 有 3,103 次月下载、0★ 根本没上 npm；星标是滞后指标 | CROSS-06 · LIMIT README |
 | 「npm 包名 = 仓库名」 | 三个同名不同人的坑；装之前先核 `package.json` 的 `repository` | LIMIT README |
 | 「目录内被引 = 影响力」 | A 门有撞词噪声（terminal / notification / schedule / calendar） | horizon §4 |
 | 「全库只有 N 条 / 命中率 0.x%」 | 名单一直在涨，这个数明天就变；它只说明**当时的描述文本**，不证明能力 | [horizon](./horizon.md) §4 |
@@ -300,7 +300,7 @@ budget: 420
 - **E 级反例只有 2 条真判**，其余失败模式来自官方限制推演（[horizon](./horizon.md) §7）。
 - **规格独立性问题**：所有验收契约（JSON spec / AC 命令 / SOP 目录）都可能由被判定者自己写；只有 `dsh-verify` 明说「review the spec separately」（[PROVE README](./lever-prove-output/README.md) 待答）。
 - **多门禁共存没有统一 deny 协议**：同时装 3 个门禁时，谁先判、被判者能否看到全部 deny 理由（[PROVE README](./lever-prove-output/README.md) 待答）。
-- **没有人给自己的租约加 epoch / fencing**：是成本问题，还是宿主没给可绕过的写面钩子？（[CROSS README](../leverage-agent-collaboration/00-map.md) 待答）
+- **没有人给自己的租约加 epoch / fencing**：是成本问题，还是宿主没给可绕过的写面钩子？（[协作册 00-map](../leverage-agent-collaboration/00-map.md) 待答）
 - **workflow 引擎的「可恢复」普遍是快照重跑**，不是断点续跑（[CROSS-03](../leverage-agent-collaboration/pipelines/samples/03-omdsh-dev-dsh_workflow.md)）。
 
 ### 6.3 方法缺口

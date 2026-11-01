@@ -35,7 +35,7 @@ updated: 2026-11-01
 | `dsh-subagent` 深度 | `maxDepth=1` | 只允许直接子代理；显式 depth 可覆盖 |
 | `dsh-subagent` 容量 | `maxActiveSubagents=8` | 每棵 activation 树共享；根父不占槽；耗尽不排队 |
 | 团队成员上限 | 各样本不同（如 `maxMembers=8`） | 是 roster 上限，不自动等于并发上限 |
-| `dsh-expert-mode` | 17 行但 `maxActiveSubagents=8` | 17 个专家不可能同时活跃，队列由宿主拒绝 |
+| `dsh-expert-mode` | 17 行但 `maxActiveSubagents=8`（rc.3 无 preset 声明、静默不挂载，此行只记设计意图） | 17 个专家不可能同时活跃，队列由宿主拒绝；rc.3 上该包不生效 |
 
 ## 4. 借用与判定
 

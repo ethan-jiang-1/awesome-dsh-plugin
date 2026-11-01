@@ -51,17 +51,17 @@ budget: 170
 7. **启动体验不必另造 launcher。** 首屏注入、预置会话、工作区都在 host 服务层（`webServer.tapIndex`、`agents.create`、`workspaceRegistry.create`），写在 bundle 里的插件即可，天然跨面。`[RUN]`
 
 8. **机制做得对，不等于产品成立。** 本册唯一「机制过门、影响力不过」的样本放在 [`negative/91`](./negative/91_机制对但没人用-dsh-bootstrap.md)——它的机制值得抄，但它回答了用户不会问的问题。**门槛的意义就是承受这种误伤。**
-### 15 张样本落地后的三个跨样本发现
+### 15 张阶段样本 + 1 张反例落地后的三个跨样本发现
 
-1. **"说明与包体不一致"是装阶段的结构性风险。** 四张装阶段的卡里，三张（`install/11`、`install/13`、`install/14`）都源于"文档承诺的东西在包里/在语义上不成立"。它不是个别疏忽，已进 [`TRAPS` 第 14 条](./practice/TRAPS.md)。
+1. **"说明与包体不一致"是装阶段的结构性风险。** 四张装阶段的卡里，三张（`install/11`、`install/13`、`install/14`）都源于"文档承诺的东西在包里/在语义上不成立"。它不是个别疏忽：11/13 的「安装器不在包里」进 [`TRAPS` 第 14 条](./practice/TRAPS.md)，14 的覆盖行语义另见该卡与 TRAPS 相关条。
 2. **`input` 陷阱有两个互不相关的样本独立复现。** [`first-run/42`](./first-run/42_命令即验收面-dsh-tool-guardian.md) 与 [`boot/25`](./boot/25_装完还要一步-dsh-context-guardian.md) 都写明：不写 `input`，带参命令会被当成提问发给模型；后者还带了实机观察日期。**两个独立样本指向同一条宿主行为，可信度高于单点注释。**
 3. **冲突处理的分野是"换 id 还是覆盖"。** [`first-run/43`](./first-run/43_预置工作区与自有会话-dsh-24pa.md) 选择换 id + 通知（历史保留），[`config/32`](./config/32_三档接管-dsh-free-search.md) 选择让路不碰，[`boot/24`](./boot/24_事务式修复-dsh-doctor.md) 选择降级为人工——**三者都拒绝"悄悄覆盖"。**
 
 ## 4. 怎么读
 
 | 我要… | 先读 |
-| 手上有具体需求，不想通读 | [`BORROW`](./BORROW.md) | 按需求路由 + 三条"别抄" |
 |---|---|
+| 手上有具体需求，不想通读 | [`BORROW`](./BORROW.md)（按需求路由 + 三条"别抄"） |
 | 直接拿一条能写进 README 的装法 | [`REFERENCE`](./reference/REFERENCE.md) §2 |
 | 搞清 Desktop 为什么和 web 不一样 | [`SURFACES`](./reference/SURFACES.md) |
 | 给自己产品做发布前自检 | [`practice/CHECKLIST`](./practice/CHECKLIST.md) |
@@ -74,13 +74,14 @@ budget: 170
 |---|---|
 | `[DSH]` | 上游发行物内可核，写到包 + 文件:行号（本册基线 `@deepseek-ai/dsh@0.2.1-rc.3`） |
 | `[RUN]` | 本轮隔离实测，环境见下；只证明该环境下的行为 |
+| `[PKG]` | npm 包清单事实：包名 + 版本 + 字段（如 `dsh.bundle` / `dsh.client`），不证明行为 |
 | `[CARD]` | 引自产品线 25 张样本卡，按该卡页头标注的证据成熟度计，不升级 |
 | `[OBS]` | 观察者判断，必须带反例或失效条件 |
 | `[OPEN]` | 未复核 |
 
 **实测环境**：macOS · Node `v22.23.1` · pnpm `12.5.1` · `@deepseek-ai/dsh@0.2.1-rc.3` · **隔离 `DSH_HOME`**（`.work/feas/home`）。全过程未触碰真实 `~/.dsh` 的 profile、凭据与会话。
 
-**样本卡的证据级别**：**4 张已到实测级**——[`install/11`](./install/11_装后自证-cfbridge.md)、[`install/13`](./install/13_三条安装路径与空安装器-dsh-free-models-hub.md)、[`boot/21`](./boot/21_启动期注入-dsh-rhine-splash.md)、[`config/31`](./config/31_全禁状态-dsh-isolation-gate.md)；其余 11 张为源码级。实测记录见 [`_证据/03`](./_证据/03_样本实测记录.md)。
+**样本卡的证据级别**：**4 张已到实测级**——[`install/11`](./install/11_装后自证-cfbridge.md)、[`install/13`](./install/13_三条安装路径与空安装器-dsh-free-models-hub.md)、[`boot/21`](./boot/21_启动期注入-dsh-rhine-splash.md)、[`config/31`](./config/31_全禁状态-dsh-isolation-gate.md)；其余 11 张阶段样本为源码级；另有 [`negative/91`](./negative/91_机制对但没人用-dsh-bootstrap.md) 反例一张（源码级，不计入四阶段样本）。实测记录见 [`_证据/03`](./_证据/03_样本实测记录.md)。
 
 **Desktop 面是源码级**：本机无 `desktop` profile、无 Electron 应用，Desktop 相关结论一律按 `[DSH]` 计，不冒充实测。这条边界写在 [`SURFACES`](./reference/SURFACES.md) 页头。
 

@@ -13,7 +13,7 @@ budget: 320
 
 > **标语**:*Where is the gate that turns "looks done" into "proven"?* —— 质量是门禁位置，不是评审力度。
 > **状态**:`observed`(机制已核) · **基线**:DSH `0.2.1-rc.3` · 名单 @ `efe602e7b`
-> **作业区**:**本目录自足、可独立开工**。只读共享件,不写共享件;不引用其他域的结论,不等待其他域的进度。四域并行契约见 [`../README.md`](../README.md#两域并行作业契约)。
+> **作业区**:**本目录自足、可独立开工**。只读共享件,不写共享件;不引用其他域的结论,不等待其他域的进度。两域并行作业契约见 [`../README.md`](../README.md#两域并行作业契约)。
 > **借阅入口**:想抄 → [64 条原则](./10-quality-control-playbook.md#7-可借鉴可搬走的原则总表本域的核心产出) · 想选型 → [选择要求](#选择要求) · 想评审 → [八问检查顺序](./10-quality-control-playbook.md#8-一份可执行的检查顺序) · 想回源 → [精确坐标](#精确坐标重新挖掘的入口) · 跨域 → [BORROW](../BORROW.md)
 > **规则源**:准入/分级以 [`horizon`](../horizon.md) 为准;本域的准入副本是摘要。
 > **全量卡片**:本表是精选;全部文件(kind/定位/能拿走什么/何时读)见 [`catalog`](../catalog.md)。
@@ -115,7 +115,7 @@ budget: 320
 
 **C 级(反例格,只在失败模式表里出现一行)**:`XiaoOu2024/dsh-self-review`(`llm/stream` 扣留,同时提供「`turn-stopping` 有没有 modelOutput」的否定式机制证据)。
 
-**借用但非主读**(只可一句引用,不深读、不立卡):`dsh-sandbox-policy`、`dsh-experimental-auto-review`(主读均在 `lever-draw-limit`,本域仅在 [06](./06-judge-placement.md) §3.4 引一句「判动作可以真拦,判文本只能追赶」)、`dsh-experimental-agent-team`(主读在 `lever-cross-boundary`,本域仅在 [02](./02-goal-gate-hard-floor.md) 引一句 `writeScopes` 只是提示)。
+**借用但非主读**(只可一句引用,不深读、不立卡):`dsh-sandbox-policy`、`dsh-experimental-auto-review`(主读均在 `lever-draw-limit`,本域仅在 [06](./06-judge-placement.md) §3.4 引一句「判动作可以真拦,判文本只能追赶」)、`dsh-experimental-agent-team`(主读在 [`../../leverage-agent-collaboration/`](../../leverage-agent-collaboration/README.md)，本域仅在 [02](./02-goal-gate-hard-floor.md) 引一句 `writeScopes` 只是提示)。
 
 ### 精确坐标(重新挖掘的入口)
 
@@ -190,12 +190,12 @@ budget: 320
 
 ## 边界契约(声明式,不依赖他域进度)
 
-四域并行研究时,**归属是事先划定的,不是商量出来的**。本域遇到下列情形只写划给自己的那一半,另一半留给它的归属域;若那一边尚未产出,本域照写,不等待、不代笔。
+两域并行（协作/产品为另册）时,**归属是事先划定的,不是商量出来的**。本域遇到下列情形只写划给自己的那一半,另一半留给它的归属域;若那一边尚未产出,本域照写,不等待、不代笔。
 
 | 情形 | 归属 | 本域只写到哪 |
 |---|---|---|
 | **拦截**危险命令、沙箱与审批策略 | `lever-draw-limit` | 只写「这里有个门禁」,不写权限词汇与强制点 |
-| 成员之间的消息、任务归属、失败收敛 | `lever-cross-boundary` | 不写 |
+| 成员之间的消息、任务归属、失败收敛 | `../leverage-agent-collaboration/` | 不写 |
 | 证据用于**追责 / 合规** | 本域只写「存在性与可复核」 | 强制性、监管链归 `lever-draw-limit` |
 | 成本/用量面板 | `lever-reshape-product` | 除非它触发了拦截 |
 | 权限档作为产品默认值 | `lever-reshape-product` | 不写 |
@@ -206,7 +206,7 @@ budget: 320
 
 > 快照 **2026-10-31** · 名单 @ `efe602e7b` · DSH `0.2.1-rc.3`。**本域只引用这份快照读到的事实,不维护统计口径。**
 
-四域重叠是正常的:本域与 RESHAPE / CROSS / LIMIT 都有样本交集。四域是**四个并列的提问**,不是互斥分类——独立性靠「编辑权 + 主读归属 + 不依赖他域结论」保证,不靠样本不重叠。
+样本重叠是正常的:本域与产品线 / 协作册 / LIMIT 都有样本交集。四个方向是**并列的提问**,不是互斥分类——独立性靠「编辑权 + 主读归属 + 不依赖他域结论」保证,不靠样本不重叠。
 
 ## 复核方式
 

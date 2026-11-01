@@ -12,7 +12,8 @@ updated: 2026-11-01
 | 文件 | kind | 定位 | 什么时候读 |
 |---|---|---|---|
 | [`README.md`](./README.md) | index | 本册入口：四家族与迁移说明。 | 第一次进本册。 |
-| [`00-map.md`](./00-map.md) | charter | 本册宪章：四道边界、三笔税、选型与样本坐标（迁移中）。 | 要判断一个协作方案属于哪类。 |
+| [catalog.md（本文件）](./catalog.md) | index | 全部 Markdown 的 kind、定位与阅读时机（本文件手工维护）。 | 想一次看全所有文件，或按关键词找入口。 |
+| [`00-map.md`](./00-map.md) | charter | 本册宪章：四道边界、三笔税、选型与样本坐标。 | 要判断一个协作方案属于哪类。 |
 | [`EVIDENCE.md`](./EVIDENCE.md) | guide | 本册证据规约：样本 memo、章节证据节、分源标签。 | 新增/修订样本或章节前。 |
 | [`BORROW.md`](./BORROW.md) | guide | 按家族路由的借用入口。 | 要选型或评审协作方案。 |
 | [`coordination/01-taxonomy.md`](./coordination/01-taxonomy.md) | playbook | 四道边界与三笔税的总览（迁移自旧 01）。 | 要理解协作边界与代价。 |
@@ -20,7 +21,7 @@ updated: 2026-11-01
 | [`coordination/04-conflict-adjudication.md`](./coordination/04-conflict-adjudication.md) | card | 拦截点阶梯与真裁决代价。 | 设计写冲突方案。 |
 | [`coordination/05-failure-and-selection.md`](./coordination/05-failure-and-selection.md) | card | 三类失败 + 选型矩阵 + 七问。 | 选型与评审。 |
 | [`coordination/02-mechanisms.md`](./coordination/02-mechanisms.md) | playbook | 九家样本的机制谱与三张配方（迁移自旧 02）。 | 要比较状态/冲突/收敛的具体做法。 |
-| [`encyclopedia.md`](./encyclopedia.md) | index | 14 个样本的同表对照。 | 要横向比较多个协作样本。 |
+| [`encyclopedia.md`](./encyclopedia.md) | index | 17 个样本的同表对照。 | 要横向比较多个协作样本。 |
 | [`delegation/01-host-contract.md`](./delegation/01-host-contract.md) | playbook | dsh-subagent 深度/容量/权限/结果契约。 | 设计主-子委派。 |
 | [`delegation/samples/15-Garybot126-dsh-subagent-models.md`](./delegation/samples/15-Garybot126-dsh-subagent-models.md) | sample | 子代理模型统一设置样本。 | 要统一子代理模型。 |
 | [`delegation/_证据/15-subagent-models-源码复核.md`](./delegation/_证据/15-subagent-models-源码复核.md) | evidence | 15 的固定版本复核。 | 引用 15 前核对。 |
@@ -76,4 +77,4 @@ updated: 2026-11-01
 | [`teams/_证据/10-expert-mode-源码复核.md`](./teams/_证据/10-expert-mode-源码复核.md) | evidence | 10-expert-mode-源码复核.md 固定版本复核。 | 引用样本断言前核对来源。 |
 | [`teams/_证据/12-eteams-源码复核.md`](./teams/_证据/12-eteams-源码复核.md) | evidence | 12-eteams-源码复核.md 固定版本复核。 | 引用样本断言前核对来源。 |
 
-> 章节扩写后继续补行；本表与 `verify.mjs` 的一致性在 Phase 5 接管。
+> 章节扩写后继续补行；本表由 `verify.mjs` 与目录 Markdown 集合双向核对。

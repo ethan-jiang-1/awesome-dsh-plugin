@@ -88,7 +88,7 @@ budget: 190
 
 1. **禁止把 `dsh plugin --profile desktop add ...` 当安装说明。** 普通 CLI 直接被拒（见 [`SURFACES`](./SURFACES.md) §2）。
 2. **禁止在文档里只写 `--profile web` 且不提 Desktop。** 这正是本册存在的理由。
-3. **禁止用 `$DSH_HOME/cordis.patch.yml` 给所有 profile 供货。** 它能覆盖行，不能提供包；插入未安装的包会 `ERR_MODULE_NOT_FOUND` 且不阻塞启动，表现为"功能静默缺失" `[RUN]`。
+3. **禁止用 `$DSH_HOME/cordis.patch.yml` 给所有 profile 供货。** 它能覆盖行，不能提供包；插入未安装的包会 `ERR_MODULE_NOT_FOUND`，表现为"功能静默缺失"；只有该行不是 `required` 时才降为告警，`required` 行会启动失败 `[RUN]` `[DSH]`。
 4. **禁止把"装完 exit 0"当安装成功。** 三态见 [`INSTALL`](../install/README.md) §2。
 
 ## 6. 为什么这条算"被认可"

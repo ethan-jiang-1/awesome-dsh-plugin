@@ -11,7 +11,7 @@ budget: 220
 # `leverage-reshape-product/` · 产品线(另册)
 
 > **标语**:*From a plugin to a profile to an app.* —— 产品的单位，从插件到 profile 到应用。
-> **和 `leverage/` 平级**：`leverage/` 回答"对上游的杠杆有多大"（协作 / 质量 / 安全三域）；本目录只回答"**怎么把 DSH 装成产品**"。
+> **和 `leverage/` 平级**：`leverage/` 回答"对上游的杠杆有多大"（质量 / 安全两域；协作另册）；本目录只回答"**怎么把 DSH 装成产品**"。
 > **范围**：三个 lever，25 张正式样本卡与 1 个观察样本；指标快照覆盖 26 个对象。研究规程与逐文件状态见 [`catalog`](./catalog.md)。
 > **状态**：`living`（随样本增长） · 基线 DSH `0.2.1-rc.3` · 名单 @ `efe602e7b` · **指标 2026-10-31 重采**（快照见 [`_证据/指标快照-2026-10-31.json`](./_证据/指标快照-2026-10-31.json)）
 
@@ -104,7 +104,7 @@ Q2 交付的是"一块能力"，还是"一整套产品形态"？
 
 ## 6. 文件约定
 
-**每一篇都有 frontmatter**，`verify.mjs` 校验九个键（`title` / `domain` / `kind` / `positioning` / `takeaway` / `read_when` / `status` / `updated` / `budget`）。这里只留三条：
+**每一篇都有 frontmatter**，`verify.mjs` 硬校验七个必填键（`title` / `domain` / `kind` / `positioning` / `read_when` / `status` / `updated`）；`takeaway` 按 kind 条件必填，`budget` 可选。这里只留三条：
 
 1. **`domain` 固定 `reshape-product`**，与路径绑定；`kind` 为 `sample` / `card` / `playbook` 时必须有 `takeaway` + 借用节；**`sample` 正文最前必须有「它想干什么 · 为什么值得借鉴」**（意图 / 意义 / 用户价值 / 表达），`verify.mjs` 硬校验——先回答"为什么要看它"，再进机制。
 2. **不放会漂的数字**（星标/下载/版本/基线日期）——留在正文页头，带时点。
@@ -149,12 +149,12 @@ node _leverage/verify.mjs
 
 该脚本检查 Markdown 编码/链接/frontmatter、catalog/card 双向覆盖及 profile 样本第 5 节七列表结构和源码复核 memo 是否存在。它不判断研究主张是否真实、来源范围是否充分或洞察是否具备迁移价值；这些仍按 [RESEARCH](./RESEARCH.md) 人工反向审查。
 
-`_leverage/verify.mjs` 是**自包含**的校验器，只读 `_leverage/` 这一棵树（不依赖 `_digested/` 的脚本或数据）：严格 UTF-8、LF、相对链接与锚点、frontmatter 契约（domain 固定 `reshape-product`）、`sample` 必须有借鉴节；另外校验本册 `catalog.md` 与本目录 Markdown 集合双向一致、三个 lever README 卡表覆盖本 lever 全部编号卡、门槛数字与 `00-map` §7 同数、卡片页头影响力过门槛（或标"机制例外"）。`leverage/` 三域由同一支校验器一并覆盖。
+`_leverage/verify.mjs` 是**自包含**的校验器，只读 `_leverage/` 这一棵树（不依赖 `_digested/` 的脚本或数据）：严格 UTF-8、LF、相对链接与锚点、frontmatter 契约（domain 固定 `reshape-product`）、`sample` 必须有借鉴节；另外校验本册 `catalog.md` 与本目录 Markdown 集合双向一致、三个 lever README 卡表覆盖本 lever 全部编号卡、门槛数字与 `00-map` §7 同数、卡片页头影响力过门槛（或标"机制例外"）。四册 catalog 双向一致与本册的卡表/门槛/memo 由同一支校验器覆盖。
 
 ## 与 `leverage/` 的边界
 
-- **独立成册**：本目录的文件不计入 `leverage/` 的三域篇数与统计，`leverage/` 的 `catalog.md` 也不再列这里的卡。
-- **交叉只在结论层**：`lever-cross-boundary` 看协作插件跨的边界，`lever-prove-output` 看门禁，`lever-draw-limit` 看权限；本线只回答"**怎么把它装成一个产品**"，不重复它们的机制分析。
+- **独立成册**：本目录的文件不计入杠杆册的篇数与统计，`leverage/` 的 `catalog.md` 也不再列这里的卡。
+- **交叉只在结论层**：协作册（`leverage-agent-collaboration`）看跨边界，`lever-prove-output` 看门禁，`lever-draw-limit` 看权限；本线只回答"**怎么把它装成一个产品**"，不重复它们的机制分析。
 - **共享文件只读**：`../leverage/00-map.md`、`horizon.md`、`README.md`、`data/` 由别的会话维护，本线只调用。
 
 ## 与 `leverage-lifecycle/` 的边界

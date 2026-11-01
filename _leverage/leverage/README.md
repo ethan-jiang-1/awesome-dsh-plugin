@@ -59,7 +59,7 @@ DSH 的扩展面是有限、可枚举的:seam(fs/shell/sandbox/llm/subagent/work
 | `guide` | 借用总入口 | [BORROW](./BORROW.md) |
 | `playbook` | 横向框架/手册 | [PROVE-10](./lever-prove-output/10-quality-control-playbook.md)、[LIMIT-09](./lever-draw-limit/09-control-budget.md)；协作册见 [`coordination`](../leverage-agent-collaboration/coordination/README.md) |
 | `card` | 一个机制/环节/控制点一篇 | [PROVE-05](./lever-prove-output/05-custody-chain.md)、[LIMIT-03](./lever-draw-limit/03-second-model.md) |
-| `sample` | 一个样本一篇 | [PROVE-02](./lever-prove-output/02-goal-gate-hard-floor.md)、[LIMIT-02](./lever-draw-limit/02-approval-budget.md) |
+| `sample` | 一个样本一篇 | **本册无样本卡**（样本已随协作域迁出，见 [`../leverage-agent-collaboration/`](../leverage-agent-collaboration/README.md)） |
 | `evidence` | 原始摘录,只作溯源 | 各域 `_证据/`（产品线的证据在 [`../leverage-reshape-product/`](../leverage-reshape-product/README.md)） |
 
 ## 4. 两个域：两个并列的问题（+ 协作册 / 产品线另册）
@@ -68,7 +68,7 @@ DSH 的扩展面是有限、可枚举的:seam(fs/shell/sandbox/llm/subagent/work
 
 | 域 | 一句话问题 | 分析单位 |
 |---|---|---|
-| [**产品线（另册）**](../leverage-reshape-product/README.md) | 从插件到 profile 到独立壳，怎么把 DSH 装成产品 | 19 张样本卡（不参与本层统计） |
+| [**产品线（另册）**](../leverage-reshape-product/README.md) | 从插件到 profile 到独立壳，怎么把 DSH 装成产品 | 25 张样本卡（不参与本层统计） |
 | [PROVE](./lever-prove-output/README.md) | 门禁装在哪一环,产物凭什么算完成 | 一个门禁位置(一环一卡) |
 | [LIMIT](./lever-draw-limit/README.md) | 谁能碰什么,由谁强制,留下什么证据 | 一个控制点/预算(一卡一样本) |
 
@@ -100,17 +100,17 @@ node _leverage/verify.mjs # frontmatter / 链接 / 锚点
 
 ## 6. 文件约定
 
-**每一篇都有 frontmatter**,`verify.mjs` 校验九个键(`title` / `domain` / `kind` / `positioning` / `takeaway` / `read_when` / `status` / `updated` / `budget`)。完整定义与写入规则在 [00-map §文件约定](./00-map.md),这里只留三条:
+**每一篇都有 frontmatter**,`verify.mjs` 硬校验七个必填键(`title` / `domain` / `kind` / `positioning` / `read_when` / `status` / `updated`)；`takeaway` 按 kind 条件必填，`budget` 可选。完整定义与写入规则在 [00-map §文件约定](./00-map.md),这里只留三条:
 
 1. **不放会漂的数字**(星标/下载/版本/基线日期)——留在正文页头。
 2. **`card` / `sample` 必须有借用节**(标题含 借鉴/搬走/借用/照抄/食谱/配方/移植),否则 verify 失败。
 3. **规则只有一个源**:准入/分级看 [horizon](./horizon.md);两域 README 里的副本是摘要,冲突以源为准。
 
-**新增文件命名**:`<域>/NN-<ascii-slug>.md`;一样本一篇放 `<域>/samples/NN-<owner>-<repo>.md`。编号域内递增、不复用、不重排;退役保留编号改 `status`。**老文件不改名**(外部引用与锚点稳定)。
+**新增文件命名**:`<域>/NN-<ascii-slug>.md`；本册不再新增样本卡（样本规程在协作册）。编号域内递增、不复用、不重排;退役保留编号改 `status`。**老文件不改名**(外部引用与锚点稳定)。
 
 ## 7. 证据、坐标与深度
 
-> **证据规矩的单一源**：[`EVIDENCE.md`](../leverage-agent-collaboration/EVIDENCE.md)。它把本节四个标签细化为 `[DOC]`/`[SRC-TARGET]`/`[SRC-DSH]`/`[TEST]`/`[CI]`/`[RUN]`/`[OBS]`，并规定样本必须有固定版本 memo、机制卡必须有“证据与边界”。审计进度见 [`AUDIT.md`](./AUDIT.md)。
+> **证据规矩的单一源**：[`EVIDENCE.md`](./EVIDENCE.md)。它把本节四个标签细化为 `[DOC]`/`[SRC-TARGET]`/`[SRC-DSH]`/`[TEST]`/`[CI]`/`[RUN]`/`[OBS]`，并规定机制卡必须有“证据与边界”；协作册样本的 memo 规程见 [`../leverage-agent-collaboration/EVIDENCE.md`](../leverage-agent-collaboration/EVIDENCE.md)。审计进度见 [`AUDIT.md`](./AUDIT.md)。
 
 **四个基础标签**(每条结论至少标一个):
 
@@ -179,7 +179,7 @@ node _leverage/verify.mjs # frontmatter / 链接 / 锚点 / 编码
 
 ## 两域并行作业契约
 
-> **已归档**:四个域已经收工,本节只解释「为什么四份宪章的写法不一样」,并保留给引用它的域 README。日常阅读不需要它。
+> **已归档**:两域已经收工（协作域 2026-11-01 另册，产品线另册），本节只解释「为什么几份宪章的写法不一样」,并保留给引用它的域 README。日常阅读不需要它。
 
 两域曾由三个彼此独立的会话分头研究。独立性靠结构,不靠约定:
 

@@ -43,7 +43,7 @@ budget: 170
 - `lib/plugin-BiveYA7h.js:10-12`:必须先打开官方桌面应用初始化,并**完全退出**才能 `dsh plugin --profile desktop`
 - `lib/profile-boot-C14i-8IN.js:154`:`--from-default-profile` 只接受**出厂模板名**,自定义 profile 不能冒用
 
-于是第三方宿主只有三条路,本 lever 的六张卡正好各占一条:
+于是第三方宿主有四条路,本 lever 的六张卡分布在这四条路上:
 
 | 路线 | 做法 | 样本 |
 |---|---|---|
