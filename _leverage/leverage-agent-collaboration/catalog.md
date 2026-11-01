@@ -24,6 +24,10 @@ updated: 2026-11-01
 | [`delegation/01-host-contract.md`](./delegation/01-host-contract.md) | playbook | dsh-subagent 深度/容量/权限/结果契约。 | 设计主-子委派。 |
 | [`delegation/samples/15-Garybot126-dsh-subagent-models.md`](./delegation/samples/15-Garybot126-dsh-subagent-models.md) | sample | 子代理模型统一设置样本。 | 要统一子代理模型。 |
 | [`delegation/_证据/15-subagent-models-源码复核.md`](./delegation/_证据/15-subagent-models-源码复核.md) | evidence | 15 的固定版本复核。 | 引用 15 前核对。 |
+| [`delegation/samples/16-tkaiz0406-dsh-subagent-route-pin.md`](./delegation/samples/16-tkaiz0406-dsh-subagent-route-pin.md) | sample | provider 包装 + startActivation 钩子钉 child 路由。 | 需要创建前选路由。 |
+| [`delegation/_证据/16-route-pin-源码复核.md`](./delegation/_证据/16-route-pin-源码复核.md) | evidence | 16 的固定版本复核。 | 引用 16 前核对。 |
+| [`delegation/samples/17-aleskxyz-dsh-subagent-fork-lite.md`](./delegation/samples/17-aleskxyz-dsh-subagent-fork-lite.md) | sample | 截断 fork 的 seed 窗口。 | 控制 fork 继承上下文。 |
+| [`delegation/_证据/17-fork-lite-源码复核.md`](./delegation/_证据/17-fork-lite-源码复核.md) | evidence | 17 的固定版本复核。 | 引用 17 前核对。 |
 | [`delegation/README.md`](./delegation/README.md) | index | delegation 家族入口与样本索引。 | 要做 delegation 相关设计。 |
 | [`teams/01-roster-and-captain.md`](./teams/01-roster-and-captain.md) | card | roster 权威位置、成员模型与队长角色。 | 设计团队成员模型。 |
 | [`teams/02-scheduling.md`](./teams/02-scheduling.md) | card | idle 边沿、原子认领与容量/深度。 | 设计唤醒与任务认领。 |
@@ -37,6 +41,9 @@ updated: 2026-11-01
 | [`crossing/03-remote-worker-trust.md`](./crossing/03-remote-worker-trust.md) | card | 远端 loop、hub 能力与凭证边界。 | 设计跨机执行。 |
 | [`crossing/05-rooms-and-persistence.md`](./crossing/05-rooms-and-persistence.md) | card | 房间权威、fact 禁写与游标。 | 设计跨会话持久化。 |
 | [`pipelines/01-graph-vs-code.md`](./pipelines/01-graph-vs-code.md) | card | DAG vs 代码控制流。 | 选择编排模型。 |
+| [`pipelines/02-native-workflow-engine.md`](./pipelines/02-native-workflow-engine.md) | card | 宿主 workflow 是脚本编排而非 DAG。 | 判断是否自建 DAG。 |
+| [`crossing/04-acp-remote-execution.md`](./crossing/04-acp-remote-execution.md) | card | ACP/外部运行时的一次性边界。 | 接外部 agent。 |
+| [`delegation/02-fork-and-resume.md`](./delegation/02-fork-and-resume.md) | card | fork/外部一次性/冷恢复的差别。 | 选择创建语义。 |
 | [`pipelines/04-worktree-lanes.md`](./pipelines/04-worktree-lanes.md) | card | worktree lane 的隔离与代价。 | 设计文件隔离。 |
 | [`crossing/README.md`](./crossing/README.md) | index | crossing 家族入口与样本索引。 | 要做 crossing 相关设计。 |
 | [`coordination/README.md`](./coordination/README.md) | index | coordination 家族入口与样本索引。 | 要做 coordination 相关设计。 |

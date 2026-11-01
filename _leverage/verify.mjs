@@ -351,49 +351,20 @@ for (const lever of ['plugin', 'profile', 'shell']) {
   }
 }
 
-// ---------- 杠杆册：14 张合作样本必须链接其固定版本 memo ----------
+// ---------- 协作册：每个家族样本必须有同号 memo，且卡片链接它 ----------
 {
-  const sampleMemo = {
-    '01-NanmiCoder-dsh-agent-teams.md': '01-agent-teams-源码复核.md',
-    '02-toolclub-dsh-agent-team-gui.md': '02-team-gui-源码复核.md',
-    '03-omdsh-dev-dsh_workflow.md': '03-dsh_workflow-源码复核.md',
-    '04-limuyang2-agent-team.md': '04-agent-team-源码复核.md',
-    '05-Mlte0907-dsh-teams-x.md': '05-teams-x-源码复核.md',
-    '06-zbzbhs-dsh-remote-agent.md': '06-remote-agent-源码复核.md',
-    '07-Nwflower-dsh-file-claim.md': '07-file-claim-源码复核.md',
-    '08-Chinesezjc-dsh-interconnect.md': '08-interconnect-源码复核.md',
-    '09-IKEASven69-dsh-takeover.md': '09-takeover-源码复核.md',
-    '10-Asher-2000-dsh-expert-mode.md': '10-expert-mode-源码复核.md',
-    '11-february2015-dsh-taskswarm.md': '11-taskswarm-源码复核.md',
-    '12-2507483326-dsh-eteams.md': '12-eteams-源码复核.md',
-    '13-Noelune-dsh-agent-relay.md': '13-agent-relay-源码复核.md',
-    '14-PerryLink-dsh-team-rooms.md': '14-team-rooms-源码复核.md',
-  };
-  const familyByCard = {
-    '01-NanmiCoder-dsh-agent-teams.md': 'teams',
-    '02-toolclub-dsh-agent-team-gui.md': 'teams',
-    '03-omdsh-dev-dsh_workflow.md': 'pipelines',
-    '04-limuyang2-agent-team.md': 'teams',
-    '05-Mlte0907-dsh-teams-x.md': 'teams',
-    '06-zbzbhs-dsh-remote-agent.md': 'crossing',
-    '07-Nwflower-dsh-file-claim.md': 'coordination',
-    '08-Chinesezjc-dsh-interconnect.md': 'crossing',
-    '09-IKEASven69-dsh-takeover.md': 'crossing',
-    '10-Asher-2000-dsh-expert-mode.md': 'teams',
-    '11-february2015-dsh-taskswarm.md': 'pipelines',
-    '12-2507483326-dsh-eteams.md': 'teams',
-    '13-Noelune-dsh-agent-relay.md': 'crossing',
-    '14-PerryLink-dsh-team-rooms.md': 'crossing',
-  };
-  for (const [card, memo] of Object.entries(sampleMemo)) {
-    const fam = familyByCard[card];
-    const dir = `${AGENT_PREFIX}${fam}/samples/`;
-    const memoDir = `${AGENT_PREFIX}${fam}/_证据/`;
-    const rel = dir + card;
-    if (!mdFiles.includes(rel)) { fail(rel, null, '样本文件不存在'); continue; }
+  for (const rel of mdFiles) {
+    if (!rel.startsWith(AGENT_PREFIX)) continue;
+    const m = rel.match(/^_leverage\/leverage-agent-collaboration\/([^/]+)\/samples\/(\d{2})-.*\.md$/);
+    if (!m) continue;
+    const [, family, num] = m;
     const text = textsByFile.get(rel) ?? '';
-    if (!mdFiles.includes(memoDir + memo)) fail(rel, null, `缺少固定版本证据 memo：${memo}`);
-    else if (!text.includes(memo)) fail(rel, null, `样本卡未链接其 memo：${memo}`);
+    const memoDir = `${AGENT_PREFIX}${family}/_证据/`;
+    const memos = mdFiles.filter((p) => p.startsWith(memoDir) && p.split('/').pop().startsWith(num + '-'));
+    if (memos.length === 0) { fail(rel, null, `缺少同号证据 memo：${family}/_证据/${num}-*.md`); continue; }
+    if (!memos.some((p) => text.includes(p.split('/').pop()))) {
+      fail(rel, null, `样本卡未链接其证据 memo：${memos[0].split('/').pop()}`);
+    }
   }
 }
 

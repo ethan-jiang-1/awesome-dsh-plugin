@@ -26,6 +26,7 @@ updated: 2026-11-01
 - [`01-session-handoff.md`](./01-session-handoff.md)：接管的替换对象与失败语义。
 - [`02-broker-and-relay.md`](./02-broker-and-relay.md)：直连 WS vs broker 的鉴权/幂等/离线。
 - [`03-remote-worker-trust.md`](./03-remote-worker-trust.md)：远端 loop、hub 能力与凭证边界。
+- [`04-acp-remote-execution.md`](./04-acp-remote-execution.md)：ACP/外部运行时的一次性边界。
 - [`05-rooms-and-persistence.md`](./05-rooms-and-persistence.md)：房间权威、fact 禁写与游标。
 
 ## 证据与边界

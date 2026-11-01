@@ -2,7 +2,7 @@
 title: "Agent 协作册：主-子、团队、流水线、跨界"
 domain: agent-collab
 kind: index
-positioning: "独立册入口：四家族 + 横向协调卷；14 个样本按主家族归位，证据 memo 与选型判定树可直达。"
+positioning: "独立册入口：四家族 + 横向协调卷；17 个样本按主家族归位，证据 memo 与选型判定树可直达。"
 read_when: "要判断自己的多 agent 方案属于哪类、怎么选型；或第一次进本册。"
 status: living
 updated: 2026-11-01
@@ -18,7 +18,7 @@ updated: 2026-11-01
 |---|---|---|
 | **选型**：我的方案属于哪类 | [00-map §5 判定树](./00-map.md#5-判定树) | 四家族判定 + 三笔税 |
 | **抄做法**：按任务找最小集 | [BORROW](./BORROW.md) | 家族路由 + 最小集 + 回源纪律 |
-| **查样本**：横向比较 14 个样本 | [encyclopedia](./encyclopedia.md) | 主家族/交叉角色/证据链 |
+| **查样本**：横向比较 17 个样本 | [encyclopedia](./encyclopedia.md) | 主家族/交叉角色/证据链 |
 
 ## 1. 四家族 + 横向卷
 
@@ -48,5 +48,5 @@ updated: 2026-11-01
 
 ## 证据与边界
 
-- 迁移自 `leverage/lever-cross-boundary`；14 个样本与 memo 一一保留（见 [catalog](./catalog.md)）。
+- 迁移自 `leverage/lever-cross-boundary`；17 个样本与 memo 一一保留（见 [catalog](./catalog.md)）。
 - 证据规约：[EVIDENCE](./EVIDENCE.md)；本册仍在扩写，delegation/pipelines 的空白已列入 [00-map §9](./00-map.md#9-空白区后续批次)。

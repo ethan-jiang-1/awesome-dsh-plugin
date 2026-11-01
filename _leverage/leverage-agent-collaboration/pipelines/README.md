@@ -21,6 +21,7 @@ updated: 2026-11-01
 ## 章节
 
 - [`01-graph-vs-code.md`](./01-graph-vs-code.md)：DAG vs 代码控制流的取舍。
+- [`02-native-workflow-engine.md`](./02-native-workflow-engine.md)：宿主 workflow 是脚本编排，不是 DAG。
 - [`04-worktree-lanes.md`](./04-worktree-lanes.md)：worktree lane 的隔离与未隔离项。
 
 ## 证据与边界

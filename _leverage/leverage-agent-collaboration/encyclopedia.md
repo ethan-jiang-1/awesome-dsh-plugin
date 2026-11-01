@@ -1,13 +1,13 @@
 ---
-title: "样本百科：14 个协作样本的主家族与交叉角色"
+title: "样本百科：17 个协作样本的主家族与交叉角色"
 domain: agent-collab
 kind: index
-positioning: "14 个协作样本的同表对照：主家族、交叉角色、一句话机制与证据链；不复述卡片细节。"
+positioning: "17 个协作样本的同表对照：主家族、交叉角色、一句话机制与证据链；不复述卡片细节。"
 read_when: "要横向比较多个协作样本，或给一个新样本找主家族/参照系。"
 status: observed
 updated: 2026-11-01
 ---
-# 样本百科：14 个协作样本
+# 样本百科：17 个协作样本
 
 > **用法**：先按主家族缩小范围，再看「交叉角色」判断它能否借用别卷的机制；机制细节与代价在样本卡，证据在 memo。
 > **影响力**只作为采样事实，不参与主家族判定；最新数字以各卡页头（带日期）为准。
@@ -30,11 +30,13 @@ updated: 2026-11-01
 | 12 | [`2507483326/dsh-eteams`](./teams/samples/12-2507483326-dsh-eteams.md) | teams | delegation（continuable） | 领队拆任务、成员子会话；persona 仅 0.1.x 成立 | [`memo`](./teams/_证据/12-eteams-源码复核.md) |
 | 13 | [`Noelune/dsh-agent-relay`](./crossing/samples/13-Noelune-dsh-agent-relay.md) | crossing | pipelines（投递/幂等） | HTTP broker + 长轮询 + wake；npm 0.5.0 不含这些 | [`memo`](./crossing/_证据/13-agent-relay-源码复核.md) |
 | 14 | [`PerryLink/dsh-team-rooms`](./crossing/samples/14-PerryLink-dsh-team-rooms.md) | crossing | coordination（持久化游标） | 房间存储权威；rc.3 禁 fact，重建副本不可用 | [`memo`](./crossing/_证据/14-team-rooms-源码复核.md) |
-| 15 | [`Garybot126/dsh-subagent-models`](./delegation/samples/15-Garybot126-dsh-subagent-models.md) | delegation | —（委派路由） | 在 agent/request 上覆盖 child 的provider/model/effort | [`memo`](./delegation/_证据/15-subagent-models-源码复核.md) |
+| 15 | [`Garybot126/dsh-subagent-models`](./delegation/samples/15-Garybot126-dsh-subagent-models.md) | delegation | —（委派路由） | 在 agent/request 上覆盖 child 的 provider/model/effort | [`memo`](./delegation/_证据/15-subagent-models-源码复核.md) |
+| 16 | [`tkaiz0406/dsh-subagent-route-pin`](./delegation/samples/16-tkaiz0406-dsh-subagent-route-pin.md) | delegation | teams（startActivation 缝） | rc.3 上靠 startActivation 钩子写路由；provider.start 只走外部分支 | [`memo`](./delegation/_证据/16-route-pin-源码复核.md) |
+| 17 | [`aleskxyz/dsh-subagent-fork-lite`](./delegation/samples/17-aleskxyz-dsh-subagent-fork-lite.md) | delegation | —（截断 fork） | 只 seed 最近 N 个完成 turn；面向 0.1.x | [`memo`](./delegation/_证据/17-fork-lite-源码复核.md) |
 
 ## 2. 按家族看
 
-- **delegation（1）**：15 在 `agent/request` 上做子代理模型路由；宿主契约见 `delegation/01`。
+- **delegation（3）**：15 在 `agent/request` 上做子代理模型路由；16 包装 provider 在 child 创建前钉路由；17 截断 fork 的 seed 窗口；宿主契约见 `delegation/01`。
 - **teams（6）**：01 调度/邮箱、02 全栈 runtime、04 独立根 Agent、05 质量门返工、10 preset 反证、12 continuable 成员。
 - **pipelines（2）**：03 代码即编排、11 worktree lane；两者都缺“声明式 DAG”对照，是下一批研究重点。
 - **crossing（5）**：06 远端 worker、08 跨实例消息、09 会话接管、13 异构 broker、14 房间持久化。

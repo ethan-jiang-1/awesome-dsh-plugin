@@ -10,7 +10,7 @@ updated: 2026-11-01
 # Agent 协作册 · 四家族与横向协调
 
 > **标语**：*Who collaborates with whom, who owns the state, who converges?* —— 协作先问状态与收敛，再问怎么派活。
-> **状态**：由原 `leverage/lever-cross-boundary` 迁出独立成册（2026-11-01）。14 个既有样本按主家族归位、证据 memo 一并迁移；delegation / pipelines 的空白区在后续批次补研究。
+> **状态**：由原 `leverage/lever-cross-boundary` 迁出独立成册（2026-11-01）。14 个既有样本按主家族归位、证据 memo 一并迁移；delegation 新增 15/16 路由样本与 17 截断 fork 样本；delegation / pipelines 的空白区在后续批次补研究。
 > **本册自足**：`README` / `00-map` / `EVIDENCE` / `catalog` / `BORROW` 都在本目录；不再依赖父册的域 README。
 
 ## 1. 为什么单独成册
@@ -39,7 +39,7 @@ updated: 2026-11-01
 | **crossing 跨会话/实例/机器** | handoff、broker、远端 worker、房间 | 一种跨界通道 + 样本 | [`crossing/`](./crossing/README.md) |
 | **coordination 横向** | 状态归属、冲突裁决、失败收敛、容量/成本 | 跨样本对照 + 判定树 | [`coordination/`](./coordination/README.md) |
 
-## 4. 现有 14 个样本的主家族
+## 4. 现有样本的主家族
 
 | 样本 | 主家族 | 交叉角色 | 证据链 |
 |---|---|---|---|
@@ -58,6 +58,8 @@ updated: 2026-11-01
 | 13 `Noelune/dsh-agent-relay` | crossing | pipelines（投递/幂等） | [`memo`](./crossing/_证据/13-agent-relay-源码复核.md) |
 | 14 `PerryLink/dsh-team-rooms` | crossing | coordination（持久化游标） | [`memo`](./crossing/_证据/14-team-rooms-源码复核.md) |
 | 15 `Garybot126/dsh-subagent-models` | delegation | —（委派路由） | [`memo`](./delegation/_证据/15-subagent-models-源码复核.md) |
+| 16 `tkaiz0406/dsh-subagent-route-pin` | delegation | teams（startActivation 缝） | [`memo`](./delegation/_证据/16-route-pin-源码复核.md) |
+| 17 `aleskxyz/dsh-subagent-fork-lite` | delegation | —（截断 fork） | [`memo`](./delegation/_证据/17-fork-lite-源码复核.md) |
 
 ## 5. 判定树
 
@@ -93,7 +95,7 @@ updated: 2026-11-01
 
 ## 9. 空白区（后续批次）
 
-- delegation：宿主契约已完成；模型路由样本 15 已入；fork/resume 类样本待补。
+- delegation：宿主契约 + fork/冷恢复 + 15/16 路由 + 17 截断 fork。
 - pipelines：声明式 DAG、`dsh-tool-workflow`/worker-thread、重放与幂等；
 - crossing：ACP/SDK 远端执行、跨实例订阅；
 - coordination：容量/成本、审批预算与协作的交叉（与 draw-limit 分工）。

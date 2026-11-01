@@ -16,10 +16,13 @@ updated: 2026-11-01
 | 样本 | 证据链 |
 |---|---|
 | [`15-Garybot126-dsh-subagent-models.md`](./samples/15-Garybot126-dsh-subagent-models.md) | [`15-subagent-models-源码复核.md`](./_证据/15-subagent-models-源码复核.md) |
+| [`16-tkaiz0406-dsh-subagent-route-pin.md`](./samples/16-tkaiz0406-dsh-subagent-route-pin.md) | [`16-route-pin-源码复核.md`](./_证据/16-route-pin-源码复核.md) |
+| [`17-aleskxyz-dsh-subagent-fork-lite.md`](./samples/17-aleskxyz-dsh-subagent-fork-lite.md) | [`17-fork-lite-源码复核.md`](./_证据/17-fork-lite-源码复核.md) |
 
 ## 章节
 
 - [`01-host-contract.md`](./01-host-contract.md)：dsh-subagent 的深度/容量/权限/结果回传。
+- [`02-fork-and-resume.md`](./02-fork-and-resume.md)：fork/外部一次性/冷恢复的差别。
 
 ## 证据与边界
 
