@@ -24,6 +24,10 @@ data/screenshots-live.json
 
 .npm-cache/
 
+# pnpm's content-addressable store, kept inside this checkout. It holds thousands
+# of hashed package blobs, so `git add -A` would sweep all of it into a commit.
+.pnpm-store/
+
 # Ethan research branch: python census artifacts
 __pycache__/
 _parse_errors.txt
