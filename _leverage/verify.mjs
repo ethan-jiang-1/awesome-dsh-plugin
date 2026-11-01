@@ -108,6 +108,7 @@ function checkLink(fromRel, line, target) {
 const LEVERAGE_PREFIX = '_leverage/leverage/';
 const PRODUCT_PREFIX = '_leverage/leverage-reshape-product/';
 const AGENT_PREFIX = '_leverage/leverage-agent-collaboration/';
+const LIFECYCLE_PREFIX = '_leverage/leverage-lifecycle/';
 const DOMAIN_BY_DIR = {
   // 协作册已独立成册；杠杆册只保留门禁/权限两域。
   'lever-prove-output': 'prove-output',
@@ -153,7 +154,12 @@ function parseFrontmatter(text) {
 }
 
 for (const rel of mdFiles) {
-  if (!rel.startsWith(LEVERAGE_PREFIX) && !rel.startsWith(PRODUCT_PREFIX) && !rel.startsWith(AGENT_PREFIX)) continue;
+  if (
+    !rel.startsWith(LEVERAGE_PREFIX) &&
+    !rel.startsWith(PRODUCT_PREFIX) &&
+    !rel.startsWith(AGENT_PREFIX) &&
+    !rel.startsWith(LIFECYCLE_PREFIX)
+  ) continue;
   const text = textsByFile.get(rel) ?? '';
   const parsed = parseFrontmatter(text);
   if (parsed.error) {
@@ -176,6 +182,9 @@ for (const rel of mdFiles) {
     const rest = rel.slice(AGENT_PREFIX.length);
     const dir = rest.includes('/') ? rest.split('/')[0] : '';
     expectedDomain = AGENT_DOMAIN_BY_DIR[dir] ?? 'agent-collab';
+  } else if (rel.startsWith(LIFECYCLE_PREFIX)) {
+    // 第四册：分发与首启。分析单位是“生命周期阶段”，与前三册并列。
+    expectedDomain = 'lifecycle';
   } else {
     const rest = rel.slice(LEVERAGE_PREFIX.length);
     const dir = rest.includes('/') ? rest.split('/')[0] : '';
@@ -250,6 +259,60 @@ if (mdFiles.includes(PRODUCT_CATALOG)) {
     .map((f) => f.slice(PRODUCT_ROOT.length));
   for (const f of files) if (!listed.has(f)) fail(PRODUCT_CATALOG, null, `catalog 缺行：${f}`);
   for (const f of listed) if (!files.includes(f)) fail(PRODUCT_CATALOG, null, `catalog 多行：${f}`);
+}
+
+// ---------- 第四册 catalog：全量 Markdown 必须一行不多一行不少 ----------
+const LIFECYCLE_ROOT = '_leverage/leverage-lifecycle/';
+const LIFECYCLE_CATALOG = LIFECYCLE_ROOT + 'catalog.md';
+if (mdFiles.includes(LIFECYCLE_CATALOG)) {
+  const text = readFileSync(join(repoRoot, LIFECYCLE_CATALOG), 'utf8');
+  const listed = new Set();
+  const seen = new Set();
+  for (const line of text.split('\n')) {
+    if (!/^\s*\|/.test(line)) continue;
+    const first = line.match(/^\s*\|\s*\[`?[^\]]*`?\]\((\.\/[^)#\s]+\.md)\)/);
+    if (!first) continue;
+    const target = first[1].replace(/^\.\//, '');
+    if (seen.has(target)) fail(LIFECYCLE_CATALOG, null, `catalog 重复行：${target}`);
+    else seen.add(target);
+    listed.add(target);
+  }
+  const files = mdFiles.filter((f) => f.startsWith(LIFECYCLE_ROOT)).map((f) => f.slice(LIFECYCLE_ROOT.length));
+  for (const f of files) if (!listed.has(f)) fail(LIFECYCLE_CATALOG, null, `catalog 缺行：${f}`);
+  for (const f of listed) if (!files.includes(f)) fail(LIFECYCLE_CATALOG, null, `catalog 多行：${f}`);
+}
+
+// ---------- 第四册样本卡：七列表 + 固定版本 memo ----------
+{
+  const isLifeSample = (rel) =>
+    /^(install|boot|config|first-run|negative)\/\d{2}_.*\.md$/.test(rel.slice(LIFECYCLE_ROOT.length));
+  const COLS = ['触发问题', '可迁移洞察', '机制依据', '为什么有效 / 代价', '移植时改什么', '成立边界', '抄错后果'];
+  for (const rel of mdFiles) {
+    if (!rel.startsWith(LIFECYCLE_ROOT) || !isLifeSample(rel)) continue;
+    const text = textsByFile.get(rel) ?? '';
+    const fm = parseFrontmatter(text);
+    if (fm.error || fm.meta.kind !== 'sample') continue;
+    if (!/^## 它想干什么 · 为什么值得借鉴$/m.test(text)) {
+      fail(rel, null, '缺「它想干什么 · 为什么值得借鉴」一节');
+    }
+    const section = text.match(/^## 5\. 可迁移洞察[^\n]*\n([\s\S]*?)(?=^## )/m);
+    if (!section) {
+      fail(rel, null, '样本卡缺 `## 5. 可迁移洞察`');
+    } else {
+      const rows = section[1].split('\n').filter((line) => /^\s*\|.*\|\s*$/.test(line));
+      if (rows.length < 3) {
+        fail(rel, null, '可迁移洞察表缺 header/divider/洞察行');
+      } else {
+        const header = rows[0].replace(/^\s*\|/, '').replace(/\|\s*$/, '').split('|').map((c) => c.trim());
+        const missing = COLS.filter((c) => !header.includes(c));
+        if (missing.length) fail(rel, null, `七列表头缺列：${missing.join('、')}`);
+      }
+    }
+    const stem = rel.slice(rel.lastIndexOf('/') + 1).replace(/\.md$/, '');
+    const stageDir = rel.slice(LIFECYCLE_ROOT.length).split('/')[0];
+    const memo = `${LIFECYCLE_ROOT}${stageDir}/_证据/${stem}-源码复核.md`;
+    if (!mdFiles.includes(memo)) fail(rel, null, `缺固定版本 memo：${memo.slice(LIFECYCLE_ROOT.length)}`);
+  }
 }
 
 // ---------- 产品线 lever README：卡表必须覆盖本 lever 的全部卡片 ----------

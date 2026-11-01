@@ -22,6 +22,7 @@ budget: 220
 | **拿走东西**（做插件 / 发行版 / 独立应用） | [BORROW](./BORROW.md) | 按需求路由 + 22 条公共产出 + 三条"别抄" |
 | **研究/复核一个样本** | [RESEARCH](./RESEARCH.md) | 一手证据流程、数据/状态/失败路径标准、七列表洞察模板；当前优先 profile 桶 |
 | **查某一篇** | [catalog](./catalog.md) | 全部文件的 kind / 定位 / 能拿走什么 / 什么时候读 |
+| **要真发出去**（装/起/配/首启在 web 与 Desktop 上怎么走） | [`../leverage-lifecycle/`](../leverage-lifecycle/README.md) | 一条被认可的路径 + 四阶段判据 + 发布前自检 |
 | **知道凭什么** | [horizon](./horizon.md) | C1–C4 口径、产品七层、13 行上游接缝 |
 | **问"它为什么没卡"** | [BACKLOG](./BACKLOG.md) | 过了门槛待深挖 / 没过门槛的候选，各一行 |
 
@@ -155,3 +156,9 @@ node _leverage/verify.mjs
 - **独立成册**：本目录的文件不计入 `leverage/` 的三域篇数与统计，`leverage/` 的 `catalog.md` 也不再列这里的卡。
 - **交叉只在结论层**：`lever-cross-boundary` 看协作插件跨的边界，`lever-prove-output` 看门禁，`lever-draw-limit` 看权限；本线只回答"**怎么把它装成一个产品**"，不重复它们的机制分析。
 - **共享文件只读**：`../leverage/00-map.md`、`horizon.md`、`README.md`、`data/` 由别的会话维护，本线只调用。
+
+## 与 `leverage-lifecycle/` 的边界
+
+- **那边回答"怎么装"**：同一件事在 web 和 Desktop 上是否同一句话、装完坏在哪一层、第一次打开看到什么。本线回答"装成什么形态"，不重复四阶段判据。
+- **本线的 25 张卡不搬过去**：第四册按阶段重排引用（标 `[CARD]`），卡片仍以本线为准。
+- 交叉点只有一处：**本线所有卡的安装行，都要能用第四册的 [`REFERENCE`](../leverage-lifecycle/reference/REFERENCE.md) 检验**——尤其"只写 `--profile web` 而不提 Desktop"这类。
