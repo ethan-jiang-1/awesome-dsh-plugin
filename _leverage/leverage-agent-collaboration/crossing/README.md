@@ -21,6 +21,13 @@ updated: 2026-11-01
 | [`13-Noelune-dsh-agent-relay.md`](./samples/13-Noelune-dsh-agent-relay.md) | [`13-agent-relay-源码复核.md`](./_证据/13-agent-relay-源码复核.md) |
 | [`14-PerryLink-dsh-team-rooms.md`](./samples/14-PerryLink-dsh-team-rooms.md) | [`14-team-rooms-源码复核.md`](./_证据/14-team-rooms-源码复核.md) |
 
+## 章节
+
+- [`01-session-handoff.md`](./01-session-handoff.md)：接管的替换对象与失败语义。
+- [`02-broker-and-relay.md`](./02-broker-and-relay.md)：直连 WS vs broker 的鉴权/幂等/离线。
+- [`03-remote-worker-trust.md`](./03-remote-worker-trust.md)：远端 loop、hub 能力与凭证边界。
+- [`05-rooms-and-persistence.md`](./05-rooms-and-persistence.md)：房间权威、fact 禁写与游标。
+
 ## 证据与边界
 
 - 证据规约见 [`../EVIDENCE.md`](../EVIDENCE.md)；跨家族对照见 [`../encyclopedia.md`](../encyclopedia.md)。

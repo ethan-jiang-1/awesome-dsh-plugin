@@ -22,6 +22,14 @@ updated: 2026-11-01
 | [`10-Asher-2000-dsh-expert-mode.md`](./samples/10-Asher-2000-dsh-expert-mode.md) | [`10-expert-mode-源码复核.md`](./_证据/10-expert-mode-源码复核.md) |
 | [`12-2507483326-dsh-eteams.md`](./samples/12-2507483326-dsh-eteams.md) | [`12-eteams-源码复核.md`](./_证据/12-eteams-源码复核.md) |
 
+## 章节
+
+- [`01-roster-and-captain.md`](./01-roster-and-captain.md)：roster 权威位置、成员模型、队长不可选举。
+- [`02-scheduling.md`](./02-scheduling.md)：idle 边沿、原子认领、容量/深度。
+- [`03-mailbox-and-ack.md`](./03-mailbox-and-ack.md)：投递/准入/已读三态与幂等。
+- [`04-taskboard-and-gates.md`](./04-taskboard-and-gates.md)：任务板权威、完成判据、质量门位置。
+- [`05-failure-modes.md`](./05-failure-modes.md)：假成功、覆盖写、孤儿、停驻与假恢复。
+
 ## 证据与边界
 
 - 证据规约见 [`../EVIDENCE.md`](../EVIDENCE.md)；跨家族对照见 [`../encyclopedia.md`](../encyclopedia.md)。

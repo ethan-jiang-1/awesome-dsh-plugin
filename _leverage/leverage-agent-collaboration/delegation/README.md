@@ -9,13 +9,17 @@ updated: 2026-11-01
 ---
 # 主-子代理：一次委派怎么发生
 
-> 本家族 README。迁移后先保留样本与证据链；章节扩写与排序在下一阶段完成。
+> 主-子代理家族：先读宿主契约，再看样本怎么在接缝上做路由。
 
 ## 样本与证据
 
 | 样本 | 证据链 |
 |---|---|
-| （待补） | — |
+| [`15-Garybot126-dsh-subagent-models.md`](./samples/15-Garybot126-dsh-subagent-models.md) | [`15-subagent-models-源码复核.md`](./_证据/15-subagent-models-源码复核.md) |
+
+## 章节
+
+- [`01-host-contract.md`](./01-host-contract.md)：dsh-subagent 的深度/容量/权限/结果回传。
 
 ## 证据与边界
 

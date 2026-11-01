@@ -30,9 +30,11 @@ updated: 2026-11-01
 | 12 | [`2507483326/dsh-eteams`](./teams/samples/12-2507483326-dsh-eteams.md) | teams | delegation（continuable） | 领队拆任务、成员子会话；persona 仅 0.1.x 成立 | [`memo`](./teams/_证据/12-eteams-源码复核.md) |
 | 13 | [`Noelune/dsh-agent-relay`](./crossing/samples/13-Noelune-dsh-agent-relay.md) | crossing | pipelines（投递/幂等） | HTTP broker + 长轮询 + wake；npm 0.5.0 不含这些 | [`memo`](./crossing/_证据/13-agent-relay-源码复核.md) |
 | 14 | [`PerryLink/dsh-team-rooms`](./crossing/samples/14-PerryLink-dsh-team-rooms.md) | crossing | coordination（持久化游标） | 房间存储权威；rc.3 禁 fact，重建副本不可用 | [`memo`](./crossing/_证据/14-team-rooms-源码复核.md) |
+| 15 | [`Garybot126/dsh-subagent-models`](./delegation/samples/15-Garybot126-dsh-subagent-models.md) | delegation | —（委派路由） | 在 agent/request 上覆盖 child 的provider/model/effort | [`memo`](./delegation/_证据/15-subagent-models-源码复核.md) |
 
 ## 2. 按家族看
 
+- **delegation（1）**：15 在 `agent/request` 上做子代理模型路由；宿主契约见 `delegation/01`。
 - **teams（6）**：01 调度/邮箱、02 全栈 runtime、04 独立根 Agent、05 质量门返工、10 preset 反证、12 continuable 成员。
 - **pipelines（2）**：03 代码即编排、11 worktree lane；两者都缺“声明式 DAG”对照，是下一批研究重点。
 - **crossing（5）**：06 远端 worker、08 跨实例消息、09 会话接管、13 异构 broker、14 房间持久化。

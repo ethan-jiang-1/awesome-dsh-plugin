@@ -57,6 +57,7 @@ updated: 2026-11-01
 | 12 `2507483326/dsh-eteams` | teams | delegation（continuable） | [`memo`](./teams/_证据/12-eteams-源码复核.md) |
 | 13 `Noelune/dsh-agent-relay` | crossing | pipelines（投递/幂等） | [`memo`](./crossing/_证据/13-agent-relay-源码复核.md) |
 | 14 `PerryLink/dsh-team-rooms` | crossing | coordination（持久化游标） | [`memo`](./crossing/_证据/14-team-rooms-源码复核.md) |
+| 15 `Garybot126/dsh-subagent-models` | delegation | —（委派路由） | [`memo`](./delegation/_证据/15-subagent-models-源码复核.md) |
 
 ## 5. 判定树
 
@@ -92,7 +93,7 @@ updated: 2026-11-01
 
 ## 9. 空白区（后续批次）
 
-- delegation：`dsh-subagent` 宿主契约、模型路由/包装 provider、fork/resume 类样本；
+- delegation：宿主契约已完成；模型路由样本 15 已入；fork/resume 类样本待补。
 - pipelines：声明式 DAG、`dsh-tool-workflow`/worker-thread、重放与幂等；
 - crossing：ACP/SDK 远端执行、跨实例订阅；
 - coordination：容量/成本、审批预算与协作的交叉（与 draw-limit 分工）。

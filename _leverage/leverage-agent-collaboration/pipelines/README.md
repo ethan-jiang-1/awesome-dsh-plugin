@@ -18,6 +18,11 @@ updated: 2026-11-01
 | [`03-omdsh-dev-dsh_workflow.md`](./samples/03-omdsh-dev-dsh_workflow.md) | [`03-dsh_workflow-源码复核.md`](./_证据/03-dsh_workflow-源码复核.md) |
 | [`11-february2015-dsh-taskswarm.md`](./samples/11-february2015-dsh-taskswarm.md) | [`11-taskswarm-源码复核.md`](./_证据/11-taskswarm-源码复核.md) |
 
+## 章节
+
+- [`01-graph-vs-code.md`](./01-graph-vs-code.md)：DAG vs 代码控制流的取舍。
+- [`04-worktree-lanes.md`](./04-worktree-lanes.md)：worktree lane 的隔离与未隔离项。
+
 ## 证据与边界
 
 - 证据规约见 [`../EVIDENCE.md`](../EVIDENCE.md)；跨家族对照见 [`../encyclopedia.md`](../encyclopedia.md)。

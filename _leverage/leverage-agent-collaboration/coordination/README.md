@@ -17,6 +17,14 @@ updated: 2026-11-01
 |---|---|
 | [`07-Nwflower-dsh-file-claim.md`](./samples/07-Nwflower-dsh-file-claim.md) | [`07-file-claim-源码复核.md`](./_证据/07-file-claim-源码复核.md) |
 
+## 章节
+
+- [`01-taxonomy.md`](./01-taxonomy.md)：四道边界与三笔税。
+- [`02-mechanisms.md`](./02-mechanisms.md)：九家机制谱与配方。
+- [`03-state-ownership.md`](./03-state-ownership.md)：权威位置与第二真相源。
+- [`04-conflict-adjudication.md`](./04-conflict-adjudication.md)：拦截点阶梯与真裁决代价。
+- [`05-failure-and-selection.md`](./05-failure-and-selection.md)：三类失败 + 选型矩阵 + 评审七问。
+
 ## 证据与边界
 
 - 证据规约见 [`../EVIDENCE.md`](../EVIDENCE.md)；跨家族对照见 [`../encyclopedia.md`](../encyclopedia.md)。
