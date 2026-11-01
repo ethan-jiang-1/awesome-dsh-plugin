@@ -107,11 +107,18 @@ function checkLink(fromRel, line, target) {
 // ---------- 两册：frontmatter 契约 ----------
 const LEVERAGE_PREFIX = '_leverage/leverage/';
 const PRODUCT_PREFIX = '_leverage/leverage-reshape-product/';
+const AGENT_PREFIX = '_leverage/leverage-agent-collaboration/';
 const DOMAIN_BY_DIR = {
-  // 产品线已独立成册（_leverage/leverage-reshape-product/）；这里只保留三域的映射。
-  'lever-cross-boundary': 'cross-boundary',
+  // 协作册已独立成册；杠杆册只保留门禁/权限两域。
   'lever-prove-output': 'prove-output',
   'lever-draw-limit': 'draw-limit',
+};
+const AGENT_DOMAIN_BY_DIR = {
+  'delegation': 'agent-delegation',
+  'teams': 'agent-teams',
+  'pipelines': 'agent-pipelines',
+  'crossing': 'agent-crossing',
+  'coordination': 'agent-coordination',
 };
 const KINDS = new Set(['index', 'charter', 'guide', 'playbook', 'card', 'sample', 'evidence']);
 const STATUSES = new Set(['observed', 'inferred', 'open', 'living']);
@@ -146,7 +153,7 @@ function parseFrontmatter(text) {
 }
 
 for (const rel of mdFiles) {
-  if (!rel.startsWith(LEVERAGE_PREFIX) && !rel.startsWith(PRODUCT_PREFIX)) continue;
+  if (!rel.startsWith(LEVERAGE_PREFIX) && !rel.startsWith(PRODUCT_PREFIX) && !rel.startsWith(AGENT_PREFIX)) continue;
   const text = textsByFile.get(rel) ?? '';
   const parsed = parseFrontmatter(text);
   if (parsed.error) {
@@ -164,8 +171,11 @@ for (const rel of mdFiles) {
 
   let expectedDomain;
   if (rel.startsWith(PRODUCT_PREFIX)) {
-    // 产品线独立于 leverage：整棵 product/ 都属于 reshape-product 域。
     expectedDomain = 'reshape-product';
+  } else if (rel.startsWith(AGENT_PREFIX)) {
+    const rest = rel.slice(AGENT_PREFIX.length);
+    const dir = rest.includes('/') ? rest.split('/')[0] : '';
+    expectedDomain = AGENT_DOMAIN_BY_DIR[dir] ?? 'agent-collab';
   } else {
     const rest = rel.slice(LEVERAGE_PREFIX.length);
     const dir = rest.includes('/') ? rest.split('/')[0] : '';
@@ -359,9 +369,26 @@ for (const lever of ['plugin', 'profile', 'shell']) {
     '13-Noelune-dsh-agent-relay.md': '13-agent-relay-源码复核.md',
     '14-PerryLink-dsh-team-rooms.md': '14-team-rooms-源码复核.md',
   };
-  const dir = `${LEVERAGE_PREFIX}lever-cross-boundary/samples/`;
-  const memoDir = `${LEVERAGE_PREFIX}lever-cross-boundary/_证据/`;
+  const familyByCard = {
+    '01-NanmiCoder-dsh-agent-teams.md': 'teams',
+    '02-toolclub-dsh-agent-team-gui.md': 'teams',
+    '03-omdsh-dev-dsh_workflow.md': 'pipelines',
+    '04-limuyang2-agent-team.md': 'teams',
+    '05-Mlte0907-dsh-teams-x.md': 'teams',
+    '06-zbzbhs-dsh-remote-agent.md': 'crossing',
+    '07-Nwflower-dsh-file-claim.md': 'coordination',
+    '08-Chinesezjc-dsh-interconnect.md': 'crossing',
+    '09-IKEASven69-dsh-takeover.md': 'crossing',
+    '10-Asher-2000-dsh-expert-mode.md': 'teams',
+    '11-february2015-dsh-taskswarm.md': 'pipelines',
+    '12-2507483326-dsh-eteams.md': 'teams',
+    '13-Noelune-dsh-agent-relay.md': 'crossing',
+    '14-PerryLink-dsh-team-rooms.md': 'crossing',
+  };
   for (const [card, memo] of Object.entries(sampleMemo)) {
+    const fam = familyByCard[card];
+    const dir = `${AGENT_PREFIX}${fam}/samples/`;
+    const memoDir = `${AGENT_PREFIX}${fam}/_证据/`;
     const rel = dir + card;
     if (!mdFiles.includes(rel)) { fail(rel, null, '样本文件不存在'); continue; }
     const text = textsByFile.get(rel) ?? '';
@@ -373,7 +400,7 @@ for (const lever of ['plugin', 'profile', 'shell']) {
 // ---------- 杠杆册：机制卡/playbook 必须有“证据与边界”节（≥3 条） ----------
 {
   for (const rel of mdFiles) {
-    if (!rel.startsWith(LEVERAGE_PREFIX)) continue;
+    if (!rel.startsWith(LEVERAGE_PREFIX) && !rel.startsWith(AGENT_PREFIX)) continue;
     const text = textsByFile.get(rel) ?? '';
     const fm = parseFrontmatter(text);
     if (fm.error) continue;

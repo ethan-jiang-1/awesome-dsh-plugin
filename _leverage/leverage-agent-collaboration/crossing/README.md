@@ -1,0 +1,27 @@
+---
+title: "跨会话/实例/机器"
+domain: agent-crossing
+kind: index
+positioning: "`crossing/` 家族：session handoff、broker/relay、远端 worker、跨实例消息、房间持久化。"
+read_when: "要跨会话接力、跨实例投递或跨机执行。"
+status: living
+updated: 2026-11-01
+---
+# 跨会话/实例/机器
+
+> 本家族 README。迁移后先保留样本与证据链；章节扩写与排序在下一阶段完成。
+
+## 样本与证据
+
+| 样本 | 证据链 |
+|---|---|
+| [`06-zbzbhs-dsh-remote-agent.md`](./samples/06-zbzbhs-dsh-remote-agent.md) | [`06-remote-agent-源码复核.md`](./_证据/06-remote-agent-源码复核.md) |
+| [`08-Chinesezjc-dsh-interconnect.md`](./samples/08-Chinesezjc-dsh-interconnect.md) | [`08-interconnect-源码复核.md`](./_证据/08-interconnect-源码复核.md) |
+| [`09-IKEASven69-dsh-takeover.md`](./samples/09-IKEASven69-dsh-takeover.md) | [`09-takeover-源码复核.md`](./_证据/09-takeover-源码复核.md) |
+| [`13-Noelune-dsh-agent-relay.md`](./samples/13-Noelune-dsh-agent-relay.md) | [`13-agent-relay-源码复核.md`](./_证据/13-agent-relay-源码复核.md) |
+| [`14-PerryLink-dsh-team-rooms.md`](./samples/14-PerryLink-dsh-team-rooms.md) | [`14-team-rooms-源码复核.md`](./_证据/14-team-rooms-源码复核.md) |
+
+## 证据与边界
+
+- 证据规约见 [`../EVIDENCE.md`](../EVIDENCE.md)；跨家族对照见 [`../encyclopedia.md`](../encyclopedia.md)。
+- 本家族章节尚在扩写；引用样本机制前先读其 memo。

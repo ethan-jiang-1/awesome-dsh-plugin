@@ -23,51 +23,18 @@ updated: 2026-10-31
 | [`00-map.md`](./00-map.md) | charter | 研究宪章：杠杆阶梯、命名约定、证据协议、文件约定与基线。 | — | 要判断一个插件占的是哪一级位置；或要新增卡/新域、改口径时。 | living |
 | [`horizon.md`](./horizon.md) | charter | 规则单一源：A/B/C/D/E/F/G 准入门、S/A/B/C 分级、每条必写的六项。 | — | 要把一个新样本立成卡；或质疑某条样本凭什么在场时。 | observed |
 | [catalog.md（本文件）](./catalog.md) | index | 全部 Markdown 的 kind、定位、能拿走什么、什么时候读（本文件手工维护）。 | — | 想一次看全所有文件，或按关键词找入口。 | living |
-| [`EVIDENCE.md`](./EVIDENCE.md) | guide | 本册证据规程：分源标签、样本 memo 要求、机制卡「证据与边界」节、校验门。 | 新增/修订样本或卡前先读；判断一条断言该标什么。 | living |
 | [`AUDIT.md`](./AUDIT.md) | guide | 审计基线与分批：46 篇的起始缺口、批次与完成标准。 | 接续证据化工作；查哪些样本/章节已升级。 | living |
 
 ## CROSS · 协作边界 ｜ `cross-boundary`
 
 | 文件 | kind | 定位 | 能拿走什么 | 什么时候读 | 状态 |
 |---|---|---|---|---|---|
-| [`README.md`](./lever-cross-boundary/README.md) | charter | 本域宪章：四道边界、三笔税、十条可迁移做法、选型决策树与 14 个样本坐标。 | 10 条可迁移做法 + 四态证据账本 + 选型决策树 + 6 条别照抄。 | 要做多 agent/协作/跨机；或要判断一个协作插件跨的是哪道边界。 | observed |
-| [`03-sample-encyclopedia.md`](./lever-cross-boundary/03-sample-encyclopedia.md) | index | 14 个协作样本的同表对照：设计思路、成员是什么、三笔税、代价、标杆六项。 | 一张可逐格填的判断表；新插件拿它过一遍。 | 要横向比较多个协作样本；或要给一个新插件填判断表。 | observed |
-| [`01-collab-topology.md`](./lever-cross-boundary/01-collab-topology.md) | playbook | 协作域的第一张卡：用「跨了哪道边界」给任何协作插件定位，并列出每道边界的税。 | 四道边界 + 三笔税；生态不是填坑，是换一张表重画。 | 判断一个协作插件属于哪类；或写多 agent 功能前先确认它会碰上哪笔税。 | observed |
-| [`02-coordination-mechanisms.md`](./lever-cross-boundary/02-coordination-mechanisms.md) | playbook | 九家协作样本在三笔税上各选了什么机制，以及 §5.5 的三张可落地配方。 | 配方 A/B/C：状态归属、冲突裁决（含 epoch）、失败收敛的三层。 | 要动手写协作机制；或要比较两种协作实现的失效条件。 | observed |
-| [`01-NanmiCoder-dsh-agent-teams.md`](./lever-cross-boundary/samples/01-NanmiCoder-dsh-agent-teams.md) | sample | `NanmiCoder/dsh-agent-teams`：把当前会话变成 captain，成员做成可续聊子代理，磁盘状态 + 事件驱动调度 + JSONL 邮箱。 | 磁盘 team.json 为真相源 + idle 边沿调度 + 消息 ack 在准入时。 | 成员需要被反复追问、记住上一轮、人先批准再派工。 | observed |
-| [`02-toolclub-dsh-agent-team-gui.md`](./lever-cross-boundary/samples/02-toolclub-dsh-agent-team-gui.md) | sample | `toolclub/dsh-agent-team-gui`：小队是用户预存配置，默认由主 Agent 按需决定用不用，派工跑有界 DAG。 | 「默认不派活」写进 systemPrompt；成本借宿主 tokenUsage；有界 DAG。 | 想省掉「先起一个规划器」的调用成本，并逐成员配模型/工具。 | observed |
-| [`03-omdsh-dev-dsh_workflow.md`](./lever-cross-boundary/samples/03-omdsh-dev-dsh_workflow.md) | sample | `omdsh-dev/dsh_workflow`：把一次性调度升级成可生成、可保存、可治理、可恢复的 workflow 胶囊。 | 不可变胶囊 + 内容键缓存 → 卖可复现，不卖断点续跑。 | 要一条可复现的多 agent 流水线，接受「不是断点续跑」。 | observed |
-| [`04-limuyang2-agent-team.md`](./lever-cross-boundary/samples/04-limuyang2-agent-team.md) | sample | `limuyang2/agent-team`：先挑助手再建队，每个助手是一套完整配置；成员=独立根 Agent。 | 成员=独立根 Agent，为异构放弃子代理；入队冻结快照；全表唯一过旧 A 门。 | 每个成员要用不同的模型/权限/技能包/MCP。 | observed |
-| [`05-Mlte0907-dsh-teams-x.md`](./lever-cross-boundary/samples/05-Mlte0907-dsh-teams-x.md) | sample | `Mlte0907/dsh-teams-x`：与 agent-teams 同骨架但更贴官方，唯一主动做「官方限制逐条对照」的样本。 | 与官方三条限制逐条应战；质量门自动派生返工；两条自认未解决。 | 想要质量门自动派生返工，且接受「软收敛，无硬超时」。 | observed |
-| [`06-zbzbhs-dsh-remote-agent.md`](./lever-cross-boundary/samples/06-zbzbhs-dsh-remote-agent.md) | sample | `zbzbhs/dsh-remote-agent`：一个包双角色，副机本地跑完整 DSH 与 Agent 循环，凭证永不出机。 | 副机自主跑完整 loop；把跨机从传输问题降级为信任问题。 | 要跨机，且不能被网络拖死——链路断了工作照常继续。 | observed |
-| [`07-Nwflower-dsh-file-claim.md`](./lever-cross-boundary/samples/07-Nwflower-dsh-file-claim.md) | sample | `Nwflower/dsh-file-claim`：认领与被保护文件同目录的边车，pre-execute 返回 deny——唯一在写路径上真拦住写的样本。 | 同目录边车 + pre-execute deny；租约必须自己加 epoch，否则静默失锁。 | 怕两个人改同一个文件（写冲突）——只有这条路真拦得住。 | observed |
-| [`08-Chinesezjc-dsh-interconnect.md`](./lever-cross-boundary/samples/08-Chinesezjc-dsh-interconnect.md) | sample | `Chinesezjc/dsh-interconnect`：每个对端一条持久 WebSocket，把文本投进对端 session 的 inbox。 | 每对端一条持久 WS + inbox；跨 DSH 实例，无幂等、无离线队列。 | 要跨实例投消息或同步事件，且能接受无幂等、无离线队列。 | observed |
-| [`09-IKEASven69-dsh-takeover.md`](./lever-cross-boundary/samples/09-IKEASven69-dsh-takeover.md) | sample | `IKEASven69/dsh-takeover`：handoff 协议的拉/推/取闭环，跨机靠同步盘，插件零网络。 | 没有协议只有文件；open(claim,'wx') 做恰好一次；四态证据账本。 | 要跨机但不想写任何协议，且能接受没有实时性。 | observed |
-| [`10-Asher-2000-dsh-expert-mode.md`](./lever-cross-boundary/samples/10-Asher-2000-dsh-expert-mode.md) | sample | `Asher-2000/dsh-expert-mode`：不用写插件也能写协作——团队落在静态 composition 的 17 条工具行里。 | 不用插件写协作（preset 路线）；证明 persona 配置键已被宿主移除。 | 想用 preset/配置而不是运行时插件做多 agent。 | observed |
-| [`11-february2015-dsh-taskswarm.md`](./lever-cross-boundary/samples/11-february2015-dsh-taskswarm.md) | sample | `february2015/dsh-taskswarm`：每 lane 一个 git worktree（不是每成员），按依赖分波并行，失败时刻意不清理。 | 每 lane 一个 worktree；失败时刻意不清理，留下真实故障档案。 | 想知道 worktree 到底怎么用，或要一份真实的故障档案。 | observed |
-| [`12-2507483326-dsh-eteams.md`](./lever-cross-boundary/samples/12-2507483326-dsh-eteams.md) | sample | `2507483326/dsh-eteams`：领队拆任务、派给跑在各自子会话里的成员；证明 persona 的合法路径是请求参数。 | persona 的合法路径是请求参数；成员=真 continuable 子代理。 | 要成员异构，但又不想放弃子代理的 spawn/interrupt/wait。 | observed |
-| [`13-Noelune-dsh-agent-relay.md`](./lever-cross-boundary/samples/13-Noelune-dsh-agent-relay.md) | sample | `Noelune/dsh-agent-relay`：只绑回环地址的 HTTP Broker，把 dsh / Codex / Claude Code / Python 连成对等链路。 | 只绑回环的 HTTP broker；跨异构运行时，只投消息不发令牌。 | 要让不是 DSH 的 agent 和 DSH 成员通信。 | observed |
-| [`14-PerryLink-dsh-team-rooms.md`](./lever-cross-boundary/samples/14-PerryLink-dsh-team-rooms.md) | sample | `PerryLink/dsh-team-rooms`：房间存储是跨会话权威，每个成员的日志是自己的重建副本。 | 房间存储为跨会话权威；单写链 + 逐成员游标。 | 团队要跨会话活着，且最关心「消息会不会丢、重启后还在不在」。 | observed |
 
 
 ## CROSS · 样本证据（固定版本）
 
 | 文件 | kind | 定位 | 能拿走什么 | 什么时候读 | 状态 |
 |---|---|---|---|---|---|
-| [`01-agent-teams-源码复核.md`](./lever-cross-boundary/_证据/01-agent-teams-源码复核.md) | evidence | 固定 0.1.28 的源码复核：成员签名/邮箱租约、maxMembers 语义、四个具名失效与 CI。 | 证据强度与未验证项见文末 `[OPEN]`。 | 复核对应样本的机制断言或版本坐标。 | observed |
-| [`02-team-gui-源码复核.md`](./lever-cross-boundary/_证据/02-team-gui-源码复核.md) | evidence | 固定 v1.3.0 的源码复核：它就是 runtime：8 表/2 工具/pre-step；on-demand 非默认；轮询更新。 | 证据强度与未验证项见文末 `[OPEN]`。 | 复核对应样本的机制断言或版本坐标。 | observed |
-| [`03-dsh_workflow-源码复核.md`](./lever-cross-boundary/_证据/03-dsh_workflow-源码复核.md) | evidence | 固定 main 0.1.2 的源码复核：胶囊+缓存回放；12+1 禁用规则；版本门硬编码；无 CI。 | 证据强度与未验证项见文末 `[OPEN]`。 | 复核对应样本的机制断言或版本坐标。 | observed |
-| [`04-agent-team-源码复核.md`](./lever-cross-boundary/_证据/04-agent-team-源码复核.md) | evidence | 固定 0.1.4 的源码复核：独立根 Agent；脚本门非 CI；leases 空壳；peer 排除 rc.3。 | 证据强度与未验证项见文末 `[OPEN]`。 | 复核对应样本的机制断言或版本坐标。 | observed |
-| [`05-teams-x-源码复核.md`](./lever-cross-boundary/_证据/05-teams-x-源码复核.md) | evidence | 固定 9c56100 的源码复核：0.11.5 未发布；跨进程文件锁但无归属；pinned CI 红。 | 证据强度与未验证项见文末 `[OPEN]`。 | 复核对应样本的机制断言或版本坐标。 | observed |
-| [`06-remote-agent-源码复核.md`](./lever-cross-boundary/_证据/06-remote-agent-源码复核.md) | evidence | 固定 0.9.11 的源码复核：hub/worker 双后端；共享密钥/TOFU；relay 可降级为明文。 | 证据强度与未验证项见文末 `[OPEN]`。 | 复核对应样本的机制断言或版本坐标。 | observed |
-| [`07-file-claim-源码复核.md`](./lever-cross-boundary/_证据/07-file-claim-源码复核.md) | evidence | 固定 42f07e2 的源码复核：四工具 deny；fail-open 面更宽；pid 进程粒度；无 epoch。 | 证据强度与未验证项见文末 `[OPEN]`。 | 复核对应样本的机制断言或版本坐标。 | observed |
-| [`08-interconnect-源码复核.md`](./lever-cross-boundary/_证据/08-interconnect-源码复核.md) | evidence | 固定 0.13.0 的源码复核：两条 socket/共享 token/无幂等无队列；对齐闸已退役。 | 证据强度与未验证项见文末 `[OPEN]`。 | 复核对应样本的机制断言或版本坐标。 | observed |
-| [`09-takeover-源码复核.md`](./lever-cross-boundary/_证据/09-takeover-源码复核.md) | evidence | 固定 afbc55c 的源码复核：只替换会话；tag↔树错位；入站子路由；无自动回滚。 | 证据强度与未验证项见文末 `[OPEN]`。 | 复核对应样本的机制断言或版本坐标。 | observed |
-| [`10-expert-mode-源码复核.md`](./lever-cross-boundary/_证据/10-expert-mode-源码复核.md) | evidence | 固定 HEAD ed9a19d 的源码复核：17 工具别名非成员；preset 死目录；persona.text 过时。 | 证据强度与未验证项见文末 `[OPEN]`。 | 复核对应样本的机制断言或版本坐标。 | observed |
-| [`11-taskswarm-源码复核.md`](./lever-cross-boundary/_证据/11-taskswarm-源码复核.md) | evidence | 固定 v0.2.38 的源码复核：npm 全下架；worktree 每 lane；resume 非原子；_orch 重置风险。 | 证据强度与未验证项见文末 `[OPEN]`。 | 复核对应样本的机制断言或版本坐标。 | observed |
-| [`12-eteams-源码复核.md`](./lever-cross-boundary/_证据/12-eteams-源码复核.md) | evidence | 固定 0.2.21 的源码复核：persona 仅 0.1.x 成立；rc.3 无 startContinuable；版本漂移。 | 证据强度与未验证项见文末 `[OPEN]`。 | 复核对应样本的机制断言或版本坐标。 | observed |
-| [`13-agent-relay-源码复核.md`](./lever-cross-boundary/_证据/13-agent-relay-源码复核.md) | evidence | 固定 v0.8.1 的源码复核：npm 0.5.0 旧代；wake/长轮询未发布；回环默认非强制。 | 证据强度与未验证项见文末 `[OPEN]`。 | 复核对应样本的机制断言或版本坐标。 | observed |
-| [`14-team-rooms-源码复核.md`](./lever-cross-boundary/_证据/14-team-rooms-源码复核.md) | evidence | 固定 1.0.8 的源码复核：已 archived/deprecated；fact 在 rc.3 被禁；游标会跳过。 | 证据强度与未验证项见文末 `[OPEN]`。 | 复核对应样本的机制断言或版本坐标。 | observed |
 
 ## PROVE · 质量门禁 ｜ `prove-output`
 

@@ -11,8 +11,10 @@ budget: 420
 ---
 # 怎么借：从这套研究里拿走东西
 
+> **协作部分已迁至独立册** [`../leverage-agent-collaboration/`](../leverage-agent-collaboration/README.md)：多 agent/团队/流水线/跨机路由请看新册的 BORROW；本文件保留门禁与权限（PROVE/LIMIT）路由，CROSS 段落仅作历史交叉引用。
+
 > **这一层不是插件导购。** 它挖的是「谁占了哪条缝、机制长什么样、代价是什么、什么时候坏」。所以你能拿走的不是结论，是**机制形状 + 失效条件**。
-> **先记住四条引用规则**：① 引卡片，不引本文件（本文件的法则标 `[OBS]`，是综合判断）；② 每个数字带日期；③ 四域不是分类，一个插件可以同时在四个域里出现（重叠 41–44%）；④ 「稀缺 / 唯一」是人工判断，标 `[OBS]`，不写命中数。
+> **先记住四条引用规则**：① 引卡片，不引本文件（本文件的法则标 `[OBS]`，是综合判断）；② 每个数字带日期；③ 域不是分类，一个插件可以同时在多个域里出现（重叠 41–44%）；④ 「稀缺 / 唯一」是人工判断，标 `[OBS]`，不写命中数。
 
 ## 0. 三条读法
 
@@ -50,8 +52,8 @@ budget: 420
 
 **答案**：协作是状态问题，不是 spawn 问题。先定权威状态在哪张纸上，再定冲突谁裁，最后定崩溃谁收敛；写冲突**只有** `tools/pre-execute` 返回 deny 真拦得住。
 
-- **先读**：[CROSS README](./lever-cross-boundary/README.md) 的「能借鉴什么」→ [CROSS-01](./lever-cross-boundary/01-collab-topology.md) 的四道边界。
-- **再读**：[CROSS-02](./lever-cross-boundary/02-coordination-mechanisms.md) §5.5 的三张配方；[CROSS-07](./lever-cross-boundary/samples/07-Nwflower-dsh-file-claim.md) 的写冲突样本。
+- **先读**：[CROSS README](../leverage-agent-collaboration/00-map.md) 的「能借鉴什么」→ [CROSS-01](../leverage-agent-collaboration/coordination/01-taxonomy.md) 的四道边界。
+- **再读**：[CROSS-02](../leverage-agent-collaboration/coordination/02-mechanisms.md) §5.5 的三张配方；[CROSS-07](../leverage-agent-collaboration/coordination/samples/07-Nwflower-dsh-file-claim.md) 的写冲突样本。
 - **拿到**：三笔税（状态 / 冲突 / 收敛）、配方 A/B/C、选型决策树、14 个样本坐标。
 - **必问**：你的租约有没有 epoch / fencing token？被接管时原主怎么知道自己已经输了？
 - **反例**：先写崩溃恢复，再发现状态存在两处 → 恢复逻辑重写一遍（CROSS-02 §5.5 的依赖顺序）。
@@ -106,7 +108,7 @@ budget: 420
 - **拿到**：repo / npm / 版本 / commit / 锚点文件 / 一条可复跑的 `curl`。
 - **必问**：你用 `main` 还是短 SHA？用 `main` 打开的代码三个月后是另一份（PROVE-00 的纪律）。
 - **反例**：没记 commit 的抓取 = 没抓（PROVE-00 §2 的两条自曝）。
-- **本册证据链**：14 张样本卡头部都有“证据链”指向 `_证据/NN-*-源码复核.md`（固定 npm/tag/commit 与偏差表）；15 张机制卡与 6 篇 playbook 末尾有“证据与边界”（`[DOC]/[SRC-TARGET]/[SRC-DSH]/[OBS]/[OPEN]`）。**引用任何机制断言前先读对应 memo/证据节**；README 主张不等于实现（见 [`EVIDENCE.md`](./EVIDENCE.md)）。
+- **本册证据链**：14 张样本卡头部都有“证据链”指向 `_证据/NN-*-源码复核.md`（固定 npm/tag/commit 与偏差表）；15 张机制卡与 6 篇 playbook 末尾有“证据与边界”（`[DOC]/[SRC-TARGET]/[SRC-DSH]/[OBS]/[OPEN]`）。**引用任何机制断言前先读对应 memo/证据节**；README 主张不等于实现（见 [`EVIDENCE.md`](../leverage-agent-collaboration/EVIDENCE.md)）。
 
 ## 2. 四个方向各自的最小充分集
 
@@ -124,7 +126,7 @@ budget: 420
 6. **版本锁不到就跳过**，不装近似版本；环境码「未包含 = 保持现状」（RESHAPE-4）。
 7. **宿主侧没有"宿主兜底"**：换成独立产品后，首启 / 分发 / 降级全归你（[RESHAPE-shell](../leverage-reshape-product/shell/README.md) §4）。
 
-### 2.2 [CROSS](./lever-cross-boundary/README.md) · 协作边界
+### 2.2 [CROSS](../leverage-agent-collaboration/00-map.md) · 协作边界
 
 **只做一件事**：先定权威状态在哪张纸上。
 
@@ -291,15 +293,15 @@ budget: 420
 - **`present` 的交付版本持久化、写时复制存储延期实现；`atomic-write` 不 `fsync`**（[PROVE-01](./lever-prove-output/01-quality-chain.md) §3.4 / [PROVE-08](./lever-prove-output/08-delivery-receipt.md)）。
 - **`agent/turn-stopping` 不携带本轮草稿**，所以判官永远只能拿到上一轮的成品（[PROVE-06](./lever-prove-output/06-judge-placement.md)）。
 - **`dsh-tool-goal` 的硬约束全朝向「不许放弃」，没有一条朝向「不许自宣成功」**（[PROVE-02](./lever-prove-output/02-goal-gate-hard-floor.md)）。
-- **沙箱没有网络 / 进程策略词汇**；官方 Team 的 `writeScopes` 不拦任何写入（[LIMIT-01](./lever-draw-limit/01-trust-layers.md) / [CROSS-01](./lever-cross-boundary/01-collab-topology.md)）。
+- **沙箱没有网络 / 进程策略词汇**；官方 Team 的 `writeScopes` 不拦任何写入（[LIMIT-01](./lever-draw-limit/01-trust-layers.md) / [CROSS-01](../leverage-agent-collaboration/coordination/01-taxonomy.md)）。
 
 ### 6.2 生态缺口
 
 - **E 级反例只有 2 条真判**，其余失败模式来自官方限制推演（[horizon](./horizon.md) §7）。
 - **规格独立性问题**：所有验收契约（JSON spec / AC 命令 / SOP 目录）都可能由被判定者自己写；只有 `dsh-verify` 明说「review the spec separately」（[PROVE README](./lever-prove-output/README.md) 待答）。
 - **多门禁共存没有统一 deny 协议**：同时装 3 个门禁时，谁先判、被判者能否看到全部 deny 理由（[PROVE README](./lever-prove-output/README.md) 待答）。
-- **没有人给自己的租约加 epoch / fencing**：是成本问题，还是宿主没给可绕过的写面钩子？（[CROSS README](./lever-cross-boundary/README.md) 待答）
-- **workflow 引擎的「可恢复」普遍是快照重跑**，不是断点续跑（[CROSS-03](./lever-cross-boundary/samples/03-omdsh-dev-dsh_workflow.md)）。
+- **没有人给自己的租约加 epoch / fencing**：是成本问题，还是宿主没给可绕过的写面钩子？（[CROSS README](../leverage-agent-collaboration/00-map.md) 待答）
+- **workflow 引擎的「可恢复」普遍是快照重跑**，不是断点续跑（[CROSS-03](../leverage-agent-collaboration/pipelines/samples/03-omdsh-dev-dsh_workflow.md)）。
 
 ### 6.3 方法缺口
 

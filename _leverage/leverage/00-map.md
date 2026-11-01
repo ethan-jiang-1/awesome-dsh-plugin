@@ -1,5 +1,5 @@
 ---
-title: "杠杆层总章：四个影响面领域"
+title: "杠杆层总章：两个影响面领域"
 domain: layer
 kind: charter
 positioning: "研究宪章：杠杆阶梯、命名约定、证据协议、文件约定与基线。"
@@ -8,10 +8,10 @@ status: living
 updated: 2026-10-31
 budget: 170
 ---
-# 杠杆层 · 四个影响面领域(总章)
+# 杠杆层 · 两个影响面领域(总章)
 
 > **这是什么**:围绕「DSH 里影响面大、强力扩充了 DSH 插件的机制」的深读层。目录前缀 `lever-` 是**第二轴**——`ecosystem/` 回答「有什么」,这里回答「改变了什么、改到多深、代价是什么、什么时候会坏」。
-> **状态**:三域成稿(2026-10-31)；证据化补齐中(2026-11-01)：5 份宪章 + 4 份索引 + 1 份借用指南 + 6 份横向手册 + 15 张机制卡 + **14 张样本卡** + **14 份样本证据 memo** + EVIDENCE/AUDIT，共 **61 篇**。**产品线另册**:[`../leverage-reshape-product/`](../leverage-reshape-product/README.md)(33 篇,19 张样本卡),不参与本层统计。本文件只做宪章,**不随卡片数量增长**;全量清单在 [catalog](./catalog.md),按任务借用看 [BORROW](./BORROW.md)。
+> **状态**:两域成稿；协作域已独立成册：[`../leverage-agent-collaboration/`](../leverage-agent-collaboration/README.md)。本册现有 PROVE/DRAW 两域 + 顶层宪章/索引/证据规程，共 **29 篇**；产品线另册：[`../leverage-reshape-product/`](../leverage-reshape-product/README.md)，不参与本层统计。本文件只做宪章,**不随卡片数量增长**;全量清单在 [catalog](./catalog.md),按任务借用看 [BORROW](./BORROW.md)。
 
 ## 为什么单独一层
 
@@ -21,17 +21,16 @@ DSH 的扩展面是有限的、可枚举的:seam(fs/shell/sandbox/llm/subagent/w
 
 ## 命名:前缀 `lever-` + 一句标语
 
-`lever-`(杠杆点)是这一层的共同前缀:一个插件**占了哪个位置,就能撬动多大一片**。它和 `ecosystem/` 的「类目」正交——类目回答「是什么」,杠杆回答「改了多大、多深、留了什么代价」。四个域并列,没有先后,所以**不加数字**;阅读顺序由下表顺序固定。
+`lever-`(杠杆点)是这一层的共同前缀:一个插件**占了哪个位置,就能撬动多大一片**。它和 `ecosystem/` 的「类目」正交——类目回答「是什么」,杠杆回答「改了多大、多深、留了什么代价」。两个域并列,没有先后,所以**不加数字**;阅读顺序由下表顺序固定。
 
 | 目录 | 标语 | 见到它先问 |
 |---|---|---|
-| [lever-cross-boundary](./lever-cross-boundary/README.md) | *Which boundary does collaboration cross, and what does each crossing cost?*<br>协作跨到哪个边界,每跨一界多付什么 | 共享状态归谁?冲突谁裁决?崩溃后谁收敛? |
 | [lever-prove-output](./lever-prove-output/README.md) | *Where is the gate that turns "looks done" into "proven"?*<br>门禁装在哪一环,产物凭什么算完成 | 门禁在哪一环?证据能否重放?产物是否原子? |
 | [lever-draw-limit](./lever-draw-limit/README.md) | *Who can touch what, who enforces it, what evidence remains?*<br>谁能碰什么,由谁强制,留下什么证据 | 信任谁?边界由谁强制?留下了什么证据? |
 
 **卡片编号**:`<域>/NN-<slug>.md`(一样本一篇时放 `<域>/samples/NN-<owner>-<repo>.md`)。编号**域内递增、不复用、不重排**,只表示写作顺序,不表示优先级,也不跨域比较。退役保留编号,改 `status` 并注明替代者;新增永远追加。**产品线有自己的一套编号法**（「首位 = 类别」+ 三个 lever），见 [`../leverage-reshape-product/`](../leverage-reshape-product/README.md)。
 
-**为什么不用字母编号代号**:`L1–L4` 会让读者以为三域有强弱或先后,而它们实际是三种并列提问;`lift/link/lock/limit` 是为凑首字母造的近义词,彼此冗余。现在的后缀直接说动作,不需要额外解释。
+**为什么不用字母编号代号**:`L1–L4` 会让读者以为两域有强弱或先后,而它们实际是三种并列提问;`lift/link/lock/limit` 是为凑首字母造的近义词,彼此冗余。现在的后缀直接说动作,不需要额外解释。
 
 ## 杠杆阶梯:判断「为什么它影响面大」
 
@@ -47,17 +46,16 @@ DSH 的扩展面是有限的、可枚举的:seam(fs/shell/sandbox/llm/subagent/w
 
 **用法**:卡片里给每个标杆插件标一个级。**升级本身就是洞察**——同一个能力从 2 级升到 4 级(从 prompt 变成 policy)通常意味着它从「建议」变成了「保证」。
 
-## 三域现在有什么
+## 两域现在有什么
 
-三个域是**三个并列的提问**,不是互斥分类,所以样本会重叠(41–44%)。它们的「分析单位」不同——这正是三个目录长得不一样的原因:
+两个域是**两个并列的提问**,不是互斥分类。协作域另册，不参与本表；它们的「分析单位」不同:
 
 | 域 | 一句话问题 | 分析单位 |
 |---|---|---|
-| [CROSS](./lever-cross-boundary/README.md) | 协作跨到哪个边界,每跨一界多付什么 | 一个协作样本(一样本一文件)+ 横向卡 |
 | [PROVE](./lever-prove-output/README.md) | 门禁装在哪一环,产物凭什么算完成 | 一个门禁位置(一环一卡) |
 | [LIMIT](./lever-draw-limit/README.md) | 谁能碰什么,由谁强制,留下什么证据 | 一个控制点/预算(一卡一样本) |
 
-**卡片数不随名单涨。** 全量文件清单见 [catalog](./catalog.md),按任务借用见 [BORROW](./BORROW.md)。
+**协作域已迁至 [`../leverage-agent-collaboration/`](../leverage-agent-collaboration/README.md)**（14 样本 + 四家族 + 横向卷）。**卡片数不随名单涨。** 全量文件清单见 [catalog](./catalog.md),按任务借用见 [BORROW](./BORROW.md)。
 
 ## 文件约定:frontmatter 与生长
 
@@ -92,7 +90,7 @@ DSH 的扩展面是有限的、可枚举的:seam(fs/shell/sandbox/llm/subagent/w
 
 每条进入卡片的样本必须写齐六项:代表什么 / 为什么选它(过的是哪几条证据)/ **影响力证据(被谁提到、替换了哪个对象、或官方原文;不接受形容词,也不要求计数)** / 主要特点 / 代价与失效条件 / 证据级别。缺一项退回。
 
-完整规则、三域专项条件、分级落位与已知缺口 → [`horizon.md`](./horizon.md)。产品线的准入条件在 [`../leverage-reshape-product/horizon.md`](../leverage-reshape-product/horizon.md)。
+完整规则、两域专项条件、分级落位与已知缺口 → [`horizon.md`](./horizon.md)。产品线的准入条件在 [`../leverage-reshape-product/horizon.md`](../leverage-reshape-product/horizon.md)。
 
 ## 证据协议:所有卡片共同遵守
 
@@ -129,9 +127,9 @@ DSH 包的事实来自本机安装目录(`dsh --version` 与各包 README),不�
 - **新增一个样本**:过门 → 建卡(照抄同类 `card`/`sample` 的 frontmatter 与骨架,含借用节)→ catalog 补一行 → 域 README **只在「本域最佳取法变了」时**加一行。不要改本文件 / `horizon` / `BORROW`。
 - **B 级不立卡、C 级只一行**:B 只出现在卡的对照行,C 只出现在失败模式表。
 - **退役/被替代**:保留文件与编号,改 `status`,在 `takeaway` 里写明被谁替代;**不删、不改名**。
-- **新域**:必须同时满足「新位置(seam/slot/layer)+ 多个过门样本 + 三域都装不下」;才加目录、`domain` 枚举、README 域表一行、BORROW 一行。**产品线是另册**,不适用本条。
+- **新域**:必须同时满足「新位置(seam/slot/layer)+ 多个过门样本 + 两域都装不下」;才加目录、`domain` 枚举、README 域表一行、BORROW 一行。**产品线是另册**,不适用本条。
 - **同步上游**:只改受影响卡的 `updated` 与 `[DSH]` 断言 + 本文件「基线」行;`ecosystem/`、`_coverage/` 按原流程。
-- **口径变化**:准入/分级只改 [`horizon.md`](./horizon.md)(单一源);三域 README 的副本是摘要,不必同步改。本文件的证据协议若变,在 `_change_log/` 记一笔。
+- **口径变化**:准入/分级只改 [`horizon.md`](./horizon.md)(单一源);两域 README 的副本是摘要,不必同步改。本文件的证据协议若变,在 `_change_log/` 记一笔。
 - **验证**:`node _leverage/verify.mjs`(frontmatter/链接/锚点/编码)。**不做计数校验**。
 
 ## 待回答问题

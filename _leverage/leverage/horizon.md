@@ -25,7 +25,7 @@ budget: 230
 
 **计数不是证据。** 「全库只有 3 条」这类断言会随名单涨而失真;真要用,只能写成「截至 `<日期>`,人工回读所见」并标 `[OBS]`。
 
-**证据规格的单一源**：[`EVIDENCE.md`](./EVIDENCE.md)（样本 memo、章节“证据与边界”、`[SRC-*]` 标签与 `[OPEN]` 边界）。本文件只管准入与分级，不重复定义证据格式。
+**证据规格的单一源**：[`EVIDENCE.md`](../leverage-agent-collaboration/EVIDENCE.md)（样本 memo、章节“证据与边界”、`[SRC-*]` 标签与 `[OPEN]` 边界）。本文件只管准入与分级，不重复定义证据格式。
 
 ## 1. 入口条件(两组,缺一不立卡)
 
@@ -79,6 +79,8 @@ grep -rl "owner/repo" data/plugins | head
 ```
 
 **纪律**:A 只能在**回读 `citers` 之后**才写进卡片。撞词的高分不是影响力,是噪声——通用词(`terminal`/`notification`/`schedule`/`calendar`)尤其如此。
+
+**协作域已迁出**：原 `lever-cross-boundary` 的准入与证据规则由 [`../leverage-agent-collaboration/00-map.md`](../leverage-agent-collaboration/00-map.md) 维护；下列 CROSS 相关段落是历史口径，保留作对照。
 
 **已记录的域级修正(2026-10-31)**:`lever-cross-boundary` 复核九个样本,只有 `limuyang2/agent-team` 被其他条目按名提到;其余为 0——目录 `description` 极少互相点名,样本之间是**功能竞争**而非引用关系。该域因此改用**实时 GitHub + npm 数据**论证影响力,以 C/F/G 立卡。
 
@@ -146,7 +148,7 @@ grep -rl "owner/repo" data/plugins | head
 | **B** | 只在某个维度上与 A 不同 | 卡的对照行,**不立卡** |
 | **C** | 明指不可共存,或同一接缝取反 | 失败模式表一行 |
 
-**域级入口**:[CROSS](./lever-cross-boundary/README.md) · [PROVE](./lever-prove-output/README.md) · [LIMIT](./lever-draw-limit/README.md) · **产品线另册**:[`../leverage-reshape-product/`](../leverage-reshape-product/README.md)。**全量文件**(kind / status / 定位)见 [catalog](./catalog.md)。
+**域级入口**:[CROSS](../leverage-agent-collaboration/00-map.md) · [PROVE](./lever-prove-output/README.md) · [LIMIT](./lever-draw-limit/README.md) · **产品线另册**:[`../leverage-reshape-product/`](../leverage-reshape-product/README.md)。**全量文件**(kind / status / 定位)见 [catalog](./catalog.md)。
 
 ## 7. 现役研究的已知缺口
 

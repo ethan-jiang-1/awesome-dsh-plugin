@@ -9,6 +9,8 @@ updated: 2026-11-01
 ---
 # 审计基线（2026-11-01）
 
+> **2026-11-01 迁移说明**：协作域已迁至 [`../leverage-agent-collaboration/`](../leverage-agent-collaboration/README.md)。本文件冻结为 PROVE/DRAW 的历史审计记录，不再更新 CROSS 行。
+
 ## 规模
 
 | 类型 | 数量 | 位置 |

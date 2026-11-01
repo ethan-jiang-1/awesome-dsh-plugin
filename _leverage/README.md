@@ -1,23 +1,25 @@
-# `_leverage` — 杠杆层(两册)
+# `_leverage` — 杠杆层(三册)
 
 > **这一层回答同一个问题**:*同样是不改上游,谁撬得更深?*
-> 2026-10-31 从 `_digested/` 出册独立:两册同源、同一套证据纪律,只是**分析单位**不同。
+> 2026-10-31 从 `_digested/` 出册独立；2026-11-01 协作域再独立成册。三册同源、同一套证据纪律，只是**分析单位**不同。
 
-## 两册分工
+## 三册分工
 
 | 册 | 标语 | 分析单位 | 回答什么 |
 |---|---|---|---|
-| [`leverage/`](./leverage/README.md) | *Who can touch what; where is the gate; which boundary does it cross?* | **一个机制位置**(接缝 / 门禁 / 控制点) | 对上游的杠杆有多大:协作跨哪条边界、门禁装在哪一环、谁强制权限 |
+| [`leverage/`](./leverage/README.md) | *Who can touch what; where is the gate?* | **一个机制位置**(接缝 / 门禁 / 控制点) | 对上游的杠杆有多大:门禁装在哪一环、谁强制权限 |
+| [`leverage-agent-collaboration/`](./leverage-agent-collaboration/README.md) | *Who collaborates with whom, who owns the state, who converges?* | **一个协作家族**(主-子 / 团队 / 流水线 / 跨界) + 样本 | 多 agent 怎么组织:委派、编队、DAG、跨会话/实例/机器 |
 | [`leverage-reshape-product/`](./leverage-reshape-product/README.md) | *From a plugin to a profile to an app.* | **一个产品样本**(插件 / profile / 应用) | 怎么把 DSH 装成产品:发插件、发一整套 bundle,还是自带宿主 |
 
-**两册平级,不合并。** `leverage/` 问「改到多深、付什么代价」;`leverage-reshape-product/` 问「用户从哪进来、看到什么默认值、坏了谁负责」。同一份 DSH,前者看机制,后者看交付物。
+**三册平级,不合并。** `leverage/` 问门禁与权限的机制深度；`leverage-agent-collaboration/` 问多 agent 如何组织与收敛；`leverage-reshape-product/` 问用户从哪进来、坏了谁负责。同一份 DSH,前者看机制,后者看交付物。
 
 ## 怎么读(只挑一条)
 
 | 你要… | 去哪 |
 |---|---|
 | 判断一个插件占了哪个位置、影响面多大 | [`leverage/horizon.md`](./leverage/horizon.md) → 对应三域 README |
-| 抄一条协作 / 门禁 / 权限的现成做法 | [`leverage/BORROW.md`](./leverage/BORROW.md) |
+| 抄一条协作的现成做法 | [`leverage-agent-collaboration/BORROW.md`](./leverage-agent-collaboration/BORROW.md)（待建） |
+| 抄一条门禁 / 权限的现成做法 | [`leverage/BORROW.md`](./leverage/BORROW.md) |
 | 判断一个东西该发插件、发 profile 还是发应用 | [`leverage-reshape-product/README.md`](./leverage-reshape-product/README.md) §4 的三步判定 |
 | 找某个产品/插件的坐标 | [`leverage-reshape-product/catalog.md`](./leverage-reshape-product/catalog.md) |
 | 查「它为什么还没成卡」 | 两册各自的 `BACKLOG.md` |
@@ -30,10 +32,13 @@
 _leverage/
 ├── README.md                        ← 本文件(两册共同入口,固定名)
 ├── verify.mjs                       ← 自包含校验器(只读本目录)
-├── leverage/                        ← 三域:协作 / 门禁 / 权限
+├── leverage/                        ← 两域:门禁 / 权限
 │   ├── README.md  00-map.md  horizon.md  BORROW.md  catalog.md
-│   ├── lever-cross-boundary/  lever-prove-output/  lever-draw-limit/
+│   ├── lever-prove-output/  lever-draw-limit/
 │   └── _证据/
+├── leverage-agent-collaboration/    ← 协作:delegation / teams / pipelines / crossing / coordination
+│   ├── README.md  00-map.md  EVIDENCE.md  catalog.md  BORROW.md
+│   └── <family>/samples/ + _证据/
 └── leverage-reshape-product/        ← 产品线:plugin / profile / shell
     ├── README.md  00-map.md  horizon.md  BORROW.md  BACKLOG.md  catalog.md
     ├── plugin/  profile/  shell/
@@ -49,12 +54,12 @@ _leverage/
 
 ## 自包含边界
 
-**这一层是自包含的**:两册的骨架(`README` / `00-map` / `horizon` / `BORROW` / `catalog` / `BACKLOG`)、规则源、证据与校验器全部在这棵树里。唯一的运行入口是 `node _leverage/verify.mjs`,它只读 `_leverage/` 内的 Markdown——**不 import 外部脚本,不读外部数据文件**。
+**这一层是自包含的**:三册的骨架(`README` / `00-map` / `horizon` / `BORROW` / `catalog` / `BACKLOG`)、规则源、证据与校验器全部在这棵树里。唯一的运行入口是 `node _leverage/verify.mjs`,它只读 `_leverage/` 内的 Markdown——**不 import 外部脚本,不读外部数据文件**。
 
 它与仓库同级的 `_digested/` 是两层并列的研究,不是上下游:
 
 - `_digested/` 收**生态事实**(有什么、结构怎么变)与**上游机制**(名单数据、投稿门禁、探针衰减);`_leverage/` 收**影响面判断**。
-- 两册都**不重复分类计数**:引用外部数字时带日期与口径,不重算。
+- 三册都**不重复分类计数**:引用外部数字时带日期与口径,不重算。
 - 跨目录只写文档链接;链接失效不会影响本层的校验与阅读。
 
 ## 验证

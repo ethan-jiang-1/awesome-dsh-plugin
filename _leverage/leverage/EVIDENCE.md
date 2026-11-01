@@ -10,6 +10,8 @@ updated: 2026-11-01
 
 # 证据规程（本册）
 
+> **2026-11-01 迁移说明**：协作域已迁至 [`../leverage-agent-collaboration/`](../leverage-agent-collaboration/README.md)，并使用其自己的 `EVIDENCE.md`。本文件只覆盖 PROVE/DRAW 与父册骨架。
+
 产品册 [`../leverage-reshape-product/RESEARCH.md`](../leverage-reshape-product/RESEARCH.md) 的规则在这里适用，但本册的分析单位不同：**样本卡**（一样本一篇）与**机制卡**（一个门禁/控制点一篇）。所以证据门分两类，不混用。
 
 ## 1. 分源标签
