@@ -48,7 +48,7 @@ updated: 2026-11-01
 - 包内 patch 出厂就带 `deepseek-account/deepseek-flash`，**装完即钉**，不是「零配置继承」。
 - 包装 provider 的能力表不是 spawn 的逐字副本：多 `persona`/`toolFilter`、少 `agentPreset`；后者会让带 preset 的委派撞 `UNSUPPORTED_CAPABILITY`。
 - 非 continuable 的 base 被包装后会在 `prepareContinuable` 抛，整条委派失败——「方法存在即能力」的双刃。
-- `teamInjection:false` 在 rc.3 上同时关掉单发与团队注入，因为它同时是钩子里的唯一开关。
+- 在 rc.3 的代码路径上，`teamInjection:false` 会同时关掉单发与团队注入——它是钩子里的唯一开关。
 
 ## 精确坐标
 
@@ -61,7 +61,7 @@ updated: 2026-11-01
 | **安装** | 无 npm：按 README 的 tarball / 本地目录安装（示例仍是 `0.8.21.tgz`）；装后重启 DSH |
 | **接线** | `dsh.bundle.patch` → `cordis.patch.yml`（id `subagent-route-pin`）+ `dsh.client`(web) |
 | **依赖** | peer `@deepseek-ai/dsh`、`-tool-subagent`；范围 `>=0.2.0-rc.1 <0.4.0`；`engines.dsh` 同串 |
-| **数据** | `~/.dsh/subagent-route-pin.{json,ready.json,load.json,probe.json,last-run.json}` |
+| **数据** | 设置文件 `~/.dsh/subagent-route-pin.json`；另有 `ready` / `load` / `probe` / `last-run` 四个记录文件 |
 | **测试** | `node test/run.mjs`（离线 harness）+ `node test/logs.mjs`（读真实 ready 记录）；**无 CI** |
 
 ## 借用指南
