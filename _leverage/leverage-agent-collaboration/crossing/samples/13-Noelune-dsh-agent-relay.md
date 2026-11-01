@@ -7,6 +7,7 @@ takeaway: "broker 默认回环但无强制校验；0.6–0.8 均未发布到 npm
 read_when: "要让不是 DSH 的 agent 和 DSH 成员通信。"
 status: observed
 updated: 2026-10-31
+also_in: "pipelines"
 ---
 # 13 · `Noelune/dsh-agent-relay`
 

@@ -7,6 +7,7 @@ takeaway: "每 lane 一个 worktree；合并不清理但 abort/卸载/同 task �
 read_when: "想知道 worktree 到底怎么用，或要一份真实的故障档案。"
 status: observed
 updated: 2026-10-31
+also_in: "coordination"
 ---
 # 11 · `february2015/dsh-taskswarm`
 

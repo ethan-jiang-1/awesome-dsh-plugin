@@ -7,6 +7,7 @@ takeaway: "on-demand 靠 systemPrompt + pre-step 早退，但 shipped/legacy 默
 read_when: "想省掉「先起一个规划器」的调用成本，并逐成员配模型/工具。"
 status: observed
 updated: 2026-10-31
+also_in: "delegation"
 ---
 # 02 · `toolclub/dsh-agent-team-gui`
 

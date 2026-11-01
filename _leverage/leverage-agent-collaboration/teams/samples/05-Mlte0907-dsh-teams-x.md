@@ -7,6 +7,7 @@ takeaway: "质量门自动派生返工属实；“官方三条限制对照”非
 read_when: "想要质量门自动派生返工，且接受「软收敛，无硬超时」。"
 status: observed
 updated: 2026-10-31
+also_in: "pipelines"
 ---
 # 05 · `Mlte0907/dsh-teams-x`
 

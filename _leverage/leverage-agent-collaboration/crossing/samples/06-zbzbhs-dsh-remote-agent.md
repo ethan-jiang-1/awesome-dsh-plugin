@@ -7,6 +7,7 @@ takeaway: "副机跑完整 loop（in-process 或 spawn headless）；插件不�
 read_when: "要跨机，且不能被网络拖死——链路断了工作照常继续。"
 status: observed
 updated: 2026-10-31
+also_in: "delegation"
 ---
 # 06 · `zbzbhs/dsh-remote-agent`
 

@@ -7,6 +7,7 @@ takeaway: "不用插件写协作（preset 路线）；证明 persona 配置键�
 read_when: "想用 preset/配置而不是运行时插件做多 agent。"
 status: observed
 updated: 2026-10-31
+also_in: "delegation"
 ---
 # 10 · `Asher-2000/dsh-expert-mode`
 

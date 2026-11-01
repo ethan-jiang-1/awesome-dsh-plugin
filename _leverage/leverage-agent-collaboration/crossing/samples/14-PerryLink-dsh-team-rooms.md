@@ -7,6 +7,7 @@ takeaway: "房间存储为权威 + 单写链；但重建副本在 rc.3 不可用
 read_when: "团队要跨会话活着，且最关心「消息会不会丢、重启后还在不在」。"
 status: observed
 updated: 2026-10-31
+also_in: "coordination"
 ---
 # 14 · `PerryLink/dsh-team-rooms`
 

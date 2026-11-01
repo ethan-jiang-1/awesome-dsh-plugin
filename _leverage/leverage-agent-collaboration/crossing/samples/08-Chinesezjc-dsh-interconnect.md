@@ -7,6 +7,7 @@ takeaway: "每对端一条持久 WS + inbox；跨 DSH 实例，无幂等、无�
 read_when: "要跨实例投消息或同步事件，且能接受无幂等、无离线队列。"
 status: observed
 updated: 2026-10-31
+also_in: "teams"
 ---
 # 08 · `Chinesezjc/dsh-interconnect`
 

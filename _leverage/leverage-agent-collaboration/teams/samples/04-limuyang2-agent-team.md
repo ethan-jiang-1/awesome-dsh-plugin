@@ -7,6 +7,7 @@ takeaway: "成员=独立根 Agent，为异构放弃子代理；入队冻结快�
 read_when: "每个成员要用不同的模型/权限/技能包/MCP。"
 status: observed
 updated: 2026-10-31
+also_in: "delegation"
 ---
 # 04 · `limuyang2/agent-team`
 

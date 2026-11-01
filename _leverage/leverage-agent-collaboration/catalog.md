@@ -15,6 +15,8 @@ updated: 2026-11-01
 | [`00-map.md`](./00-map.md) | charter | 本册宪章：四道边界、三笔税、选型与样本坐标（迁移中）。 | 要判断一个协作方案属于哪类。 |
 | [`EVIDENCE.md`](./EVIDENCE.md) | guide | 本册证据规约：样本 memo、章节证据节、分源标签。 | 新增/修订样本或章节前。 |
 | [`BORROW.md`](./BORROW.md) | guide | 按家族路由的借用入口。 | 要选型或评审协作方案。 |
+| [`coordination/01-taxonomy.md`](./coordination/01-taxonomy.md) | playbook | 四道边界与三笔税的总览（迁移自旧 01）。 | 要理解协作边界与代价。 |
+| [`coordination/02-mechanisms.md`](./coordination/02-mechanisms.md) | playbook | 九家样本的机制谱与三张配方（迁移自旧 02）。 | 要比较状态/冲突/收敛的具体做法。 |
 | [`encyclopedia.md`](./encyclopedia.md) | index | 14 个样本的同表对照。 | 要横向比较多个协作样本。 |
 | [`delegation/README.md`](./delegation/README.md) | index | delegation 家族入口与样本索引。 | 要做 delegation 相关设计。 |
 | [`teams/README.md`](./teams/README.md) | index | teams 家族入口与样本索引。 | 要做 teams 相关设计。 |

@@ -7,6 +7,7 @@ takeaway: "同目录边车 + pre-execute deny；租约必须自己加 epoch，�
 read_when: "怕两个人改同一个文件（写冲突）——只有这条路真拦得住。"
 status: observed
 updated: 2026-10-31
+also_in: "teams"
 ---
 # 07 · `Nwflower/dsh-file-claim`
 

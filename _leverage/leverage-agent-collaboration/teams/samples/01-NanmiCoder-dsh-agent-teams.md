@@ -7,6 +7,7 @@ takeaway: "磁盘 team.json 为真相源 + idle 边沿调度 + 消息 ack 在准
 read_when: "成员需要被反复追问、记住上一轮、人先批准再派工。"
 status: observed
 updated: 2026-10-31
+also_in: "pipelines"
 ---
 # 01 · `NanmiCoder/dsh-agent-teams`
 
