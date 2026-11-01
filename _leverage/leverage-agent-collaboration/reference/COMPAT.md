@@ -1,5 +1,5 @@
 ---
-title: "COMPAT · 兼容性墙：17 张样本在 rc.3 上还剩什么"
+title: "COMPAT · 兼容性墙：18 张样本在 rc.3 上还剩什么"
 domain: agent-collab
 kind: guide
 positioning: "18 张样本的生命状态与 rc.3 失效点：4 类状态、8 张阻断、逐条证据；回答十问第 10 问。"
