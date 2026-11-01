@@ -6,8 +6,12 @@ positioning: "`NanmiCoder/dsh-agent-teams`：把当前会话变成 captain，成
 takeaway: "磁盘 team.json 为真相源 + idle 边沿调度 + 消息 ack 在准入时。"
 read_when: "成员需要被反复追问、记住上一轮、人先批准再派工。"
 status: observed
-updated: 2026-10-31
 also_in: "pipelines"
+updated: 2026-11-01
+tier: 典型
+life: active
+evidence: L2
+answers: Q3,Q7
 ---
 # 01 · `NanmiCoder/dsh-agent-teams`
 
@@ -17,7 +21,7 @@ also_in: "pipelines"
 > **什么时候找它**:成员需要被反复追问、需要记住上一轮、需要人先批准再派工
 
 > 导航:[样本索引](../../encyclopedia.md) · [域章程](../../00-map.md) · [三笔税机制谱](../../coordination/02-mechanisms.md) · [四道边界](../../coordination/01-taxonomy.md)
-> **证据链**：npm 0.1.28 ↔ tag `v0.1.28` ↔ commit `3331b90`；机制、签名与偏差见[`01 源码复核`](../_证据/01-agent-teams-源码复核.md)。
+> **证据链**：npm 0.1.28 ↔ tag `v0.1.28` ↔ commit `3331b90`；机制、签名与偏差见[`01 源码复核`](../_证据/01-agent-teams-源码复核.md)；两进程丢更新由 [`R4a`](../../_证据/00_实测环境与账本.md) 复现。
 
 ## 设计思路
 
@@ -41,7 +45,7 @@ also_in: "pipelines"
 
 | 税 | 它的答案 | 代价 |
 |---|---|---|
-| 状态归属 | 磁盘 `team.json` 是真相源,会话事件只作审计 | 锁是进程内 promise 链,多进程覆盖写 |
+| 状态归属 | 磁盘 `team.json` 是真相源,会话事件只作审计 | 锁是进程内 promise 链，多进程覆盖写（**R4a**：两进程各持锁仍只留一个成员，退出码都是 0） |
 | 冲突裁决 | **不做**。只在完成时审计 `changedPaths`；**源码没有 worktree 支持**（不是 README 明说的设计边界） | 共享 checkout 完全裸露 |
 | 失败收敛 | parked 停驻 + 冷恢复;移除成员时任务回池 | 模型忘调 `update_task` → attempt 永久 parked |
 

@@ -6,8 +6,12 @@ positioning: "`dsh-agent-relay`：HTTP broker 连 dsh/Codex/Claude；源码 0.8.
 takeaway: "broker 默认回环但无强制校验；0.6–0.8 均未发布到 npm，装着 0.5.0 就没有 wake/长轮询。"
 read_when: "要让不是 DSH 的 agent 和 DSH 成员通信。"
 status: observed
-updated: 2026-10-31
 also_in: "pipelines"
+updated: 2026-11-01
+tier: 典型
+life: unpublished
+evidence: L1
+answers: Q5
 ---
 # 13 · `Noelune/dsh-agent-relay`
 

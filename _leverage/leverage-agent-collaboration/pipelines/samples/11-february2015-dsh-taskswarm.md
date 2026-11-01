@@ -6,8 +6,12 @@ positioning: "`february2015/dsh-taskswarm`：每 lane 一个 git worktree，按�
 takeaway: "每 lane 一个 worktree；合并不清理但 abort/卸载/同 task 重跑会清；npm 已下架，只能源码装。"
 read_when: "想知道 worktree 到底怎么用，或要一份真实的故障档案。"
 status: observed
-updated: 2026-10-31
 also_in: "coordination"
+updated: 2026-11-01
+tier: 典型
+life: retired
+evidence: L2
+answers: Q4
 ---
 # 11 · `february2015/dsh-taskswarm`
 
@@ -17,7 +21,7 @@ also_in: "coordination"
 > **什么时候找它**:想知道 worktree 到底怎么用、或者想要一份真实的故障档案
 
 > 导航:[样本索引](../../encyclopedia.md) · [域章程](../../00-map.md) · [三笔税机制谱](../../coordination/02-mechanisms.md) · [四道边界](../../coordination/01-taxonomy.md)
-> **证据链**：tag `v0.2.38`=`3164995`（源码 tip `032e2c9`，src 相同）；npm 已全量下架、安装串 404，清理/resume/KI 偏差见[`11 源码复核`](../_证据/11-taskswarm-源码复核.md)。
+> **证据链**：tag `v0.2.38`=`3164995`（源码 tip `032e2c9`，src 相同）；npm 已全量下架、安装串 404，清理/resume/KI 偏差见[`11 源码复核`](../_证据/11-taskswarm-源码复核.md)；分波与 worktree 隔离由 [`R6/R7`](../../_证据/00_实测环境与账本.md) 用 `dsh-taskswarm2@0.2.38` 复现。
 
 ## 设计思路
 
@@ -26,6 +30,8 @@ also_in: "coordination"
 它的故障档案是双语的：英文 `docs/known-issues.md` 有 7 条，KI-007 只在中文 `known-issues.zh-CN.md`（8 条）里。三条命中本域主题——KI-003「内存态整份落盘覆盖兄弟 lane」是第二真相源失步；KI-007「`await spawn()` 无超时让整批卡死」是缺看门狗。
 
 **但代码里仍可见的缺陷**：`updateLane()` 是同步 RMW，同一进程内 lane 不会交错；真正的残余风险是波边界/stopLane/switchLaneModel 的整份写、无跨进程锁、批次 JSON 写入非原子。KI-003 的根因（陈旧整份写）已移除，但并发模型没升级。另外 `reviewLevel` 被解析但从不消费,reviewer 可被实现者跳过;KI 文档说 90 分钟超时,代码写的是 180。
+
+**实测补充**（R6/R7，`dsh-taskswarm2@0.2.38`）：分波对正常依赖给出 `[[a],[b,c],[d]]`；**环不拒绝，退化成同一波**；缺失依赖只记 `unresolvedDeps` 不阻塞。worktree 只带已提交文件，未跟踪与被忽略都不在，`.git` 是 `gitdir:` 指针，移除后分支仍在——**隔离的是检出目录，共享的是仓库**。
 
 ## 精确坐标
 

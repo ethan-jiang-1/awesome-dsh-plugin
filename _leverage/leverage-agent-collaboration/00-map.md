@@ -1,23 +1,32 @@
 ---
-title: "Agent 协作册总章：四家族与横向协调"
+title: "Agent 协作册总章：四家族、十问与三道门"
 domain: agent-collab
 kind: charter
-positioning: "本册宪章：主-子/团队/流水线/跨界四家族 + coordination 横向卷；三根轴、判定树、样本归属与证据门。"
-read_when: "要判断一个多 agent 方案属于哪类、该读哪卷；或要新增样本/章节时。"
+positioning: "本册宪章：四家族 + 横向协调；十问、三道门、L0–L3 证据等级、样本分级与强制去重规则。"
+read_when: "要判断一个多 agent 方案属于哪类；或新增/修订样本、章节与判据时。"
 status: living
 updated: 2026-11-01
+budget: 215
 ---
-# Agent 协作册 · 四家族与横向协调
+# Agent 协作册 · 四家族与三道门
 
-> **标语**：*Who collaborates with whom, who owns the state, who converges?* —— 协作先问状态与收敛，再问怎么派活。
-> **状态**：由原 `leverage/lever-cross-boundary` 迁出独立成册（2026-11-01）。14 个既有样本按主家族归位、证据 memo 一并迁移；delegation 新增 15/16 路由样本与 17 截断 fork 样本；delegation / pipelines 的空白区在后续批次补研究。
-> **本册自足**：`README` / `00-map` / `EVIDENCE` / `catalog` / `BORROW` 都在本目录；不再依赖父册的域 README。
+> **标语**：*Who collaborates with whom, who owns the state, who converges?*
+> **状态**：2026-11-01 起按「小而深」重定标准（B0）。原 `lever-cross-boundary` 的 14 个样本与 memo 保留；分级与去重见 §9。
+> **本册自足**：`README` / `00-map` / `EVIDENCE` / `catalog` / `BORROW` / `encyclopedia` / `research/` / `reference/` 都在本目录。
+
+## 0. 定调：小而深
+
+三句话，后面所有条款都从它们推出来：
+
+1. **按问题写，不按名单写。** 全册只服务 §4 的十个问题；一个样本回答不了任何一问，就不立卡。
+2. **同一机制族只留一个典型。** 近重复样本降级为「变体」（§9），只保留差异段与证据链接，不占正文篇幅。
+3. **必须表态。** 每章给判据与默认选择（「先这样，除非…」），不做中立选项罗列；写不出立场，等于没研究完。
+
+推论：新增内容优先填「十问里仍弱的格子」，不优先扩样本数；样本数只随机制谱的空白增长。
 
 ## 1. 为什么单独成册
 
-“多 agent”不是一个功能，而是**一组建模选择**：谁拥有成员、谁拥有任务、谁拥有消息、崩了谁收敛。把它们塞进“门禁/权限”的机制册里，会同时失去两类读者：想搭团队的人找不到编队方法，想审权限的人被协作细节淹没。
-
-所以本册只回答协作结构；质量门禁留在 [`../leverage/lever-prove-output/`](../leverage/lever-prove-output/README.md)，权限/审批留在 [`../leverage/lever-draw-limit/`](../leverage/lever-draw-limit/README.md)，产品化留在 [`../leverage-reshape-product/`](../leverage-reshape-product/README.md)。
+「多 agent」不是功能，而是一组建模选择：谁拥有成员、谁拥有任务、谁拥有消息、崩了谁收敛。塞进「门禁/权限」的机制册，会同时失去两类读者：想搭团队的人找不到编队方法，想审权限的人被协作细节淹没。本册只回答协作结构。
 
 ## 2. 三根轴先于分类
 
@@ -31,45 +40,47 @@ updated: 2026-11-01
 
 ## 3. 四家族 + 横向卷
 
-| 卷 | 回答什么 | 分析单位 | 目录 |
+| 卷 | 回答什么 | 分析单位 | 样本坐标 |
 |---|---|---|---|
-| **delegation 主-子代理** | 一次委派怎么发生、能不能续、结果怎么回传 | 一条宿主接缝或一个委派样本 | [`delegation/`](./delegation/README.md) |
-| **teams 团队** | 多成员如何编队、调度、共享任务板 | 一个团队运行时样本 | [`teams/`](./teams/README.md) |
-| **pipelines 流水线** | 控制流怎么写、重放/暂停/幂等怎么做 | 一种编排模型 + 样本 | [`pipelines/`](./pipelines/README.md) |
-| **crossing 跨会话/实例/机器** | handoff、broker、远端 worker、房间 | 一种跨界通道 + 样本 | [`crossing/`](./crossing/README.md) |
-| **coordination 横向** | 状态归属、冲突裁决、失败收敛、容量/成本 | 跨样本对照 + 判定树 | [`coordination/`](./coordination/README.md) |
+| **delegation** | 一次委派怎么发生、能不能续、结果怎么回传 | 一条宿主接缝或一个委派样本 | 15–17 |
+| **teams** | 多成员如何编队、调度、共享任务板 | 一个团队运行时样本 | 01/02/04/05/10/12 |
+| **pipelines** | 控制流怎么写、重放/暂停/幂等怎么做 | 一种编排模型 + 样本 | 03/11/18 |
+| **crossing** | handoff、broker、远端 worker、房间 | 一种跨界通道 + 样本 | 06/08/09/13/14 |
+| **coordination** | 状态归属、冲突裁决、失败收敛、容量/成本 | 跨样本对照 + 判定树 | 07 + 横向 |
 
-## 4. 现有样本的主家族
+**样本总表只有一份**：[`encyclopedia.md`](./encyclopedia.md)。主家族与分级不在本文件重复维护。
 
-| 样本 | 主家族 | 交叉角色 | 证据链 |
+## 4. 十个问题（全册的验收尺子）
+
+> 基线 2026-11-01。**每个问题必须 ≤2 跳可答**；「弱」格是本册的欠账，批次收口时更新本表。
+
+| # | 读者会问 | 去哪 | 现状 |
 |---|---|---|---|
-| 01 `NanmiCoder/dsh-agent-teams` | teams | pipelines（邮箱/调度） | [`memo`](./teams/_证据/01-agent-teams-源码复核.md) |
-| 02 `toolclub/dsh-agent-team-gui` | teams | delegation（pre-step 派工） | [`memo`](./teams/_证据/02-team-gui-源码复核.md) |
-| 03 `omdsh-dev/dsh_workflow` | pipelines | teams（成员 spawn） | [`memo`](./pipelines/_证据/03-dsh_workflow-源码复核.md) |
-| 04 `limuyang2/agent-team` | teams | delegation（独立根 Agent） | [`memo`](./teams/_证据/04-agent-team-源码复核.md) |
-| 05 `Mlte0907/dsh-teams-x` | teams | pipelines（质量门返工） | [`memo`](./teams/_证据/05-teams-x-源码复核.md) |
-| 06 `zbzbhs/dsh-remote-agent` | crossing | delegation（远端 loop） | [`memo`](./crossing/_证据/06-remote-agent-源码复核.md) |
-| 07 `Nwflower/dsh-file-claim` | coordination | teams（写冲突） | [`memo`](./coordination/_证据/07-file-claim-源码复核.md) |
-| 08 `Chinesezjc/dsh-interconnect` | crossing | teams（inbox 投递） | [`memo`](./crossing/_证据/08-interconnect-源码复核.md) |
-| 09 `IKEASven69/dsh-takeover` | crossing | delegation（会话接力） | [`memo`](./crossing/_证据/09-takeover-源码复核.md) |
-| 10 `Asher-2000/dsh-expert-mode` | teams | delegation（preset 造成员） | [`memo`](./teams/_证据/10-expert-mode-源码复核.md) |
-| 11 `february2015/dsh-taskswarm` | pipelines | coordination（worktree 隔离） | [`memo`](./pipelines/_证据/11-taskswarm-源码复核.md) |
-| 12 `2507483326/dsh-eteams` | teams | delegation（continuable） | [`memo`](./teams/_证据/12-eteams-源码复核.md) |
-| 13 `Noelune/dsh-agent-relay` | crossing | pipelines（投递/幂等） | [`memo`](./crossing/_证据/13-agent-relay-源码复核.md) |
-| 14 `PerryLink/dsh-team-rooms` | crossing | coordination（持久化游标） | [`memo`](./crossing/_证据/14-team-rooms-源码复核.md) |
-| 15 `Garybot126/dsh-subagent-models` | delegation | —（委派路由） | [`memo`](./delegation/_证据/15-subagent-models-源码复核.md) |
-| 16 `tkaiz0406/dsh-subagent-route-pin` | delegation | teams（startActivation 缝） | [`memo`](./delegation/_证据/16-route-pin-源码复核.md) |
-| 17 `aleskxyz/dsh-subagent-fork-lite` | delegation | —（截断 fork） | [`memo`](./delegation/_证据/17-fork-lite-源码复核.md) |
+| 1 | 这个任务该单 agent 还是多 agent | [`coordination/06`](./coordination/06-when-not-multi-agent.md) → [`BORROW`](./BORROW.md) | 强 |
+| 2 | 一次委派：能不能续、结果怎么回 | [`delegation/01`](./delegation/01-host-contract.md) · 15–17 | 强 |
+| 3 | 团队：roster / 任务板 / 消息谁拥有 | [`teams/01`](./teams/01-roster-and-captain.md)–[`05`](./teams/05-failure-modes.md) | 强 |
+| 4 | 编排：图还是代码、重放/幂等 | [`pipelines/01`](./pipelines/01-graph-vs-code.md) · 样本 [`18`](./pipelines/samples/18-GM-HZ-agent-dag-workflow.md) | 强 |
+| 5 | 跨会话/跨机：替换什么、断了怎么办 | [`crossing/01`](./crossing/01-session-handoff.md)–[`05`](./crossing/05-rooms-and-persistence.md) | 中 |
+| 6 | 写冲突：谁能真拦住、锁够不够 | [`coordination/04`](./coordination/04-conflict-adjudication.md) · 样本 07 | 中 |
+| 7 | 崩了谁收敛、stale 记录怎么办 | [`teams/05`](./teams/05-failure-modes.md) · [`coordination/05`](./coordination/05-failure-and-selection.md) | 强 |
+| 8 | 成本/容量：深度、并发、token、人工 | [`coordination/07`](./coordination/07-cost-and-observability.md) · [`delegation/01` §2](./delegation/01-host-contract.md) | 强 |
+| 9 | 怎么观测与验收一个协作系统 | [`coordination/07`](./coordination/07-cost-and-observability.md) · [`_证据/00` 账本](./_证据/00_实测环境与账本.md) | 强 |
+| 10 | 哪些做法在 rc.3 上已经死了 | [`reference/COMPAT`](./reference/COMPAT.md) | 强 |
+
+**分级口径**：强 = 有专门篇章 + 原生基线 + 判据 + 失效，关键断言 ≥L1；中 = 有路径与样本，但缺专门篇章或关键行为未实测；弱 = 无路径。
+
+**判据（2026-11-01 B4 修订）**：覆盖 **10/10**，其中强 **8/10**；Q5/Q6 的缺口是**实测**不是篇章，章内标 `[OPEN]`——硬凑样本比留缺口更不诚实。
 
 ## 5. 判定树
 
-1. **你是“一个 agent 叫另一个 agent 干一件事”吗？** → delegation。先回答：成员可续吗？结果通过调用帧、通知还是邮箱回来？
-2. **你是“多个成员长期共处、共享任务板”吗？** → teams。先回答：roster 谁写、调度靠什么触发、ack 发生在哪一步。
-3. **你是“固定步骤/可重放流水线”吗？** → pipelines。先回答：控制流是图还是代码、缓存键是什么、暂停后从哪继续。
-4. **你只是“让另一台机器/另一个会话接上”吗？** → crossing。先回答：替换的是会话还是进程、传输是否加密、断链后消息丢不丢。
+0. **先问：单 agent 够吗？** 判据、反方证据与成本账见 [`coordination/06`](./coordination/06-when-not-multi-agent.md) 与 [`07`](./coordination/07-cost-and-observability.md)；三样买点一样都不占就不进多 agent 分支。
+1. **你是「一个 agent 叫另一个 agent 干一件事」吗？** → delegation。先回答：成员可续吗？结果通过调用帧、通知还是邮箱回来？
+2. **你是「多个成员长期共处、共享任务板」吗？** → teams。先回答：roster 谁写、调度靠什么触发、ack 发生在哪一步。
+3. **你是「固定步骤/可重放流水线」吗？** → pipelines。先回答：控制流是图还是代码、缓存键是什么、暂停后从哪继续。
+4. **你只是「让另一台机器/另一个会话接上」吗？** → crossing。先回答：替换的是会话还是进程、传输是否加密、断链后消息丢不丢。
 5. **上面四个都能套，但争议在状态/冲突/收敛** → coordination 横向卷，用三笔税做对照。
 
-## 6. 四道边界（底层坐标，保留）
+## 6. 四道边界（底层坐标）
 
 | 边界 | 新增的问题 | 原生支撑 |
 |---|---|---|
@@ -80,31 +91,115 @@ updated: 2026-11-01
 
 **旧册结论仍然成立**：生态样本大多停在边界 1+2；边界 2 的三个致命约束（共享 checkout、单进程、owner 不自动释放）是官方实验包自己写进限制里的。**插件不是在填空白，是在和限制赛跑。**
 
-## 7. 证据门
+## 7. 三道门（先过门，再立卡）
 
-- 样本卡：固定 repo/npm/版本/tag/commit，卡头“证据链”链接同家族 `_证据/NN-*-源码复核.md`；memo 必须有 Provenance、DOC、SRC-TARGET、TEST/CI/RUN、与卡片的偏差表。
-- 章节：kind 为 `card`/`playbook` 的，必须有 `## 证据与边界`（≥3 行）；宿主断言给包名+文件+行号，样本主张标 `[DOC]`/`[OBS]`，未验证标 `[OPEN]`。
-- 细节见 [`EVIDENCE.md`](./EVIDENCE.md)；样本总表见 [`encyclopedia.md`](./encyclopedia.md)。
+| 门 | 要过什么 | 不合格的处置 |
+|---|---|---|
+| **机制门** | 能写出「抄哪一行」：一个可核的机制，不是功能描述 | 不立卡，留在 `BACKLOG` |
+| **反事实门** | 说得清「不用它会怎样 / 单 agent 是否更优 / 宿主原生是否已经够了」 | 降级为变体或概念样本 |
+| **证据等级门** | 机制断言 ≥L1（固定版本源码行号）；协调/时序断言 ≥L2（可复现试验台） | 标 `[OPEN]`，不得进 BORROW |
 
-## 8. 文件与编号
+**影响力只记录、不设门**：★ / npm 30 天下载写在页头带日期，作采样事实。理由与 lifecycle 相反——协作实验天然低星，用影响力筛会把这块地筛空；本册筛的是「机制是否被验证」，不是「有没有人用」。
+
+**配额**：每家族典型 ≤4；每批新增每家族 ≤1。
+
+## 8. 证据等级与标签
+
+| 级 | 含义 | 能证明 |
+|---|---|---|
+| **L0** | README / 文档主张 | 作者声称什么 |
+| **L1** | 固定版本源码 + `文件:行号` | 这个版本怎么走 |
+| **L2** | 确定性试验台 / 隔离实测（有 R 号） | 这个环境下的行为 |
+| **L3** | 端到端 + 真实模型（稀缺，可选） | 该负载下的收敛与成本，不可外推 |
+
+卡片页头必须写 `证据等级：Lx`；升级必须给 R 号或行号，**不许口头升级**。
+
+**标签**（细则见 [`EVIDENCE.md`](./EVIDENCE.md)）：`[DOC]` · `[SRC-TARGET]` · `[SRC-DSH]` · `[TEST]` · `[CI]` · `[RUN]` · `[OBS]` · `[OPEN]` · `[LIT]`（外部论文/博客，带 URL 与日期，只作参照，不冒充宿主事实）。
+
+## 9. 样本分级与强制去重
+
+**三个分级**（管代表性）：
+
+| 分级 | 定义 | 篇幅 |
+|---|---|---|
+| **典型** | 一个机制族的唯一代表；读者只需读它 | 标准卡 |
+| **变体** | 与某个典型同族，只在触发/载体/失败语义上不同 | 开头必须有「定位（变体）」差异段（≤5 行）；正文按 `budget` 管，不设硬行数上限 |
+| **反例** | 机制对但路线不可用，或结论被实测推翻 | 标准卡，进 `negative/` 或原家族标 `tier: 反例` |
+
+**另用「生命状态」管可用性**（与分级正交，写进 [`reference/COMPAT.md`](./reference/COMPAT.md)）：`active` / `retired`（上游归档、下架）/ `unpublished`（机制在源码里、发布物不含）/ `blocked`（宿主版本不容）。
+
+**四条硬规则**：
+
+1. 同一机制族**只允许一个典型**；第二个及以后只能是变体。
+2. 变体卡必须写明「相对哪个典型、差异是什么、为什么仍值得留」。
+3. 分级不改变证据效力：变体的 `[SRC-TARGET]` 仍然有效，只是不占正文。
+4. 去重不删档：退役/降级都保留文件与 memo，`catalog` 照列。
+
+**去重删的是身份，不是证据。** 变体不再自称独立典型，但卡里的行号与实测仍有效——30 行硬帽会把证据删掉，所以只要求差异段说清「相对谁、差在哪、为什么留」。
+
+**当前分诊结果**（2026-11-01，明细见 [`research/BACKLOG.md`](./research/BACKLOG.md)）：14 个机制族 → **14 典型 + 4 变体**（02/05/12/15）；8 张有明确的发布物/宿主兼容问题（04/05/10/11/12/13/14/17）。**08 直连与 13 broker 拆成两族**——它们不是同一机制的两种写法。
+
+## 10. 文件与编号
 
 - 根：`README` / `00-map` / `EVIDENCE` / `catalog` / `BORROW` / `encyclopedia`。
-- 家族：`<family>/README.md` + `NN-*.md` 章节 + `samples/NN-*.md` + `_证据/NN-*-源码复核.md`。
-- 编号：家族内递增、不复用；样本编号保留迁移前的 01–14，新样本从 15 起。
-- 生长：新样本先过证据门，再进主家族；跨家族角色写进本文件 §4 与样本卡 `also_in`。
+- 支撑：`research/`（规程与候选池）、`practice/`（[`TRAPS`](./practice/TRAPS.md) / [`CHECKLIST`](./practice/CHECKLIST.md)）、`reference/`（接缝表 / 兼容性墙）、`_证据/`（全册级实测账本）。
+- 家族：`<family>/README.md`（家族篇）+ 章节 + `samples/NN-*.md` + `_证据/NN-*.md`。
+- 编号：样本 `NN-` 家族内递增、不复用；新样本从 18 起。**章号与样本号是两套编号**，引用时写全名（如 `teams/01-roster-and-captain.md`）；去编号在 B6 统一处理。
+- 生长：新样本先过 §7 三道门，再进主家族；跨家族角色写进 [`encyclopedia`](./encyclopedia.md) 与样本卡 `also_in`。
 
-## 9. 空白区（后续批次）
+## 11. 空白区（后续批次）
 
-- ~~delegation：宿主契约 + fork/冷恢复 + 15/16 路由 + 17 截断 fork~~（2026-11-01 已成稿：`delegation/01`、`02` 与样本 15–17）。
-- pipelines：声明式 DAG、`dsh-tool-workflow`/worker-thread、重放与幂等；
-- crossing：ACP/SDK 远端执行、跨实例订阅；
-- coordination：容量/成本、审批预算与协作的交叉（与 draw-limit 分工）。
+- ~~delegation：宿主契约 + fork/冷恢复 + 15/16 路由 + 17 截断 fork~~（已成稿）。
+- ~~pipelines：声明式 DAG、重放与幂等~~（2026-11-01 已成卡：样本 18；第 03 章待 B6）；
+- coordination：fencing / 租约（07 无 epoch）；
+- crossing：鉴权与离线队列（08 无幂等、无队列）；
+- 判断层：单 vs 多 agent 的代价账、成本/容量指标（十问 1/8）；
+- 观测：试验台、R 号账本、验收判据（十问 9）。
+
+批次与验收见 [`research/RESEARCH.md`](./research/RESEARCH.md) §6；候选与不立卡理由见 [`research/BACKLOG.md`](./research/BACKLOG.md)。
+
+## 12. 术语表（全册只认这一套）
+
+| 词 | 含义 |
+|---|---|
+| 协作单元 | 一次委派 / 可续子代理 / 独立根 Agent / 外部运行时 |
+| 可续（continuable） | 子代理接受后续消息、可冷恢复；与「一次性执行」相对 |
+| 根 Agent | 无 `parentAgent` 的独立会话，有自己的 roster/权限，不是子代理 |
+| 三笔税 | 状态归谁 / 冲突谁裁决 / 崩了谁收敛 |
+| 四道边界 | 0 同 agent · 1 同进程父子 · 2 同工作区多成员 · 3 跨进程/跨机 |
+| 典型 / 变体 / 反例 | 样本代表性分级（§9） |
+| L0–L3 | 证据等级（§8） |
+| R 号 | 试验台或隔离实测的一次记录编号，见 `_证据/00` |
+
+## 13. 生长协议
+
+| 变化 | 写哪里 | 不要动 |
+|---|---|---|
+| 新样本过三道门 | `<家族>/samples/NN-*.md` + memo + `catalog` + `encyclopedia` + `BACKLOG` 删行 | 家族篇结构 |
+| 发现同族第二个样本 | 降级为变体，在卡首加差异段，并在典型卡里加一行链接 | 不要新开机制族 |
+| 发现新坑 | `practice/TRAPS.md` 一行 + 相关章一句 | 不要写成散文 |
+| 判据被推翻 | 正文改 + `TRAPS` 记「曾经这么以为」 | 不删历史 |
+| 上游基线升级 | 受影响断言改版本，`updated` 改日期，`COMPAT` 改状态 | 结论方向 |
+| 十问某格转「强」 | 更新 §4 现状列 | 不要顺手改判据 |
+
+## 14. 反模式
+
+1. 按名单加卡（样本数涨、机制谱不变）。
+2. 用影响力筛协作样本。
+3. 拿 README 当机制依据。
+4. 一个机制开两张典型卡。
+5. 章节写成样本复述，没有判据。
+6. 只写「方案 A vs B」，不给默认选择。
+7. 把 L1 写成 L2（读过源码 ≠ 见过行为）。
+8. 在真实 profile 里做实验。
+9. 跨册重复结论（质量门禁→prove-output，权限→draw-limit，安装→lifecycle）。
+10. 用「前沿」堆名词，不落到一个可检查的问题。
 
 ## 证据与边界
 
 | 主张 | 标签 | 来源/核对方式 | 边界 |
 |---|---|---|---|
-| 本册由原 cross-boundary 域迁出，14 样本与 memo 一一保留 | `[DOC]` | 本仓库迁移提交与 `catalog` | 目录结构，不是机制断言 |
-| 四家族覆盖委派/团队/流水线/跨界，coordination 为横向 | `[OBS]` | 本册分类法 | 分类是观察框架，可争论 |
-| 样本主家族按“它主要解决哪类协作”分配 | `[OBS]` | §4 表 + 各卡设计思路 | 边界样本可改主家族，需同步 §4 |
-| 生态样本多停在边界 1+2 | `[OBS]` | 14 样本横向归纳 | 归纳性判断，不是抽样实验 |
+| 本册由原 cross-boundary 域迁出，14 样本与 memo 一一保留 | `[DOC]` | 迁移提交与 `catalog` | 目录结构，不是机制断言 |
+| 四家族 + 横向卷覆盖委派/团队/流水线/跨界 | `[OBS]` | 本册分类法 | 分类是观察框架，可争论 |
+| 生态样本多停在边界 1+2 | `[OBS]` | 17 样本横向归纳 | 归纳性判断，不是抽样实验 |
+| 14 机制族 / 14 典型 / 4 变体 | `[OBS]` | `research/BACKLOG.md` 分诊表 | 分级可争议，改级需同步三处 |

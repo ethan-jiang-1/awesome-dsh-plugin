@@ -124,7 +124,7 @@ updated: 2026-10-31
 
 ## 5. 标杆
 
-**配额**:本卡只深读 **1 个主标杆 + 2 个对照**。其余 S/A 级样本见本域 [`README.md`](../00-map.md#4-现有样本的主家族)。
+**配额**:本卡只深读 **1 个主标杆 + 2 个对照**。其余 S/A 级样本见 [`encyclopedia`](../encyclopedia.md) 的分诊表。
 
 ### 主标杆 · 官方 `dsh-experimental-agent-team`(S 级,不是生态条目)
 

@@ -7,6 +7,10 @@ takeaway: "截断 fork 用 seed 窗口换上下文成本；但截断后不能复
 read_when: "要控制 fork 继承多少上下文，或判断“fork-lite”能否在 0.2.x 使用时。"
 status: observed
 updated: 2026-11-01
+tier: 典型
+life: blocked
+evidence: L1
+answers: Q2
 ---
 # 17 · `aleskxyz/dsh-subagent-fork-lite`
 

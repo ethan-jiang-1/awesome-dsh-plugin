@@ -122,7 +122,7 @@ export default {
 
 ## 6. 未复核
 
-- `carriedRowLive` / `hasLoadableEntry` 从哪个市场版本开始存在（只核 1.73.6）。
+- **已关（版本下限）**：逐版本抽 `lib/verify.js` / `lib/profile.js` / `lib/install.js`：`hasLoadableEntry` 首见 `dshmarket@1.10.0`（2026-08-16；该版 `install.js` 已 3 处调用），`1.9.0` 无；`carriedRowLive` 首见 `@1.11.3`（2026-08-17），`1.11.2` 无。对照 tarball：1.10.0 sha256 `a8f45466adbdbd408f9283c4…`（444K）；1.11.3 `cb07f8d08b8373c91c67e33c…`（580K）。
 - Python 侧同步 stdio 循环（`origin_mcp_server.py` 的 `_sync_stdio_server()`）是否真的消除 60s 挂起。
 - `profiles/web` 硬编码在 `desktop` profile 下的行为。
 - 未实机安装/启动。

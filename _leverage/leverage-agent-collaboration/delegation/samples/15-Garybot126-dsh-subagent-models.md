@@ -7,6 +7,11 @@ takeaway: "不改子代理工具/preset，在下层改 frozen call config；但 
 read_when: "要统一子代理模型，或判断“委派路由”该挂哪条缝时。"
 status: observed
 updated: 2026-11-01
+tier: 变体
+life: active
+evidence: L1
+answers: Q2
+primary: 16-route-pin
 ---
 # 15 · `Garybot126/dsh-subagent-models`
 
@@ -15,6 +20,8 @@ updated: 2026-11-01
 
 > 导航：[delegation README](../README.md) · [宿主契约](../01-host-contract.md) · [样本百科](../../encyclopedia.md)
 > **证据链**：[`15 源码复核`](../_证据/15-subagent-models-源码复核.md)（npm 0.1.2 / commit `a105855`）。
+
+> **定位（变体）**：相对 [`16`](./16-tkaiz0406-dsh-subagent-route-pin.md)；同一目标（子代理路由），差异在挂载点 `agent/request` vs provider 包装 + `startActivation`。留它是因为它证明「选错挂载点会静默失效」。
 
 ## 设计思路
 

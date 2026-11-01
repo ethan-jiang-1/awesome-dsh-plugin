@@ -6,8 +6,12 @@ positioning: "`omdsh-dev/dsh_workflow`：把一次性调度升级成可生成、
 takeaway: "不可变胶囊 + 内容键缓存 → 卖可复现，不卖断点续跑。"
 read_when: "要一条可复现的多 agent 流水线，接受「不是断点续跑」。"
 status: observed
-updated: 2026-10-31
 also_in: "teams"
+updated: 2026-11-01
+tier: 典型
+life: unpublished
+evidence: L1
+answers: Q4
 ---
 # 03 · `omdsh-dev/dsh_workflow`
 

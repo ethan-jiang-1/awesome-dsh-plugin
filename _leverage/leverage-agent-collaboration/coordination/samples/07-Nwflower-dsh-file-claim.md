@@ -6,8 +6,12 @@ positioning: "`Nwflower/dsh-file-claim`：认领与被保护文件同目录的�
 takeaway: "同目录边车 + pre-execute deny；租约必须自己加 epoch，否则静默失锁。"
 read_when: "怕两个人改同一个文件（写冲突）——只有这条路真拦得住。"
 status: observed
-updated: 2026-10-31
 also_in: "teams"
+updated: 2026-11-01
+tier: 典型
+life: active
+evidence: L2
+answers: Q6
 ---
 # 07 · `Nwflower/dsh-file-claim`
 
@@ -17,7 +21,7 @@ also_in: "teams"
 > **什么时候找它**:怕两个人改同一个文件——**只有这条路真拦得住**
 
 > 导航:[样本索引](../../encyclopedia.md) · [域章程](../../00-map.md) · [三笔税机制谱](../02-mechanisms.md) · [四道边界](../01-taxonomy.md)
-> **证据链**：仓库无 tag，pin `main@42f07e2`（0.2.0）；deny 覆盖、pid 判活、无 epoch 与 TOCTOU 见[`07 源码复核`](../_证据/07-file-claim-源码复核.md)。
+> **证据链**：仓库无 tag，pin `main@42f07e2`（0.2.0）；deny 覆盖、pid 判活、无 epoch 与 TOCTOU 见[`07 源码复核`](../_证据/07-file-claim-源码复核.md)；作用域与 fail-open 由 [`R1–R3`](../../_证据/00_实测环境与账本.md) 复现。
 
 ## 设计思路
 
@@ -35,7 +39,7 @@ also_in: "teams"
 |---|---|---|
 | 状态归属 | 工作区边车 `<目标>.dshclaim`,无中央注册表 | 多机/NFS 场景 pid 判活会误杀 |
 | 冲突裁决 | **`tools/pre-execute` 返回 deny**（仅 write/edit/bash/pwsh） | shell fail-open 面比“解析失败”更宽（`&&`/`\|\|`、多行、重定向、mv 源等）；无 fs 钩子；路径基准可能与真实写路径错位 |
-| 失败收敛 | stale 2h + `process.kill(pid,0)` 判活即刻清孤儿 | **租约无 epoch**；pid 是宿主进程粒度，同宿主多会话崩溃不触发；后续写会被 deny（不是静默覆盖） |
+| 失败收敛 | stale 2h + `process.kill(pid,0)` 判活即刻清孤儿 | **租约无 epoch**；pid 是宿主进程粒度，同宿主多会话崩溃不触发；后续写会被 deny（不是静默覆盖）。R2：损坏边车 guard **fail-open**、`readClaim` 抛错；无 pid 的残留会挡满 2h |
 
 ## 精确坐标
 

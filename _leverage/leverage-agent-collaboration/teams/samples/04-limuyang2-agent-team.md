@@ -6,8 +6,12 @@ positioning: "`limuyang2/agent-team`：先挑助手再建队，每个助手是�
 takeaway: "成员=独立根 Agent，为异构放弃子代理；入队冻结快照；全表唯一过旧 A 门。"
 read_when: "每个成员要用不同的模型/权限/技能包/MCP。"
 status: observed
-updated: 2026-10-31
 also_in: "delegation"
+updated: 2026-11-01
+tier: 典型
+life: blocked
+evidence: L1
+answers: Q3
 ---
 # 04 · `limuyang2/agent-team`
 

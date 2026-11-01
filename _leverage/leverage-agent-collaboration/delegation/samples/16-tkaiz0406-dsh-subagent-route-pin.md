@@ -7,6 +7,10 @@ takeaway: "一条 row 管所有 child、按 label 开例外；rc.3 上真正生�
 read_when: "要给专家/团队成员单独分模型，或判断 provider 包装与 startActivation 钩子哪个才生效时。"
 status: observed
 updated: 2026-11-01
+tier: 典型
+life: active
+evidence: L1
+answers: Q2
 ---
 # 16 · `tkaiz0406/dsh-subagent-route-pin`
 

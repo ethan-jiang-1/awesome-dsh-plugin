@@ -19,7 +19,7 @@ budget: 150
 |---|---|---|
 | 应用内（侧栏 Plugins 页 / `plugin_manager` 工具） | 正在运行的宿主 | 当前 profile，**无参数** `[DSH]` |
 | `dsh plugin --profile <p> <pnpm 参数>` | 命令行，转发给 pnpm | 显式指定；**首次使用时自动初始化** `[DSH]` |
-| Electron carrier（程序化） | 桌面应用 | 只能它碰 `desktop` `[DSH]` |
+| Electron carrier（程序化） | 桌面应用 | 只能它碰保留名 `desktop` `[DSH]`；社区壳另用私有 `web` |
 
 - CLI 通道的实质是**在 profile 目录里跑 pnpm**，外加一步 `reconcile()` `[DSH]`（`dsh-plugin-manager/lib/types/operations.js:95-122`）。
 - 首次使用会 `initProfile()`，用出厂模板的 bundle 列表；没有同名模板就用 `["@deepseek-ai/dsh-base"]` `[DSH]`（`operations.js:597`；`dsh-app-boot/lib/index.js:570`）。
@@ -67,7 +67,7 @@ budget: 150
 - **插件可用，但要自己保证来源**：`.tgz` / `file:`（内网、离线 `[RUN]`）。
 - 两类都登记在 [`REFERENCE` §4](../reference/REFERENCE.md)。
 - **允许但要写明**：只给 CLI 命令（含 `npx dsh plugin`）——必须标“仅 `dsh web`”；仓库脚本只对克隆者成立，不能当用户安装说明。
-- **坑**：把 `--profile desktop` 写进说明（`profile/13` 卡头即如此，而 CLI 实测拒绝）；把非 bundle 包当插件发；版本范围只写在 README 里（manifest 既无 `engines.dsh` 也无 DSH peer，宿主没有门可判，坏版本也会装进来 `[DSH]`）。
+- **坑**：把 `--profile desktop` 写进说明（`profile/13` 卡头即如此，而 CLI 实测拒绝）；社区桌面壳用私有 `userData/harness`，`--profile web` 也写不到；把非 bundle 包当插件发；版本范围只写在 README 里（manifest 既无 `engines.dsh` 也无 DSH peer，宿主没有门可判，坏版本也会装进来 `[DSH]`）。
 
 **本册样本补充**（15 张阶段样本落地后）：
 
@@ -82,11 +82,11 @@ budget: 150
 
 1. 包声明了 `dsh.bundle.patch`，且装完能在 `dsh --profile <p> --dump-config` 里看到自己的行。
 2. 安装说明的那句"在 Plugins 页装"**不需要区分 web 与 Desktop**。
-3. 给了 CLI 命令的，后面跟了"仅 `dsh web`"。
+3. 给了 CLI 命令的，后面跟了“仅 `dsh web`”，并说明社区桌面壳的 `DSH_HOME` 不同。
 
 ## 5. 失效与开放问题
 
-- `[OPEN]` 应用内装在 Desktop 上的完整结果（`application`/`warnings`/`nextStep` 三字段的实际取值）。复核条件：一台官方 Desktop 机器，装一个我们自己的 bundle，读回结果。
+- `[OPEN]` 应用内装在 Desktop 上的完整结果（`application`/`warnings`/`nextStep` 三字段）。社区壳源码级走同一 `pluginManager`（其 `web` profile），但未跑 UI；保留名 carrier 未知。复核条件：一台装过 dsh-desktop 的机器，装一个 bundle 读回结果。
 - `[OPEN]` 换 registry 后的 `ERR_PNPM_TARBALL_URL_MISMATCH`（产品线卡里提过，本册未复现）。
 - **已关**：`remove` 之后 roster 会被 `reconcile` 自动回收，无需手工清理 `[RUN]`（E14）。但"运行中删除"仍受 [`BOOT`](../boot/README.md) §1 的 HMR 限制。
 

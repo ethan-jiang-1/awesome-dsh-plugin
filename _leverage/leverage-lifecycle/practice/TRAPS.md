@@ -19,12 +19,12 @@ budget: 120
 **反例**：实测装一个无 `dsh.bundle` 的包——**退出码 0**，只一句 stderr `declares no dsh.bundle — installed as a plain dependency, not a profile layer` `[RUN]`。
 **做法**：把"能在 `--dump-config` 里看到自己的行"写进发布验收。
 
-## 2. 在 Desktop 上装进了 `profiles/web`
+## 2. 用 CLI 在 Desktop 上装
 
 **症状**：提示安装成功，App 里没有。
-**机制**：Desktop 用 `profiles/desktop`；`--profile web` 写的是另一个目录。
-**反例**：产品线 `51` 卡已量到"报告成功但不出现" `[CARD]`。
-**做法**：安装说明只写应用内装；写 CLI 的必须标"仅 `dsh web`"。
+**机制**：Desktop 有两种——保留名 carrier 用它自己 home 下的 `profiles/desktop`（默认 home 才是 `~/.dsh`，官方 home 未公开）；社区壳（dsh-desktop）用 `userData/harness/profiles/web`。CLI 的 `--profile web` 写当前 home 的 `profiles/web`（默认 `~/.dsh`），两种都不命中。
+**反例**：产品线 `51` 卡已量到“报告成功但不出现” `[CARD]`；社区壳的 home/profile 见 `[SRC-TARGET]` `dataelement/dsh-desktop@1a6212e`（`index.ts:1567`、`harness-runtime.ts:256`）。
+**做法**：安装说明只写应用内装；写 CLI 的必须标“仅 `dsh web`”，并说明社区壳的 `DSH_HOME` 不同。
 
 ## 3. 把 `--profile desktop add` 写进文档
 

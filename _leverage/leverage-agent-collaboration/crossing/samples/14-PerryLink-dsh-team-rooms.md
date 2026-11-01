@@ -6,8 +6,12 @@ positioning: "`PerryLink/dsh-team-rooms@1.0.8`（已 archived，npm deprecated�
 takeaway: "房间存储为权威 + 单写链；但重建副本在 rc.3 不可用，游标是“入 inbox 后前进”，catchUp 会跳过丢失段。"
 read_when: "团队要跨会话活着，且最关心「消息会不会丢、重启后还在不在」。"
 status: observed
-updated: 2026-10-31
 also_in: "coordination"
+updated: 2026-11-01
+tier: 典型
+life: retired
+evidence: L1
+answers: Q5
 ---
 # 14 · `PerryLink/dsh-team-rooms`
 

@@ -6,8 +6,12 @@ positioning: "`Asher-2000/dsh-expert-mode`：不用写插件也能写协作—�
 takeaway: "不用插件写协作（preset 路线）；证明 persona 配置键已被宿主移除。"
 read_when: "想用 preset/配置而不是运行时插件做多 agent。"
 status: observed
-updated: 2026-10-31
 also_in: "delegation"
+updated: 2026-11-01
+tier: 典型
+life: blocked
+evidence: L1
+answers: Q3
 ---
 # 10 · `Asher-2000/dsh-expert-mode`
 

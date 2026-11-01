@@ -2,7 +2,7 @@
 title: "Agent 协作册：主-子、团队、流水线、跨界"
 domain: agent-collab
 kind: index
-positioning: "独立册入口：四家族 + 横向协调卷；17 个样本按主家族归位，证据 memo 与选型判定树可直达。"
+positioning: "独立册入口：四家族 + 横向协调卷；18 个样本按主家族归位，证据 memo 与选型判定树可直达。"
 read_when: "要判断自己的多 agent 方案属于哪类、怎么选型；或第一次进本册。"
 status: living
 updated: 2026-11-01
@@ -12,13 +12,16 @@ updated: 2026-11-01
 > **标语**：*Who collaborates with whom, who owns the state, who converges?*
 > 同样是不改上游，协作方案的分水岭不在“能开几个 agent”，而在**状态寄生在哪、冲突谁裁决、崩了谁收敛**。
 
-## 0. 三个入口
+## 0. 六个入口
 
 | 你要 | 去哪 | 拿到 |
 |---|---|---|
 | **选型**：我的方案属于哪类 | [00-map §5 判定树](./00-map.md#5-判定树) | 四家族判定 + 三笔税 |
+| **选路线**：用原生接缝还是自建 | [reference/SEAMS](./reference/SEAMS.md) → [COMPAT](./reference/COMPAT.md) | 六条立场 + 接缝矩阵 + 兼容性墙 |
 | **抄做法**：按任务找最小集 | [BORROW](./BORROW.md) | 家族路由 + 最小集 + 回源纪律 |
-| **查样本**：横向比较 17 个样本 | [encyclopedia](./encyclopedia.md) | 主家族/交叉角色/证据链 |
+| **查样本**：横向比较 18 个样本 | [encyclopedia](./encyclopedia.md) | 主家族/交叉角色/证据链 |
+| **研究/复核**：新增或复审一张卡 | [research/RESEARCH](./research/RESEARCH.md) → [BACKLOG](./research/BACKLOG.md) | 三道门、五步取证、分诊结果 |
+| **上线前**：自检与反模式 | [practice/CHECKLIST](./practice/CHECKLIST.md) → [TRAPS](./practice/TRAPS.md) | 15 项核对法 + 16 条反例 |
 
 ## 1. 四家族 + 横向卷
 
@@ -26,7 +29,7 @@ updated: 2026-11-01
 |---|---|---|
 | [delegation 主-子代理](./delegation/README.md) | 一次委派怎么发生、能不能续、结果怎么回 | 15/16/17 |
 | [teams 团队](./teams/README.md) | 多成员如何编队、调度、共享任务板 | 01/02/04/05/10/12 |
-| [pipelines 流水线](./pipelines/README.md) | 控制流怎么写、重放/暂停/幂等怎么做 | 03/11 |
+| [pipelines 流水线](./pipelines/README.md) | 控制流怎么写、重放/暂停/幂等怎么做 | 03/11/18 |
 | [crossing 跨会话/实例/机器](./crossing/README.md) | handoff、broker、远端 worker、房间 | 06/08/09/13/14 |
 | [coordination 横向](./coordination/README.md) | 状态归属、冲突裁决、失败收敛、容量 | 07 + 跨家族对照 |
 
@@ -49,4 +52,4 @@ updated: 2026-11-01
 ## 证据与边界
 
 - 迁移自 `leverage/lever-cross-boundary`：14 个既有样本与 memo 一一保留，另新增 15/16/17（见 [catalog](./catalog.md)）。
-- 证据规约：[EVIDENCE](./EVIDENCE.md)；本册仍在扩写，delegation/pipelines 的空白已列入 [00-map §9](./00-map.md#9-空白区后续批次)。
+- 证据规约：[EVIDENCE](./EVIDENCE.md)；研究规程与分诊：[research/RESEARCH](./research/RESEARCH.md) · [BACKLOG](./research/BACKLOG.md)；空白区列入 [00-map §11](./00-map.md#11-空白区后续批次)。

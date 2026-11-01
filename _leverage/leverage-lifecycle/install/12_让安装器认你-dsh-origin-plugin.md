@@ -7,7 +7,7 @@ takeaway: "市场只是消费者：它先看 loader 里有没有你的条目（�
 read_when: "要发一个以 patch 为主、自己不写运行时逻辑的 bundle；或装完在市场里一直显示未生效。"
 status: observed
 updated: 2026-11-01
-budget: 170
+budget: 180
 ---
 # 让安装器认你 · origin-plugin
 
@@ -97,6 +97,7 @@ export default {
 - `liveIncludes` 只看 loader 条目的 `name:`，允许 subpath（`pkg/subpath`），但要求 `/` 边界，避免 `@scope/pkg2` 命中 `@scope/pkg`（`:91-105`）；
 - `carriedRowLive` 检查**你自己的 bundle patch 插入了哪些 entry id**，再看这些 id（`#id`）是否活着（`:108-128`）。作者那条 `mcp-origin` 的 id 就是证据——**因此 1.73.6 里，自挂载空行已经不再是“活着”的必要条件**；它只在没有 `carriedRowLive` 的旧市场/其他市场里才有意义。
 - 旧市场正是用“包名在不在 live 集合”这一条判，才出现作者注释里的 *"restart to apply" forever*（作者引的 L149/L162 已随版本漂移，符号仍在）。
+- **版本下限（逐版本抽 `lib/verify.js` / `lib/profile.js` / `lib/install.js`）**：`hasLoadableEntry` 最早出现在 `dshmarket@1.10.0`（2026-08-16）；`carriedRowLive` 最早出现在 `@1.11.3`（2026-08-17）。1.9.0 无 `hasLoadableEntry`，1.11.2 无 `carriedRowLive`。所以：**1.10.0 之前 carrier 安装没有专门豁免；1.11.3 之前“活着”只按包名判**——这正是作者当时必须自挂载的版本背景。
 
 **已实测（E28）**：真装 `dsh-origin-plugin@2.7.3` 后直接调 `verifyActivation`：
 
@@ -157,7 +158,7 @@ export default {
 
 ## 6. 失效与开放问题
 
-- `[OPEN]` `carriedRowLive` / `hasLoadableEntry` 在更早的市场版本里从哪个版本开始存在（本卡只核 1.73.6）。复核动作：取 1.70–1.73 的 `verify.js`/`profile.js` 做 diff。
+- **已关**：`carriedRowLive` 首见 `dshmarket@1.11.3`（2026-08-17）；`hasLoadableEntry` 首见 `@1.10.0`（2026-08-16）。对照版本 1.11.2 / 1.9.0 均无对应符号。
 - `[OPEN]` 其他市场实现（非 `dshmarket`）是否也做了 carrier 豁免。
 - `[OPEN]` Python 侧同步 stdio 循环是否真的解决了 60s 挂起。复核动作：在隔离环境用 `--doctor` 与一次 `initialize` 握手计时。
 - `[OPEN]` 路径硬编码 `profiles/web`：在 `desktop` profile 下是否可用。

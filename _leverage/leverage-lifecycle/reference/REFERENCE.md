@@ -52,18 +52,21 @@ budget: 190
 
 ## 2. 用户怎么装
 
-| 面 | 应用内（推荐，唯一两句通用） | CLI（只覆盖 web） |
+| 面 | 应用内（推荐，唯一两句通用） | CLI（只覆盖**当前 home** 的 web） |
 |---|---|---|
 | `dsh web` | 侧栏 **Plugins** 页 → 搜索/填入 → 安装 | `dsh plugin --profile web add <pkg>` |
-| Desktop | **同一个** Plugins 页 | **不可用**：`--profile desktop` 被 CLI 拒绝 |
+| Desktop（保留名 carrier） | **同一个** Plugins 页 | **不可用**：`--profile desktop` 被 CLI 拒绝 |
+| Desktop（社区壳，如 dsh-desktop） | **同一个** Plugins 页（作用在它自己的 `web` profile） | **不命中**：`--profile web` 写当前 home 的 `profiles/web`（默认 `~/.dsh`），壳用 `userData/harness/profiles/web`（`index.ts:1567`）`[SRC-TARGET]` |
+
+> 社区壳证据钉在 `dataelement/dsh-desktop@1a6212e`；profile/home 细节见 [`SURFACES`](./SURFACES.md) §1。
 
 - 两面的 Plugins 页来自同一个客户端包 `@deepseek-ai/dsh-client-ui-plugin-manager`，它挂在 `dsh-web-app` 层，而 web 与 Desktop 共用这一层 `[DSH]`（`dsh-web-app/cordis.patch.yml:315-319`）。
 - 它背后是同一个宿主服务 `plugin-manager`，在 `dsh-base` 层、**有 profile 上下文就启用** `[DSH]`（`dsh-base/cordis.patch.yml:20-22`）。
-- 这套服务自述为 *Current-profile plugin and bundle management shared by dsh CLI, Web and agent tools* `[DSH]`；`installBundle(spec, options)` 无 profile 参数 `[DSH]`（`dsh-plugin-manager/lib/types/index.js:540`）。
+- 这套服务自述为 *Current-profile plugin and bundle management shared by dsh CLI, Web and agent tools* `[DSH]`；`installBundle(spec, options)` 无 profile 参数 `[DSH]`（`dsh-plugin-manager/lib/types/index.js:540`）。**但“当前 profile/home”是壳决定的**：应用内装对两种 Desktop 都成立，CLI 对两种都不成立（见 [`SURFACES`](./SURFACES.md) §1）。
 
 **给产品的 README 只需要一句**：
 
-> 在 DSH 的 **Plugins** 页安装 `your-product`（`dsh web` 与 Desktop 通用）；或用命令行：`dsh plugin --profile web add your-product`（**仅 `dsh web`**）。
+> 在 DSH 的 **Plugins** 页安装 `your-product`（`dsh web` 与 Desktop 通用）；或用命令行：`dsh plugin --profile web add your-product`（**仅 `dsh web`**；社区桌面壳的 `DSH_HOME` 是私有的，`--profile web` 不命中）。
 
 ## 3. 三个必须
 
@@ -78,7 +81,7 @@ budget: 190
 | 模式 | 何时允许 | 代价 | 退出条件 | 代表卡 |
 |---|---|---|---|---|
 | 自带安装器 / launcher | 产品根本不是插件（shell） | 安装/启动/更新/降级全归自己；两面各维护一套 | 产品回到 bundle + 应用内装 | shell 卡 |
-| 只发 CLI 一条命令 | 明确只面向 `dsh web` | Desktop 用户装进 `profiles/web` 后看不到；必须写“仅 web” | 提供应用内装 | [`INSTALL`](../install/README.md) §2 |
+| 只发 CLI 一条命令 | 明确只面向 `dsh web` | 保留名 carrier 装进当前 home 的 `profiles/web`；社区壳装进当前 home 的 `profiles/web` 而它用 `userData/harness`。两种都看不到；必须写“仅 web + home 不同” | 提供应用内装 | [`INSTALL`](../install/README.md) §2 |
 | 配置放自己的文件 | 与宿主无关 / 需跨 profile | 用户记第二个位置；不跟随 profile 备份 | settings 能表达 | [`CONFIG`](../config/README.md) §1 |
 | 自带更新器 | **不推荐**；仅应用/shell | 与宿主升级竞态；自己定义降级 | 宿主升级路径覆盖 | [`boot/22`](../boot/22_重启取证-dsh-update-checker.md)（有条件） |
 | `.tgz` / 本地路径 | 内网/离线/审计 | 来源签名自负；`file:` 相对路径按 profile 目录解析 | 有 registry | [`INSTALL`](../install/README.md) §2 |
@@ -102,7 +105,7 @@ budget: 190
 ## 5. 七条禁止
 
 1. **禁止把 `dsh plugin --profile desktop add ...` 当安装说明。** 普通 CLI 直接被拒（见 [`SURFACES`](./SURFACES.md) §2）。
-2. **禁止在文档里只写 `--profile web` 且不提 Desktop。** 这正是本册存在的理由。
+2. **禁止在文档里只写 `--profile web` 且不提 Desktop。** 这正是本册存在的理由；社区桌面壳还要写清 `DSH_HOME` 不同，否则“只写 web”也会对两者说谎。
 3. **禁止用 `$DSH_HOME/cordis.patch.yml` 给所有 profile 供货。** 它能覆盖行，不能提供包；插入未安装的包会 `ERR_MODULE_NOT_FOUND` + `warning: 1 entry did not activate`，表现为"功能静默缺失"。只有宿主自己的启动关键行会升级为启动失败——`requiredStartupEntryIds` 固定 8 个（`agent-loop` / `webserver` / `web-runtime` / `modules` / `connection` / `headless-runner` / `acp` / `sdk-jsonrpc-server`），**第三方插入的行不在这个名单里，永远是告警** `[RUN]` `[DSH]`（`dsh-app-boot/lib/index.js:4270-4279`、`:4466`）。
 4. **禁止把“装完 exit 0”当安装成功。** 三态见 [`INSTALL`](../install/README.md) §2。
 5. **禁止在插件里重启/替换宿主进程。** 原生是应用内装返回 `restart-required` + `restartReason`，由用户重启；自己拉起新宿主 = 接管生命周期（见 [`boot/22`](../boot/22_重启取证-dsh-update-checker.md)）。

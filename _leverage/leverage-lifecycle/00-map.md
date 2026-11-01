@@ -94,7 +94,7 @@ leverage-lifecycle/
 ├── catalog.md         ← 全量清单
 ├── reference/         ← 那条路与它的边界
 │   ├── REFERENCE.md   被认可的那一条路 + 偏离登记
-│   ├── SURFACES.md    web 与 Desktop 的同一性
+│   ├── SURFACES.md    web 与两种 Desktop 的同一性
 │   └── CARRIERS.md    九类载体的判定、矩阵与选择顺序
 ├── install/           ← ① 装：README + 样本 + `_证据/`
 ├── boot/              ← ② 起：README + 样本 + `_证据/`
@@ -163,14 +163,14 @@ leverage-lifecycle/
 | `[RUN]` | 本轮隔离实测 | 命令、环境、观察输出 |
 | `[PKG]` | npm 包清单事实 | 包名 + 版本 + 字段（如 `dsh.client`） |
 | `[CARD]` | 引自产品线样本卡 | 写卡名；**不升级它的证据级别** |
-| `[SRC-TARGET]` | **样本卡 / memo 专用**：第三方源码 | 包名 + 版本 + 文件:行号 |
-| `[DOC]` | **样本卡 / memo 专用**：README/文档主张 | 写清哪份文档的哪一节或哪一行 |
+| `[SRC-TARGET]` | **样本卡 / memo / 横切篇专用**：第三方源码 | 包名 + 版本 + 文件:行号 |
+| `[DOC]` | **样本卡 / memo / 横切篇专用**：README/文档主张 | 写清哪份文档的哪一节或哪一行 |
 | `[OBS]` | 观察者判断 | 必须给反例或失效条件 |
 | `[OPEN]` | 未复核 | 写清下一次怎么复核 |
 
-**为什么多 `[PKG]`**：本册的分类要靠包清单（`dsh.bundle` / `dsh.client` / `bin`）而不是 README，`[DSH]` 管不到第三方包，`[CARD]` 又不对口。**为什么多 `[SRC-TARGET]` / `[DOC]`**：样本卡要区分"第三方源码"与"文档主张"——`[DOC]` 不许冒充 `[SRC-TARGET]`（详见 [`RESEARCH`](./research/RESEARCH.md) §6）。
+**为什么多 `[PKG]`**：本册的分类要靠包清单（`dsh.bundle` / `dsh.client` / `bin`）而不是 README，`[DSH]` 管不到第三方包，`[CARD]` 又不对口。**为什么多 `[SRC-TARGET]` / `[DOC]`**：样本卡与横切篇要区分"第三方源码"与"文档主张"——`[DOC]` 不许冒充 `[SRC-TARGET]`（详见 [`RESEARCH`](./research/RESEARCH.md) §6）。
 
-**Desktop 面一律不得标 `[RUN]`**：本机无 Electron 应用。
+**Desktop 面一律不得标 `[RUN]`**：保留名 carrier 无公开应用；社区壳只有 `[SRC-TARGET]` 源码，未装未跑。
 
 ## 6. 文件骨架
 

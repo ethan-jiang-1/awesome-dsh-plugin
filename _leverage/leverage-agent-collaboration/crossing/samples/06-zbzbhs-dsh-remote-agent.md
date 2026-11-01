@@ -6,8 +6,12 @@ positioning: "`zbzbhs/dsh-remote-agent`：一个包双角色（hub/worker），�
 takeaway: "副机跑完整 loop（in-process 或 spawn headless）；插件不要求凭证过线，但 hub 可 exec/read；跨机最终是信任问题。"
 read_when: "要跨机，且不能被网络拖死——链路断了工作照常继续。"
 status: observed
-updated: 2026-10-31
 also_in: "delegation"
+updated: 2026-11-01
+tier: 典型
+life: active
+evidence: L1
+answers: Q5
 ---
 # 06 · `zbzbhs/dsh-remote-agent`
 

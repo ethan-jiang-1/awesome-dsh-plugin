@@ -2,12 +2,17 @@
 title: "Mlte0907/dsh-teams-x"
 domain: agent-teams
 kind: sample
-positioning: "`Mlte0907/dsh-teams-x`：与 agent-teams 同骨架；0.11.5 仅是 master 清单版本（npm 停在 0.2.0），跨进程文件锁串行写，但发布物与 CI 均有缺口。"
+positioning: "`Mlte0907/dsh-teams-x`：与 agent-teams 同骨架；npm 停在 0.2.0（无跨进程锁），0.11.5 仅 master 源码，发布物与 CI 均有缺口。"
 takeaway: "质量门自动派生返工属实；“官方三条限制对照”非本仓内容；安装命令在 npm 0.2.0 上会因缺 scripts 失败；pinned CI 为红。"
 read_when: "想要质量门自动派生返工，且接受「软收敛，无硬超时」。"
 status: observed
-updated: 2026-10-31
 also_in: "pipelines"
+updated: 2026-11-01
+tier: 变体
+life: blocked
+evidence: L2
+answers: Q3
+primary: 01-agent-teams
 ---
 # 05 · `Mlte0907/dsh-teams-x`
 
@@ -17,7 +22,9 @@ also_in: "pipelines"
 > **什么时候找它**:想要质量门自动派生返工、且愿意接受「软收敛,无硬超时」
 
 > 导航:[样本索引](../../encyclopedia.md) · [域章程](../../00-map.md) · [三笔税机制谱](../../coordination/02-mechanisms.md) · [四道边界](../../coordination/01-taxonomy.md)
-> **证据链**：0.11.5 只是 master 清单版本（npm 停在 0.2.0、最高 tag v0.11.2）；锁、收敛、CI 与安装缺口见[`05 源码复核`](../_证据/05-teams-x-源码复核.md)。
+> **证据链**：0.11.5 只是 master 清单版本（npm 停在 0.2.0、最高 tag v0.11.2）；锁、收敛、CI 与安装缺口见[`05 源码复核`](../_证据/05-teams-x-源码复核.md)；发布物无锁由 [`R5`](../../_证据/00_实测环境与账本.md) 证实，两进程丢更新由 [`R4b`](../../_证据/00_实测环境与账本.md) 复现。
+
+> **定位（变体）**：相对 [`01`](./01-NanmiCoder-dsh-agent-teams.md)；差异在**质量门自动派生返工**与未发布的跨进程锁。留它是因为返工环与「格式校验 ≠ 事实验证」的教训。
 
 ## 设计思路
 
@@ -45,7 +52,7 @@ also_in: "pipelines"
 
 | 税 | 它的答案 | 代价 |
 |---|---|---|
-| 状态归属 | 磁盘 `.teams-x/<teamId>/` + JSONL 信箱 | 默认启用**跨进程文件锁**（`$TMPDIR/dsh-teams-x-locks`，30s stale/10s 超时），但只串行写、不提供跨进程归属 |
+| 状态归属 | 磁盘 `.teams-x/<teamId>/` + JSONL 信箱 | **v0.3+ 源码**默认启用跨进程文件锁（`$TMPDIR/dsh-teams-x-locks`，30s stale/10s 超时）；**发布物 0.2.0 只有进程内队列**（R5），两进程各持锁仍丢更新（R4b） |
 | 冲突裁决 | **不做**。质量门在完成时校验 `changedPaths`,但不执行 verify 命令 | 自述当证据;防自审只靠提示词一句 |
 | 失败收敛 | 60s 对账器 + 5/30/60 分钟软阈值 | 无存活心跳、无硬超时；归属缓解靠队长搁浅回池 + 成员孤儿回池 + 提醒 |
 

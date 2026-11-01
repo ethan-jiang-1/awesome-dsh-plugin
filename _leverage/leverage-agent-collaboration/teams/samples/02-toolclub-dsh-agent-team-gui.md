@@ -6,8 +6,13 @@ positioning: "`toolclub/dsh-agent-team-gui`：它自己就是 team runtime（8 �
 takeaway: "on-demand 靠 systemPrompt + pre-step 早退，但 shipped/legacy 默认 guaranteed；成本借宿主 tokenUsage；无检查点，重启即 interrupted。"
 read_when: "想省掉「先起一个规划器」的调用成本，并逐成员配模型/工具。"
 status: observed
-updated: 2026-10-31
 also_in: "delegation"
+updated: 2026-11-01
+tier: 变体
+life: unpublished
+evidence: L1
+answers: Q3
+primary: 01-agent-teams
 ---
 # 02 · `toolclub/dsh-agent-team-gui`
 
@@ -18,6 +23,8 @@ also_in: "delegation"
 
 > 导航:[样本索引](../../encyclopedia.md) · [域章程](../../00-map.md) · [三笔税机制谱](../../coordination/02-mechanisms.md) · [四道边界](../../coordination/01-taxonomy.md)
 > **证据链**：固定 release `v1.3.0 → 14ea1196` 的实现、默认值、槽位与 CI 见[`02 源码复核`](../_证据/02-team-gui-源码复核.md)。
+
+> **定位（变体）**：相对 [`01`](./01-NanmiCoder-dsh-agent-teams.md)；差异在**产品化 runtime + pre-step 派工 + Run Center**。留它是因为「要不要派活前移到零成本位置」这一招只在这里。
 
 ## 设计思路
 

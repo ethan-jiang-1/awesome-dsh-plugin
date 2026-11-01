@@ -411,6 +411,35 @@ for (const lever of ['plugin', 'profile', 'shell']) {
   }
 }
 
+// ---------- 协作册：样本分级字段与变体差异段（B6 新门） ----------
+{
+  const TIERS = new Set(['典型', '变体', '反例']);
+  const LIVES = new Set(['active', 'retired', 'unpublished', 'blocked']);
+  const LEVELS = new Set(['L0', 'L1', 'L2', 'L3']);
+  for (const rel of mdFiles) {
+    if (!rel.startsWith(AGENT_PREFIX)) continue;
+    if (!/\/samples\/\d{2}-.*\.md$/.test(rel)) continue;
+    const text = textsByFile.get(rel) ?? '';
+    const fm = parseFrontmatter(text);
+    if (fm.error) continue;
+    const meta = fm.meta;
+    if (!TIERS.has(meta.tier)) fail(rel, null, `tier 必须是 典型/变体/反例（当前 ${meta.tier ?? '缺'}）`);
+    if (!LIVES.has(meta.life)) fail(rel, null, `life 必须是 active/retired/unpublished/blocked（当前 ${meta.life ?? '缺'}）`);
+    if (!LEVELS.has(meta.evidence)) fail(rel, null, `evidence 必须是 L0–L3（当前 ${meta.evidence ?? '缺'}）`);
+    if (!meta.answers) fail(rel, null, 'frontmatter 缺 answers');
+    if (meta.tier === '变体' && !/定位（变体）/.test(text)) fail(rel, null, '变体卡缺「定位（变体）」差异段');
+  }
+}
+
+// ---------- 协作册：catalog 不得留占位文案（B6 新门） ----------
+{
+  const catalog = AGENT_PREFIX + 'catalog.md';
+  if (mdFiles.includes(catalog)) {
+    const text = readFileSync(join(repoRoot, catalog), 'utf8');
+    if (/样本卡。|固定版本复核。/.test(text)) fail(catalog, null, 'catalog 仍有占位文案');
+  }
+}
+
 // ---------- 杠杆册：机制卡/playbook 必须有“证据与边界”节（≥3 条） ----------
 {
   for (const rel of mdFiles) {

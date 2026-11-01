@@ -21,7 +21,7 @@ budget: 170
 
 > **DSH 立场**：本册每条做法都标了 `符合 / 有条件偏离 / 反例`；偏离的代价与退出条件集中在 [`REFERENCE` §4](./reference/REFERENCE.md)。
 
-理由是一条机制事实，不是一个偏好：**应用内安装天生是"当前 profile 相对"的**，所以 `dsh web` 和 Desktop 是同一句话；而 `--profile <name>` 天生是"面绑定"的，写到文档里必然要写两条、也就必然错一条。证据与反例见 [`REFERENCE`](./reference/REFERENCE.md) §6。
+理由是一条机制事实，不是一个偏好：**应用内安装天生是“当前 profile 相对”的**，所以 `dsh web` 和 Desktop（保留名 carrier 与社区壳）在应用内是同一句话；而 `--profile <name>` 天生是“面绑定”的，写到文档里必然要写两条、也就必然错一条——对社区壳，`--profile web` 连 home 都不对。证据与反例见 [`REFERENCE`](./reference/REFERENCE.md) §6。
 
 ## 1. 为什么单开一册
 
@@ -38,14 +38,14 @@ budget: 170
 | ③ 配 | 你的默认值和用户的覆盖分别住在哪、优先级怎么叠 | [`config/`](./config/README.md) |
 | ④ 首启 | 第一次打开看到什么、原生给不给、不给的话你补哪一段 | [`first-run/`](./first-run/README.md) |
 
-横切两篇：[`SURFACES`](./reference/SURFACES.md)（web 与 Desktop 的同一性与分叉点）、[`REFERENCE`](./reference/REFERENCE.md)（被认可的那一条路）。
+横切两篇：[`SURFACES`](./reference/SURFACES.md)（web 与两种 Desktop 的同一性与分叉点）、[`REFERENCE`](./reference/REFERENCE.md)（被认可的那一条路）。
 
 ## 3. 八条硬结论
 
 每条都挂了标签，标注方式见 §5。
 
 1. **应用内安装是"当前 profile 相对"的。** 包自述就是 *Current-profile plugin and bundle management shared by dsh CLI, Web and agent tools*，`installBundle(spec, options)` 没有 profile 参数，模型侧工具也没有。`[DSH]`
-2. **`desktop` 从普通 CLI 双门禁闭。** 启动被拒（`profile "desktop" is managed exclusively by the Electron application`），`dsh plugin --profile desktop` 同样被拒；只有 Electron carrier 用程序化开关才能管理它。`[DSH]` `[RUN]`
+2. **`desktop` 从普通 CLI 双门禁闭。** 启动被拒（`profile "desktop" is managed exclusively by the Electron application`），`dsh plugin --profile desktop` 同样被拒；只有 Electron carrier 用程序化开关才能管理它。**这是保留名；社区桌面壳走自己的 `web` + 私有 `DSH_HOME`，CLI 同样不命中**（`[SRC-TARGET]` `dataelement/dsh-desktop@1a6212e` `harness-runtime.ts:256`，社区壳源码级，见 [`SURFACES`](./reference/SURFACES.md) §1）。`[DSH]` `[RUN]`
 3. **"装成功"有三个成功。** pnpm 成功 ≠ 依赖写入 ≠ 成层。**没声明 `dsh.bundle` 的包：退出码 0、依赖写进、roster 不变、只给一句 stderr 警告。** `[RUN]`
 4. **启动不是全有或全无。** 单个 row 导入失败被隔离成 `warning: N entry did not activate`，进程照常服务。**所以"应用能开、我的功能没有"是一种合法终态**，退出码还是好的。`[RUN]`
 5. **home 层（`$DSH_HOME/cordis.patch.yml`）跨 profile 生效，但不能供货。** 它能覆盖/禁用任意 profile 的行；插入一个本 profile 没装的包，真启动时报 `ERR_MODULE_NOT_FOUND` 且不阻塞服务。`[DSH]` `[RUN]`
@@ -81,8 +81,8 @@ budget: 170
 | `[RUN]` | 本轮隔离实测，环境见下；只证明该环境下的行为 |
 | `[PKG]` | npm 包清单事实：包名 + 版本 + 字段（如 `dsh.bundle` / `dsh.client`），不证明行为 |
 | `[CARD]` | 引自产品线 25 张样本卡，按该卡页头标注的证据成熟度计，不升级 |
-| `[SRC-TARGET]` | 样本卡 / memo 专用：第三方源码，包名 + 版本 + 文件:行号 |
-| `[DOC]` | 样本卡 / memo 专用：README/文档主张，写清哪一节 |
+| `[SRC-TARGET]` | 样本卡 / memo / 横切篇专用：第三方源码，包名 + 版本 + 文件:行号 |
+| `[DOC]` | 样本卡 / memo / 横切篇专用：README/文档主张，写清哪一节 |
 | `[OBS]` | 观察者判断，必须带反例或失效条件 |
 | `[OPEN]` | 未复核 |
 
@@ -90,7 +90,7 @@ budget: 170
 
 **样本卡的证据级别**：**5 张已到实测级**——[`install/11`](./install/11_装后自证-cfbridge.md)、[`install/12`](./install/12_让安装器认你-dsh-origin-plugin.md)、[`install/13`](./install/13_三条安装路径与空安装器-dsh-free-models-hub.md)、[`boot/21`](./boot/21_启动期注入-dsh-rhine-splash.md)、[`config/31`](./config/31_全禁状态-dsh-isolation-gate.md)；其余 10 张阶段样本为源码级；另有 [`negative/91`](./negative/91_机制对但没人用-dsh-bootstrap.md) 反例一张（源码级，不计入四阶段样本）。实测记录见 [`_证据/03`](./_证据/03_样本实测记录.md)。
 
-**Desktop 面是源码级**：本机无 `desktop` profile、无 Electron 应用，Desktop 相关结论一律按 `[DSH]` 计，不冒充实测。这条边界写在 [`SURFACES`](./reference/SURFACES.md) 页头。
+**Desktop 面分两类**：保留名 carrier 只有 `[DSH]`（无公开应用）；社区壳 `dataelement/dsh-desktop@1a6212e` 为 `[SRC-TARGET]`（只读源码、未装未跑）。两类都不得冒充实测，边界写在 [`SURFACES`](./reference/SURFACES.md) 页头。
 
 ## 6. 与前三册的边界
 

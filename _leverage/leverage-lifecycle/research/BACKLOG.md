@@ -2,7 +2,7 @@
 title: "BACKLOG · 候选池（分诊结果与缺口）"
 domain: lifecycle
 kind: index
-positioning: "42 个过影响力门的 bundle 的分诊结果：16 张已排期（15 已成卡）、11 个备选、8 条降级为 TRAPS、6 个被拒；分诊账尚有缺口。"
+positioning: "42 个过影响力门的 bundle 的分诊结果：16 张已排期（15 已成卡）、12 个备选、8 条降级为 TRAPS、8 个被拒；去重后正好 42。"
 read_when: "要补样本、或想知道某个包为什么没进卡。"
 status: living
 updated: 2026-11-01
@@ -34,11 +34,11 @@ budget: 90
 | 4 | `@dfy-plugins/dsh-bundle` | 配 | host-row | 迁移与导入 | 已成卡 |
 | 补 | `dsh-context-guardian` | 起 | own-cli + command | 生效边界 | 已成卡 |
 
-## 2. 备选（11 个，分诊为 candidate）
+## 2. 备选（12 个，分诊为 candidate）
 
 分诊给了 `candidate` 但没排期的，**任一主选核完不成立就顶上来**（其中 `dsh-context-imports`、`dsh-code-pill` 已同时降级为 TRAPS，见 §3）：
 
-`dsh-plugin-save-token` · `@morlay/better-session`（产品册 `profile/17` 已有一张，注意重复）· `@viztor/dsh-tinyfish`（与 `dsh-tinyfish` 同代码双名，**只取其一**）· `dsh-scnet` · `dsh-qqbot-lite` · `dsh-context-imports` · `@try-works/dsh-stt` · `rolebox` · `@jiesou/dsh-opencode-zen-free-provider` · `dsh-code-pill` · `dsh-web3`
+`@twinsearth/w2m-dsh-plugin`（自带 CLI + 多机 + 自更新，载体 7）· `dsh-plugin-save-token` · `@morlay/better-session`（产品册 `profile/17` 已有一张，注意重复）· `@viztor/dsh-tinyfish`（与 `dsh-tinyfish` 同代码双名，**只取其一**）· `dsh-scnet` · `dsh-qqbot-lite` · `dsh-context-imports` · `@try-works/dsh-stt` · `rolebox` · `@jiesou/dsh-opencode-zen-free-provider` · `dsh-code-pill` · `dsh-web3`
 
 ## 3. 降级为 TRAPS（8 条，文档纪律而非载体）
 
@@ -55,14 +55,14 @@ budget: 90
 | `dsh-code-pill` | 刷新页面 ≠ 重新加载客户端模块 |
 | `@tianbuyu-wwx/dsh-formatforge` | 四道自检：bundle 注册 / 启动日志行 / HTTP 面 / 冒烟 |
 
-## 4. 被拒（6 个，非生命周期）
+## 4. 被拒（8 个，非生命周期）
 
-`dsh-chat-import`（已产品册卡）· `@perrylink/dsh-plugin-doctor` · `dsh-cool-theme` · `dsh-voice-scribe` · `@doitian/dsh-music` · `dsh-metaphysics`(部分) — 纯能力或界面，无生命周期机制。
+`dsh-chat-import`（已产品册卡）· `@perrylink/dsh-plugin-doctor` · `dsh-cool-theme` · `dsh-voice-scribe` · `@doitian/dsh-music` · `dsh-metaphysics`(部分) · `canvas-workbench`（本地生图工作台）· `dsh-opencode-free-models`（模型面板，与 free-models-hub 同族） — 纯能力或界面，无生命周期机制。
 
 ## 5. 缺口（下一轮普查方向）
 
-- **[OPEN] 分诊账未对平**：本节可核对的记录是 16 + 11 + 8 + 6 = 41，其中 2 条（`dsh-context-imports`、`dsh-code-pill`）在「备选」与「降级」各出现一次，去重 **39 条**；与 L2 的 42 差 **3 条**。复核动作：按 `bundle_sweep` 原始 42 条名单逐条标状态，补上缺的 3 条，再回填本节与 `RESEARCH` §1。
+- **已对平（2026-11-01）**：原始 42 条 = sweep 30 + census 12（`.work/onboarding/fanout/pool-final.json`）。本表 16 + 12 + 8 + 8 = 44 条记录，其中 `dsh-context-imports`、`dsh-code-pill` 在「备选」与「降级」各出现一次，去重正好 **42**。此前差 3 条是漏了 `@twinsearth/w2m-dsh-plugin`、`canvas-workbench`、`dsh-opencode-free-models`：第一条补进备选（载体 7），后两条补进被拒（界面/能力，无生命周期机制）。
 - **反例（`negative/`）**现有 **1 张**（`negative/91`，机制对但没人用）。还缺一类：**"装了却永远不生效"的失败样本**——需要在真实用户机器上取证，本册暂无条件。
 - **自带安装器 / 自带运行时（载体 8、9）**在 42 个里各只出现极少，说明这类东西普遍不走 npm——**下一轮要从 Releases 与安装包方向召回**，而不是继续扫 npm。
-- **`desktop` 面**零实测：本册所有 Desktop 结论都是 `[DSH]` 级（见 [`reference/SURFACES`](../reference/SURFACES.md) 页头）。
+- **Desktop 面**：保留名 carrier 仅 `[DSH]`；社区壳（dataelement/dsh-desktop）为 `[SRC-TARGET]` 源码级、未跑。分界见 [`reference/SURFACES`](../reference/SURFACES.md) 页头。
 - **配**这一轴已从 0 补到 3 张，但"凭据与连接"主题仍薄——`dsh-scnet`、`dsh-qqbot-lite` 是下一批候选。

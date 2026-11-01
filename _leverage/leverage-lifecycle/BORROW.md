@@ -16,7 +16,7 @@ budget: 80
 
 | 我要… | 去哪 | 一句话 |
 |---|---|---|
-| 定一条能同时写进 web 与 Desktop 的装法 | [`reference/REFERENCE.md`](./reference/REFERENCE.md) | 发 bundle，让用户在应用内装；CLI 只作 web 自动化 |
+| 定一条能同时写进 web 与 Desktop 的装法 | [`reference/REFERENCE.md`](./reference/REFERENCE.md) | 发 bundle，让用户在应用内装；CLI 只作 web 自动化；先分清两种 Desktop |
 | 判断某个写法在另一面是否成立 | [`reference/SURFACES.md`](./reference/SURFACES.md) | 同一份 bundle、两个 profile 名；三处会静默失效 |
 | 决定用哪种载体 | [`reference/CARRIERS.md`](./reference/CARRIERS.md) | 载体只从包清单或源码判，不从 README 判 |
 | 发布前逐项自检 | [`practice/CHECKLIST.md`](./practice/CHECKLIST.md) | 十八项，每项都写"怎么核" |
@@ -66,11 +66,11 @@ budget: 80
 | 我要… | 去哪 | 一句话 |
 |---|---|---|
 | 加一张样本卡 | [`research/RESEARCH.md`](./research/RESEARCH.md) | 影响力门 → 机制门 → S1–S5 |
-| 查某个包为何没进卡 | [`research/BACKLOG.md`](./research/BACKLOG.md) | 16 排期（15 已成卡）/ 11 备选 / 8 降级 / 6 被拒（对账见 BACKLOG §5） |
+| 查某个包为何没进卡 | [`research/BACKLOG.md`](./research/BACKLOG.md) | 16 排期（15 已成卡）/ 12 备选 / 8 降级 / 8 被拒（去重 42） |
 
 ## 7. 七条“别抄”
 
-1. **别抄"只发 CLI 一条命令"**——Desktop 用户装完看不到东西（[`reference/SURFACES.md`](./reference/SURFACES.md) §3）。
+1. **别抄“只发 CLI 一条命令”**——保留名 Desktop 装进 `profiles/web` 看不到；社区桌面壳的 home 是私有的，`--profile web` 也写不到（[`reference/SURFACES.md`](./reference/SURFACES.md) §3）。
 2. **别抄"自带安装器"**——除非你的产品根本不是插件；那是 shell，代价见 [`INSTALL`](./install/README.md) §3。
 3. **别抄"文档写得好就当机制对"**——`[DOC]` 不等于 `[SRC-TARGET]`，本册两张卡都是靠源码翻的案（`install/11`、`install/12`）。
 4. **别在插件里重启宿主**——应用内装已经给 `restart-required`，让用户重启；[`boot/22`](./boot/22_重启取证-dsh-update-checker.md) 只解决“非做不可时怎么取证”。

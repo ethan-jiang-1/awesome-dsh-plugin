@@ -2,15 +2,16 @@
 title: "证据规程：Agent 协作册"
 domain: agent-collab
 kind: guide
-positioning: "本册证据规程：四家族样本必须有固定版本 memo 并链接；机制卡必须有“证据与边界”；与产品册 RESEARCH 同级。"
+positioning: "本册证据规程：分源标签、样本卡与机制卡的硬要求、tier/life/evidence 字段、变体门槛、索引门禁。"
 read_when: "要新增/修订本册样本或机制卡；或质疑某条断言有没有来源时。"
 status: living
 updated: 2026-11-01
+budget: 95
 ---
-
 # 证据规程（本册）
 
-产品册 [`../leverage-reshape-product/RESEARCH.md`](../leverage-reshape-product/RESEARCH.md) 的规则在这里适用；本册的分析单位是**样本卡**（一样本一篇，按主家族归位）与**机制卡**（一个协作机制一篇）。
+> **自足**：本册规程以 [`00-map`](./00-map.md) 为规则源，研究流程见 [`research/RESEARCH.md`](./research/RESEARCH.md)。**不再引用产品册的规程**——它的样本单位、门槛与格式都与本册不同。
+> 分析单位有两个：**样本卡**（一样本一篇，按主家族归位）与**机制卡 / 家族篇**（一个协作机制一篇）。
 
 ## 1. 分源标签
 
@@ -21,23 +22,32 @@ updated: 2026-11-01
 | `[SRC-DSH]` | 本机 DSH `0.2.1-rc.3` 发行包 | 宿主契约/默认值；不证明其它宿主版本 |
 | `[TEST]` | 目标仓库测试源码 | 覆盖意图；**不**证明测试通过 |
 | `[CI]` | workflow/check-run | 同 SHA 的 CI 结果才算；workflow 存在不算 |
-| `[RUN]` | 本轮实际执行 | 只能写做过的事；未跑就写 `[RUN] None` |
-| `[OBS]` | 作者观察/经验判断 | 只能作假设，不能写成宿主事实 |
+| `[RUN]` | 本轮实际执行（试验台或隔离实测） | 只能写做过的事，并给 R 号；未跑就写 `[RUN] None` |
+| `[LIT]` | 外部论文/工程博客（带 URL + 日期） | 行业经验与失败分类；**不**冒充宿主事实 |
+| `[OBS]` | 作者观察/经验判断 | 只能作假设，必须给反例或失效条件 |
+| `[OPEN]` | 未复核 | 必须写「下次怎么核」 |
 
-**铁律**：`[DOC]` 不能升级成 `[SRC-TARGET]`；上游行为不能当成目标行为；未验证一律 `[OPEN]`，不写“已验证”。
+**铁律**：`[DOC]` 不能升级成 `[SRC-TARGET]`；上游行为不能当成目标行为；社区转述不能当 `[LIT]` 原文；未验证一律 `[OPEN]`。
 
-## 2. 样本卡（按家族归位，17 张）
+## 2. 样本卡
 
 每张 `<family>/samples/NN-*.md` 必须：
 
-1. **固定坐标**：repo、npm 包、精确版本、tag/commit（或说明为何无法对齐），最近核对日期；
-2. **链接 memo**：同家族 `_证据/NN-<slug>-源码复核.md`，并在卡头写“证据链”一行；
-3. **改写主张**：卡的每条机制断言要么有 memo 里的 `[SRC-TARGET]` 行号，要么降级为 `[DOC]`/`[OBS]`；
-4. **保留代价与失效**：无法验证的运行行为标 `[OPEN]`，不删。
+1. **固定坐标**：repo、npm 包、精确版本、tag/commit（或说明为何无法对齐）、最近核对日期；
+2. **链接 memo**：同家族 `_证据/NN-<slug>-源码复核.md`，并在卡头写「证据链」一行；
+3. **四个页头字段**（2026-11-01 起）：
+   - `tier`：典型 / 变体 / 反例（[`00-map` §9](./00-map.md#9-样本分级与强制去重)）；
+   - `life`：active / retired / unpublished / blocked；
+   - `evidence`：L0–L3（[`00-map` §8](./00-map.md#8-证据等级与标签)）；
+   - `answers`：回答十问里的哪一问（[`00-map` §4](./00-map.md#4-十个问题全册的验收尺子)）。
+4. **改写主张**：每条机制断言要么有 memo 里的 `[SRC-TARGET]` 行号，要么降级为 `[DOC]`/`[OBS]`；
+5. **保留代价与失效**：无法验证的运行行为标 `[OPEN]`，不删。
+
+**变体卡额外要求**：开头必须有「定位（变体）」差异段（≤5 行）——相对哪个典型、差异是什么、为什么仍值得留；正文按 `budget`，**不设硬行数上限**（硬帽会删掉证据）。
 
 memo 最少包含：Provenance（npm↔tag↔commit 对齐/不对齐）、DOC 主张、SRC-TARGET 机制核对、与卡片的偏差表、TEST/CI/RUN、`[OPEN]`。
 
-## 3. 机制卡（四家族 + 横向卷）
+## 3. 机制卡与家族篇
 
 每章必须新增 **`## 证据与边界`** 一节，至少 3 行，格式：
 
@@ -48,22 +58,30 @@ memo 最少包含：Provenance（npm↔tag↔commit 对齐/不对齐）、DOC �
 - 涉及宿主 seam/默认值/事件名的，优先 `[SRC-DSH]` 并给包名+文件+行号；
 - 涉及样本实现的，`[SRC-TARGET]` + memo 链接或固定版本；
 - 纯推论/经验写 `[OBS]`，并写可证伪条件；
-- 无源数字（百分比、次数、体积）要么补来源与日期，要么删除或改成定性表述。
+- 无源数字（百分比、次数、体积）要么补来源与日期，要么删除或改成定性表述；
+- **必须表态**：给出默认选择与「什么时候不选它」，不做中立罗列。
 
-## 4. 索引与门禁
+## 4. 分级与去重
 
-- 样本索引 [`encyclopedia.md`](./encyclopedia.md) 的每行必须能点到样本卡与 memo；
-- 顶层 `README`/`00-map`/`catalog`/`BORROW` 的计数以 `verify.mjs` 为准，不手写猜测；
-- `verify.mjs` 将强制：样本 memo 存在且被卡链接、章节含 `## 证据与边界` 且 ≥3 行、catalog 一行不多一行不少；
+- 同一机制族只允许一个典型（[`00-map` §9](./00-map.md#9-样本分级与强制去重)）；第二个及以后只能是变体。
+- 分级不改变证据效力；去重不删档，`catalog` 照列。
+- 分诊决定记录在 [`research/BACKLOG.md`](./research/BACKLOG.md) §1；改级要同步样本卡、`encyclopedia`、`catalog` 三处。
+
+## 5. 索引与门禁
+
+- 样本索引 [`encyclopedia.md`](./encyclopedia.md) 的每行必须能点到样本卡与 memo；主表按「典型 → 变体」分段。
+- 顶层 `README`/`00-map`/`catalog`/`BORROW` 的计数以 `verify.mjs` 为准，不手写猜测。
+- `verify.mjs` 强制：样本 memo 存在且被卡链接、章节含 `## 证据与边界` 且 ≥3 行、catalog 一行不多一行不少。
 - 负向测试：故意删 memo、删章节证据节、改坏表格列数，校验必须报错。
 
-## 5. 研究顺序
+## 6. 批次
 
-1. 四家族骨架与迁移（delegation/teams/pipelines/crossing/coordination）；
-2. delegation 宿主契约与委派样本；
-3. pipelines 声明式编排与重放；
-4. crossing 远端执行与跨实例；
-5. teams 现有样本与新增对照；
-6. coordination 横向对照与选型矩阵。
+研究批次、完成判据与饱和停止条件见 [`research/RESEARCH.md` §6](./research/RESEARCH.md#6-批次与停止条件)。每批完成后跑 `node _leverage/verify.mjs`，并把本批结论写回对应 memo/章节，不攒到最后。
 
-每批完成后跑 `node _leverage/verify.mjs`，并把本批结论写回对应 memo/章节，不攒到最后。
+## 证据与边界
+
+| 主张 | 标签 | 来源/核对方式 | 边界 |
+|---|---|---|---|
+| 本册规程不再外包给产品册 | `[DOC]` | 本文件与 `research/RESEARCH.md` | 结构事实，不等于机制已验证 |
+| 四个页头字段是新增硬要求 | `[DOC]` | `00-map` §8/§9 | 由 B4 批次写入 17 张卡 |
+| `[LIT]` 只作参照 | `[OBS]` | 外部文献与宿主源码的分工 | 引用需带 URL 与日期，逐条人工核 |

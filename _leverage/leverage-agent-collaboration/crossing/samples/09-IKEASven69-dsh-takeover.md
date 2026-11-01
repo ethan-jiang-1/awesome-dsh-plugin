@@ -6,8 +6,12 @@ positioning: "`IKEASven69/dsh-takeover`：handoff 协议的拉/推/取闭环，�
 takeaway: "没有协议只有文件；open(claim,'wx') 做恰好一次；四态证据账本。"
 read_when: "要跨机但不想写任何协议，且能接受没有实时性。"
 status: observed
-updated: 2026-10-31
 also_in: "delegation"
+updated: 2026-11-01
+tier: 典型
+life: unpublished
+evidence: L1
+answers: Q5
 ---
 # 09 · `IKEASven69/dsh-takeover`
 
