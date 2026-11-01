@@ -17,6 +17,7 @@ updated: 2026-11-01
 | [`EVIDENCE.md`](./EVIDENCE.md) | guide | 本册证据规约：样本 memo、章节证据节、分源标签。 | 新增/修订样本或章节前。 |
 | [`research/RESEARCH.md`](./research/RESEARCH.md) | guide | 研究规程：漏斗、分诊、五步取证、五条硬检与饱和停止条件。 | 要新增/复核一张卡时。 |
 | [`research/BACKLOG.md`](./research/BACKLOG.md) | index | 分诊结果（14 典型 + 4 变体）、兼容状态与十问缺口候选。 | 要补样本或问「为什么没有卡」时。 |
+| [`research/rig/README.md`](./research/rig/README.md) | guide | R0–R7 的可复跑试验台：固定版本、sha256、稳定判据。 | 复核 L2 结论时。 |
 | [`reference/SEAMS.md`](./reference/SEAMS.md) | guide | 接缝选择表：六条立场、四道边界矩阵、偏离登记。 | 要在原生接缝与自建之间选时。 |
 | [`reference/COMPAT.md`](./reference/COMPAT.md) | guide | 兼容性墙：18 张样本的生命状态与 rc.3 失效点。 | 引用样本前先确认它成不成立。 |
 | [`practice/TRAPS.md`](./practice/TRAPS.md) | guide | 16 条协作反模式，每条带反例。 | 设计/评审前扫一遍。 |

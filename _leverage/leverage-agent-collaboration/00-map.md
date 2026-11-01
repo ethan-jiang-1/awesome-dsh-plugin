@@ -142,7 +142,7 @@ budget: 215
 ## 10. 文件与编号
 
 - 根：`README` / `00-map` / `EVIDENCE` / `catalog` / `BORROW` / `encyclopedia`。
-- 支撑：`research/`（规程与候选池）、`practice/`（[`TRAPS`](./practice/TRAPS.md) / [`CHECKLIST`](./practice/CHECKLIST.md)）、`reference/`（接缝表 / 兼容性墙）、`_证据/`（全册级实测账本）。
+- 支撑：`research/`（规程、候选池与 [`rig`](./research/rig/README.md) 试验台）、`practice/`（[`TRAPS`](./practice/TRAPS.md) / [`CHECKLIST`](./practice/CHECKLIST.md)）、`reference/`（接缝表 / 兼容性墙）、`_证据/`（全册级实测账本）。
 - 家族：`<family>/README.md`（家族篇）+ 章节 + `samples/NN-*.md` + `_证据/NN-*.md`。
 - 编号：样本 `NN-` 家族内递增、不复用；新样本从 18 起。**章号与样本号是两套编号**，引用时写全名（如 `teams/01-roster-and-captain.md`）；去编号在 B6 统一处理。
 - 生长：新样本先过 §7 三道门，再进主家族；跨家族角色写进 [`encyclopedia`](./encyclopedia.md) 与样本卡 `also_in`。

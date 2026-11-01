@@ -40,7 +40,7 @@ _leverage/
 │   └── lever-prove-output/  lever-draw-limit/
 ├── leverage-agent-collaboration/    ← 协作:delegation / teams / pipelines / crossing / coordination
 │   ├── README.md  00-map.md  EVIDENCE.md  encyclopedia.md  catalog.md  BORROW.md
-│   ├── research/                       ← 研究规程 + 分诊候选池(RESEARCH / BACKLOG)
+│   ├── research/                       ← 研究规程 + 候选池 + 试验台(RESEARCH / BACKLOG / rig)
 │   ├── reference/                      ← 接缝选择表 + 兼容性墙(SEAMS / COMPAT)
 │   ├── practice/                       ← 照抄就中招 + 上线自检(TRAPS / CHECKLIST)
 │   └── <family>/samples/ + _证据/
