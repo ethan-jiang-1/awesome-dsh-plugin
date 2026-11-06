@@ -28,6 +28,17 @@ data/screenshots-live.json
 # of hashed package blobs, so `git add -A` would sweep all of it into a commit.
 .pnpm-store/
 
+# MUST NOT be committed: a real Chromium profile (158MB) holding a live npm
+# login — Default/Cookies, Default/Login Data (the saved-password DB) and
+# Local State (key material). Committing it ships credentials, and credentials
+# that reach a pushed commit cannot be removed without rewriting history.
+.npm-cdp-profile/
+
+# Local one-off CDP scripts for the npm login flow (cdp.mjs / reset.mjs). They
+# hold no secrets; ignored only because they are throwaway scaffolding for this
+# checkout. Track them deliberately if that flow ever becomes a supported tool.
+.npm-cdp/
+
 # Ethan research branch: python census artifacts
 __pycache__/
 _parse_errors.txt
