@@ -11,7 +11,7 @@
 | 条目 | 星标 ⚠ | 说明 | 单卡 |
 |------|--------|------|------|
 | Nwflower/dsh-chat-import | 71 | 38 种来源格式 → 可续聊会话;反向导出 4 格式(registry 自称 13 家,落后代码两代) | [01](01-dsh-chat-import.md) ★★★ |
-| whyihaveyou/dsh-suite#plugin-session-export | 42 | 458 行单文件,把 **live** session 日志投影成散文 MD/HTML;按事件类型分组,重启后导不出历史 | [02](02-dsh-session-export.md) ★★★ |
+| whyihaveyou/dsh-suite#plugin-session-export | 42(仓库级) | 458 行单文件,把 **live** session 日志投影成散文 MD/HTML;按事件类型分组,重启后导不出历史 | [02](02-dsh-session-export.md) ★★★ |
 
 ## 立卡条件
 

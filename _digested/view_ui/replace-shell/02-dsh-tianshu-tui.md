@@ -38,7 +38,7 @@
 
 ## 怎么接进 DSH
 
-- **安装/启动链路**(`README.md:64-70`):`pnpm dlx @deepseek-ai/dsh@next plugin --profile tui add @huiliyi37/dsh-tianshu-tui`,再 `pnpm dlx @deepseek-ai/dsh@next --profile tui`。`plugin add` 只是把包名转发给 pnpm(`dsh` 侧 `--profile` 是必填项);真正让它变成「一层」的是包里的 `dsh.bundle.patch`。宿主侧的判定点在 `@deepseek-ai/dsh-app-boot`:`bundlePatchFiles()` 校验该字段必须是字符串或字符串数组(`lib/index.js:517-521`);`@deepseek-ai/dsh-plugin-manager` 对没有 `dsh.bundle` 的包只当普通依赖并告警「installed as a plain dependency, not a profile layer」(`lib/index.js:336`)。装配结果是 profile 的 bundle 层 = `[@deepseek-ai/dsh-base, @huiliyi37/dsh-tianshu-tui]`(`docs/LOCAL-DEV.md:24`)。
+- **安装/启动链路**(`README.md:64-70`):`pnpm dlx @deepseek-ai/dsh@next plugin --profile tui add @huiliyi37/dsh-tianshu-tui`,再 `pnpm dlx @deepseek-ai/dsh@next --profile tui`。`plugin add` 只是把包名转发给 pnpm(`dsh` 侧 `--profile` 是必填项);真正让它变成「一层」的是包里的 `dsh.bundle.patch`。宿主侧的判定点在 `@deepseek-ai/dsh-app-boot`:`bundlePatchFiles()` 校验该字段必须是字符串或字符串数组(`lib/index.js:517-521`);`@deepseek-ai/dsh-plugin-manager` 对没有 `dsh.bundle` 的包只当普通依赖并告警「installed as a plain dependency, not a profile layer」(`lib/index.js:336`),安装路径上还会以 `not-a-bundle` 直接拒绝(`:1866`、`:1917`)。装配结果是 profile 的 bundle 层 = `[@deepseek-ai/dsh-base, @huiliyi37/dsh-tianshu-tui]`(`docs/LOCAL-DEV.md:24`)。
 - **patch 里到底插了什么**(`cordis.patch.yml`,596 行,一个顶层 `insert` 数组 + 一个 disable 列表):
   - `- id: tui-runner` / `name: '@huiliyi37/dsh-tianshu-tui'`(`:13-14`)——**这是唯一属于它自己的行**,插件名固定为 `tui-runner`(`src/index.ts:23`)。
   - 官方 `agent-preset-registry`(`:60-64`,`default: standard`)+ 四条预设声明行 `preset-standard` / `preset-ptc` / `preset-minimal` / `preset-cordis`(`:67`、`:191`、`:319`、`:394`),每条的 `plugins:` 是完整 agent 面清单。整个 `insert` 只有 12 行(其中 1 行是它自己);**agent 面从宿主搬进了 preset**,所以 patch 尾部有 22 条 `- id: ... disabled: true`(`:526-596`)把 host 上的工具行关掉。
@@ -135,7 +135,7 @@
 1. **宿主版本不匹配 = 启动即失败,不是降级。** peer 里 16 个 `@deepseek-ai/dsh-*` 精确钉 `0.2.2-rc.3`(`package.json:61-77`);宿主对 **bundle** 做的是硬校验——`dsh-app-boot/lib/index.js:1025-1026` 对未豁免的不匹配直接 `throw`,`:311-325` 的规则是「每个 `@deepseek-ai/dsh[-*]` peer 都必须匹配,预发布参与区间比较」。补救只有两条:升级插件,或对 `包名@版本 + 宿主版本` 做一次 `dsh plugin allow-version` 精确豁免。**这是全卡最硬的一条成本:换壳插件换来的自由,代价是钉死在宿主的一个 rc 上。**
 2. **Node 版本同样是硬的。** `engines.node >= 24.9.0`(`package.json:42-44`);`scripts/e2e-tui.sh:20-24` 记录了更阴的形态——Node 过旧时宿主入口 `import.meta.main` 不存在,CLI 静默 no-op(exit 0 无输出),用户看到的是「装完了没反应」。
 3. **安装路径本身要绕。** 官方 CLI 依赖树大,install 脚本注释明说 npm 11 会 heap OOM,一律走 pnpm(`scripts/install-tui.sh:11-13`);pnpm ≥ 11.7 对未裁决的原生构建 exit 1,脚本要先把 profile 里 `pnpm-workspace.yaml` 的 `allowBuilds` 占位填掉再重试(`:52-62`)。插件自身还带两个原生面:`sharp`(图片转码)与 `node-addon-require-builtin`。
-4. **非 TTY 没有全局闸门。** `src/` 里 9 处 `isTTY` 判断全是局部降级,没有一处是启动前的拒绝——`input-handler.ts:236`、`:324` 只是 raw mode 开关,`index.ts:102` 是退出兜底,`theme-detect.ts:76` 让背景探测走 env 兜底,`ansi.ts:358`、`:436` 让 OSC52 与图片协议判「不支持」,`app.ts:1518` 决定要不要自动弹 key 引导。**判断:被重定向到管道时 ANSI 序列照照样写出,只是没有 raw mode、没有超链接、没有图片——这是与「终端专用」自述不一致的一处。**
+4. **非 TTY 没有全局闸门。** `src/` 里 9 处 `isTTY` 判断全是局部降级,没有一处是启动前的拒绝——`input-handler.ts:236`、`:324` 只是 raw mode 开关,`index.ts:102` 是退出兜底,`theme-detect.ts:76` 让背景探测走 env 兜底,`ansi.ts:358`、`:436` 让 OSC 8 超链接与图片协议判「不支持」,`app.ts:1518` 决定要不要自动弹 key 引导。**判断:被重定向到管道时 ANSI 序列照常写出,只是没有 raw mode、没有超链接、没有图片——这是与「终端专用」自述不一致的一处。**
 5. **终端太小只能硬裁,没有最小值门槛。** live 区上限 `Math.max(4, Math.min(28, rows-1))`(`engine/live-budget.ts:58-60`),chrome 本身超预算时「宁可超行也不能让输入框消失」(`live-engine.ts:526`)。rows 很小的终端上会看到 chrome 压掉正文,而不是报错。
 6. **流式中断有专门的编舞,但只覆盖「用户主动打断」。** `handleAbort` 的次序敏感段见 `app.ts:2895-2903`;进程崩溃/被 kill 时靠的是 `index.ts:101-103` 的 `process.on('exit')` 兜底关 raw mode——**这条兜底只恢复 raw mode,不恢复光标可见性**(光标恢复在 `dispose()` 末尾,`app.ts:4298-4300`)。异常退出路径上残留隐藏光标是可能的。
 7. **审批 60 秒超时会静默取消。** `DEFAULT_APPROVAL_TIMEOUT_MS = 60_000`(`approval-controller.ts:63`),超时 fail-closed 结算 `cancelled`。**离开座位一分钟,这一步就被拒了**,而终端里只看到卡片消失。这是「终端里没有推送通知、只能靠超时收敛」的直接后果(TUI 侧另有 `os-notify.ts` 做「后台完成」的系统通知,审批不在此列)。
@@ -183,7 +183,7 @@ grep -rn 'ctx.tools\|systemPrompt' src | wc -l                                  
 DSH=~/.nvm/versions/node/v22.23.1/lib/node_modules/@deepseek-ai/dsh
 grep -n 'evaluatePluginCompatibility(bundleManifest\|throw new Error(pluginCompatibilityWarning' \
   $DSH/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js    # → :1025-1026
-grep -n 'declares no dsh.bundle' $DSH/node_modules/@deepseek-ai/dsh-plugin-manager/lib/index.js   # → :336
+grep -n 'declares no dsh.bundle' $DSH/node_modules/@deepseek-ai/dsh-plugin-manager/lib/index.js   # → :336(告警)、:1866/:1917(not-a-bundle 拒绝)
 
 # 7) 文档漂移
 grep -rn "ctrl_x" src | wc -l                  # → 2(仅键名定义,无消费点)

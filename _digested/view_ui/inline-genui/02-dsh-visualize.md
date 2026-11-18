@@ -8,7 +8,7 @@
 | 项 | 值 |
 |----|-----|
 | 条目 | `Nagi-ovo/dsh-visualize`([registry](../../../data/plugins/Nagi-ovo__dsh-visualize.yml)) |
-| 类目 | ui([census](../../../ecosystem/census.py) 2351 条 / 全表 11 744 条,本类占 20.0%,全表最大) |
+| 类目 | ui([census](../../ecosystem/census.py) 2351 条 / 全表 11 744 条,本类占 20.0%,全表最大) |
 | 子分类 | `inline-genui`(内联生成式 UI);⚠ 采样值在本子分类排第二 |
 | 自述 | 「对话内生成式 UI:模型把交互式 HTML 卡片直接画进会话流,带流式预览与沙箱渲染」。三项都能落到代码:工具调用产卡、参数流预览、`<iframe sandbox>` + 帧内 CSP |
 | 星标 ⚠ | 180(2026-08-19 采样);2026-11-18 实时 **347**(约 1.9 倍) |
@@ -17,7 +17,7 @@
 | 仓库 commit | `6a713a7`(2026-11-15,`chore: release 0.1.10`);仓库创建 2026-08-13(编排者 API),但**首提交 2026-08-08**,65 个提交全属这一个插件 |
 | 包形态 | npm `@nagi-ovo/dsh-visualize@0.1.10`,Cordis **bundle**(`dsh.bundle.patch`)+ 一个 web 客户端半(`dsh.client.platform: "web"`);无任何 runtime 依赖,9 个 peer 依赖全是 `@deepseek-ai/*` 与 react |
 | 代码规模 | `src/` **32 文件 9 521 行**(其中 `src/lint.ts` 1817 行);测试 27 个 spec / **5 307 行** / 329 个 `it`;产物 `lib/client.js` 162 033 B(gzip 49 068)、`lib/index.js` 170 924 B(gzip 56 185) |
-| 仓库体量 | git 跟踪 **2 092 069 B**(assets/ 988 KB 是演示视频 525 KB + 预览图 247 KB);编排者记录的约 1.3 MB 应是打包压缩后的量级 |
+| 仓库体量 | git 跟踪 **2 092 069 B**(assets/ 988 KB 是演示视频 525 KB + 预览图 247 KB);判断:编排者记录的约 1.3 MB 是打包压缩后的量级 |
 
 ## 它到底是什么
 
@@ -168,7 +168,7 @@
 - **预览先于校验。** 生成过程中,已闭合的 `<script>` 会被克隆成可执行节点插入空壳帧(`src/shell.ts:225-235, 241`),而 lint 只在 `execute` 里跑(`src/tool.ts:246`)。所以 **CSP + 沙箱是唯一的安全边界,lint 只是质量闸门**。任何把 lint 当成安全措施的读法都是错的。
 - **CDN 允许列表是一条单向外带通道。** `img-src`/`script-src` 允许 7 个 CDN(`src/shell.ts:22-40`),卡片可以把自带数据编码进 CDN 的路径/查询串发出去;`connect-src` 只挡了 fetch/XHR/WS,挡不住 `<img src>`。lint 的 `reportUrl` 只查字面量,拼接出来的 URL 读不准(`src/lint.ts:1117-1160`,JS 侧 `img.src = …` 仅 warn)。能外带的是**模型自己写的内容 + 已被烤进文档的已保存状态**(`src/viz-helper.ts:108`、`src/shell.ts:103, 138-141`),**不含**宿主凭据。这是"沙箱挡住宿主、挡不住模型把自己看到的东西送出去"。
 - **`postMessage` 用 `'*'` 作目标源。** 两条帧→父消息都以 `'*'` 发出(`src/viz-helper.ts:250, 264`)。帧是不透明来源,确实无法指名父来源,但结果是**页面上任何脚本(宿主或其他插件的客户端半)都能收到**卡片状态与 prompt 文本。
-- **高度通道不校验 `event.source`**,只校验 type + token(`src/client/VisualizeCard.tsx:346-357`),与 prompt/state 两条(:294、:318)不一致。token 就是 callId,虽然写进了每张卡自己的文档里(等于半公开),但要跨卡利用仍需知道另一张卡的 callId,后果也仅限于把某帧高度改到 cap 以内。**判断:一致性缺陷,不是越权。**
+- **高度通道不校验 `event.source`**,只校验 type + token(`src/client/VisualizeCard.tsx:346-357`),与 prompt/state 两条(:294、:318)不一致。token 就是 callId,虽然写进了每张卡自己的文档里(等于半公开),但要跨卡利用仍需知道另一个卡片帧的 callId,后果也仅限于把某帧高度改到 cap 以内。**判断:一致性缺陷,不是越权。**
 - **CDN 脚本等于帧内任意代码。** `script-src` 放行 jsdelivr/unpkg/esm.sh,模型可以引任意第三方包——这只是把"模型写的代码"换成"模型挑的代码",仍在同一不透明来源里;真正的边界是"这个来源能不能碰到宿主",答案是不能。
 - **工作区风格文件会进入技能正文。** `<workspace>/.dsh/visualize-style.md` 与 `<DSH_HOME>/visualize/style.md` 的文本被拼进模型加载的技能,单文件上限 4096 B(`src/style-guide.ts:28-35`)。这是一条**持久化的提示注入面**:往仓库里塞一个风格文件,就能影响之后每次画卡。它属于 token 级风险,不是代码级。
 - **新标签页外壳与 DSH 同源。** 现在它零脚本、fragment 只在转义后的 `srcdoc` 里,是安全的设计;但这条边界靠"不要往外壳里加脚本"维持,一旦有人加了,就是同源失守(`src/window-doc.ts:5-13`)。
@@ -176,7 +176,7 @@
 
 ## 可信度与复现
 
-**★★★,只限这个插件自身**:node 半与 browser 半逐文件读过(`src/` 32 个文件全读,含 1817 行的 `lint.ts` 主结构与全部规则定义);测试读的是用例清单与关键断言,**没有跑 vitest**;没有在真实浏览器里加载过恶意 fragment。与本机 DSH 官方包的对照只用于确认接缝:`dsh-client-ui-tool` 的 keyed toolview 语义、`dsh-client-modules` 的 loader 契约。
+**★★★,只限这个插件自身**:node 半与 browser 半全部打开读过(`src/` 32 个文件;核心 20 个逐行读,含 1817 行的 `lint.ts` 主结构与全部规则定义);测试读的是用例清单与关键断言,**没有跑 vitest**;没有在真实浏览器里加载过恶意 fragment。与本机 DSH 官方包的对照只用于确认接缝:`dsh-client-ui-tool` 的 keyed toolview 语义、`dsh-client-modules` 的 loader 契约。
 
 ```sh
 # 1) 克隆与提交
@@ -190,7 +190,7 @@ git log --reverse --format='%h %ad %s' --date=short | head -1          # → 33f
 cat src/*.ts src/client/*.ts src/client/*.tsx | wc -l                   # → 9521(32 文件,不含测试)
 wc -l src/lint.ts                                                      # → 1817
 ls tests/*.spec.* | wc -l                                              # → 27
-grep -rc "^\s*it(" tests/*.spec.* | awk -F: '{s+=$2} END {print s}'    # → 329
+grep -rE "^[[:space:]]*(it|it\.each)\(" tests/*.spec.* | wc -l          # → 329
 gzip -c lib/client.js | wc -c                                          # → 49068(原始 162033)
 git ls-files | xargs wc -c | tail -1                                   # → 2092069
 
@@ -202,7 +202,7 @@ grep -ril 'visualize' data/plugins/ | wc -l                            # → 17,
 
 # 4) 沙箱与 CSP
 grep -n "allow-scripts\|FRAME_SANDBOX" src/window-doc.ts src/client/VisualizeCard.tsx
-grep -n "connect-src\|frame-src\|default-src" src/shell.ts             # → :36-47
+grep -n "connect-src\|frame-src\|default-src" src/shell.ts             # → :36, :43-44
 grep -n "event.source !== frame.contentWindow" src/client/VisualizeCard.tsx  # → :294, :318
 ```
 
@@ -215,7 +215,7 @@ grep -n "event.source !== frame.contentWindow" src/client/VisualizeCard.tsx  # �
 1. **真浏览器里的沙箱行为**:jsdom 能证明属性与文档结构,证明不了 Chrome 真的拦住了 `fetch`、`window.open`、`top.location`、表单提交。需要一个恶意 fragment 的实测矩阵(每项一条,期望"被拦")。
 2. **CDN 外带通道是否真能打通**:构造一个把 `dshViz.state` 编码进 `cdn.jsdelivr.net/npm/<pkg>/<base64>` 的卡片,看请求是否发出、是否带 referer(帧已设 `no-referrer`)。目前结论只有 CSP 文本依据。
 3. **`srcdoc` 里 CSP meta 的实际生效边界**:`worker-src blob:` 是否允许新起 worker、`base-uri 'none'` 是否覆盖 `document.write` 场景,均未实测。
-4. **高度通道缺 `event.source` 的可利用性**:需要先知道另一张卡的 callId;同页多卡时 callId 是否出现在 DOM 属性里(React props 不落地,但 React DevTools 可见),未验证。
+4. **高度通道缺 `event.source` 的可利用性**:需要先知道另一个卡片帧的 callId;同页多卡时 callId 是否出现在 DOM 属性里(React props 不落地,但 React DevTools 可见),未验证。
 5. **桌面端已知问题**:README 说桌面端"在新窗口打开"与"打开页面"无反应;代码只做了 `typeof window.open === 'function' && typeof URL.createObjectURL === 'function'` 的特性探测(`src/client/VisualizeCard.tsx:146-148`),真正的失效原因没在源码里找到。
 6. **星标曲线**:180(08-19)→ 347(11-18)之间没有中间采样,分不清"发布日暴涨后平台期"还是"持续慢涨";需要 stargazers API 或 star-history。
 7. **兼容矩阵**:README 自述 0.1.1-rc.2 → 0.2.2-rc.3,但代码里的六代分叉只做了静态阅读,没有在 0.1.1 / 0.1.7 / 0.2.1 三个真实宿主上装一遍验证降级路径。

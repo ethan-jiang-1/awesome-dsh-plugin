@@ -12,7 +12,7 @@
 |------|--------|------|------|
 | omdsh-dev/dsh-mnemon | 109 | DSH 原生记忆框架:默认本地文件 + 外部 `mnemon` CLI 落 SQLite;9 个 provider 中 6 个是远端 | [01](01-dsh-mnemon.md) ★★★ |
 | PerryLink/dsh-memento | 58 | 有界/分层/审批/审计;typed `ctx.memory` seam + 22 例可分发协议套件 | [02](02-dsh-memento.md) ★★★ |
-| tinqiao-oss/engramory#plugin | 160 | 纯 markdown 目录 + 索引硬上限;DSH 侧 0 工具、0 依赖,唯一硬拒绝走 `ctx.tools.guard` | [03](03-engramory.md) ★★★ |
+| tinqiao-oss/engramory#plugin | 160(仓库级) | 纯 markdown 目录 + 索引硬上限;DSH 侧 0 工具、0 依赖,唯一硬拒绝走 `ctx.tools.guard` | [03](03-engramory.md) ★★★ |
 | Phant0Meow/dsh-meow-memory | 13 | 七层 SQLite 存储 | — |
 | XieZongChen/dsh-md-notes | 12 | markdown 笔记管理 | — |
 
