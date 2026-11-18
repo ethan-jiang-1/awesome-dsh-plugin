@@ -17,6 +17,7 @@ _change_log/
 ├── 0003-c18ba4a0d-to-4693e5a83.md       # 18 天 / 216 commits / 4392→4489 条
 ├── 0004-4693e5a83-to-b4d0049a8.md       # 13 天 / 3450 commits / 4489→6704 条 (+2215)
 ├── 0005-b4d0049a8-to-efe602e7b.md       # 7 天 / 2149 commits / 6704→7924 条 (+1220)
+├── 0006-efe602e7b-to-29b3ed46e.md       # 18 天 / 6494 commits / 7924→11744 条 (+3820)
 
 ```
 
@@ -31,6 +32,8 @@ _change_log/
 > 该 fetch 用了约 5 分钟(经 tail 管道时不刷新进度,容易误判成卡死;用 `job_output` 等它结束)。macOS 没有 `timeout` 命令,别指望用它兜底。
 >
 > **0005 实测**:同一套 https `ls-remote` + 调优参数 `fetch` 一次成功(7 天 2149 提交、1535 文件)。这一轮**源码零 diff**——`scripts/`、`site/`、`.github/workflows/`、`package.json` 全未动,变化只有名单(+1281/−61)与 `contributing.md` 一节文档;因此六个机制专题按「无对应 diff」处理,唯一例外是 submission-gates 的文档段。另:`census.py` 增加了 JSON-in-.yml 回退(本轮 2 条新条目实际是 JSON),否则分母会静默少 2。
+>
+> **0006 实测**(2026-11-18):同一通道(https `ls-remote` 秒回 + 调优参数 fetch 后台跑)再次一次成功。18 天 6494 提交,与 0005 相反,**源码有实质 diff**:新增 Release 探针家族(`probe-releases.mjs`、`lib/release-manifest.mjs`、`lib/github-statistics.mjs`,probe-stars 重写为批量 GraphQL),`lib/terms.mjs` 增 slugHref 二次编码,`build-site.yml` 修 downloads 缓存回写。`census.py` 又修两处解析(折叠标量、整文件缩进;同类问题第四次),修后 11744 条 0 失败。另注意:上游根目录混入 3 个散落的 plugin yml(合并失误的垃圾文件)。
 
 ## 每条 sync 记录的固定结构
 

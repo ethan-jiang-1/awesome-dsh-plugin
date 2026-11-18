@@ -3,7 +3,7 @@
 > 站位声明:我是**评估者**,不是贡献者。关心的是这东西有什么用、生态长什么样、数据可不可信——不学怎么投稿、不复刻它的门禁。本目录的结构就按这个视角组织。
 
 **产品**:DSH = DeepSeek Harness(`deepseek-ai/deepseek-harness`,官方开源 agent 框架,"一切皆插件");本仓库是它的社区插件目录,`dsh plugin add` 安装制。
-**审计基线**:`main@efe602e7b`(2026-10-31;0005 同步记录见 [`_change_log/`](./_change_log/00-index.md))。生态结构统计已按 **7924 条**重算;本轮上游源码零 diff,六个机制专题按「无对应 diff」核验(submission-gates 另有 `contributing.md` 文档段);下载/星标尚未重采,仅保留带日期的历史值(仓库边车冻结于 2026-08-19)。
+**审计基线**:`main@29b3ed46e`(2026-11-18;0006 同步记录见 [`_change_log/`](./_change_log/00-index.md))。生态结构统计已按 **11744 条**重算;本轮上游源码有实质 diff——新增 Release 探针家族(probe-releases + 批量 GraphQL)、probe-stars 重写、site href 编码与 market-index 名仲裁、build-site.yml 缓存回写修复(site-surface 与 probes-and-decay 需复核/已改写,其余专题已核验);下载/星标尚未重采,仅保留带日期的历史值(仓库边车冻结于 2026-08-19)。
 
 ## 读法(三站)
 
@@ -13,10 +13,10 @@
 
 | 文件 | 回答什么 |
 |------|----------|
-| [00-map](./ecosystem/00-map.md) | 全景导读 + 0005 更新后的 7924 条结构基线、分类/作者/标签画像及历史热度数据时效说明 |
+| [00-map](./ecosystem/00-map.md) | 全景导读 + 0006 更新后的 11744 条结构基线、分类/作者/标签画像及历史热度数据时效说明 |
 | [01-scenario-taxonomy](./ecosystem/01-scenario-taxonomy.md) | **按场景分**:23 类逐类透视 → 重聚十一个场景带("做壳" vs "做增强")+ 新队列漂移 |
-| [02-tech-landscape](./ecosystem/02-tech-landscape.md) | **按技术分**:34 个技术标签(7924 当前基线)、模型提及、多模态/成本特征、历史能力披露快照 |
-| [03-growth-maturity](./ecosystem/03-growth-maturity.md) | 演化节奏与作者结构(7924 当前基线);成熟度/星标仍是带日期的历史快照 |
+| [02-tech-landscape](./ecosystem/02-tech-landscape.md) | **按技术分**:34 个技术标签(11744 当前基线)、模型提及、多模态/成本特征、历史能力披露快照 |
+| [03-growth-maturity](./ecosystem/03-growth-maturity.md) | 演化节奏与作者结构(11744 当前基线);成熟度/星标仍是带日期的历史快照 |
 | [04-value-trend](./ecosystem/04-value-trend.md) | 当前结构与数据时效边界;头部/下载转化仍为 2026-09-12 或更早的历史观测,不可外推 |
 
 数字全部可重跑复现:`python3 _digested/ecosystem/census.py`(仅标准库);新鲜下载/星标走 [`fresh_probe.py`](./ecosystem/fresh_probe.py)(方法见 [`_method/01`](./_method/01-fresh-probe.md))。

@@ -1,6 +1,6 @@
 # probes-and-decay · 探针与衰减
 
-> 状态:**0005 无对应 diff**(2026-10-31,行号以 `upstream@efe602e7b` 为准;`probe-*`、cache path、写入方零 diff)。此前 0004 已复核(行号以 `b4d0049a8` 为准)。0003 判本专题"无对应 diff",这条判断只对 0003 那一段成立;0004 是本专题自 0002 以来第一次实质改动,且只落在两处——capability 探针(probe-capabilities 200→**230**、`lib/capabilities.mjs` 144→**224**、新增 `capability-changes.mjs` 44、`capabilities.test.mjs` 111→**192**)与 probe-npm(150→**181**)。`scan-decay.mjs` 仍 388 行,stars/downloads/readmes/updates/tarballs/screenshots 六个探针、prune-legacy-screenshots 与 publish-updates 全部零 diff。脚本清点:13 个(8 个 probe-* + scan-decay + capability-changes + 双 publish + prune-legacy-screenshots),另加 8 个 `lib/` 模块。
+> 状态:**0006 是本专题自 0002 以来最大的机制变化**(基线 `upstream@29b3ed46e`,2026-11-18,行号以该基线为准):新增 `lib/github-statistics.mjs`(批量 GraphQL 库,probe-stars 与新探针 probe-releases 共用)、`scripts/probe-releases.mjs`(Release 附件下载 + package.json 清单,写 cache-only 的 `data/releases.json`)、`scripts/lib/release-manifest.mjs`(清单 URL 锁定声明 tag + 事实提取);**probe-stars 重写**(REST 单仓 fetch → 批量 GraphQL,142→133 行,`checkedAt` 从 ISO date 变完整 ISO timestamp);`build-site.yml` 修 downloads 缓存回写(#14322,细节在 [site-surface/01](../site-surface/01-build-site.md) §部署链)。`scan-decay`、probe-npm/downloads/readmes/updates/tarballs/screenshots、prune、双 publish 全部零 diff。脚本清点:13→**14 个**(9 个 probe-* + scan-decay + capability-changes + 双 publish + prune-legacy-screenshots),`lib/` 模块 8→**10 个**。此前 0005 无对应 diff(0004 行号以 `b4d0049a8` 为准;capability 探针 230 行、lib/capabilities.mjs 224 行等 0004 结论仍成立)。最近核验:`29b3ed46e`。
 
 ## 定位
 
@@ -21,6 +21,7 @@
 | `data/tarballs.json` | probe-tarballs | ❌ | 共享条目 |
 | `data/updates.json` | probe-updates | ❌ **从未提交过** | 独立 updates-v1 |
 | `data/screenshots-declared.json` / `-live.json` | probe-screenshots | ❌ 且刻意不缓存(重算免费)| — |
+| `data/releases.json`(**0006 新增**)| probe-releases | ❌(.gitignore:17)| **cache-only 第五个,且当前无 cache 条目、无 workflow 调用方**——只活在维护者本机;消费见 [01](./01-probe-family.md) |
 
 > **0001 勘误(0002 更正)**:`updates.json` 在 0001 的表里被标成"✅ 已提交",实际它**从未进过 git 历史**(`git log --all -- data/updates.json` 为空),只在 updates-v1 cache 里。它也是唯一一个既不在 .gitignore、又从不被提交的 data 文件——本地跑一次探针就会在 `git status` 里冒出来。
 
@@ -36,7 +37,7 @@
 
 ## 两条铁律(贯穿全部脚本)——0002 修正
 
-1. **「未知 ≠ 死亡」。** 任何网络失败产生的都是"保留旧值",绝不写成否定性事实。**0002 修订**:0001 版写的例外"(404 除外——那是 GitHub 说的)"**在 readmes 上已被撤销**——probe-readmes 现在把 404 也当失败,保留旧值(它删掉了 `missing:true` 这个字段);probe-downloads 对"批量成功但该包不在返回里"也改为**保留旧计数,绝不写 0**。规则的**精神**没变(未知不许伪装成事实),变的是"什么算已知"。**0004 又多了两个实例**:扫描器的 schema 从"只认一个版本"变成"认一个可读集合"(`READABLE_SCHEMAS = {1, 2}`,lib/capabilities.mjs:25-26),所以 0.1.13 写下的旧账仍然可读;provenance 查询失败返回 `undefined` 而不是 `present:false`,注释原话是 "we could not ask" 不等于 "this version has no attestation"(probe-capabilities.mjs:80-93)。
+1. **「未知 ≠ 死亡」。** 任何网络失败产生的都是"保留旧值",绝不写成否定性事实。**0002 修订**:0001 版写的例外"(404 除外——那是 GitHub 说的)"**在 readmes 上已被撤销**——probe-readmes 现在把 404 也当失败,保留旧值(它删掉了 `missing:true` 这个字段);probe-downloads 对"批量成功但该包不在返回里"也改为**保留旧计数,绝不写 0**。规则的**精神**没变(未知不许伪装成事实),变的是"什么算已知"。**0004 又多了两个实例**:扫描器的 schema 从"只认一个版本"变成"认一个可读集合"(`READABLE_SCHEMAS = {1, 2}`,lib/capabilities.mjs:25-26),所以 0.1.13 写下的旧账仍然可读;provenance 查询失败返回 `undefined` 而不是 `present:false`,注释原话是 "we could not ask" 不等于 "this version has no attestation"(probe-capabilities.mjs:80-93)。**0006 把这条纪律下沉进了共享库并在文档里书面化**:`lib/github-statistics.mjs` 对任何缺失/失败的页把**整仓作废**(不返回部分和,更不返回 0);probe-releases 失败保留上次完整观测和**原时间戳**;contributing.md 0006 新节把口径写死——"an unknown count is never zero",npm 30 天 `downloads` 与 `githubReleaseDownloads`(Release 附件累计,含 prerelease 不含 draft)不得相加、不得放进同一窗口排序。
 2. **失败不许伪装成数据。** **0002 修订**:0001 版说"除 probe-readmes 外都有覆盖率地板(MIN_COVERAGE = 0.66),推不回来就 exit 1"——**现在只有 probe-stars 与 probe-downloads 有地板**(后者是分 population 的双 66%);probe-updates 与 probe-capabilities 改为 **exit 0 且不写盘**。理由是同一件事的另一面:cache 的 save post-step 只在 run 成功时执行,`exit 1` 会把 updates cache 打成**永久 miss**(#5731)。"失败不写盘"仍在,只是不再用红 exit 表达。0004 对这条没有改动,capabilities 的全失败分支仍是"保留旧文件 + 一行日志"(probe-capabilities.mjs:222-229)。
 
 ## 反常设计盘点(有意为之 vs 待商榷)

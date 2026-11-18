@@ -8,7 +8,7 @@
 - **进行中** — 有部分编号正文
 - **已核验** — 结论核对过当前基线源码;「核验 commit」记录最后一次核对点
 
-> **0005 复核方式**:`census.py` 在 **7924 条**上重跑(并修了 JSON-in-.yml 解析,见末节);上游本轮**源码零 diff**——`scripts/`、`site/`、`.github/workflows/`(仍 10 条)、`package.json` 全部未动,六个机制专题按「无对应 diff」核验,唯一实质 diff 是 `contributing.md` 的 held 文档段。ecosystem 五篇正文的**全部结构数字**换到新基线;下载/星标仍未自采(连续三轮),故仍标为部分核验。
+> **0006 复核方式**:`census.py` 在 **11744 条**上重跑(并修了折叠标量与整文件缩进解析,见末节);上游本轮**源码有实质 diff**——新增 Release 探针家族、probe-stars 重写为批量 GraphQL、`lib/terms.mjs` 增 slugHref、`build-site.yml` 修 downloads 缓存回写、`contributing.md` 加 Release 口径文档。mechanics 六专题中 site-surface 与 probes-and-decay 有真实 diff(档案改写),其余已核验或零 diff。ecosystem 五篇正文的**全部结构数字**换到新基线;下载/星标仍未自采(连续四轮),故仍标为部分核验。
 
 ## 按专题
 
@@ -16,13 +16,13 @@
 
 | 专题 | 状态 | 已有正文 | 最近核验 commit |
 |------|------|----------|-----------------|
-| [`ecosystem`](../ecosystem/00-map.md) | **部分已核验**(0005:census 已覆盖 7924 条;00/01/02/03 的分类、作者、标签、首录与新队列漂移更新;04 的时效边界与删撤侧观察更新;能力披露 join 重算为 3764(47.5%);历史下载/星标仅按采样日期引用,本轮仍未自采) | 00-map · 01-scenario-taxonomy · 02-tech-landscape · 03-growth-maturity · 04-value-trend(+ _method/01) | `efe602e7b` |
-| [`mechanics/system`](../mechanics/system/00-map.md) | **无对应 diff**(0005:scripts 6952 行/38 个 mjs、10 条 workflow、site/、package.json 全部零 diff;仅名单 6704→7924) | 仅 map | `efe602e7b` |
-| [`mechanics/registry-data`](../mechanics/registry-data/00-map.md) | **无对应 diff**(0005:entries.mjs/schema 零 diff;新增 2 条 JSON-in-.yml 被 js-yaml 接收,属数据形态;边车只减不增) | 仅 map | `efe602e7b` |
-| [`mechanics/readme-pipeline`](../mechanics/readme-pipeline/00-map.md) | **无对应 diff**(0005:generate-readme 与 sync-readme 均零 diff;README 8114/8113 行、PLUGINS 块 7992 行可完全由 7924 条输入解释) | 00-map · 01-generate-readme | `efe602e7b` |
-| [`mechanics/site-surface`](../mechanics/site-surface/00-map.md) | **无对应 diff**(0005:build-site.mjs、site/、locales 零 diff;详情页规模随名单变,约 1.59 万个) | 01-build-site · 02-templates-locales | `efe602e7b` |
-| [`mechanics/submission-gates`](../mechanics/submission-gates/00-map.md) | **已核验**(0005:10 条 workflow 与校验脚本零 diff;`contributing.md` 新增 held/After review 一节,把标签语义、tracking issue 与 gate 列 `—` 写清楚) | 01 · 02 · 03 | `efe602e7b` |
-| [`mechanics/probes-and-decay`](../mechanics/probes-and-decay/00-map.md) | **无对应 diff**(0005:probe/scan 脚本与 cache path 零 diff;能力披露 join 因分母扩大降到 47.5%,边车回写通道仍未新增) | 01 · 02 · 03 | `efe602e7b` |
+| [`ecosystem`](../ecosystem/00-map.md) | **部分已核验**(0006:census 已覆盖 11744 条;00/01/02/03 的分类、作者、标签、首录与新队列漂移更新;04 的时效边界与删撤侧观察更新;历史下载/星标仅按采样日期引用,本轮仍未自采) | 00-map · 01-scenario-taxonomy · 02-tech-landscape · 03-growth-maturity · 04-value-trend(+ _method/01) | `29b3ed46e` |
+| [`mechanics/system`](../mechanics/system/00-map.md) | **已核验**(0006:scripts 38→44 个 mjs、测试 8→11 个,但 probe→lib→build 拓扑未变;新增文件落在既有专题归组内;仅名单 7924→11744) | 仅 map | `29b3ed46e` |
+| [`mechanics/registry-data`](../mechanics/registry-data/00-map.md) | **已核验**(0006:entries.mjs/schema 零 diff;`data/releases.json` 为 cache-only 第六个边车,提交边车仍五个;3 个根目录散落 yml 是上游合并失误,非 schema 变化) | 仅 map | `29b3ed46e` |
+| [`mechanics/readme-pipeline`](../mechanics/readme-pipeline/00-map.md) | **无对应 diff**(0006:generate-readme 与 sync-readme 均零 diff;README 11934/11933 行可完全由 11744 条输入解释) | 00-map · 01-generate-readme | `29b3ed46e` |
+| [`mechanics/site-surface`](../mechanics/site-surface/00-map.md) | **已核验**(0006:build-site.mjs +31/−9、terms.mjs 增 `slugHref` 二次编码、market-index 增 npm 名占用仲裁、GitHub-only 条目 version 走 release-manifest 兜底;详情页 href 规则变化已改写档案) | 01-build-site · 02-templates-locales | `29b3ed46e` |
+| [`mechanics/submission-gates`](../mechanics/submission-gates/00-map.md) | **已核验**(0006:10 条 workflow 零增删,门禁脚本零 diff;`contributing.md` 新增段是 Release 统计消费口径,非门禁判决) | 01 · 02 · 03 | `29b3ed46e` |
+| [`mechanics/probes-and-decay`](../mechanics/probes-and-decay/00-map.md) | **已核验**(0006:probe-stars 重写为批量 GraphQL、新增 probe-releases 与 `lib/github-statistics.mjs`(50 仓/查询、失败整仓作废)、`build-site.yml` 修 downloads 缓存回写(#14322);边车只随删除收缩,capabilities 3813 行仍为旧扫描快照) | 01 · 02 · 03 | `29b3ed46e` |
 
 > 核验方式说明:0004 六个机制专题都有真实 diff,均由子代理逐行读 diff 后改写档案,主代理另核对 market-index/capabilities/entries/check-site-health 的关键实现。`ecosystem` 的当前结构总数可由 [`census.py`](../ecosystem/census.py)(标准库,无第三方依赖)重跑;生态 03/04 中仍有按历史日期标注的 4392/3552 名单口径,只作为各次星标/下载采样的历史分母,不可视为当前基线。仓库下载/星标边车冻结于 2026-08-19,能力边车冻结于 2026-09-24(`dsh-trust-check@0.1.13`),均未用于更新趋势判断。
 
@@ -47,14 +47,14 @@
 
 | 源码组 | 归入专题 |
 |--------|----------|
-| `data/plugins/*.yml`(**7924 个**) + `scripts/lib/entries.mjs` | registry-data |
-| `data/*.json` **五个**提交边车(stars/downloads/added-dates/screenshots/capabilities)+ cache-only 四个(npm-map/readmes/tarballs/updates) | registry-data / probes-and-decay(写入方) |
+| `data/plugins/*.yml`(**11744 个**) + `scripts/lib/entries.mjs` | registry-data |
+| `data/*.json` **五个**提交边车(stars/downloads/added-dates/screenshots/capabilities)+ cache-only 五个(npm-map/readmes/tarballs/updates/**releases**,0006 新增) | registry-data / probes-and-decay(写入方) |
 | `scripts/generate-readme.mjs`、`.github/workflows/sync-readme.yml` | readme-pipeline |
 | `scripts/build-site.mjs`、`site/*`、`scripts/lib/terms.mjs`、`scripts/download-window.mjs`、`.github/workflows/site-health.yml`、`scripts/check-site-health.mjs` | site-surface |
 | `.github/workflows/pr-*.yml`、`regate.yml`、`held-rescan.yml`、`check-submission.mjs`、`check-bleed.mjs` | submission-gates |
 | `.github/workflows/build-site.yml`、`decay-scan.yml`、`adopt-discussions.yml` | 分别归 site-surface / probes-and-decay / probes-and-decay 的调度视角 |
 | `scripts/probe-*.mjs`、`scripts/lib/capabilities.mjs`、`probe-order.mjs`、`probe-updates-graphql.mjs`、`adopt.mjs`、`added-dates.mjs`、`scan-decay.mjs`、`publish-*.mjs`、`adopt-discussions.mjs` | probes-and-decay |
-| `scripts/*.test.mjs`(8 个;0002 首批 6 个,0004 增 `entries-path` 与 `card-install-command`) | 随被测模块所属专题 |
+| `scripts/*.test.mjs`(11 个;0002 首批 6 个,0004 增 2 个,0006 增 `github-statistics`、`release-manifest`、`market-index-collisions`) | 随被测模块所属专题 |
 | `scripts/migrate-to-yaml.mjs`、`reorder-categories.py`、`prune-legacy-screenshots.mjs`、`maint-rebase.sh` | 历史/迁移工具,分别挂在相关专题下 |
 | `contributing.md`、PR/Issue 模板 | submission-gates |
 
@@ -70,6 +70,8 @@
 0004:研究工具本身(`census.py`、`fresh_probe.py`、`verify.mjs`)没有改动——上游仍未携带 `_digested/`,合并不会碰这些文件;数字口径的变化只体现为输入数据从 4489 条变成 6704 条。
 
 **0005:`census.py` 修了一处会静默少算分母的地方**——两份新条目把 JSON 直接写进 `.yml`(js-yaml 接受,门禁也放行),而 `parse_yml` 只认 YAML 行,两条因此被跳过、只留一行 stderr。现在遇到 `{` 开头就回退到 `json.loads`,并对 `description` 做展平;修后总数 7922 → **7924**。`fresh_probe.py` 与 `verify.mjs` 未动。
+
+**0006:`census.py` 再修同类缺陷(共三处)**——(1) 折叠标量:一条新条目的 `description.en` 引号跨多行(YAML 折叠),按行匹配失败;(2) 整文件统一缩进:另一条新条目全文缩进 3 空格,顶层键正则不认;(3) 支持缩进时引入的回归(复核自查并当场修复):剥缩进后 `en:`/`zh:` 子键被通用键正则吞掉,`description.en/zh` 丢失、标签与中文统计塌缩,已改为子键先匹配。均属 js-yaml 接受而手写解析器拒绝/错读的序列(0002 行内注释、0005 JSON-in-.yml 以来第六次)。修后总数 11743 → **11744**(0 解析失败),标签命中 8686、中文描述 11218/11744(95%,0005 为 100%——本轮新进条目约 5% 缺中文)。`fresh_probe.py` 与 `verify.mjs` 未动。
 
 **2026-10-31(整理轮)**:[`verify.mjs`](../verify.mjs) 负责 `_digested/` 两棵树的编码/链接/锚点;`_leverage/` 出册后自带独立校验器(`_leverage/verify.mjs`,对两册强制 frontmatter / 借用节 / catalog 与卡表一致);[`catalog.md`](../../_leverage/leverage/catalog.md) 改为**手工维护**的全量清单(不生成、不校验计数)。这两处把「每篇的定位与借用节」变成可校验的契约,而不是靠人记。
 

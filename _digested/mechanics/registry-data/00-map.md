@@ -1,6 +1,6 @@
 # registry-data · 数据模型
 
-> 状态:**0005 无对应 diff**(`lib/entries.mjs`、schema 白名单、`CAT_IDS` 全部零 diff)。结构统计重跑到 **7924 条**;本轮新增 URL 1281、删除 61、改名 11、同 URL 修改 182。新增里 2 条把 JSON 写进 `.yml`(`pixelligue/mcpbids-plugins`、`pixelligue/mcptender-plugins`):上游用 js-yaml,JSON 是合法 YAML 1.2,门禁照收——**条目文件不是严格 YAML 子集**。`data/capabilities.json` 仍是 2026-09-24 旧扫描,按当前 URL join 只剩 **3764/7924(47.5%)**。最近核验:`efe602e7b`,2026-10-31。
+> 状态:**0006 边车侧新增一个 cache-only 文件**(`lib/entries.mjs`、schema 白名单、`CAT_IDS` 仍零 diff)。`data/releases.json`(probe-releases 写,.gitignore:17)是第五个 cache-only 边车,但 probe-releases 目前没有任何 workflow 调用方。0005 的结构统计(7924 条)已被 0006 census 重跑到 **11744 条**覆盖,本文件规模数字仍是 0005 口径,分类/owner 结构结论在 0006 上未见反向证据。最近核验:`29b3ed46e`,2026-11-18。
 
 ## 定位
 
@@ -48,6 +48,7 @@
 | `npm-map.json` / `readmes.json` / `tarballs.json` | 各探针 | ❌(.gitignore 明列)| 只在 Actions cache |
 | `updates.json` | probe-updates | ❌ **从未进过 git 历史** | 只在 updates-v1 cache;0001 误记为已提交,0002 更正 |
 | `screenshots-declared.json` / `-live.json` | probe-screenshots | ❌(.gitignore)| 刻意不缓存,重算免费 |
+| **`releases.json`(0006 新增)** | `scripts/probe-releases.mjs` | ❌(.gitignore:17)| **cache-only 第五个**;逐条 `{statistics:{downloads,checkedAt}, manifest:{version,enginesDsh,peerDependencies,tarball,checkedAt}}`;**当前没有任何 workflow 调 probe-releases**,仓库与 Actions cache 里都不会自动出现它(消费口径见 contributing.md「GitHub Release statistics」)|
 
 **`capabilities.json` 的形状(0002 新增边车)**:`{url: {version, spec, capabilities[], redLines[], scannedAt, tool}}`,`capabilities` ∈ {shell, fs-write, fs-read, network, env, credentials, llm, dynamic-code, host-runtime, subagent}。**0004 的扫描器升级没有落到这份文件上**:仓库里 3821 条记录的 `tool` 仍全部是 `dsh-trust-check@0.1.13`,而 package.json 的 devDependency 已经是 `^0.2.1`(新记录会多带可选的 `previous` 上一版能力与 npm build provenance,见 `lib/capabilities.mjs:36-37`,但这里一条都没有)。文件 47,464 行,`scannedAt` 全部落在 2026-09-24T17:02:46–17:41:52Z,即一次扫描快照;与当前名单 URL join 只有 **3764/7924(47.5%)**(57 行指向已删 URL)——分母 4489→6704→7924,是覆盖率被新条目稀释,不是旧扫描失效。语义见 [probes-and-decay/01](../probes-and-decay/01-probe-family.md);它被 build-site 透传进 `docs/plugins.json`,**站内页面不渲染**。
 

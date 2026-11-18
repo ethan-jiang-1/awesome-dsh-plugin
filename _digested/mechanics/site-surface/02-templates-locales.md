@@ -1,6 +1,6 @@
 # 02 · 模板契约与 locales 体系
 
-> 基线:`upstream@b4d0049a8`(0004 复核,2026-10-24)。0004 的 `site/` 变更仍只在 `template.html` 与 `locales.mjs`:搜索条下多一行"索引源"地址(样式 `.indexline`、token `__INDEX_LINE__`、复制按钮复用同一处理器),`strings` 加两条 `INDEX_*`;**detail 模板、评论脚本、隐私页、ads.txt 与静态资源无 diff**,详情页 token 仍为 **32 个**(0002 勘误)。0003 的 24 卡 SSR + catalog 虚拟列表仍是当前形态。
+> 基线:`upstream@b4d0049a8`(0004 复核,2026-10-24)。0004 的 `site/` 变更仍只在 `template.html` 与 `locales.mjs`:搜索条下多一行"索引源"地址(样式 `.indexline`、token `__INDEX_LINE__`、复制按钮复用同一处理器),`strings` 加两条 `INDEX_*`;**detail 模板、评论脚本、隐私页、ads.txt 与静态资源无 diff**,详情页 token 仍为 **32 个**(0002 勘误)。0003 的 24 卡 SSR + catalog 虚拟列表仍是当前形态。**0006:`site/` 整目录零 diff**;本专题唯一的连带变化是卡片/详情页/相关插件/语言按钮 href 的取值改走 `slugHref()`(机制与动机见 [00 · 地图](./00-map.md) 与 [01](./01-build-site.md)),token 契约、locales、模板结构全部不变。
 
 ## locales.mjs:唯二语言的注册表
 

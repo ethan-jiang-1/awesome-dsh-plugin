@@ -1,6 +1,6 @@
 # 03 · 发布层:npm 双包、legacy 截图清退与评论线程收编
 
-> 基线:`upstream@b4d0049a8`(0004 复核,2026-10-24;build-site.yml 现 298 行)。两个发布器里只有 `publish-catalog.mjs` 变了(142→**169** 行):0004 起 catalog 包**顺带装一份市场索引** `docs/index.json`。`publish-updates.mjs`(134 行)与 prune-legacy-screenshots(114 行)零 diff;adopt-discussions 只多了一段 `npm ci` 的 registry 覆盖。
+> 基线:`upstream@29b3ed46e`(0006 复核,2026-11-18;build-site.yml 298→**314** 行)。两个发布器 0006 零 diff(publish-catalog 仍 **169** 行、publish-updates 仍 134 行、prune-legacy-screenshots 114 行),adopt-discussions 也无改动;**0006 的唯一实质变更在本文件的持久化拓扑里**:build-site.yml 的 downloads 缓存从 `actions/cache` 拆成 restore + 条件 save(只在 `probed=1` 的构建后 save,#14322)。0004 的结论(catalog 包顺带装 `docs/index.json`、684KB 代价、拆包无排期)仍成立。
 
 ## 为什么发 npm(注释里有真实测量)
 
@@ -63,6 +63,8 @@ probe-npm → downloads → stars             五个探针全跳过
 ```
 
 - 结果三路持久化:**git 提交的快照**(stars/downloads/added-dates/screenshots/**capabilities**)+ **Actions cache**(共享条目 `probe-data-v2` 一条含 npm-map/stars/readmes/tarballs 四个 path,另有 downloads-v1 与 updates-v1 两条独立 entry)+ 与快照合并;workflow 永不写回 git(`contents: read`,build-site.yml:49)。
+  - **0006 修正 downloads-v1 的第三路语义(#14322)**:旧式 `actions/cache@v4` 的 post-step 在每次 run 结束都 save,push 构建(跳过探针)把 restore 到的旧 downloads.json 用新 key 存回去;restore-keys 前缀恢复按创建时间排序,这份"旧数据、新 key"的副本排在 nightly 刚存的新副本之前,**遮住 nightly 的成果,站点落后一天**。修法:restore 用 `actions/cache/restore@v4`(:133-141),save 拆成独立步 `actions/cache/save@v4`、条件 `steps.build.outputs.probed == '1'`(:243-249;`probed=1` 由 Build 步 `id: build` 在探针分支末尾写入 output,:154/:219)。push 构建从此**只读不写** downloads cache。probe-data-v2 与 updates-v1 仍是老式 `actions/cache@v4`(save 无条件,build-site.yml:110-117/:144-149)——同样的"旧值存新 key"结构在它们身上理论上也存在,上游本轮只修了 downloads(那里有明确的 nightly-vs-push 遮蔽史:#2797 与 #14322),另两条是否该跟进没有注释交代。
+  - **0006 的第四路缺席者**:`data/releases.json`(probe-releases 写)不在 git、不在 cache、不在任何 workflow——cache-only 边车从 updates.json 的四个变成五个,而这个连 cache 条目都没有(见 [01](./01-probe-family.md) probe-releases 一节)。
 - **0004 补充第四种东西:构建产物**。`docs/index.json` 既不是快照也不是缓存——它每次构建从 `data/npm-map.json` 重算(build-site.mjs:182-192),`docs/` 整个目录在 .gitignore:9 被忽略,所以它唯一的副本就是那天的 Pages 部署和 npm 包。换句话说:**索引比任何一份 data 边车都新鲜,却也是唯一一个仓库里找不到的**。
 - **0001 勘误(0002 更正)**:快照清单里的 `updates.json` **不是** git 提交物——它从未进过 git 历史,只活在 updates-v1 cache(注释现在也明说 "NOT committed — unlike stars/downloads, there is no committed floor")。真正第五个提交快照是 **capabilities.json**。
 - **push 构建的兜底分支(0002 改写)**:条件是 `case schedule|workflow_dispatch → full_probe=1` 的白名单,所以 workflow_run 触发的构建**不会**再临时跑全套探针(旧写法 2026-09-22 让一次 README 同步后的构建在探针里坐了 40 分钟)。0004 给这条兜底加的一处是 2026-10-18 的 `skip_probes`(ac02c4e5d,build-site.yml:176-186):deploy-only 路径必须存在,否则注释里那个日子(索引要赶在用户开始添加它之前上线)只能干等一小时探针。
