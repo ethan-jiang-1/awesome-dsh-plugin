@@ -13,7 +13,7 @@
 | omdsh-dev/DSH-better-sidebar | 2216 | 侧栏工作台,63 个第三方插件往它的 Tab 注册(平台级;[01-better-sidebar](01-better-sidebar.md) ★★★) |
 | FSMargoo/dsh-at-file | 394 | 输入框 `@` 引用;只传路径不读内容。官方 0.2.1 已内置 `@file`,本插件自认 best-effort,且在 0.2.1-rc.5 上 Host 半疑似加载失败([02-at-file](02-at-file.md) ★★★) |
 | ZSeven-W/dsh-openpencil | 119 | 设计预览/编辑;插件零渲染代码,强绑外部 Rust OpenPencil + 原生二进制;读路径不查 sandbox([03-openpencil](03-openpencil.md) ★★★) |
-| omdsh-dev/dsh-annotation | 76 | 选区批注 |
+| omdsh-dev/dsh-annotation | 76 | 选区批注;批注=纯文本提示词,气泡里"看不见"是发完从 DOM 剪掉,零结构化字段([04-dsh-annotation](04-dsh-annotation.md) ★★★) |
 | whiteguo233/dsh-openbiliclaw | 45 | 右侧抽屉面板 |
 | vlln/dsh-navbar | 41 | 会话节点导航条 |
 | alingalingling/ui-status-label | 38 | 状态标签自定义 |
@@ -22,7 +22,7 @@
 
 ≥500 星,或被 ≥5 个第三方条目点名(扩散信号)。
 
-> 本轮破例:at-file 394 星/3 家扩散、openpencil 119 星/0 扩散,均未达门槛;按"类内第三 + 扩展点样本"与"形态独特(设计工具适配)"立卡。门槛未变。
+> 本轮破例:at-file 394 星/3 家扩散、openpencil 119 星/0 扩散、annotation 76 星/7 个同名实现,均未达门槛;按"类内第三 + 扩展点样本"、"形态独特(设计工具适配)"与"交互样本"立卡。门槛未变。
 
 ## 生长
 
@@ -31,6 +31,8 @@
 **但"被接入"有两种结局**。at-file 的 3 家扩散里只有 1 家(`dsh-at-any`)硬分叉它的 `inputTriggers` 源;另外 2 家分别转向官方 `ctx.fileReferences` 与工具注册——生态收敛到的是**宿主的**引用接口,不是这个插件的 `atFile` 端点。它自己的 README 也已承认被官方 `@file` 取代,2026-09-01 之后 2.5 个月无提交,Host 半依赖的 `ctx.settings.register` 在 0.2.1-rc.5 已不存在。**这是本册第一个"被宿主内置能力取代"的样本**。
 
 openpencil 走的是另一条路:插件不含渲染代码,预览靠外部二进制、编辑靠 loopback daemon 的 iframe,自己只留能力令牌与草稿事务。**形态独特不等于可复制**——零第三方提及,私有 `.op` 格式与 20 875 行适配层把后来者挡在门外。
+
+annotation 是**接入点稳定、编码各异**的样本:DSH 三层都没有原语(消息级装饰无槽、草稿无"引文块"、回复无字段可挂),所以 7 家同名实现各写一套格式;它们互不引用,0 代码扩散。它的批注不是结构化字段,而是 Enter 时拼进草稿的纯文本块,发完再从用户气泡 DOM 剪掉——**消息正文/会话日志里其实永久留着批注块**。
 
 ⚠ **权限边界(读源码后确认)**:
 
