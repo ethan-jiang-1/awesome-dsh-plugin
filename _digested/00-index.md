@@ -9,6 +9,18 @@
 
 > **只关心当前动向的外部读者**:从 [`_view/`](_view/README.md) 进——①什么冒出来了、②哪里热闹、③热闹领域里谁说了算;再往下是领域册 `view_<领域>/` → 子分类 `view_<领域>/<子分类>/` → 单卡 `NN-<slug>.md`(源码级八段)。三块板每轮同步后覆盖式重建,规则见本目录 [AGENTS.md](AGENTS.md)。
 
+### 可视化导航(五领域)
+
+每张图是「子分类 × 单卡 × 影响力/状态」的一屏,卡上标机制/价值、`边` 车星标(2026-08-19)、`实` 时星标(2026-11-18)、下载、第三方提及和底部声量横条。**选型先看卡内「状态」「代价与边界」;图只负责导航,不替代文字。** 红色状态词(`弃用/冻结/停更/需注意`)只作参考,不建议新装;未标状态 = 活跃/可用。
+
+| 领域 | 图谱 | 卡数 |
+|------|------|------|
+| memory | [plugin-map.svg](view_memory/plugin-map.svg) | 8 |
+| session | [plugin-map.svg](view_session/plugin-map.svg) | 7 |
+| tools | [plugin-map.svg](view_tools/plugin-map.svg) | 7 |
+| ui | [plugin-map.svg](view_ui/plugin-map.svg) | 10 |
+| workflow | [plugin-map.svg](view_workflow/plugin-map.svg) | 8 |
+
 ### 第一站 · [`ecosystem/`](./ecosystem/00-map.md) — 生态全景(主轴)
 
 回答"这里头有什么、结构如何变化":
