@@ -20,7 +20,7 @@
 
 | 子分类 | 定义 | 成员数(已确认) |
 |--------|------|----------------|
-| [host-backed](host-backed/README.md) | 外部记忆系统适配(宿主背书陷阱) | 5 例,9 个衍生 |
+| [host-backed](host-backed/README.md) | 外部记忆系统适配(宿主背书陷阱) | 5 例,9 个第三方衍生(7 同名) |
 | [local-store](local-store/README.md) | 本地存储与检索(SQLite/markdown) | 4 例 |
 | [context-shaping](context-shaping/README.md) | 上下文整形与蒸馏 | 3 例 |
 
@@ -32,4 +32,4 @@
 
 ## 稳定性判读
 
-memory 的头部被两个机构级宿主项目占据,读数时要**把"宿主项目火"与"插件被用"分开**(账单口径见 [`_method/00-index.md`](../_method/00-index.md))。扣除背书型后,社区真实头部是 407 星的 MisakaNet——社区侧记忆方案同样未收敛,与 session 类似但供给量小一半。RAG/知识库标签本期 +308(见 [01-emerging](../_view/01-emerging.md)),供给端在加速,锚位竞争未定。
+memory 的头部被两个机构级宿主项目占据,读数时要**把"宿主项目火"与"插件被用"分开**(数字口径见 [`_method/00-index.md`](../_method/00-index.md))。扣除背书型后,社区真实头部是 407 星的 MisakaNet——社区侧记忆方案同样未收敛,与 session 类似但供给量小一半。RAG/知识库标签本期 +308(见 [01-emerging](../_view/01-emerging.md)),供给端在加速,锚位竞争未定。

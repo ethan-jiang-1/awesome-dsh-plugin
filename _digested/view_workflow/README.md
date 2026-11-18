@@ -28,4 +28,4 @@
 
 ## 稳定性判读
 
-**头部断层最大的已立册领域**:ouroboros(5565)到第二名的差距是 6.5 倍——workflow 是"一超多弱"格局。ouroboros 若属"被同类模仿"的锚(其机制档案见 [`_leverage/leverage/`](../../_leverage/leverage/README.md) 证据卡),它的动向基本就是这个领域的动向。
+**头部断层最大、但"一超"不是锚**:ouroboros(5565)是第二名的 6.5 倍,读源码后判定为**明星而非锚**——它是纯配置包,24 行有效配置挂在外部引擎上,全表零第三方提及(机制见 [external-engine/01](external-engine/01-ouroboros.md))。所以 workflow 的真实格局是**"明星在前、标准缺位"**:没有谁被同行模仿成惯例。

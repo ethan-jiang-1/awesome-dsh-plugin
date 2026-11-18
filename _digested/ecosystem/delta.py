@@ -90,9 +90,14 @@ def main():
 
     old_files = {e["file"] for e in old}
     new_files = {e["file"] for e in new}
+    old_urls = {e["url"] for e in old}
+    new_urls = {e["url"] for e in new}
+    # 文件级口径:新文件名=收录,消失=下架。注意 git 的改名检测(R)按内容相似度,
+    # 多半是 owner 迁移——URL 已换,语义上确实是一次下架 + 一次上架,所以两侧都算。
     added = [e for e in new if e["file"] not in old_files]
     removed = [e for e in old if e["file"] not in new_files]
-    print(f"新增 {len(added)} / 删除 {len(removed)}")
+    print(f"新增 {len(added)} / 删除 {len(removed)} / 净 {len(new) - len(old):+d}"
+          f"(文件级口径;git 会把少数同名仓换 owner 的条目显示为改名,故与 diff 的 A/D 数略有差)")
 
     new_by = cat_stats(new, "本期")
     old_by = cat_stats(old, "上期")

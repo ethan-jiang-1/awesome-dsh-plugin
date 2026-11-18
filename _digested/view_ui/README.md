@@ -1,6 +1,6 @@
 # view_ui — 界面与交互
 
-> 已立册(满足 [_view/README.md](../_view/README.md) 三条门槛:2351 条 / 新增 812 / owners 2017、单件 88%)。
+> 已立册(2351 条 / 本期新增 812 / owners 2017、单件 88%;门槛为默认值,定义见 [`../AGENTS.md`](../AGENTS.md) §二)。
 > ⚠ 星标为历史采样。数据截止 `29b3ed46e`(2026-11-17)。
 
 ## 快照
@@ -21,7 +21,7 @@
 
 | 子分类 | 定义 | 成员数(已确认) |
 |--------|------|----------------|
-| [enhance-shell](enhance-shell/README.md) | 增强现有壳:侧栏、Tab、注记、导航 | 6 例,platform 已现 |
+| [enhance-shell](enhance-shell/README.md) | 增强现有壳:侧栏、Tab、注记、导航 | 6 例,平台型已出现 |
 | [replace-shell](replace-shell/README.md) | 换壳:接管整个界面(TUI) | 2 例 |
 | [inline-genui](inline-genui/README.md) | 内联生成式 UI:模型在回复流渲染组件 | 3 例 |
 
