@@ -8,11 +8,17 @@
 
 ## 成员(人工确认)
 
-| 条目 | 星标 ⚠ | 说明 |
-|------|--------|------|
-| Nwflower/dsh-chat-import | 71 | 聊天记录导入 |
-| whyihaveyou/dsh-suite#plugin-session-export | 42 | 会话导出 |
+| 条目 | 星标 ⚠ | 说明 | 单卡 |
+|------|--------|------|------|
+| Nwflower/dsh-chat-import | 71 | 38 种来源格式 → 可续聊会话;反向导出 4 格式(registry 自称 13 家,落后代码两代) | [01](01-dsh-chat-import.md) ★★★ |
+| whyihaveyou/dsh-suite#plugin-session-export | 42 | 会话导出 | — |
 
 ## 立卡条件
 
 ≥300 星,或被 ≥3 个条目引用其格式。
+
+> 本轮破例:71 星、0 引用;按"边车下载 4273 为 session 类第一 + 38 格式兼容层"立卡。门槛未变。
+
+## 生长
+
+源码确认它是**格式兼容层,不是协议**:入边 37 个发现源 + 1 个显式 `local-jsonl`,出边 4 个目标;跨插件面只有未标准化的 registry JSON 与可选 `chatImport` 服务。零衍生与"每家存储契约不可复用 + 一次性迁移"一致,不能读成"没人用"。

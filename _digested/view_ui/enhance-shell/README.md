@@ -11,7 +11,8 @@
 | 条目 | 星标 ⚠ | 说明 |
 |------|--------|------|
 | omdsh-dev/DSH-better-sidebar | 2216 | 侧栏工作台,63 个第三方插件往它的 Tab 注册(平台级;[01-better-sidebar](01-better-sidebar.md) ★★★) |
-| ZSeven-W/dsh-openpencil | 119 | 设计预览与编辑 |
+| FSMargoo/dsh-at-file | 394 | 输入框 `@` 引用;只传路径不读内容。官方 0.2.1 已内置 `@file`,本插件自认 best-effort,且在 0.2.1-rc.5 上 Host 半疑似加载失败([02-at-file](02-at-file.md) ★★★) |
+| ZSeven-W/dsh-openpencil | 119 | 设计预览/编辑;插件零渲染代码,强绑外部 Rust OpenPencil + 原生二进制;读路径不查 sandbox([03-openpencil](03-openpencil.md) ★★★) |
 | omdsh-dev/dsh-annotation | 76 | 选区批注 |
 | whiteguo233/dsh-openbiliclaw | 45 | 右侧抽屉面板 |
 | vlln/dsh-navbar | 41 | 会话节点导航条 |
@@ -21,8 +22,20 @@
 
 ≥500 星,或被 ≥5 个第三方条目点名(扩散信号)。
 
+> 本轮破例:at-file 394 星/3 家扩散、openpencil 119 星/0 扩散,均未达门槛;按"类内第三 + 扩展点样本"与"形态独特(设计工具适配)"立卡。门槛未变。
+
 ## 生长
 
 这是 ui 里**最容易长出平台**的分支(better-sidebar 已证明):插件越多地往同一扩展点注册,那个扩展点就越接近标准。新卡优先看"被多少人接入",不是星标。
 
-⚠ **权限边界(读源码后确认)**:better-sidebar 的 `path-security.ts` / `fs-operations.ts` 头注明写 **workspace 包含检查已被移除**,路由可达宿主用户可达的任何路径;`src/` 内无 sandbox 策略链引用,唯一准入是连接层的 `requestRejection`。选这类"增强壳"时,面板能力等于宿主机同权限。
+**但"被接入"有两种结局**。at-file 的 3 家扩散里只有 1 家(`dsh-at-any`)硬分叉它的 `inputTriggers` 源;另外 2 家分别转向官方 `ctx.fileReferences` 与工具注册——生态收敛到的是**宿主的**引用接口,不是这个插件的 `atFile` 端点。它自己的 README 也已承认被官方 `@file` 取代,2026-09-01 之后 2.5 个月无提交,Host 半依赖的 `ctx.settings.register` 在 0.2.1-rc.5 已不存在。**这是本册第一个"被宿主内置能力取代"的样本**。
+
+openpencil 走的是另一条路:插件不含渲染代码,预览靠外部二进制、编辑靠 loopback daemon 的 iframe,自己只留能力令牌与草稿事务。**形态独特不等于可复制**——零第三方提及,私有 `.op` 格式与 20 875 行适配层把后来者挡在门外。
+
+⚠ **权限边界(读源码后确认)**:
+
+- better-sidebar 的 `path-security.ts` / `fs-operations.ts` 头注明写 **workspace 包含检查已被移除**,路由可达宿主用户可达的任何路径;`src/` 内无 sandbox 策略链引用,唯一准入是连接层的 `requestRejection`。
+- at-file 的 Host 半直接 `node:fs` 遍历/`stat`,**不走 DSH 的 sandbox/policy 链**;符号链接 `realpath` 后会被跟随,词法包含检查会把 `@ext/passwd` 判成"工作区内"。
+- openpencil 的读路径同样用裸 `node:fs`、不查 `sandboxPolicy`;编辑器保存绕过 DSH fs 抽象,只有两个写工具强制 sandbox 模式。
+
+选这类"增强壳"时,面板/索引能力往往等于宿主机同权限——**扩展点是公开的,不代表权限边界是插件自己守的**。

@@ -44,4 +44,4 @@
 ## 本期缺口(下轮优先)
 
 - **新增锚位全部空缺**:18 天 3899 条新增(文件级口径;含少数 owner 迁移)无一条有星标读数。下一轮若重采星标边车(`fresh_probe.py`),优先扫本期新增 ≥100 条类目的前 50 条,把 ③ 表的"新增头部"填上。
-- **锚证据已升级**:五张单卡中四张已到 ★★★(better-sidebar / hindsight / ouroboros / dsh-TUI),OpenViking 仍是 ★★(未读源码)。下一轮把 OpenViking 升到 ★★★ 即可补齐本表。
+- **单卡覆盖**:本表只保留既有锚位,不逐张列卡;新卡分布在各领域册的子分类目录(host-backed / local-store、rewind-edit / import-export / interconnect、single-purpose / toolchain-meta、enhance-shell / inline-genui、external-engine / multi-agent / vertical-preset),扩散口径以卡内 `grep -ril` 命令为准。OpenViking 仍是 ★★(未读源码),下一轮可升到 ★★★。

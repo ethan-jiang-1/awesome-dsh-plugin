@@ -10,7 +10,7 @@
 
 | 条目 | 星标 ⚠ | 说明 |
 |------|--------|------|
-| omdsh-dev/dsh-genui | 224 | 回复内联组件:布局、图表、表单、测验、mermaid |
+| omdsh-dev/dsh-genui | 224 | 模型写 `dsh-ui` JSON 围栏,浏览器在会话 DOM 里替换为 React 树([01-genui](01-genui.md) ★★★) |
 | Nagi-ovo/dsh-visualize | 180 | 生成式 UI:交互 HTML 卡片进聊天流 |
 | pengyue-polaron/deepseek-harness-genui | 41 | React/TS 任务应用,支持 Canvas 与全屏 |
 
@@ -18,6 +18,10 @@
 
 ≥800 星,或被 ≥5 个条目引用为渲染宿主。
 
+> 本轮破例:224 ⚠ 未达 800;按"子分类实时读数最高 + 协议样本"立卡。扩散以依赖/伴生与同类独立实现为主,达到 5 个"引用宿主"的没有。门槛未变。
+
 ## 生长
 
 这是**最像"新范式"的分支**:如果模型生成的 UI 成为主流,生成协议与安全边界(渲染任意 HTML 的风险)会成为生态级问题。写卡时必须回答"渲染在哪一层、沙箱边界在哪"。
+
+**源码给出的答案与直觉相反**。dsh-genui 的主通道不是工具调用,而是模型在回复正文里写 `dsh-ui` 围栏、由浏览器半替换成 React 树;渲染跑在 **DSH 页面同源 DOM**,没有 iframe/sandbox 隔离。它的安全模型是"模型只能写声明式 JSON,渲染器是可信代码":行内富文本自己 tokenize,不走 `innerHTML`;mermaid 用 `securityLevel: 'strict'` 后再正则复检;ECharts option 深度清洗。因此残余风险不在"任意 HTML",而在 **60 个组件与四个重引擎自身的 0-day**——一旦渲染层被绕过,就是宿主同源失守,没有 CSP 兜底。

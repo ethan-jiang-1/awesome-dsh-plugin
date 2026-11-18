@@ -10,11 +10,11 @@
 
 | 条目 | 星标 | 说明 |
 |------|------|------|
-| superdesigndev/treg | 477 | 类内最高,但**不足千星——第二大类没有千星锚是本领域最显著的空缺** |
+| superdesigndev/treg | 477 | 类内最高,但**不足千星**;星标属主项目,DSH 面仅 150 行([01](single-purpose/01-treg.md) ★★★) |
 | zhaoolee/notes#dsh-plugin | 147 | monorepo 子包(zhaoolee/notes 主仓) |
-| taxueseek/argo#dsh-plugin | 101 | |
+| taxueseek/argo#dsh-plugin | 101 | 统一搜索 + 证据核验;插件 6,561 行,主项目约 20 万行 Python([02](single-purpose/02-argo.md) ★★★) |
 | omdsh-dev/dsh-data-agent | 55 | 同作者跨类系列 |
-| Noob-stupid/dsh-plugin-gating-hub | 54 | 工具链元方向 |
+| Noob-stupid/dsh-plugin-gating-hub | 54 | 文件层升级门控;无 `ctx.provide`,不是调用链锚([01](toolchain-meta/01-gating-hub.md) ★★★) |
 
 ## 子分类(册内目录)
 
@@ -24,7 +24,7 @@
 | [toolchain-meta](toolchain-meta/README.md) | 工具链元层(门控/注册) | 1 例,潜在锚 |
 | [integration-bridge](integration-bridge/README.md) | 集成桥(外部服务/协议) | 1 例 |
 
-单卡落在子分类目录内:`<子分类>/NN-<slug>.md`;本册当前无单卡。
+单卡落在子分类目录内:`<子分类>/NN-<slug>.md`;本册已有 3 张单卡(single-purpose 2、toolchain-meta 1),全部 ★★★。
 
 ## 本期动向
 
@@ -33,3 +33,5 @@
 ## 稳定性判读
 
 供给稳定、人多,但**缺头部**:477 星的锚与类目体量(1639 条)不成比例,中部与尾部无分层。适合关注"谁能先跑出千星"。
+
+**三张单卡读完后,"缺头部"要加一句限定**:treg 的实时星标远高于边车值,但那是托管主项目的星标,DSH 适配层只有 150 行;argo 的主项目也在涨,插件是 6,561 行客户端。**tools 仍然没有"插件被当作标准"的千星锚**。三种头部形态各自成立——托管接入点(treg)、自研客户端(argo)、文件层门控(gating-hub)——但都不是被第三方依赖的调用链元层。判断:tools 的头部竞争会继续分散,"杂类收纳"的定位没有改变。
