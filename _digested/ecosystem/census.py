@@ -67,11 +67,27 @@ def parse_yml(path):
             for lang, val in obj["description"].items():
                 flat[f"description.{lang}"] = str(val)
         return flat
+    def quote_balanced(s):
+        """引号是否配平:折叠标量(值跨多行)的判断依据,按行统计单双引号奇偶。"""
+        return s.count("'") % 2 == 0 and s.count('"') % 2 == 0
+
+    cont_key = None  # 当前正在续行的字段名:引号未配平的折叠标量(0006 实测 1 条)
     for raw in text.splitlines():
         line = raw.rstrip("\r").rstrip()
         if not line:
             continue
-        m = re.match(r"^([A-Za-z_]+):\s*(.*)$", line)
+        # 少数投稿整文件带统一前导缩进(js-yaml 照收;0006 实测 1 条),顶层键
+        # 判断前剥掉缩进;en/zh 子键先于通用键匹配,避免被当成顶层键吞掉。
+        stripped = line.lstrip()
+        if cont_key:
+            # 续行:拼回上一个未配平的值,以空格连接(近似 YAML 折叠标量语义)。
+            doc[cont_key] = (doc[cont_key] + " " + stripped).strip("'\"")
+            if quote_balanced(stripped):
+                cont_key = None
+            continue
+        m = re.match(r"^\s+(en|zh):\s*(.*)$", line)
+        if not (m and in_desc):
+            m = re.match(r"^([A-Za-z_]+):\s*(.*)$", stripped)
         if m:
             key, val = m.group(1), strip_comment(m.group(2))
             if key == "description":
@@ -79,10 +95,15 @@ def parse_yml(path):
                 continue
             doc[key] = val.strip("'\"")
             in_desc = False
+            if val and not quote_balanced(val):
+                cont_key = key
             continue
-        m = re.match(r"^\s+(en|zh):\s*(.*)$", line)
+        m = re.match(r"^(en|zh):\s*(.*)$", stripped)
         if m and in_desc:
-            doc[f"description.{m.group(1)}"] = strip_comment(m.group(2)).strip("'\"")
+            key = f"description.{m.group(1)}"
+            doc[key] = strip_comment(m.group(2)).strip("'\"")
+            if m.group(2) and not quote_balanced(m.group(2)):
+                cont_key = key
     return doc
 
 
