@@ -3,7 +3,7 @@
 > 站位声明:我是**评估者**,不是贡献者。关心的是这东西有什么用、生态长什么样、数据可不可信——不学怎么投稿、不复刻它的门禁。本目录的结构就按这个视角组织。
 
 **产品**:DSH = DeepSeek Harness(`deepseek-ai/deepseek-harness`,官方开源 agent 框架,"一切皆插件");本仓库是它的社区插件目录,`dsh plugin add` 安装制。
-**审计基线**:`main@29b3ed46e`(2026-11-18;0006 同步记录见 [`_change_log/`](./_change_log/00-index.md))。生态结构统计已按 **11744 条**重算;本轮上游源码有实质 diff——新增 Release 探针家族(probe-releases + 批量 GraphQL)、probe-stars 重写、site href 编码与 market-index 名仲裁、build-site.yml 缓存回写修复(site-surface 与 probes-and-decay 需复核/已改写,其余专题已核验);下载/星标尚未重采,仅保留带日期的历史值(仓库边车冻结于 2026-08-19)。
+**审计基线**:`main@29b3ed46e`(2026-11-18;0006 同步记录见 [`_change_log/`](./_change_log/00-index.md))。生态结构统计已按 **11744 条**重算;本轮上游源码有实质 diff——新增 Release 探针家族(probe-releases + 批量 GraphQL)、probe-stars 重写、site href 编码与 market-index 名仲裁、build-site.yml 缓存回写修复(site-surface 与 probes-and-decay 需复核/已改写,其余专题已核验)。下载/星标**未做全量重采**——仓库边车冻结于 2026-08-19;卡内逐条读数是 2026-11-18 采集;最新统一快照见 [`ecosystem/_snapshots/live-2026-11-19.json`](./ecosystem/_snapshots/live-2026-11-19.json),口径见 [`_method/02`](./_method/02-anchor-metrics.md)。
 
 ## 读法(三站)
 
@@ -58,9 +58,10 @@
 
 | 目录 | 用途 |
 |------|------|
+| [`_data/`](./_data/README.md) | **单一数据源(生成物)**:`cards.json` / `summary.json` / `health.md`,由卡片 frontmatter + live 快照汇总 |
 | [`_coverage/`](./_coverage/00-index.md) | 覆盖矩阵:各专题消化到什么程度 + 研究工具自身的修复记录 |
 | [`_change_log/`](./_change_log/00-index.md) | 上游同步记录:每次合入后哪些结论要复核(含取数通道对策) |
-| [`_method/`](./_method/00-index.md) | **方法与纪律**:数据从哪来、坑在哪(引用下载/星标数字前必读) |
+| [`_method/`](./_method/00-index.md) | **方法与纪律**:数据从哪来、坑在哪(引用下载/星标/扩散数字前必读) |
 
 ## 分支纪律
 
@@ -73,6 +74,9 @@
 
 ```sh
 node _digested/verify.mjs
+python3 -m unittest _digested/ecosystem/test_delta.py
 ```
 
-只校验 `_digested/` 与 `_faq_on_digested/` 两棵树:严格 UTF-8、LF 与结尾换行、相对链接与锚点。`_leverage/` 有自己独立的校验器(`node _leverage/verify.mjs`),两边互不依赖。二次研究见同级 [`_faq_on_digested/`](../_faq_on_digested/00-index.md)。
+`verify.mjs` 现在不只看编码/链接:还校验卡片 frontmatter、★★★ 的 commit、八段、SVG 证据级/链接、领域册“全部 ★★★”声明,以及 `_data/cards.json` 与 frontmatter 同步。
+
+校验范围仅限 `_digested/` 与 `_faq_on_digested/` 两棵树:严格 UTF-8、LF 与结尾换行、相对链接与锚点,外加卡片契约与 SVG 一致性。`_leverage/` 有自己独立的校验器(`node _leverage/verify.mjs`),两边互不依赖。二次研究见同级 [`_faq_on_digested/`](../_faq_on_digested/00-index.md)。

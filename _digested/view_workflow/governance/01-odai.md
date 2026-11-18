@@ -1,3 +1,14 @@
+---
+kind: card
+domain: workflow
+subcategory: governance
+repo: orziz/odai
+commit: 8bd1289197b4b3c01a50c9e80d2fd355214abf7c
+evidence: 3
+status: active
+asof: 2026-11-18
+---
+
 # odai — 把五问治理写进 systemPrompt、把职责路由与证据落在独立 JSONL 的 profile 级运行时
 
 > 证据等级:★★★(源码级;`orziz/odai@8bd1289197b4b3c01a50c9e80d2fd355214abf7c`,2026-11-18)。
@@ -12,7 +23,7 @@
 | 类目 | workflow([census](../../ecosystem/census.py) 703 条 / 全表 11 744 条) |
 | 子分类 | `governance`(profile 级治理与路由;本卡新建) |
 | 自述 | 「面向整个 DSH profile 的治理与路由 bundle,带职责/证据 Web Control Center,以及压缩、本地作用域语义记忆、安全连续性与真实验收;兼容 DSH 0.1.5-rc.1」——**末句已过期**(见「代价与边界」) |
-| 星标 ⚠ | **89**(2026-08-19 采样;**仓库级**,非 `dsh/plugin` 子目录);2026-11-18 实时 **133**(GitHub API 复核,同日 forks 20) |
+| 星标 ⚠ | **89**(2026-08-19 采样;**仓库级**,非 `dsh/plugin` 子目录);2026-11-18 读数 **133**(GitHub API 复核,同日 forks 20) |
 | 下载 ⚠ | **1 951**(2026-08-19 采样;npm 包级;边车无统计窗口字段,见 `_method/01`) |
 | 扩散 | **0**(口径:`grep -ril 'odai' data/plugins/` 命中 1 条,即自身;`grep -ril 'orziz'` 同为 1 条) |
 | 仓库 commit | `8bd1289`(2026-11-11,`main`,`fix(dsh): restore routing page scrolling and style compaction settings`);仓库首提交 2026-03-19,首个 `dsh/` 提交 2026-08-14 |

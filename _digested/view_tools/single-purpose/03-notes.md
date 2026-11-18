@@ -1,7 +1,18 @@
+---
+kind: card
+domain: tools
+subcategory: single-purpose
+repo: zhaoolee/notes
+commit: 416035cdccd0226aa94f045e8474b45bfd533961
+evidence: 3
+status: active
+asof: 2026-11-18
+---
+
 # notes — 两条能力共用一个 HTTP 客户端;所谓「便签 PNG」是服务端开 headless Chromium 截出来的
 
 > 证据等级:★★★(源码级;`zhaoolee/notes@416035cdccd0226aa94f045e8474b45bfd533961`,2026-11-18)。
-> 数据截止 `29b3ed46e`(2026-11-18)。⚠ 星标 147 / 下载 239 为 2026-08-19 历史采样,**星标是仓库级**(主项目是「开源版锤子便签」全栈 web 应用,插件在其 `dsh-plugin/` 子目录);2026-11-18 实时星标 **334**。
+> 数据截止 `29b3ed46e`(2026-11-18)。⚠ 星标 147 / 下载 239 为 2026-08-19 历史采样,**星标是仓库级**(主项目是「开源版锤子便签」全栈 web 应用,插件在其 `dsh-plugin/` 子目录);2026-11-18 星标读数 **334**。
 
 ## 一屏事实
 
@@ -10,8 +21,8 @@
 | 条目 | `zhaoolee/notes#dsh-plugin`([registry](../../../data/plugins/zhaoolee__notes--dsh-plugin.yml)) |
 | 类目 | tools([census](../../ecosystem/census.py) 1639 条 / 全表 11 744 条);子分类 `single-purpose` |
 | 自述 | 「把 DSH 对话导出为锤子便签风格 PNG,或在配置的账号工作区新建/更新 Markdown 便签」——两句话对应同一个工具的两次分叉,不是两个能力两个入口 |
-| 星标 ⚠ | **147**(2026-08-19 采样;**仓库级**,非插件级,归属拆解见「为什么它突出」);2026-11-18 实时 **334** |
-| 下载 ⚠ | **239**(2026-08-19,npm `@zhaoolee/dsh-notes`)。该值与 npm 官方 API 同期窗口(2026-08-14~08-19 = 516)不一致,口径不同,只当量级用;2026-11-18 实时:近月 685、近周 178 |
+| 星标 ⚠ | **147**(2026-08-19 采样;**仓库级**,非插件级,归属拆解见「为什么它突出」);2026-11-18 读数 **334** |
+| 下载 ⚠ | **239**(2026-08-19,npm `@zhaoolee/dsh-notes`)。该值与 npm 官方 API 同期窗口(2026-08-14~08-19 = 516)不一致,口径不同,只当量级用;2026-11-18 读数:近月 685、近周 178 |
 | 扩散 | **0**。口径:`grep -ril 'notes' data/plugins/` 命中 **288** 条泛词,逐条筛选后无第三方引用;改用有辨识度的 token 复核,`zhaoolee` / `锤子便签` / `smartisan` 各只命中自身。筛选过程与命令见末节 |
 | 仓库 commit | `416035cd`(2026-10-31,`main`);`dsh-plugin/` 最后提交 `23463d79`(2026-08-15),此后代码未动 |
 | 包形态 | npm `@zhaoolee/dsh-notes@0.1.2`(共 3 个版本,全部 2026-08-14/15 发布)+ Cordis bundle:`package.json` 的 `dsh.bundle.patch` → 7 行 `cordis.patch.yml`;一个工具,无命令、无 UI、无 service |

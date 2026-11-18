@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1600" height="1078" viewBox="0 0 1600 1078" role="img" aria-labelledby="t d">
 <title id="t">view_session · 会话管理 · 插件图谱</title>
-<desc id="d">7 张源码级单卡,按子分类组织;卡片标注机制/价值、⚠ 2026-08-19 边车星标、2026-11-18 实时星标、下载与第三方提及。</desc>
+<desc id="d">7 张源码级单卡,按子分类组织;卡片标注机制/价值、⚠ 2026-08-19 边车星标、2026-11-19 快照星标、下载与第三方提及。</desc>
 <defs><filter id="shadow" x="-5%" y="-5%" width="110%" height="110%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.06"/></filter></defs>
 <rect width="1600" height="1078" fill="#f8fafc"/>
 <rect x="0" y="0" width="1600" height="8" fill="#0ea5e9"/>
@@ -20,7 +20,7 @@
 <text x="420" y="117" font-family="sans-serif" font-size="11.5" fill="#475569">被取代/冻结</text>
 <rect x="504" y="106" width="12" height="12" rx="3" fill="#faf5ff" stroke="#7c3aed" stroke-width="1.5"/>
 <text x="522" y="117" font-family="sans-serif" font-size="11.5" fill="#475569">边界/特殊形态</text>
-<text x="48" y="140" font-family="sans-serif" font-size="11.5" fill="#64748b">边 2026-08-19 边车 · 实 2026-11-18 实时 · * 星标属仓库/主项目 · ↓ 下载 · 扩 第三方提及 · 底部横条 = 声量(log 尺度)</text>
+<text x="48" y="140" font-family="sans-serif" font-size="11.5" fill="#64748b">边 2026-08-19 边车 · 实 2026-11-19 快照 · * 星标属仓库/主项目 · ↓ 下载 · 扩 第三方提及 · 底部横条 = 声量(log 尺度)</text>
 <line x1="48" y1="154" x2="1552" y2="154" stroke="#e2e8f0"/>
 <a xlink:href="import-export/README.md" href="import-export/README.md">
 <rect x="48" y="176" width="1504" height="36" rx="8" fill="#0ea5e9" fill-opacity="0.10"/>
@@ -30,7 +30,7 @@
 <text x="1534" y="200" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">2 卡</text>
 </a>
 <a xlink:href="import-export/01-dsh-chat-import.md" href="import-export/01-dsh-chat-import.md">
-<g><title>chat-import — 导入 · 38 格式兼容层 (边 71 实 318 ↓ 4,273 扩 0)</title>
+<g><title>chat-import — 导入 · 38 格式兼容层 (边 71 实 321 ↓ 4,273 扩 0)</title>
 <rect x="48" y="222" width="728" height="104" rx="10" fill="#eff6ff" stroke="#e2e8f0" filter="url(#shadow)"/>
 <rect x="48" y="222" width="5" height="104" rx="2.5" fill="#2563eb"/>
 <text x="66" y="249" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">chat-import</text>
@@ -59,7 +59,7 @@
 <text x="1534" y="372" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">3 卡</text>
 </a>
 <a xlink:href="rewind-edit/01-dsh-turn-rewind.md" href="rewind-edit/01-dsh-turn-rewind.md">
-<g><title>turn-rewind — 回退 · 全树快照 + 宿主 fork (边 83 实 150 ↓ 2,373 扩 0)</title>
+<g><title>turn-rewind — 回退 · 全树快照 + 宿主 fork (边 83 实 151 ↓ 2,373 扩 0)</title>
 <rect x="48" y="394" width="728" height="104" rx="10" fill="#eff6ff" stroke="#e2e8f0" filter="url(#shadow)"/>
 <rect x="48" y="394" width="5" height="104" rx="2.5" fill="#2563eb"/>
 <text x="66" y="421" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">turn-rewind</text>
@@ -82,7 +82,7 @@
 <rect x="818" y="490" width="234.7" height="3" rx="1.5" fill="#b91c1c" fill-opacity="0.55"/>
 </g></a>
 <a xlink:href="rewind-edit/03-dsh-recall-plugin.md" href="rewind-edit/03-dsh-recall-plugin.md">
-<g><title>recall-plugin — 回退 · 逐消息影子 git (边 21 实 55 ↓ 1,105 扩 0)</title>
+<g><title>recall-plugin — 回退 · 逐消息影子 git (边 21 实 54 ↓ 1,105 扩 0)</title>
 <rect x="48" y="512" width="728" height="104" rx="10" fill="#eff6ff" stroke="#e2e8f0" filter="url(#shadow)"/>
 <rect x="48" y="512" width="5" height="104" rx="2.5" fill="#2563eb"/>
 <text x="66" y="539" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">recall-plugin</text>
@@ -118,7 +118,7 @@
 <text x="1534" y="834" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">1 卡</text>
 </a>
 <a xlink:href="compression/01-billion-context.md" href="compression/01-billion-context.md">
-<g><title>billion-context — 压缩代理 · 两行 bundle 抢车道 (边 — 实 7,806* ↓ 93.5万/周 扩 6)</title>
+<g><title>billion-context — 压缩代理 · 两行 bundle 抢车道 (边 — 实 7,853* ↓ 93.5万/周 扩 6)</title>
 <rect x="48" y="856" width="1504" height="104" rx="10" fill="#f0fdfa" stroke="#e2e8f0" filter="url(#shadow)"/>
 <rect x="48" y="856" width="5" height="104" rx="2.5" fill="#0d9488"/>
 <text x="66" y="883" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">billion-context</text>

@@ -1,7 +1,18 @@
+---
+kind: card
+domain: session
+subcategory: import-export
+repo: whyihaveyou/dsh-suite
+commit: 10152cc3076a199762f7eb5b4b8bd14571a89e4c
+evidence: 3
+status: active
+asof: 2026-11-18
+---
+
 # plugin-session-export — 458 行单文件,把 live session 日志投影成一份人读文档
 
 > 证据等级:★★★(源码级;`whyihaveyou/dsh-suite@10152cc3076a199762f7eb5b4b8bd14571a89e4c`,2026-11-18)。
-> 数据截止 `29b3ed46e`(2026-11-18)。⚠ 星标 42 为 2026-08-19 历史采样,**且是仓库级**(同仓库四条子目录条目同值);2026-11-18 实时 69。下载:⚠ 边车无记录(2026-08-19 采样缺口);2026-11-18 实时 npm 近 30 天 188。
+> 数据截止 `29b3ed46e`(2026-11-18)。⚠ 星标 42 为 2026-08-19 历史采样,**且是仓库级**(同仓库四条子目录条目同值);2026-11-18 读数 69。下载:⚠ 边车无记录(2026-08-19 采样缺口);2026-11-18 读数 npm 近 30 天 188。
 
 ## 一屏事实
 
@@ -11,7 +22,7 @@
 | 类目 | session(914 条,[census](../../ecosystem/census.py)) |
 | 子分类 | `import-export`(数据跨越 DSH 边界:日志 → 磁盘文件) |
 | 自述 | 「把 append-only 会话日志导出为按轨迹来源分组的可读 Markdown 或 HTML」——**"按轨迹来源分组"这个说法在源码里没有对应的字段**,见下节 |
-| 星标 ⚠ | 42(2026-08-19 采样,**仓库级**;2026-11-18 实时 **69**,+27/91 天) |
+| 星标 ⚠ | 42(2026-08-19 采样,**仓库级**;2026-11-18 读数 **69**,+27/91 天) |
 | 下载 ⚠ | 边车无记录;实时 npm `@dsh-suite/plugin-session-export` 近 30 天 **188**(2026-10-18~11-16,2026-11-18 查询) |
 | 扩散 | **0**(口径:`grep -ril 'whyihaveyou' data/plugins/` = 4,全是本仓库四条子目录条目;`export_session` = 0;`session-export` = 6,其中 5 条是别人的同名实现,逐条人工排除,见「为什么它突出」) |
 | 仓库 commit | `10152cc3076a199762f7eb5b4b8bd14571a89e4c`(2026-11-18,`data: hourly refresh [skip ci]`);子目录最后提交 `4312f59b4044eb92ac258c6ef69aeed89eb077a7`(2026-08-30,仅改 README 的皮肤契约声明) |

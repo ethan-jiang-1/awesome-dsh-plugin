@@ -1,3 +1,14 @@
+---
+kind: card
+domain: tools
+subcategory: toolchain-meta
+repo: Noob-stupid/dsh-plugin-gating-hub
+commit: 3d25799572058813cb0c9eaceb992e231e142b98
+evidence: 3
+status: active
+asof: 2026-11-18
+---
+
 # gating-hub — 拿 profile 补丁当控制面的升级保险:升级前改别人的源码,起不来就关行
 
 > 证据等级:★★★(源码级;`Noob-stupid/dsh-plugin-gating-hub@3d25799572058813cb0c9eaceb992e231e142b98`,2026-11-18)。
@@ -11,7 +22,7 @@
 | 类目 | tools(1639 条;全表 11 744,[census](../../ecosystem/census.py)) |
 | 子分类 | [`toolchain-meta`](README.md)(工具链元层)——本册当前唯一成员 |
 | 自述 | registry 中文自述:「升级前跑『会话格式契约预检』…升级失败自动回滚、把拖垮过启动的插件自动隔离;另有环境指纹与公开契约规则库…内置多源插件市场只作发现层」;npm 包名却是 `@noob-stupid/dsh-plugin-console`——仓库名、包名、`cordis.patch.yml` 里的行 id(`plugin-console`)三者不同名 |
-| 星标 ⚠ | **54**(2026-08-19 采样);2026-11-18 实时 **131**,forks 7,仓库 `homepage` 仍指向旧名 `dsh-plugin-hub` |
+| 星标 ⚠ | **54**(2026-08-19 采样);2026-11-18 读数 **131**,forks 7,仓库 `homepage` 仍指向旧名 `dsh-plugin-hub` |
 | 下载 ⚠ | **边车无记录**(`data/downloads.json` 624 条里没有该 URL,属 2026-08-19 采样缺口,不是零下载);可核到的是包本身:126 个 npm 版本,2026-08-21 首发,latest `0.5.110`(2026-11-10 发布,npm registry 于 2026-11-18 查询) |
 | 扩散 | **0**(口径:`grep -ril 'gating-hub' data/plugins/` 命中 1 条,减去自身;命中:仅它自己。另有三个易混 token,见「为什么它突出」) |
 | 仓库 commit | `3d25799572058813cb0c9eaceb992e231e142b98`,2026-11-17 22:51:24 +0000,`chore: refresh marketplace index`;仓库创建 2026-08-14,共 **950** 个提交、**130** 个 tag,主分支 `main` |

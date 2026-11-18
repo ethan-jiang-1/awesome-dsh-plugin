@@ -1,8 +1,19 @@
+---
+kind: card
+domain: ui
+subcategory: enhance-shell
+repo: ZSeven-W/dsh-openpencil
+commit: 56650083e8b1ea01c625b73a4a5c15b98ef53965
+evidence: 3
+status: active
+asof: 2026-11-18
+---
+
 # dsh-openpencil — 预览是外部二进制导出的 PNG,编辑是 loopback 守护进程里的 iframe;插件自己只留能力令牌与草稿事务
 
 > 证据等级:★★★(源码级;`ZSeven-W/dsh-openpencil@56650083e8b1ea01c625b73a4a5c15b98ef53965`,2026-11-18)。
 > 数据截止 `29b3ed46e`(2026-11-18)。⚠ 星标 119、下载 2562 为 2026-08-19 历史采样。
-> 2026-11-18 实时星标 **263**(GitHub API,非采样值)。
+> 2026-11-18 星标读数 **263**(GitHub API,非采样值)。
 
 ## 一屏事实
 
@@ -12,7 +23,7 @@
 | 类目 | ui([census](../../ecosystem/census.py) 2351 条 / 全表 11744 条) |
 | 子分类 | `enhance-shell`(在对话里加一块设计预览/编辑面板,不换壳) |
 | 自述 | 「OpenPencil design preview and editing plugin.」——自述只说了形态;源码里是 **14 个工具 + 4 条 HTTP 路由 + 一个受管原生守护进程** |
-| 星标 ⚠ | 119(2026-08-19 采样);2026-11-18 实时 263(约 +121%) |
+| 星标 ⚠ | 119(2026-08-19 采样);2026-11-18 读数 263(约 +121%) |
 | 下载 ⚠ | 2562(2026-08-19,`data/downloads.json`) |
 | 扩散 | **0**(口径:`grep -ril 'openpencil' data/plugins/` 命中 1 条,即本条目自身) |
 | 仓库 commit | `56650083e8b1ea01c625b73a4a5c15b98ef53965`(2026-11-11,`fix(runtime): treat workspace-linked npm/<platform> as development package until staged`) |

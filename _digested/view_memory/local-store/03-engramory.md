@@ -1,8 +1,19 @@
+---
+kind: card
+domain: memory
+subcategory: local-store
+repo: tinqiao-oss/engramory
+commit: 5ea1e2aae537c7f146a6a61f4ac047a39418a15f
+evidence: 3
+status: active
+asof: 2026-11-18
+---
+
 # engramory — 索引上限是这层唯一的硬拒绝,其余全是纯 markdown 约定
 
 > 证据等级:★★★(源码级;`tinqiao-oss/engramory@5ea1e2aae537c7f146a6a61f4ac047a39418a15f`,2026-11-18)。
 > 数据截止 `29b3ed46e`(2026-11-18)。⚠ 星标 160 为 2026-08-19 历史采样;下载 946 同为该日。
-> 160 与 2026-11-18 实时 208 都是**仓库级**星标(主项目 + 4 个宿主适配器共用),拆解见「为什么它突出」。
+> 160 与 2026-11-18 读数 208 都是**仓库级**星标(主项目 + 4 个宿主适配器共用),拆解见「为什么它突出」。
 
 ## 一屏事实
 
@@ -12,7 +23,7 @@
 | 类目 | memory([census](../../ecosystem/census.py) 504 条) |
 | 子分类 | `local-store`(普通 markdown,本地) |
 | 自述 | 「长期记忆插件;AI 记住的事存成普通 markdown 文件;每次对话带上一份记忆目录;目录有大小上限(默认 200 行 / 25 KB),写超了会被拦下;侧栏有记忆页;同一份记忆 Claude Code、Codex 等也能用」 |
-| 星标 ⚠ | **160**(2026-08-19 冻结采样,仓库级);2026-11-18 实时 **208**(同为仓库级) |
+| 星标 ⚠ | **160**(2026-08-19 冻结采样,仓库级);2026-11-18 读数 **208**(同为仓库级) |
 | 下载 ⚠ | **946**(2026-08-19;npm `dsh-engramory` 的当日累计下载) |
 | 扩散 | **1**(口径:`grep -ril 'engramory' data/plugins/` 命中 2 条,减去自身 = 1;命中 `yffo__dsh-engramory-recall.yml`,无反例) |
 | 仓库 commit | `5ea1e2aae537c7f146a6a61f4ac047a39418a15f`(2026-11-17,`master`),子目录 `adapters/dsh/plugin` 的最后一次提交(该路径累计 63 个提交) |

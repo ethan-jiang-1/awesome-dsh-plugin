@@ -1,0 +1,49 @@
+{
+  "asof_cards": "2026-11-18",
+  "asof_live": "2026-11-19",
+  "cards": 40,
+  "by_domain": {
+    "memory": 8,
+    "session": 7,
+    "tools": 7,
+    "ui": 10,
+    "workflow": 8
+  },
+  "by_status": {
+    "active": 35,
+    "stale": 1,
+    "deprecated": 1,
+    "watch": 2,
+    "frozen": 1
+  },
+  "by_evidence": {
+    "3": 39,
+    "2": 1
+  },
+  "live_coverage": {
+    "repos": "107/108",
+    "packages": "39/52",
+    "unpublished": [
+      "dsh-flowix-memory",
+      "treg-dsh",
+      "@dsh-external/dsh-visualize",
+      "dsh-ouroboros",
+      "@dsh-external/workflow",
+      "dsh-agent-team-gui",
+      "@dsh-external/dsh-client-ui-skin-maid-atelier",
+      "@dsh-external/dsh-ads",
+      "@yuxianglin/dsh-bridge-browser",
+      "@oh-dsh/desktop",
+      "@dsh-external/dsh-client-ui-skin-deep-whale-day-night",
+      "forkprobe-dsh",
+      "@multica-ai/dsh-runtime"
+    ],
+    "errors": [
+      {
+        "kind": "repo",
+        "id": "revolutionla/dsh-dream-skin",
+        "error": "gh: Not Found (HTTP 404)"
+      }
+    ]
+  }
+}

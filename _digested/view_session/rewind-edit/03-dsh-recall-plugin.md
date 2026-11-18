@@ -1,7 +1,18 @@
+---
+kind: card
+domain: session
+subcategory: rewind-edit
+repo: limbo947/dsh-recall-plugin
+commit: d00321ec6322b7eb77fed3a27bff93d80b33803a
+evidence: 3
+status: active
+asof: 2026-11-18
+---
+
 # recall-plugin — 每条用户消息落一个影子 git 标签，撤回 = 还原文件 + 官方 fork 到该消息之前的 turn 边界
 
 > 证据等级:★★★(源码级;`limbo947/dsh-recall-plugin@d00321ec6322b7eb77fed3a27bff93d80b33803a`,2026-11-18)。
-> 数据截止 `29b3ed46e`(2026-11-18)。⚠ 星标 **21** 为 2026-08-19 历史采样(2026-11-18 实时 **55**);⚠ 下载 **1105** 同为该日。
+> 数据截止 `29b3ed46e`(2026-11-18)。⚠ 星标 **21** 为 2026-08-19 历史采样(2026-11-18 读数 **55**);⚠ 下载 **1105** 同为该日。
 
 ## 一屏事实
 
@@ -10,7 +21,7 @@
 | 条目 | `limbo947/dsh-recall-plugin`([registry](../../../data/plugins/limbo947__dsh-recall-plugin.yml)) |
 | 类目/子分类 | session([census](../../ecosystem/census.py) 914 条 / 全表 11 744 条)· `rewind-edit`(回退与编辑);⚠ 星标属本插件自身,仓库只有一个包 |
 | 自述 | 「消息撤回:在用户消息旁加撤回按钮,把对话历史(官方会话 fork)与项目文件(逐消息影子 git 快照)一并回退到该消息发送之前,带差异预览确认面板」 |
-| 星标 ⚠ | **21**(2026-08-19 冻结采样,仓库出生第 5 天);2026-11-18 实时 **55** |
+| 星标 ⚠ | **21**(2026-08-19 冻结采样,仓库出生第 5 天);2026-11-18 读数 **55** |
 | 下载 ⚠ | **1105**(2026-08-19 采样;边车未记来源,是否 npm 周下载待验证) |
 | 扩散 | **0**(口径:`grep -ril 'recall-plugin' data/plugins/` 命中 1 条 = 自身;`dsh-recall` 的另 3 条是别的仓库自己的名字,逐条判断见「为什么它突出」) |
 | 仓库 commit | `d00321ec6322b7eb77fed3a27bff93d80b33803a`,2026-11-17 21:59 +0800,`fix(host): ensureGit 按 store.git 做 in-flight 去重（issue #37）`;首提交 2026-08-15,325 个提交、19 个 tag、最新 `v2.6.8` |

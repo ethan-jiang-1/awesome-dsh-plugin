@@ -1,7 +1,18 @@
+---
+kind: card
+domain: workflow
+subcategory: multi-agent
+repo: NanmiCoder/dsh-agent-teams
+commit: 4354b0f6a793b75c1904c0ee85eef4043a37c733
+evidence: 3
+status: active
+asof: 2026-11-18
+---
+
 # agent-teams — 队长就是当前会话，成员是宿主自己的 continuable subagent，任务板是磁盘上的 `team.json`
 
 > 证据等级:★★★(源码级;`NanmiCoder/dsh-agent-teams@4354b0f6a793b75c1904c0ee85eef4043a37c733`,2026-11-18)。
-> 数据截止 `29b3ed46e`(2026-11-18)。⚠ 星标 573、下载 10525 为 2026-08-19 历史采样;2026-11-18 实时星标 3005(约 5.2 倍),实时值与 ⚠ 值不同期,下文不混排。
+> 数据截止 `29b3ed46e`(2026-11-18)。⚠ 星标 573、下载 10525 为 2026-08-19 历史采样;2026-11-18 星标读数 3005(约 5.2 倍),实时值与 ⚠ 值不同期,下文不混排。
 
 ## 一屏事实
 
@@ -11,7 +22,7 @@
 | 类目 | workflow([census](../../ecosystem/census.py) 703 条 / 全表 11 744 条) |
 | 子分类 | `multi-agent` |
 | 自述 | registry 只有「AgentTeams 多智能体团队」一句;真正的自述在 README:队长 + 持久成员 + 带依赖任务 + 直接消息 + Web 树状监视 + 可选质量门 |
-| 星标 ⚠ | **573**(2026-08-19 采样);2026-11-18 实时 **3005**。⚠ 口径下 workflow 类第 3(前两名 5565、860),全表第 18 |
+| 星标 ⚠ | **573**(2026-08-19 采样);2026-11-18 读数 **3005**。⚠ 口径下 workflow 类第 3(前两名 5565、860),全表第 18 |
 | 下载 ⚠ | **10525**(2026-08-19);workflow 类**第一**,是类内第二(1951)的 5.4 倍;全表第 7 |
 | 扩散 | **6 条真衍生/硬依赖**(另 1 条互操作适配、2 条仅提及/撞名);口径与命令见「为什么它突出」末节。raw grep 两个 token 取并集 10 条(含自身) |
 | 仓库 commit | `4354b0f`(2026-11-13,`main`,`Merge pull request #355 from NanmiCoder/codex/harness-022-rc2-compat`);仓库创建 2026-08-12,首提交同日、提交信息已是「AgentTeams plugin for DeepSeek Harness」;314 个提交、25 个 release、247 fork、88 open issue |

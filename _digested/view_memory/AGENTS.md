@@ -16,4 +16,4 @@ memory 领域册。504 条、本期新增 164、owners 470(单件 94%)。
 
 ## 刷新
 
-数字随 `census.py`/`delta.py`;衍生清单用 `grep -ril hindsight data/plugins/` 复核。新卡优先看:扩散数上升者、从"适配"转"产品"的衍生。
+数字随 `census.py`/`delta.py`;衍生先用 `delta.py` ③b 的候选分层,再用 `grep -ril <token> data/plugins/` 逐条判定。OpenViking 是 `kind: reference`(★★,未读源码),不能算进“全部 ★★★”。新卡优先看:扩散数上升者、从“适配”转“产品”的衍生。

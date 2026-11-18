@@ -1,7 +1,18 @@
+---
+kind: card
+domain: session
+subcategory: interconnect
+repo: Chinesezjc/dsh-interconnect
+commit: 59f89789a6ccd23b63953d1092778ead3ea3a56d
+evidence: 3
+status: active
+asof: 2026-11-18
+---
+
 # dsh-interconnect — 一条共享密钥的 WebSocket,把文本投进对端 session 的 inbox
 
 > 证据等级:★★★(源码级;`Chinesezjc/dsh-interconnect@59f89789a6ccd23b63953d1092778ead3ea3a56d`,2026-11-18)。
-> 数据截止 `29b3ed46e`(2026-11-18)。⚠ 星标 34 为 2026-08-19 历史采样,2026-11-18 实时 42;下载无记录,属该日采样缺口。
+> 数据截止 `29b3ed46e`(2026-11-18)。⚠ 星标 34 为 2026-08-19 历史采样,2026-11-18 读数 42;下载无记录,属该日采样缺口。
 
 ## 一屏事实
 
@@ -11,7 +22,7 @@
 | 类目 | session([census](../../ecosystem/census.py) 914 条 / 全表 11 744 条) |
 | 子分类 | `interconnect`(会话互连)——当前唯一成员 |
 | 自述 | 「跨实例互联：经 interconnect 服务在多个 DSH 实例间转发消息与事件」。源码核对:转发的是**文本消息**与 **6 类生命周期事实**;assistant 流、tool call/result、审批都不在协议里 |
-| 星标 ⚠ | **34**(2026-08-19 冻结采样);2026-11-18 实时 **42** |
+| 星标 ⚠ | **34**(2026-08-19 冻结采样);2026-11-18 读数 **42** |
 | 下载 ⚠ | **边车无记录**(2026-08-19 采样缺口;`data/downloads.json` 无此 URL 键) |
 | 扩散 | **0**(口径:`grep -ril 'interconnect' data/plugins/` 命中 **1** 条,即条目自身;`grep -ril 'chinesezjc' data/plugins/` 同为 1 条。对照词 `cross-session` 131 条、`multi-instance` 3 条是共享上下文/外部服务多实例语义,人工判断后不计入) |
 | 仓库 commit | `59f89789a6ccd23b63953d1092778ead3ea3a56d`(2026-11-18,`main`,`Merge pull request #9 from Chinesezjc/docs/federation-protocol`);仓库创建 2026-08-13,124 个提交 |

@@ -1,3 +1,14 @@
+---
+kind: card
+domain: ui
+subcategory: replace-shell
+repo: ccch1mneyyy/dsh-TUI
+commit: 2d6c9a13fc30358913e88129c79640d50ca0c6db
+evidence: 3
+status: active
+asof: 2026-11-17
+---
+
 # dsh-TUI — 把 DSH 换成终端应用:自带启动器、自带组装根,不是给 web 壳加面板
 
 > 证据等级:★★★(源码级;`repo@commit 2d6c9a13fc30358913e88129c79640d50ca0c6db`,2026-11-17)。

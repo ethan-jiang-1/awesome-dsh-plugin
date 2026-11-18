@@ -1,3 +1,14 @@
+---
+kind: card
+domain: memory
+subcategory: host-backed
+repo: Ikalus1988/MisakaNet
+commit: fc7cd41bce9d4c54ee471aa38bfaf30de5f582da
+evidence: 3
+status: active
+asof: 2026-11-18
+---
+
 # misakanet — 语料与检索都在服务端，DSH 拿到的是「一行 MCP 行 + 3005 行网页半身」
 
 > 证据等级:★★★(源码级;`Ikalus1988/MisakaNet@fc7cd41bce9d4c54ee471aa38bfaf30de5f582da`,2026-11-18)。
@@ -11,7 +22,7 @@
 | 类目 | memory(504 条;[census](../../ecosystem/census.py) 全表 11 744) |
 | 子分类 | `host-backed`(外部记忆系统适配)——默认 npm 安装走公网端点;只有 clone/git+ 安装才退化为可离线的 `local-store` 形态(见下) |
 | 自述 | 「失败恢复记忆库:从真实工程会话中搜索和记录失败恢复教训,BM25 + 语义 RAG 检索」 |
-| 星标 ⚠ | **407**(2026-08-19 冻结采样);2026-11-18 实时 **564**(GitHub API,编排者当日查得) |
+| 星标 ⚠ | **407**(2026-08-19 冻结采样);2026-11-18 读数 **564**(GitHub API,编排者当日查得) |
 | 下载 ⚠ | **边车无记录**(`data/downloads.json` 624 条里无此 URL,属采样缺口,不是零下载)。自查 npm(2026-11-18):`misakanet` 近一月 **10 349** 次(区间 2026-10-18~11-16),61 个版本,首版 2026-09-01 |
 | 扩散 | **0**(口径见末节:`grep -ril 'misakanet' data/plugins/` 命中 1 条,即自身) |
 | 仓库 commit | `fc7cd41`(2026-11-18,`main`,`feat(mcp): the endpoint tells a Cindy caller whether its build is behind (#5185) (#5201)`);仓库建于 2026-04-29,3 833 个 tracked 文件,工作树 93 MB |

@@ -1,3 +1,14 @@
+---
+kind: card
+domain: tools
+subcategory: integration-bridge
+repo: omdsh-dev/dsh-data-agent
+commit: 6a649fe930aeab4247d3e8b936b6bf393aa71e8c
+evidence: 3
+status: active
+asof: 2026-11-18
+---
+
 # dsh-data-agent — 不引驱动:把九种数据库 CLI 包成 7 个工具,再给 schema 建一部版本化目录
 
 > 证据等级:★★★(源码级;`omdsh-dev/dsh-data-agent@6a649fe930aeab4247d3e8b936b6bf393aa71e8c`,2026-11-18)。
@@ -11,7 +22,7 @@
 | 类目 | tools([census](../../ecosystem/census.py) 1639 条) |
 | 子分类 | `integration-bridge`(外部服务/数据源)——本册当前唯一成员 |
 | 自述 | 「让 AI 帮你连数据库、写 SQL」。实际面比自述大:连接配置 + 读写分道的 SQL 工具 + 版本化 Catalog + 离线 HTML 分析报告 |
-| 星标 ⚠ | **55**(2026-08-19 采样;2026-11-18 实时 **226**,约 4.1 倍) |
+| 星标 ⚠ | **55**(2026-08-19 采样;2026-11-18 读数 **226**,约 4.1 倍) |
 | 下载 ⚠ | **1746**(2026-08-19 采样;npm 上共 19 个版本,末版 `0.2.2` 发布于 2026-09-29) |
 | 扩散 | **0**(`grep -ril 'data-agent' data/plugins/` 命中 2 条,减自身后只剩同名独立实现 `tomowang/dsh-data-agent`;判断,见「为什么它突出」) |
 | 仓库 commit | `6a649fe9`(2026-09-29,`main`,`fix: 适配 DSH rc.2 并放宽版本限制 (0.2.2)`);仓库创建 2026-08-11,51 个 commit |

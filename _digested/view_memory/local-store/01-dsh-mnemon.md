@@ -1,7 +1,18 @@
+---
+kind: card
+domain: memory
+subcategory: local-store
+repo: omdsh-dev/dsh-mnemon
+commit: 55b8a5cf5829dc39f59738f81cbb2fe5434c8d05
+evidence: 3
+status: active
+asof: 2026-11-18
+---
+
 # dsh-mnemon — 41k 行的 DSH 自有记忆框架，native 后端外包给外部 Mnemon CLI 落 SQLite
 
 > 证据等级:★★★(源码级;`omdsh-dev/dsh-mnemon@55b8a5cf5829dc39f59738f81cbb2fe5434c8d05`,2026-11-18)。
-> 数据截止 `29b3ed46e`(2026-11-18)。⚠ 星标 109 为 2026-08-19 历史采样;下载 6799 同为该日。2026-11-18 实时星标 1034。
+> 数据截止 `29b3ed46e`(2026-11-18)。⚠ 星标 109 为 2026-08-19 历史采样;下载 6799 同为该日。2026-11-18 星标读数 1034。
 
 ## 一屏事实
 
@@ -11,7 +22,7 @@
 | 类目 | memory([census](../../ecosystem/census.py) 504 条) |
 | 子分类 | `local-store`——**判断:默认形态成立,但它有一个可插拔 Provider 端口**(见下) |
 | 自述 | 「跨 Agent、本地优先的持久记忆;运行时记忆、可检索项目档案、语义召回、知识图谱、Sidebar UI」 |
-| 星标 ⚠ | **109**(2026-08-19 冻结采样);**1034**(2026-11-18 实时,约 9.5 倍) |
+| 星标 ⚠ | **109**(2026-08-19 冻结采样);**1034**(2026-11-18 读数,约 9.5 倍) |
 | 下载 ⚠ | **6799**(2026-08-19;边车无 `start/end` 窗口字段,不能读成"周下载"或"总下载") |
 | 扩散 | **5**(口径见末节:`grep -ril 'mnemon' data/plugins/` 命中 7 条 − 自身 1 − 同名词误命中 1) |
 | 仓库 commit | `55b8a5cf`(2026-11-18 04:29:40 +0800,`Merge pull request #678 … release-v0.5.48-final`),仓库创建 2026-08-10 |

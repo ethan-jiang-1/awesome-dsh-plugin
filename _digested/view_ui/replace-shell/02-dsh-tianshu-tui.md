@@ -1,7 +1,18 @@
+---
+kind: card
+domain: ui
+subcategory: replace-shell
+repo: huiliyi37/dsh-tianshu-tui
+commit: fc6aa32b5c5b4f761db91c14eaf673ec8dba2b1b
+evidence: 3
+status: active
+asof: 2026-11-18
+---
+
 # dsh-tianshu-tui — 宿主进程内换壳:移植来的 ANSI 引擎直接接管终端,自己管 live 区与 scrollback
 
 > 证据等级:★★★(源码级;`huiliyi37/dsh-tianshu-tui@fc6aa32b5c5b4f761db91c14eaf673ec8dba2b1b`,2026-11-18)。
-> 数据截止 `29b3ed46e`(2026-11-18)。⚠ 星标 217、下载 1763 为 2026-08-19 历史采样;2026-11-18 实时星标 313。
+> 数据截止 `29b3ed46e`(2026-11-18)。⚠ 星标 217、下载 1763 为 2026-08-19 历史采样;2026-11-18 星标读数 313。
 
 ## 一屏事实
 
@@ -11,7 +22,7 @@
 | 类目 | ui([census](../../ecosystem/census.py) 2351 条 / 全表 11 744 条) |
 | 子分类 | `replace-shell`(换壳,见 [README](README.md)) |
 | 自述 | registry 只有一句「A terminal UI (TUI) for DeepSeek Harness.」;`package.json:3` 的 description 才列了流式 markdown、工具卡、16+ 主题、slash 命令、会话 tabs、LSP、成本、自更新——其中「会话 tabs」在 `src/` 里找不到实现(见「代价与边界」) |
-| 星标 ⚠ | **217**(2026-08-19 采样;建仓后第 6 天);2026-11-18 实时 **313**(+44%) |
+| 星标 ⚠ | **217**(2026-08-19 采样;建仓后第 6 天);2026-11-18 读数 **313**(+44%) |
 | 下载 ⚠ | **1763**(2026-08-19,同为第 6 天) |
 | 扩散 | **0**(口径:`grep -ril 'tianshu' data/plugins/` 命中 1 条,减去自身为 0,唯一命中 `data/plugins/huiliyi37__dsh-tianshu-tui.yml`;中文名 `grep -rl '天枢' data/plugins/` 命中 0) |
 | 仓库 commit | `fc6aa32b5c5b4f761db91c14eaf673ec8dba2b1b`,2026-11-15,`docs(release): 记录 1.0.0-rc.6 已上线`;包版本 `1.0.0-rc.6`,Apache-2.0 |

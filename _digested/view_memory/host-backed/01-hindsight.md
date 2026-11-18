@@ -1,3 +1,14 @@
+---
+kind: card
+domain: memory
+subcategory: host-backed
+repo: vectorize-io/hindsight
+commit: 9fb28dbd724dc1ce4da7cb4c49008e601db76c5f
+evidence: 3
+status: active
+asof: 2026-11-17
+---
+
 # hindsight — 宿主项目的示例插件,却是 memory 领域的接口层标准
 
 > 证据等级:★★★(源码级;`vectorize-io/hindsight@9fb28dbd724dc1ce4da7cb4c49008e601db76c5f`,2026-11-17)。

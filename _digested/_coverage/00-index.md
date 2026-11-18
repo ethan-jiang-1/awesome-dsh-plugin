@@ -12,7 +12,7 @@
 
 ## 按专题
 
-> **视图层(2026-11-18 新增)**:`_view/`(三块板)+ `view_<领域>/`(领域册 → 子分类 → 单卡)不在下表按源码组追踪——它们的数字由 `census.py`/`delta.py` 可再生,纪律见 [`../AGENTS.md`](../AGENTS.md) §一/§二;**卡片数量与分型不在此记账**,避免每轮改这里。下表仍按七专题追踪档案层。
+> **视图层(2026-11-18 新增;2026-11-19 加契约)**:`_view/`(三块板)+ `view_<领域>/`(领域册 → 子分类 → 单卡)不在下表按源码组追踪——它们的结构数字由 `census.py`/`delta.py` 可再生,卡片级实时值由 `_snapshots/live-*.json` 归档,纪律见 [`../AGENTS.md`](../AGENTS.md) §一/§二;**卡片数量与分型不在此记账**,避免每轮改这里。2026-11-19 起卡片 frontmatter 是元数据单一源,`verify.mjs` 校验 frontmatter/八段/SVG 证据级;`_data/` 由脚本生成。下表仍按七专题追踪档案层。
 
 
 六个机制专题是**评估视角的辅助档案**,统一收纳在 [`mechanics/`](../mechanics/00-map.md)(其 [00-map](../mechanics/00-map.md) 是浓缩入口);ecosystem 是主轴。
@@ -61,7 +61,7 @@
 | `scripts/migrate-to-yaml.mjs`、`reorder-categories.py`、`prune-legacy-screenshots.mjs`、`maint-rebase.sh` | 历史/迁移工具,分别挂在相关专题下 |
 | `contributing.md`、PR/Issue 模板 | submission-gates |
 
-## 研究工具自身的变更(0002–0005)
+## 研究工具自身的变更(0002–2026-11-19)
 
 消化材料的数字来自两个自研脚本,它们本轮也被修过——修的是"会静默出错"的地方:
 
@@ -79,5 +79,28 @@
 **2026-10-31(整理轮)**:[`verify.mjs`](../verify.mjs) 负责 `_digested/` 两棵树的编码/链接/锚点;`_leverage/` 出册后自带独立校验器(`_leverage/verify.mjs`,对两册强制 frontmatter / 借用节 / catalog 与卡表一致);[`catalog.md`](../../_leverage/leverage/catalog.md) 改为**手工维护**的全量清单(不生成、不校验计数)。这两处把「每篇的定位与借用节」变成可校验的契约,而不是靠人记。
 
 **2026-10-31(另册对齐)**:产品线顶层改为与 `leverage/` 同构的骨架——`README` / `00-map` / `horizon` / `BORROW` / `BACKLOG` / `catalog`,**固定名、不编号**;卡片仍用 `NN_`。`verify.mjs` 同时增两条契约:产品线 `catalog.md` 与目录 Markdown 集合**双向一致**、三个 lever README 卡表覆盖本 lever 全部编号卡。
+
+**2026-11-19(审查整改轮)**:这一轮不碰上游,只修“汇总层与证据层不一致”和“实时数字无落盘”两类问题。改动:
+
+| 问题 | 修法 | 回归 |
+|------|------|------|
+| `delta.py` ③b 用“URL 含 token”当锚自身,把 `dsh-hindsight-*` / `dsh-openviking-*` / `dsh-better-sidebar-N23` 误排除 | 改为 `repo_key()` 精确仓库身份;输出 `锚自身 / 同名候选 / 描述候选` 三层;新增 `test_delta.py` 8 个用例 | `python3 -m unittest _digested/ecosystem/test_delta.py`;③b 现在 `better-sidebar 64`、`hindsight 9`、`openviking 3` |
+| 卡片证据级/状态/commit 在卡、领域册、SVG 三处手抄 | 40 张卡加 frontmatter(单一源);`verify.mjs` 校验必填字段、★★★ commit、八段、SVG 证据级与链接 | `node _digested/verify.mjs` |
+| “63 个插件接入”把 mentions 写成 adoption | better-sidebar 改 64(1 同名 fork + 63 描述),抽样 3 个只写 1 硬依赖;卡片补精确复现代码 | 卡片/README/SVG 同步 |
+| session 册写“七者第三方提及全部为零”,但卡内是 3 / 6 | 改为“无协议级复用;message-edit 3、billion-context 6”;AGENTS 同步 | 卡内逐条命令 |
+| memory 册写“全部 ★★★”,OpenViking 实为 ★★ | 改成 7 张 ★★★ + 1 张 ★★ 参考卡;SVG 证据级改 ★★;参考卡标题去“锚” | `verify` 的“全部 ★★★”检查 |
+| `_view/03` 仍写 MisakaNet“纯社区最高” | 改成“主项目背书、DSH 适配层扩散 0,不是纯社区最高” | 与 memory 册一致 |
+| 实时星标/下载无快照,37 张卡各写各的 | 新增 `live_probe.py` + `_snapshots/live-2026-11-19.json`(107/108 repo、39/52 已发布包;404 = unpublished)| `_data/health.md` |
+| 无单一数据源/健康轴 | 新增 `cardmeta.py`、`view_data.py`、`_data/cards.json` / `summary.json` / `health.md` | 生成式,不再手抄 |
+
+`_view/01` 的“没有任何苗子”改成“不能判断(采样缺口)”;`04` 的“连续两轮”改成“四轮”;`00-index` 的星标口径改为指向 live 快照。本轮没有重跑 `fresh_probe` 全量下载,历史下载数字仍按 2026-09-12 标注。
+
+**后续(未做,已列缺口)**:
+
+- 全量 npm 下载 + 星标重采(本轮只做了卡片/锚的 11-19 快照;全量下载仍是 09-12);
+- repo 级去重统计(本轮只在 `_view/02` 加了口径提醒,未改 census/delta 输出);
+- 领域选型矩阵(数据存哪/外部依赖/权限/宿主耦合/测试/健康) — `_data/cards.json` 已具备字段基础;
+- 接缝图谱(seam atlas)与 50 条新条目质量抽样(模板化/账号年龄/README/测试);
+- 全量 `fresh_probe` 的网络窗口与预算仍未验证。
 
 上游合入后,把受影响的专题标为「需复核」再逐个降回；流程见 [`_change_log/`](../_change_log/00-index.md)。

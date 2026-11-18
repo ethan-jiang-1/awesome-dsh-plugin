@@ -18,6 +18,7 @@
 | 文件 | 内容 | 什么时候必读 |
 |------|------|--------------|
 | [01-fresh-probe](01-fresh-probe.md) | 自采管线:新鲜下载/星标怎么来,七(六+一)个坑与对策,运行方式与快照目录 | 引用任何下载/星标数字之前;跑 [`fresh_probe.py`](../ecosystem/fresh_probe.py) 之前 |
+| [02-anchor-metrics](02-anchor-metrics.md) | 锚的两轴:提及/同名/采纳三层口径、`delta.py` ③b 的仓库身份修复、`live-2026-11-19.json` 快照与时效表 | 引用扩散数、实时星标/下载之前;改 `delta.py` ③b 或 `live_probe.py` 之前 |
 
 ## 数据源层级(30 秒版)
 

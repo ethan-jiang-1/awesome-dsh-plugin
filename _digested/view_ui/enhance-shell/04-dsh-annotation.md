@@ -1,7 +1,18 @@
+---
+kind: card
+domain: ui
+subcategory: enhance-shell
+repo: omdsh-dev/dsh-annotation
+commit: 48eac63badf93641f2276b8b0068f6ebbe22ba9b
+evidence: 3
+status: active
+asof: 2026-11-18
+---
+
 # dsh-annotation — 批注块本质是一段纯文本提示词,气泡里"看不见"是发完从 DOM 剪掉的
 
 > 证据等级:★★★(源码级;`omdsh-dev/dsh-annotation@48eac63badf93641f2276b8b0068f6ebbe22ba9b`,2026-11-18)。
-> 数据截止 `29b3ed46e`(2026-11-18)。⚠ 星标 76 为 2026-08-19 冻结采样,下载边车无记录(同日采样缺口);2026-11-18 实时星标 **169**(GitHub API),两者不可混用。
+> 数据截止 `29b3ed46e`(2026-11-18)。⚠ 星标 76 为 2026-08-19 冻结采样,下载边车无记录(同日采样缺口);2026-11-18 星标读数 **169**(GitHub API),两者不可混用。
 
 ## 一屏事实
 

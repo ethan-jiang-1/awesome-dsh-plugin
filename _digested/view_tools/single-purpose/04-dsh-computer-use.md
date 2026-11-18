@@ -1,7 +1,18 @@
+---
+kind: card
+domain: tools
+subcategory: single-purpose
+repo: Anionex/dsh-computer-use
+commit: 90444cf18d994840cd1046ca1ec7b420cf7c4a59
+evidence: 3
+status: active
+asof: 2026-11-18
+---
+
 # dsh-computer-use — 把 macOS Accessibility 观测做成一次性快照，输入前再用 stateHash 重校验
 
 > 证据等级:★★★(源码级;`Anionex/dsh-computer-use@90444cf18d994840cd1046ca1ec7b420cf7c4a59`,2026-11-18)。
-> 数据截止 `29b3ed46e`(2026-11-18)。⚠ 星标 22 为 2026-08-19 历史采样;下载 360 同为该日(边车无 `start/end`,统计窗口未知)。2026-11-18 实时星标 **106**。
+> 数据截止 `29b3ed46e`(2026-11-18)。⚠ 星标 22 为 2026-08-19 历史采样;下载 360 同为该日(边车无 `start/end`,统计窗口未知)。2026-11-18 星标读数 **106**。
 
 ## 一屏事实
 
@@ -11,7 +22,7 @@
 | 类目 | tools(1639 条,[census](../../ecosystem/census.py)) |
 | 子分类 | `single-purpose` |
 | 自述 | 「Accessibility-first macOS computer use: fresh observations, stale-state rejection, scoped permissions, and safe input.」前三项在源码里各有落点;"safe input" 的审批是**模型声明式**的,host 不做语义分类(见「代价与边界」) |
-| 星标 ⚠ | **22**(2026-08-19 冻结采样);2026-11-18 实时 **106** |
+| 星标 ⚠ | **22**(2026-08-19 冻结采样);2026-11-18 读数 **106** |
 | 下载 ⚠ | **360**(2026-08-19 冻结采样)。补充:2026-11-18 查 npm last-month **6,570**(2026-10-18..11-16),只作实时参考,不替换 ⚠ 值 |
 | 扩散 | **0**(口径见「为什么它突出」:`computer-use` 命中 38 条、`dsh-computer-use` 命中 18 条,逐条读 description 后,除自身外无一条引用本仓库或包名) |
 | 仓库 commit | `90444cf`(2026-11-12,`main`);仓库创建 2026-08-13;78 个提交、13 个 tag、npm 13 个版本 |

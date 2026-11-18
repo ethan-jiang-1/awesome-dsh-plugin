@@ -1,3 +1,14 @@
+---
+kind: card
+domain: ui
+subcategory: enhance-shell
+repo: omdsh-dev/DSH-better-sidebar
+commit: 2811573c9c0bad51d77db6c3c94d78f5aed8d38a
+evidence: 3
+status: active
+asof: 2026-11-17
+---
+
 # DSH-better-sidebar — 官方右列里的插件注册表:第三方注册 Tab,它翻译成 DSH 原生 Tab
 
 > 证据等级:★★★(源码级;`repo@commit 2811573c9c0bad51d77db6c3c94d78f5aed8d38a`,2026-11-13)。
@@ -12,7 +23,7 @@
 | 自述 | 侧边栏完整工作台:文件渲染编辑、终端、Git、子代理;三方插件可注册新 Tab(`data/plugins/omdsh-dev__DSH-better-sidebar.yml`) |
 | 星标 ⚠ | 2216(2026-08-19,`data/stars.json`;边车口径见 [`_method/00-index.md`](../../_method/00-index.md)) |
 | npm 月下载 ⚠ | 39717(2026-08-19,`data/downloads.json`) |
-| 扩散 | **63 个第三方条目**在 name/description 里点名它(`delta.py` ③b 口径;本次复现:65 命中 − 2 条锚自身) |
+| 扩散 | **64 个第三方条目**命中(1 个同名 fork `All3nCN/dsh-better-sidebar-N23` + 63 个描述提及;`delta.py` ③b 候选分层,卡内逐条判定) |
 | 仓库 commit | `2811573c9c0bad51d77db6c3c94d78f5aed8d38a`(2026-11-13,"Merge PR #1188 chore/code-slimming") |
 | 包形态 | npm `dsh-better-sidebar@0.32.1`(MIT,`publishConfig.access: public`);宿主半 ESM `lib/index.js`,客户端半 **CJS 双产物** `lib/client.js`(官方 profile 通道)+ `lib/client-registry.js`(注册表通道)+ 4 个 lazy chunk;无 postinstall |
 | 代码规模 | `src/` 250 个 `.ts/.tsx` / **81,551 行**;`tests/` 328 文件 / 87,823 行;全仓 764 文件、119 篇 markdown |
@@ -130,7 +141,7 @@ React tab(第三方或内置)
 
 ## 为什么它突出
 
-**63 是"提及"数,不是"接入"数**——必须说清楚,否则会高估。2026-11-18 抽样浅克隆 3 个提及者,三种强度都出现了:
+**64 是"提及"数,不是"接入"数**——必须说清楚,否则会高估。2026-11-18 抽样浅克隆 3 个提及者,三种强度都出现了:
 
 | 样本 | 强度 | 证据 |
 |---|---|---|
@@ -138,7 +149,7 @@ React tab(第三方或内置)
 | `fuhefei/dsh-sentinel` | 软依赖 | 不 value-import,`src/client/index.tsx:55` 本地重述最小契约,`inject: ['betterSidebar']` 拿不到就静默跳过——正是 `docs/external-plugin-guide.md` §15 记录的做法 |
 | `Max-Null/dsh-chat-rail` | 只提不用 | 只有 README/设计文档里说按 `--dsh-sidebar-height` 变量避让,仓内 grep 不到任何 `registerTab`/`betterSidebar` 调用 |
 
-也就是说 63 是**上限**,"平台"这个判断不该只靠它。真正的机制性证据是下面四条:
+也就是说 64 是**上限**,"平台"这个判断不该只靠它。真正的机制性证据是下面四条:
 
 1. **它把宿主内部 API 藏起来了**。想给 DSH 原生右列加一个 tab,原本要 inject `sidebarRightTabs`、懂 `keepMounted`/`priority`/guide 条目、自己注册两个 slot;现在只要 `registerTab` 一个 React 组件。平台的定义就是"把复杂度吃进自己肚子里"。
 2. **接口有版本承诺**。`SIDEBAR_SERVICE_VERSION` + 16 项单调 `SIDEBAR_FEATURES`,消费方按能力位 gate;`package.json:15-35` 专门导出 `./client/service`、`./client/api` 两个子路径给消费方 import 类型。这不是随手开的口子。
@@ -201,22 +212,28 @@ grep -n "export const inject" /tmp/an-sidebar/src/*.ts /tmp/an-sidebar/src/clien
 grep -n "priority: 'extension'" /tmp/an-sidebar/src/client/native/index.ts  # 495 / 555
 ```
 
-复现扩散数 63(口径同 `_digested/ecosystem/delta.py` 的 `imitation_signals`;注意 census 把 YAML 键拍平成 `description.en` / `description.zh`,直接读嵌套字典会得到 0):
+复现扩散数 64(按仓库身份排除锚自身;`delta.py` ③b 的口径,注意 census 把 YAML 键拍平成 `description.en` / `description.zh`,直接读嵌套字典会得到 0):
 
 ```python
 import importlib.util, glob
 from pathlib import Path
 spec = importlib.util.spec_from_file_location("census", "_digested/ecosystem/census.py")
 census = importlib.util.module_from_spec(spec); spec.loader.exec_module(census)
-tok = "better-sidebar"; hits = self_ = 0
+tok = "better-sidebar"; anchor = "omdsh-dev/dsh-better-sidebar"
+hits = self_ = name_ = 0
 for p in glob.glob("data/plugins/*.yml"):
     d = census.parse_yml(Path(p)) or {}
     text = " ".join([str(d.get("name", "")), str(d.get("description.en") or ""),
                      str(d.get("description.zh") or "")]).lower()
     if tok in text:
         hits += 1
-        self_ += tok in str(d.get("url", "")).lower().split("github.com/")[-1]
-print(hits, self_, hits - self_)     # 65 2 63
+        repo = "/".join(str(d.get("url", "")).split("github.com/")[-1].split("/")[:2]).lower()
+        repo = repo.removesuffix(".git")
+        if repo == anchor:
+            self_ += 1
+        elif tok in repo.split("/")[-1]:
+            name_ += 1
+print(hits, self_, name_, hits - self_)     # 65 1 1 64
 ```
 
 **未跑**:`pnpm install` / `pnpm build` / `pnpm test` / `pnpm test:mount` / `pnpm test:mount:aggregate` 全部没执行(要装 14 条 DSH peer 与真宿主)。因此"包形态"来自 `tsdown.config.ts` 与 `package.json#files` 的**声明**,不是实测 tarball;patch 的 `!!js` 守卫行为来自注释与自测脚本,不是跑出来的。
@@ -225,7 +242,7 @@ print(hits, self_, hits - self_)     # 65 2 63
 
 ## 待验证
 
-1. **63 里到底多少真接 API**。本次只抽样 3 个(硬/软/仅提及各一),不足以给比例。要确认:按 63 条 URL 逐个浅克隆,`grep -rn "betterSidebar\|registerTab"`,并统计 `package.json` 里 `dsh-better-sidebar` 是否进 peerDependencies。
+1. **64 里到底多少真接 API**。本次只抽样 3 个(硬/软/仅提及各一),不足以给比例。要确认:按 64 条 URL 逐个浅克隆,`grep -rn "betterSidebar\|registerTab"`,并统计 `package.json` 里 `dsh-better-sidebar` 是否进 peerDependencies。
 2. **npm tarball 实际内容**。`files` 声明含 `src`、`detail`、`locale`、`cordis.patch.yml`(即发布包含完整源码),但没跑 `npm pack`。要确认:`npm view dsh-better-sidebar dist.tarball` 后解包比对,并看 `detail/*.svg` 是否真的随包(插件页图文详情依赖它)。
 3. **聚合包双挂载守卫在真实 loader 上的行为**。`!!js` 表达式依赖 `ctx.loader.entries()` 的可见性与顺序,仓内只有 `scripts/e2e-aggregate-mount.sh` 自证(未跑)。要确认:该脚本 + 一个真实聚合 profile 的 `dsh.profile.bundles` 顺序。
 4. **与宿主 `ui-sidebar-*` 类型的仲裁规则**。`editor` 用 `priority: 'extension'` 认领 `dsh-resource://file/**`,文档说卸载即复位;多插件同时认领同一 glob 时谁赢,不在本仓代码里。要确认:读 `@deepseek-ai/dsh-client-ui-sidebar-right` 的注册表实现(本机 DSH checkout 里有源码)。

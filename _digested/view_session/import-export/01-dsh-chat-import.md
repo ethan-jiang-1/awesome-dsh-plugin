@@ -1,7 +1,18 @@
+---
+kind: card
+domain: session
+subcategory: import-export
+repo: Nwflower/dsh-chat-import
+commit: ba599183390164484d5f5894585ddb8f6abb2228
+evidence: 3
+status: active
+asof: 2026-11-18
+---
+
 # dsh-chat-import — 42 个纯函数转换器,加一层把 IR 合成为 DSH 原生会话日志的 host ABI 适配
 
 > 证据等级:★★★(源码级;`Nwflower/dsh-chat-import@ba599183390164484d5f5894585ddb8f6abb2228`,2026-11-18)。
-> 数据截止 `29b3ed46e`(2026-11-18)。⚠ 星标 71 为 2026-08-19 历史采样;2026-11-18 实时 318(约 4.5 倍)。
+> 数据截止 `29b3ed46e`(2026-11-18)。⚠ 星标 71 为 2026-08-19 历史采样;2026-11-18 读数 318(约 4.5 倍)。
 > ⚠ 下载 4273 同为 2026-08-19 采样。
 
 ## 一屏事实
@@ -12,7 +23,7 @@
 | 类目 | session([census](../../ecosystem/census.py) 914 条 / 全表 11 744 条) |
 | 子分类 | `import-export`(数据跨越 DSH 边界:入边导入、出边导出) |
 | 自述 | registry 写「13 家」;`package.json:3` 与 README 写「25+」;代码里是 **37 个可发现来源 + 1 个只能显式指定的 `local-jsonl` = 38 个 `import_chat` 格式**(`lib/discovery/registry.mjs:36-44`、`lib/tools/import-sources.mjs:520`)。自述数字落后代码两代 |
-| 星标 ⚠ | **71**(2026-08-19 冻结采样);**2026-11-18 实时 318**(4.5 倍)。仓库级星标,单仓库非 monorepo,无归属争议 |
+| 星标 ⚠ | **71**(2026-08-19 冻结采样);**2026-11-18 读数 318**(4.5 倍)。仓库级星标,单仓库非 monorepo,无归属争议 |
 | 下载 ⚠ | **4273**(2026-08-19);session 类第一,同口径次高 3568 |
 | 扩散 | **0**(`grep -ril 'chat-import' data/plugins/` 命中 **1** 条,即自身;命令见末节) |
 | 仓库 commit | `ba599183390164484d5f5894585ddb8f6abb2228`(2026-11-15,`main`,`fix(cherrystudio): local-jsonl 路径提示与跨平台发现根`);仓库创建 2026-08-13 |

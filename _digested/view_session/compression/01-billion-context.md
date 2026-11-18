@@ -1,3 +1,14 @@
+---
+kind: card
+domain: session
+subcategory: compression
+repo: ranxianglei/billion-context
+commit: 548e396022b9391e28a3c9061560be297779b8e8
+evidence: 3
+status: active
+asof: 2026-11-18
+---
+
 # billion-context — 夹在宿主与模型 API 之间的本地压缩代理，DSH 侧只用两行 bundle 条目把宿主原生自动压缩顶掉
 
 > 证据等级:★★★(源码级;`ranxianglei/billion-context@548e396022b9391e28a3c9061560be297779b8e8`,2026-11-18)。
@@ -12,7 +23,7 @@
 | 类目 | session（[census](../../ecosystem/census.py) 914 条 / 全表 11 744 条） |
 | 子分类 | `compression`（上下文压缩代理）——本册新建分型，本卡是它的第一个成员 |
 | 自述 | 上下文压缩插件：小窗口够用（100K）、省 token（5 倍）、数月级单会话（几十亿 token） |
-| 星标 ⚠ | **无记录（2026-08-19 采样缺口）**；2026-11-18 实时 7,806（我复读 7,808）。⚠ 归属主项目，非 DSH 适配层（见"为什么它突出"） |
+| 星标 ⚠ | **无记录（2026-08-19 采样缺口）**；2026-11-18 读数 7,806（我复读 7,808）。⚠ 归属主项目，非 DSH 适配层（见"为什么它突出"） |
 | 下载 ⚠ | **边车无记录**（`data/downloads.json` 624 条里没有本仓库）；npm 周下载 935,148（2026-11-18 查 `api.npmjs.org`，区间 11-10~11-16） |
 | 扩散 | **6**（口径：`grep -ril 'billion-context' data/plugins/` 命中 7 条，减去自身；命中逐条见"为什么它突出"） |
 | 仓库 commit | `548e396022b9391e28a3c9061560be297779b8e8`，2026-11-18 14:08 +0800，`Merge pull request #7083 from ranxianglei/design/6884-wire-client-sidecars`；master；仓库创建 2026-08-06 |

@@ -1,3 +1,14 @@
+---
+kind: card
+domain: workflow
+subcategory: multi-agent
+repo: omdsh-dev/dsh_workflow
+commit: 44b83c182aa02d1be8a0803e8446cb495f93cd8f
+evidence: 3
+status: watch
+asof: 2026-11-18
+---
+
 # dsh_workflow — workflow 不是 DAG 而是 QuickJS 里的 JS 程序，「可恢复」靠内容寻址的 effect cache 回放
 
 > 证据等级:★★★(源码级;`omdsh-dev/dsh_workflow@44b83c182aa02d1be8a0803e8446cb495f93cd8f`,2026-11-18)。
@@ -12,9 +23,9 @@
 | 子分类 | `multi-agent`(多 agent 编排;本卡回答 workflow 的数据模型、谁执行节点、恢复到底恢复什么) |
 | 状态 | ⚠ **main 停更**:0.1.2,而 tag 到 0.1.4;0.2.x 的只读路径 fail-closed。**需改造后使用**,保留作 workflow 恢复语义参考。 |
 | 自述 | 「把 UltraCode 式多 Agent 调度带给 DSH:可生成、可保存、可治理、可观察、可恢复的 Workflow 层」——五个词在源码里各有落点(见下节表),但"workflow"在实现里**不是图**,是一段受限 JS 程序 + 一份 capsule |
-| 星标 ⚠ | **82**(2026-08-19 采样;2026-11-18 实时 **159**,1.9 倍)。采样点距仓库创建(2026-08-12T16:39Z)**7 天**、距最后一次 main 提交 **6 天**;单仓库,无宿主项目可借星 |
+| 星标 ⚠ | **82**(2026-08-19 采样;2026-11-18 读数 **159**,1.9 倍)。采样点距仓库创建(2026-08-12T16:39Z)**7 天**、距最后一次 main 提交 **6 天**;单仓库,无宿主项目可借星 |
 | 下载 ⚠ | 边车无记录;2026-11-18 查 npm `@dsh-external/workflow` 为 **Not found**(只从 git 装) |
-| 扩散 | **0**(口径:`grep -ril 'dsh_workflow' data/plugins/` 命中 **1**,即自身;换包名 token `grep -ril 'dsh-external/workflow' data/plugins/` 命中 **0**)。GitHub 侧另有 **13 fork**(2026-11-18 实时,非 registry 口径) |
+| 扩散 | **0**(口径:`grep -ril 'dsh_workflow' data/plugins/` 命中 **1**,即自身;换包名 token `grep -ril 'dsh-external/workflow' data/plugins/` 命中 **0**)。GitHub 侧另有 **13 fork**(2026-11-18 读数,非 registry 口径) |
 | 仓库 commit | `44b83c182aa02d1be8a0803e8446cb495f93cd8f`,2026-08-13 12:20 +0800,`fix: harden workflow handoff preflight`;仓库创建 2026-08-12,API 报 546 KB,`git rev-list --count HEAD` = **5**,5 个提交全部在 2026-08-13 |
 | 包形态 | Cordis **bundle**:`package.json:79-83` 的 `dsh.bundle.patch` 指 `cordis.patch.yml`,后者只有一条 `insert`、一个插件行(`cordis.patch.yml:4-6`);`lib/` 构建产物已提交,git 源不需要用户侧编译;npm 未发布 |
 | 代码规模 | `src/` **5 435 行 / 12 个 `.ts`**(engine 1 453、index 698、scoped-review 533、runtime 497、types 477、author 395、catalog 337、service 328、capsule 281、store 209、builtins 114、source-policy 113);`lib/` 另有 4 997 行已提交构建;测试 **2 609 行 / 11 个 spec / 113 个 `it(` + 10 张 `it.each` 表** |

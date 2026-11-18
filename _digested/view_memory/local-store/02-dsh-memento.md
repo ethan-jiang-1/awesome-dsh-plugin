@@ -1,3 +1,14 @@
+---
+kind: card
+domain: memory
+subcategory: local-store
+repo: PerryLink/dsh-memento
+commit: 26b5bf61505ba56f011cab03fed2b0df22e9d2cf
+evidence: 3
+status: active
+asof: 2026-11-18
+---
+
 # dsh-memento — 自建 `ctx.memory` 服务缝:零依赖 SQLite 双层记忆,写路径过审批与审计,快照按会话冻结,协议 v1 以 22 例套件自证
 
 > 证据等级:★★★(源码级;`PerryLink/dsh-memento@26b5bf61505ba56f011cab03fed2b0df22e9d2cf`,2026-11-18)。
@@ -11,7 +22,7 @@
 | 类目 | memory([census](../../ecosystem/census.py) 504 条 / 全表 11 744 条) |
 | 子分类 | `local-store`(本地存储与检索)——单文件 SQLite,断网可用,数据路径可检查 |
 | 自述 | 「有界、分层、审批门控、可审计的跨会话记忆:typed `ctx.memory` seam + 零依赖 SQLite provider + `memory` 工具 + 冻结快照注入,外加 dsh-memory-protocol v1 预演(适配器注册表 + 可分发一致性套件)」——逐项在源码里都有落点,见下 |
-| 星标 ⚠ | **58**(2026-08-19 冻结采样;仓库 2026-08-13 创建,即公开后 6 天内累积);2026-11-18 实时 144,4 fork |
+| 星标 ⚠ | **58**(2026-08-19 冻结采样;仓库 2026-08-13 创建,即公开后 6 天内累积);2026-11-18 读数 144,4 fork |
 | 下载 ⚠ | **910**(2026-08-19 冻结采样;边车无 start/end。按 npm 首发 2026-08-14 判断,这是首几天的量,不是整月口径);npm 2026-08 整月 2 941,2026-10-18~11-16 为 7 731 |
 | 扩散 | **0**(口径:`grep -ril memento data/plugins/` 命中 1 条 = 自身;`grep -ril 'dsh-memory-protocol'` 命中 2 条,除自身外是同名无关条目;详见"为什么它突出") |
 | 仓库 commit | `26b5bf61505ba56f011cab03fed2b0df22e9d2cf`(2026-11-14,`main`;本卡证据日 2026-11-18)。npm latest `0.5.31` 的 `gitHead` 正是此 commit,但树内 `package.json` 写 `0.5.30` |

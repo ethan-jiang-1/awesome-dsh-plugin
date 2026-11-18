@@ -1,7 +1,18 @@
+---
+kind: card
+domain: tools
+subcategory: single-purpose
+repo: superdesigndev/treg
+commit: 8f9d28d92c6a3549ca47fcdbe66050ea741b928b
+evidence: 3
+status: active
+asof: 2026-11-18
+---
+
 # treg — 一页 SKILL.md 加一行 MCP 配置,替一个托管代理挂上 4,197 个外部接口
 
 > 证据等级:★★★(源码级;`superdesigndev/treg@8f9d28d92c6a3549ca47fcdbe66050ea741b928b`,2026-11-18)。
-> 数据截止 `29b3ed46e`(2026-11-18)。⚠ 星标 477 为 2026-08-19 历史采样;该日下载无记录;2026-11-18 实时星标 8326。
+> 数据截止 `29b3ed46e`(2026-11-18)。⚠ 星标 477 为 2026-08-19 历史采样;该日下载无记录;2026-11-18 星标读数 8326。
 
 ## 一屏事实
 
@@ -11,7 +22,7 @@
 | 类目 | tools([census](../../ecosystem/census.py) 1,639 条 / 全表 11,744 条) |
 | 子分类 | `single-purpose`——⚠ 星标类内第一(477,第二名 zhaoolee/notes 147);但星标归属见「为什么它突出」 |
 | 自述 | 给 Agent 的工具目录:按「要做的事」检索约 2,600 个外部接口(SEO/SERP、外链、社交、人物与公司补全、抓取),读参数与单次价格后直接调用,凭据由服务端注入;附 skill,加一行在 `TREG_TOKEN` 未设置前保持禁用的 MCP |
-| 星标 ⚠ | **477**(2026-08-19 采样);**2026-11-18 实时 8326**(91 天 ×17.4)。两者都属于托管主项目,不属于 DSH 适配层 |
+| 星标 ⚠ | **477**(2026-08-19 采样);**2026-11-18 读数 8326**(91 天 ×17.4)。两者都属于托管主项目,不属于 DSH 适配层 |
 | 下载 ⚠ | **无记录**(2026-08-19 采样缺口:`data/downloads.json` 无此 URL;npm registry 查 `treg-dsh` 返回 404,本仓库没有 npm 下载面可统计) |
 | 扩散 | **0**(口径:`grep -ril 'treg' data/plugins/` 命中 4 条,逐条人工判断后 3 条是用户名 `RestRegular` 里的 `tReg` 子串,剩下 1 条是自身) |
 | 仓库 commit | `8f9d28d9…`,2026-11-18 03:16 UTC,`Merge pull request #1774 from superdesigndev/fix/localfalcon-price`;仓库创建 2026-07-15 |

@@ -10,6 +10,7 @@
 依赖:仅标准库;条目解析复用 census.parse_yml。
 """
 import json
+import re
 import subprocess
 import sys
 import tempfile
@@ -27,6 +28,44 @@ ROOT = Path(__file__).resolve().parents[2]
 # 热度锚的最低门槛:类目本期新增少于这个数不认为是「热闹」。
 HEAT_NEW_MIN = 40
 
+# ③b 的锚清单:token -> 锚自身仓库(owner/repo,小写)。
+# 自排除必须按仓库身份精确匹配;不能用「URL 里含 token」,否则
+# `dsh-hindsight-*` / `dsh-openviking-*` 这类同名衍生会被误当成锚自身。
+ANCHORS = {
+    "hindsight": "vectorize-io/hindsight",
+    "openviking": "volcengine/openviking",
+    "ouroboros": "q00/ouroboros",
+    "mirage": "strukto-ai/mirage",
+    "modlens": "liustack/modlens",
+    "better-sidebar": "omdsh-dev/dsh-better-sidebar",
+    "tongflow": "tong-io/tongflow",
+    "engramory": "tinqiao-oss/engramory",
+    "misakanet": "ikalus1988/misakanet",
+    "mnemon": "omdsh-dev/dsh-mnemon",
+    "memento": "perrylink/dsh-memento",
+}
+
+
+def repo_key(url):
+    """把 GitHub URL 或裸 owner/repo 归一成 owner/repo(小写)。
+
+    剥掉 #sub、/tree/... 与 .git;非 GitHub URL 返回 None。
+    """
+    s = str(url or "").strip()
+    m = re.search(r"github\.com[/:]([^/\s#?]+)/([^/\s#?]+)", s, re.I)
+    if m:
+        owner, repo = m.group(1), m.group(2)
+    elif "://" not in s:
+        bare = s.split("#", 1)[0].split("/tree/", 1)[0].strip("/")
+        parts = [p for p in bare.split("/") if p]
+        if len(parts) < 2:
+            return None
+        owner, repo = parts[0], parts[1]
+    else:
+        return None
+    repo = re.sub(r"\.git$", "", repo, flags=re.I)
+    return f"{owner}/{repo}".lower()
+
 
 def load_tree(ref):
     """把某个 ref 的 data/plugins 解到临时目录并解析(与工作区无关,可对比任意两期)。"""
@@ -40,6 +79,7 @@ def load_tree(ref):
         if d and d.get("url"):
             d["file"] = p.name
             d["owner"] = p.name.split("__")[0]
+            d["repo"] = repo_key(d.get("url"))
             entries.append(d)
     return entries
 
@@ -59,23 +99,51 @@ def cat_stats(entries, label):
     return by
 
 
-def imitation_signals(entries, tokens):
-    """③b 模仿信号:名字或描述里提到某个锚的条目数(不含锚自身)。
+def classify_hits(entries, token, anchor_repo):
+    """按仓库身份把命中分成 self / name / mention 三层。
 
-    比星标更少受采样缺口影响:衍生插件会立刻出现在本期名单里,
-    而星标边车可能半年没更新。口径:大小写不敏感的子串命中。
+    - self:仓库 == 锚自身(monorepo 的多个子条目都算 self);
+    - name:第三方仓库名里带 token(多为 fork / 同名衍生,是最强的候选);
+    - mention:只有 name 字段或描述里提到 token。
+
+    注意:这三层只是**候选**,不是采纳。同名可能是无关项目,描述提及也可能
+    只是"类似 X"或"清理 X 的缓存"。最终采纳数由卡片逐条判定。
     """
-    print("\n── ③b 模仿信号(提到该锚的条目数,不含自身;可复现)──")
-    low = [(e, (e.get("name", "") + " " + e.get("description.en", "") + " "
-                + e.get("description.zh", "")).lower()) for e in entries]
-    for token in tokens:
-        all_hits = [e for e, t in low if token.lower() in t]
-        # 锚自身 = 仓库名与 token 完全对得上的那一条(通常是官方或主仓)
-        mine = [e for e in all_hits if token.lower() in e.get("url", "").lower().split("github.com/")[-1].split("/tree/")[0]]
-        others = [e for e in all_hits if e not in mine]
-        print(f"  {token:<16} 第三方提及 {len(others):>3}(合计 {len(all_hits)},锚自身 {len(mine)})")
-        for e in others[:6]:
-            print(f"      {e.get('name', e['file'])}  [{e.get('category')}]")
+    token = token.lower()
+    anchor_repo = (anchor_repo or "").lower()
+    tiers = {"self": [], "name": [], "mention": []}
+    for e in entries:
+        text = " ".join([
+            str(e.get("name", "")),
+            str(e.get("description.en") or ""),
+            str(e.get("description.zh") or ""),
+        ]).lower()
+        if token not in text:
+            continue
+        repo = e.get("repo") or repo_key(e.get("url"))
+        if repo == anchor_repo:
+            tiers["self"].append(e)
+        elif repo and token in repo.split("/")[-1]:
+            tiers["name"].append(e)
+        else:
+            tiers["mention"].append(e)
+    return tiers
+
+
+def imitation_signals(entries, anchors=None):
+    """③b 模仿信号:按精确仓库身份排除锚自身,再分同名/描述两层输出候选。"""
+    anchors = anchors or ANCHORS
+    print("\n── ③b 模仿信号(按仓库身份排除锚自身;候选分层,采纳以卡内判定为准)──")
+    print(f"  {'token':<16}{'锚自身':>6}{'同名候选':>9}{'描述候选':>9}{'第三方候选':>10}")
+    for token, anchor_repo in anchors.items():
+        tiers = classify_hits(entries, token, anchor_repo)
+        self_n, name_n, mention_n = len(tiers["self"]), len(tiers["name"]), len(tiers["mention"])
+        print(f"  {token:<16}{self_n:>6}{name_n:>9}{mention_n:>9}{name_n + mention_n:>10}")
+        for label, rows in (("同名", tiers["name"]), ("描述", tiers["mention"])):
+            for e in rows[:3]:
+                print(f"      {label}  {e.get('name', e['file'])}  [{e.get('category')}]")
+    print("  注:同名/描述命中是候选;是否算采纳以卡内逐条判定为准"
+          "(如 auto-memory、message-edit 都有同名无关条目)。")
 
 
 def main():
@@ -144,8 +212,7 @@ def main():
         for e in new_es[:5]:
             print(f"      {star_of[e['url']]:>7}  {e.get('name', e['file'])}")
 
-    imitation_signals(new, ["hindsight", "openviking", "ouroboros", "mirage",
-                             "modlens", "better-sidebar", "tongflow"])
+    imitation_signals(new)
 
     print("\n── ①b 标签增长(34 组,按命中增量)──")
     old_tags = Counter(t for e in old for t in census.tag_of(

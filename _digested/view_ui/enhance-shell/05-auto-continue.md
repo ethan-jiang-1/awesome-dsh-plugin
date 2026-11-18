@@ -1,7 +1,18 @@
+---
+kind: card
+domain: ui
+subcategory: enhance-shell
+repo: HsiangNianian/dsh-auto-continue
+commit: dea916849980f2d65e09018589c7d6fed859f141
+evidence: 3
+status: active
+asof: 2026-11-18
+---
+
 # dsh-auto-continue — 把「继续」做成宿主侧单实例状态机:一张收尾判据表、九道闸门、32 条冷读预算
 
 > 证据等级:★★★(源码级;`HsiangNianian/dsh-auto-continue@dea916849980f2d65e09018589c7d6fed859f141`,2026-11-18)。
-> 数据截止 `29b3ed46e`(2026-11-18)。⚠ 星标 26、下载 3804 均为 2026-08-19 冻结采样;2026-11-18 实时星标 204(GitHub API;本卡复核时读到 205)。
+> 数据截止 `29b3ed46e`(2026-11-18)。⚠ 星标 26、下载 3804 均为 2026-08-19 冻结采样;2026-11-18 星标读数 204(GitHub API;本卡复核时读到 205)。
 
 ## 一屏事实
 

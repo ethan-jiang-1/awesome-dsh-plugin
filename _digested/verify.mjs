@@ -32,6 +32,7 @@ for (const root of roots) {
 
 // ---------- 内容检查 ----------
 const headingsByFile = new Map(); // rel -> Set(slug)
+const textsByFile = new Map();    // rel -> 原文，供卡片/SVG 契约复用
 const warnings = [];
 
 function githubSlug(text) {
@@ -74,6 +75,7 @@ for (const rel of mdFiles) {
     }
   });
   headingsByFile.set(rel, slugs);
+  textsByFile.set(rel, text);
 }
 
 function checkLink(fromRel, line, target) {
@@ -98,6 +100,144 @@ function checkLink(fromRel, line, target) {
     const key = fsPath.startsWith(repoRoot + '/') ? fsPath.slice(repoRoot.length + 1) : fsPath;
     const slugs = headingsByFile.get(key);
     if (slugs && !slugs.has(anchor)) fail(fromRel, line, `锚点不存在：${target}`);
+  }
+}
+
+// ---------- 卡片契约：frontmatter / 八段 / 证据等级 ----------
+const CARD_RE = /^_digested\/view_([^/]+)\/([^/]+)\/([0-9]{2}-[^/]+\.md)$/;
+const ALLOWED_STATUS = new Set(['active', 'watch', 'stale', 'deprecated', 'frozen', 'archived']);
+const REQUIRED_H2 = [
+  '一屏事实', '它到底是什么', '怎么接进 DSH', '关键实现',
+  '为什么它突出', '代价与边界', '可信度与复现', '待验证',
+];
+const cards = new Map(); // rel -> meta
+
+function parseFrontmatter(text) {
+  if (!text.startsWith('---\n')) return null;
+  const end = text.indexOf('\n---\n', 4);
+  if (end < 0) return null;
+  const meta = {};
+  for (const line of text.slice(4, end).split('\n')) {
+    const m = line.match(/^([A-Za-z_][A-Za-z0-9_-]*):\s*(.*)$/);
+    if (m) meta[m[1]] = m[2].trim();
+  }
+  return meta;
+}
+
+for (const rel of mdFiles) {
+  const m = rel.match(CARD_RE);
+  if (!m) continue;
+  const text = textsByFile.get(rel) || '';
+  const meta = parseFrontmatter(text);
+  if (!meta) {
+    fail(rel, 1, '卡片缺 frontmatter（必须以 --- 开头）');
+    continue;
+  }
+  cards.set(rel, meta);
+  for (const key of ['kind', 'domain', 'subcategory', 'repo', 'evidence', 'status', 'asof']) {
+    if (!meta[key]) fail(rel, 1, `frontmatter 缺 ${key}`);
+  }
+  if (!['card', 'reference'].includes(meta.kind)) {
+    fail(rel, 1, `kind 非法：${meta.kind}`);
+  }
+  if (meta.domain !== m[1]) fail(rel, 1, `domain=${meta.domain} 与路径 ${m[1]} 不一致`);
+  if (meta.subcategory !== m[2]) fail(rel, 1, `subcategory=${meta.subcategory} 与路径 ${m[2]} 不一致`);
+  if (!/^[^\s/]+\/[^\s/]+$/.test(meta.repo || '')) fail(rel, 1, `repo 非法：${meta.repo}`);
+  if (!/^[1-3]$/.test(meta.evidence || '')) fail(rel, 1, `evidence 非法：${meta.evidence}`);
+  if (meta.evidence === '3' && !/^[0-9a-f]{7,40}$/i.test(meta.commit || '')) {
+    fail(rel, 1, '★★★ 卡缺合法 commit');
+  }
+  if (!ALLOWED_STATUS.has(meta.status)) fail(rel, 1, `status 非法：${meta.status}`);
+  if (!/^20\d{2}-\d{2}-\d{2}$/.test(meta.asof || '')) fail(rel, 1, `asof 非法：${meta.asof}`);
+  if (meta.kind === 'card') {
+    const h2 = [...text.matchAll(/^## (.+)$/gm)].map((x) => x[1].trim());
+    for (const req of REQUIRED_H2) {
+      if (!h2.some((h) => h.startsWith(req))) fail(rel, 1, `卡片缺小节：## ${req}`);
+    }
+  }
+}
+
+// ---------- `_data/cards.json` 必须与 frontmatter 同步 ----------
+let dataCards = [];
+try {
+  dataCards = JSON.parse(readFileSync(join(repoRoot, '_digested/_data/cards.json'), 'utf8'));
+} catch (err) {
+  fail('_digested/_data/cards.json', null, `读不到或不是 JSON：${err.message}`);
+}
+const dataByPath = new Map(dataCards.map((c) => [c.path, c]));
+const META_KEYS = ['kind', 'domain', 'subcategory', 'repo', 'commit', 'evidence', 'status', 'asof'];
+for (const [rel, meta] of cards) {
+  const key = rel.slice('_digested/'.length);
+  const data = dataByPath.get(key);
+  if (!data) {
+    fail(rel, null, '`_data/cards.json` 缺这张卡；改完 frontmatter 后跑 view_data.py');
+    continue;
+  }
+  for (const k of META_KEYS) {
+    if (String(data[k] ?? '') !== String(meta[k] ?? '')) {
+      fail(rel, null, `\`_data/cards.json\` 的 ${k}=${data[k]} 与 frontmatter ${meta[k]} 不一致；跑 view_data.py`);
+    }
+  }
+}
+for (const data of dataCards) {
+  if (!cards.has(`_digested/${data.path}`)) {
+    fail('_digested/_data/cards.json', null, `多出非卡片：${data.path}`);
+  }
+}
+
+// ---------- SVG 契约：每个卡必须上图谱，且证据级一致 ----------
+const domainMaps = new Map();
+for (const domain of ['memory', 'session', 'tools', 'ui', 'workflow']) {
+  const mapRel = `_digested/view_${domain}/plugin-map.svg`;
+  let svg;
+  try {
+    svg = readFileSync(join(repoRoot, mapRel), 'utf8');
+  } catch {
+    fail(mapRel, null, '缺少领域图谱');
+    continue;
+  }
+  const links = new Map();
+  for (const mm of svg.matchAll(/<a[^>]*href="([^"]+\.md)"[^>]*>([\s\S]*?)<\/a>/g)) {
+    const href = mm[1];
+    if (href.endsWith('README.md')) continue;
+    const target = resolve(dirname(join(repoRoot, mapRel)), href);
+    if (!target.startsWith(repoRoot)) {
+      fail(mapRel, null, `SVG 链接逃出仓库：${href}`);
+      continue;
+    }
+    const key = target.slice(repoRoot.length + 1);
+    const plain = mm[2].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    const ev = plain.match(/★{1,3}/);
+    if (!ev) {
+      fail(mapRel, null, `SVG 卡片缺证据级：${href}`);
+      continue;
+    }
+    if (links.has(key)) fail(mapRel, null, `SVG 重复链接：${href}`);
+    links.set(key, ev[0].length);
+  }
+  domainMaps.set(domain, links);
+  for (const [rel, meta] of cards) {
+    if (!rel.startsWith(`_digested/view_${domain}/`)) continue;
+    if (!links.has(rel)) {
+      fail(rel, null, `卡片未出现在 ${mapRel}`);
+    } else if (links.get(rel) !== Number(meta.evidence)) {
+      fail(rel, null, `SVG 证据级 ${links.get(rel)} 与 frontmatter ${meta.evidence} 不一致`);
+    }
+  }
+  for (const key of links.keys()) {
+    if (!cards.has(key)) fail(mapRel, null, `SVG 指向非卡片：${key.slice('_digested/'.length)}`);
+  }
+}
+
+// ---------- 领域册的“全部 ★★★”必须真的全 3 星 ----------
+for (const domain of ['memory', 'session', 'tools', 'ui', 'workflow']) {
+  const readme = `_digested/view_${domain}/README.md`;
+  const text = textsByFile.get(readme) || '';
+  if (!text.includes('全部 ★★★')) continue;
+  const weak = [...cards].filter(([rel, meta]) =>
+    rel.startsWith(`_digested/view_${domain}/`) && meta.evidence !== '3');
+  for (const [rel] of weak) {
+    fail(readme, null, `写了“全部 ★★★”，但 ${rel} 是 ★★ 参考卡`);
   }
 }
 

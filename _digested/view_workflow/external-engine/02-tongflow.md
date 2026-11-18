@@ -1,7 +1,18 @@
+---
+kind: card
+domain: workflow
+subcategory: external-engine
+repo: tong-io/tongflow
+commit: f7aae7743b3046ebd783f4e704d454ebe3566f2d
+evidence: 3
+status: active
+asof: 2026-11-18
+---
+
 # dsh-tongflow — dsh 面只有 1 039 行:19 个工具、一个会话视图 tab、一条 patch 行,引擎全在 Python 侧
 
 > 证据等级:★★★(源码级;`tong-io/tongflow@f7aae7743b3046ebd783f4e704d454ebe3566f2d`,2026-11-18)。
-> 数据截止 `29b3ed46e`(2026-11-18)。⚠ 星标 860 为 2026-08-19 历史采样,**仓库级、属 TongFlow 主项目**;2026-11-18 实时 1047。⚠ 下载 0 同为 2026-08-19。
+> 数据截止 `29b3ed46e`(2026-11-18)。⚠ 星标 860 为 2026-08-19 历史采样,**仓库级、属 TongFlow 主项目**;2026-11-18 读数 1047。⚠ 下载 0 同为 2026-08-19。
 
 ## 一屏事实
 
@@ -11,7 +22,7 @@
 | 类目 | workflow([census](../../ecosystem/census.py) 703 条 / 全表 11 744 条) |
 | 子分类 | `external-engine`(挂外部引擎) |
 | 自述 | 「影视片场」:agent 写 `.tongflow.json` 工作流 → TongFlow 插件执行;内嵌画布、镜头/角色/take 布局、漫剧模板、`@tongflow` 会话进 Studio。**「漫剧模板」已过时**:模板在 2026-08-19 被删(`6ba7fbc`,见末节) |
-| 星标 ⚠ | **860**(2026-08-19 采样);2026-11-18 实时 **1047**、fork 136。**属 TongFlow 主项目,不属本适配层**——采样点距本子包首个提交 ≤1 天 |
+| 星标 ⚠ | **860**(2026-08-19 采样);2026-11-18 读数 **1047**、fork 136。**属 TongFlow 主项目,不属本适配层**——采样点距本子包首个提交 ≤1 天 |
 | 下载 ⚠ | **0**(2026-08-19;口径为 npm 近 30 天窗口,且 `data/downloads.json` 只覆盖 11744 中的 624 条 → **采样缺口**,不可读成「无人使用」) |
 | 扩散 | **0**(口径:`grep -ril 'tongflow' data/plugins/` 命中 1 条,即自身;`dsh-tongflow`、`@tongflow` 同样各命中 1) |
 | 仓库 commit | 整仓 `f7aae77`,2026-11-13;子目录最后提交 `780f0a1`,2026-11-11 `chore(release): prepare 1.0.0`;仓库 2026-04-08 创建、2026-06-16 首个开源提交 |
@@ -221,7 +232,7 @@ grep -ril 'tongflow' data/plugins/              # → data/plugins/tong-io__tong
 grep -ril 'dsh-tongflow' data/plugins/ | wc -l  # → 1(同上)
 grep -ril '@tongflow' data/plugins/ | wc -l     # → 1(同上)
 
-# 4) 星标归属(2026-11-18 实时)
+# 4) 星标归属(2026-11-18 读数)
 curl -s https://api.github.com/repos/tong-io/tongflow \
   | python3 -c 'import json,sys; d=json.load(sys.stdin); print(d["created_at"], d["stargazers_count"], d["forks_count"], d["size"])'
 # → 2026-04-08T00:21:23Z 1047 136 6959

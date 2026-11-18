@@ -1,3 +1,14 @@
+---
+kind: card
+domain: workflow
+subcategory: external-engine
+repo: Q00/ouroboros
+commit: c0a64b7d1b3fd792a2ffe13aedcb3e65c96fbc8b
+evidence: 3
+status: active
+asof: 2026-11-17
+---
+
 # ouroboros — 24 行 YAML 的接线器，替一台 39 万行 Python 引擎在 DSH 里开门
 
 > 证据等级:★★★(源码级;`Q00/ouroboros@c0a64b7d1b3fd792a2ffe13aedcb3e65c96fbc8b`,2026-11-18)。
@@ -11,7 +22,7 @@
 | 类目 | workflow（[census](../../ecosystem/census.py) 703 条 / 全表 11 744 条） |
 | 子分类 | `external-engine`（挂外部引擎）——本册中该形态最纯的样本 |
 | 自述 | 纯配置包，经 DSH MCP 客户端挂载 Ouroboros，暴露 36 个访谈/Seed/执行/评估/演化工具 |
-| 星标 ⚠ | **5565**（2026-08-19 采样；2026-11-18 实时 6375）；类内第一，第二名 tong-io/tongflow 860（6.5 倍） |
+| 星标 ⚠ | **5565**（2026-08-19 采样；2026-11-18 读数 6375）；类内第一，第二名 tong-io/tongflow 860（6.5 倍） |
 | 扩散 | **0**（全表 11 744 条中仅 1 条提及 ouroboros，即它自己） |
 | 仓库 commit | `c0a64b7`，2026-11-18，`chore(release): prepare v0.61.1 (#3038)`；仓库创建于 2026-01-14 |
 | 包形态 | pnpm/Cordis **bundle**：`package.json` 的 `dsh.bundle.patch` 指向 `cordis.patch.yml`，只声明一行 `@deepseek-ai/dsh-mcp-client`。npm 无 `dsh-ouroboros`（404），只能从 GitHub 子目录装 |

@@ -1,3 +1,14 @@
+---
+kind: card
+domain: ui
+subcategory: inline-genui
+repo: omdsh-dev/dsh-genui
+commit: 382a4a6149c0f7c0926104d4e49d1d0805aa9e00
+evidence: 3
+status: active
+asof: 2026-11-18
+---
+
 # dsh-genui — 模型写 `dsh-ui` JSON 围栏,宿主页面里挂 React 树
 
 > 证据等级:★★★(源码级;`omdsh-dev/dsh-genui@382a4a6149c0f7c0926104d4e49d1d0805aa9e00`,2026-11-18)。
@@ -9,9 +20,9 @@
 |----|-----|
 | 条目 | `omdsh-dev/dsh-genui`([registry](../../../data/plugins/omdsh-dev__dsh-genui.yml)) |
 | 类目 | ui([census](../../ecosystem/census.py) 2351 条 / 全表 11 744 条) |
-| 子分类 | `inline-genui`([本册](./README.md));成员表里另外两条 ⚠ 180 / 41,本卡按 2026-11-18 实时值是本子分类唯一已知千星 |
+| 子分类 | `inline-genui`([本册](./README.md));成员表里另外两条 ⚠ 180 / 41,本卡按 2026-11-18 读数值是本子分类唯一已知千星 |
 | 自述 | 回复内联的可交互 UI:布局、图表、表单、测验、mermaid、3D,以及动作回传模型的循环(registry `description`) |
-| 星标 ⚠ | **224**(2026-08-19 冻结采样);**2026-11-18 实时 1014**(编排者当日 GitHub API;本卡复核为 1015,同一日波动) |
+| 星标 ⚠ | **224**(2026-08-19 冻结采样);**2026-11-18 读数 1014**(编排者当日 GitHub API;本卡复核为 1015,同一日波动) |
 | 下载 ⚠ | 边车无记录(2026-08-19 采样缺口,不写成 0) |
 | 扩散 | **3 个依赖/伴生 + 3 个同类独立实现 + 4 个互操作提及 = 10 个第三方条目**;原始 `grep -ril 'genui' data/plugins/` 22 条,其中 11 条是 `genuine/genuinely` 子串假阳性。逐条分类与命令见「为什么它突出」和末节 |
 | 仓库 commit | `382a4a6149c0f7c0926104d4e49d1d0805aa9e00`(2026-11-18,`main`,merge PR #451);822 个提交 / 32 个 tag / v0.16.0 |

@@ -4,7 +4,10 @@
 > ⚠ 星标为历史采样。数据截止 `29b3ed46e`(2026-11-18)。
 ![view_ui 插件图谱](plugin-map.svg)
 
-**状态优先**:`at-file` 已被官方 `@file` 取代,不建议新装;其余 9 张可用或可作机制样本。平台型看 better-sidebar,协议路线看 genui/visualize,换壳看 dsh-TUI/tianshu。
+> 健康/衰减:见 [`_data/health.md`](../_data/health.md)(2026-11-19 快照)。状态词定义见 [`../AGENTS.md`](../AGENTS.md) §二。
+> 抽样框:本册卡是**目的性抽样**(锚 + 机制例外),不是随机样本;不能用于估计领域内比例。
+
+**状态优先**:`at-file` 已被官方 `@file` 取代,不建议新装;其余 9 张可用或可作机制样本。平台候选看 better-sidebar,协议路线看 genui/visualize,换壳看 dsh-TUI/tianshu。
 
 **怎么读这张图**:10 张卡按子分类排列;颜色是**角色/价值型**,不是质量排名。`边`/`实`/`*`/`↓`/`扩` 见卡内日期;横条只是声量 log 尺度。`at-file` 标 **弃用**——官方 `@file` 已取代,只作兼容断代/权限边界参考;其余才是一线可选或机制样本。未标状态词 = 活跃/可用。
 
@@ -27,7 +30,7 @@
 
 | 子分类 | 定义 | 成员数(已确认) |
 |--------|------|----------------|
-| [enhance-shell](enhance-shell/README.md) | 增强现有壳:侧栏、Tab、注记、导航 | 9 例,平台型已出现 |
+| [enhance-shell](enhance-shell/README.md) | 增强现有壳:侧栏、Tab、注记、导航 | 9 例,平台候选已出现 |
 | [replace-shell](replace-shell/README.md) | 换壳:接管整个界面(TUI) | 2 例 |
 | [inline-genui](inline-genui/README.md) | 内联生成式 UI:模型在回复流渲染组件 | 3 例 |
 

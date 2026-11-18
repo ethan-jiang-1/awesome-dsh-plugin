@@ -1,7 +1,18 @@
+---
+kind: card
+domain: workflow
+subcategory: multi-agent
+repo: toolclub/dsh-agent-team-gui
+commit: 9e952e0681d528975444568b70f3c554ac2984be
+evidence: 3
+status: watch
+asof: 2026-11-18
+---
+
 # toolclub/dsh-agent-team-gui — 小队是 Settings 里的持久数据，不是别人能接过去的协议
 
 > 证据等级:★★★(源码级;`toolclub/dsh-agent-team-gui@9e952e0681d528975444568b70f3c554ac2984be`,2026-11-18)。
-> 数据截止 `29b3ed46e`(2026-11-18)。⚠ 星标 84 为 2026-08-19 历史采样(2026-11-18 实时 288);下载 ⚠ 边车无记录(同日采样缺口)。
+> 数据截止 `29b3ed46e`(2026-11-18)。⚠ 星标 84 为 2026-08-19 历史采样(2026-11-18 读数 288);下载 ⚠ 边车无记录(同日采样缺口)。
 
 ## 一屏事实
 
@@ -12,7 +23,7 @@
 | 子分类 | `multi-agent` |
 | 状态 | ⚠ **需注意**:21 个 peer 钉 `0.1.5.x`,0.2.x 的 `toolFilter/persona` 已改为 `agentPreset`。**需改造后使用**,保留作团队/UI 机制参考。 |
 | 自述 | 「持久化多模型小队在 Settings 中配置、从 Composer 选择,支持逐成员模型与工具策略;默认主 Agent 自行完成简单任务,派工按有界 DAG 执行并可有限审核/返工;Run Center 展示重试与官方 usage 的逐成员 token」 |
-| 星标 ⚠ | **84**(2026-08-19 采样);2026-11-18 实时 **288**(同日 GitHub API,6 fork / 16 open issues) |
+| 星标 ⚠ | **84**(2026-08-19 采样);2026-11-18 读数 **288**(同日 GitHub API,6 fork / 16 open issues) |
 | 下载 ⚠ | 边车无记录(`data/downloads.json` 共 624 条,不含该 URL;2026-08-19 采样缺口,不能读作零下载) |
 | 扩散 | **0** 个第三方提及(口径:`grep -ril 'agent-team-gui' data/plugins/` 命中 1,即自身;`grep -ril 'toolclub' data/plugins/` 同样只命中自身) |
 | 仓库 commit | `9e952e0`,2026-10-08,`ci: isolate DSH installation to avoid duplicate native types`(main HEAD);发布版 v1.3.0 在 `14ea1196`(2026-09-19),HEAD 只比它多 3 个改 docs/CI 的提交 |

@@ -10,7 +10,7 @@
 
 | 条目 | 星标 ⚠ | 说明 |
 |------|--------|------|
-| omdsh-dev/DSH-better-sidebar | 2216 | 侧栏工作台,63 个第三方插件往它的 Tab 注册(平台级;[01-better-sidebar](01-better-sidebar.md) ★★★) |
+| omdsh-dev/DSH-better-sidebar | 2216 | 侧栏工作台,64 个第三方条目提及(1 个同名 fork + 63 个描述;抽样 3 个中仅 1 个硬依赖),平台候选([01-better-sidebar](01-better-sidebar.md) ★★★) |
 | FSMargoo/dsh-at-file | 394 | 输入框 `@` 引用;只传路径不读内容。官方 0.2.1 已内置 `@file`,本插件自认 best-effort,且在 0.2.1-rc.5 上 Host 半疑似加载失败([02-at-file](02-at-file.md) ★★★) |
 | ZSeven-W/dsh-openpencil | 119 | 设计预览/编辑;插件零渲染代码,强绑外部 Rust OpenPencil + 原生二进制;读路径不查 sandbox([03-openpencil](03-openpencil.md) ★★★) |
 | omdsh-dev/dsh-annotation | 76 | 选区批注;批注=纯文本提示词,气泡里"看不见"是发完从 DOM 剪掉,零结构化字段([04-dsh-annotation](04-dsh-annotation.md) ★★★) |

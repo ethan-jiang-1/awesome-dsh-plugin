@@ -56,6 +56,41 @@
 
 八段是骨架不是配额:机制复杂的写长,纯配置包的写短。装不下时在该子分类内升级为 `NN-<slug>/` 子目录,不要压缩深度。
 
+### 卡片 frontmatter(单一源)
+
+每张卡、每张参考卡都必须以 frontmatter 开头;这是卡片元数据的**唯一源**,领域册/图谱/健康表都不再手抄这些字段:
+
+```yaml
+---
+kind: card              # card | reference(reference 是没读源码的参考基线)
+domain: ui
+subcategory: enhance-shell
+repo: omdsh-dev/DSH-better-sidebar
+commit: 2811573c9c0bad51d77db6c3c94d78f5aed8d38a
+evidence: 3             # 1/2/3;3 必须有 commit
+status: active          # active | watch | stale | deprecated | frozen | archived
+asof: 2026-11-18        # 本卡结构事实的截止日
+---
+```
+
+- `kind: reference` 不要求八段,但必须写清“未读源码”和参考 commit;领域册不得把它算进“全部 ★★★”。
+- `status` 是**可复核的状态词**,不是编辑口径:
+  - `active`:近 90 天有 push,且没有已知的宿主兼容断裂;
+  - `watch`:可用,但钉了旧 peer/旧宿主,或有关键限制(需改造);
+  - `stale`:主分支/发布停更 >90 天,只作机制参考;
+  - `deprecated`:被宿主内置能力或官方实现取代;
+  - `frozen`:版本/peer 已不可安装,不建议新装;
+  - `archived`:仓库 archived(以 live 快照为准)。
+- `verify.mjs` 会校验:frontmatter 必填字段、`★★★` 必须有 commit、`kind: card` 必须有八段、SVG 证据级与 frontmatter 一致、SVG 链接必须指向卡片、领域册“全部 ★★★”必须真的全 3 星、`_data/cards.json` 必须与 frontmatter 同步。
+- 改卡先改 frontmatter;改完跑 `python3 _digested/ecosystem/view_data.py` 重建 `_data/cards.json`、`_data/health.md`、`_data/summary.json`。
+
+### 健康/衰减(第三轴)
+
+声量 × 扩散之外,再加一条**健康**轴:最近 push、archived、peer 兼容、是否被宿主取代。
+判定以 `_snapshots/live-*.json` + 卡片正文的兼容性证据为准;不得只凭“最近没看到更新”写“停更”。
+`_data/health.md` 是生成物,列出每张卡的 stars / pushed_at / 下载 / flags;flags 里的
+`stale-candidate` 是**待复核**,不是自动判死。
+
 ---
 
 ## 三、供应链(从上游到一篇插件分析)
@@ -81,9 +116,9 @@ data/plugins/*.yml  ├─ ③ census.py ──► 全量结构数字 ──► 
 |------|----------|-----------|
 | `ecosystem/*` | `census.py` + 解读 | 数字过期,结论静默失效 |
 | `_view/01~03` | `delta.py` 数字 + 归纳 | 读者只能自己扫一万多条 |
-| 领域册 `README.md` | 抄 census/delta 的数 | 领域内看不到相对位置 |
+| 领域册 `README.md` | 抄 census/delta 的数 + `_data/health.md` | 领域内看不到相对位置/健康度 |
 | 子分类 `README.md` | 人工确认成员 + 立卡条件 | 领域内看不到分型 |
-| 单卡 `NN-<slug>.md` | 浅克隆 + 读源码 + 八段 | 只有星标,没有机制 |
+| 单卡 `NN-<slug>.md` | frontmatter + 浅克隆 + 读源码 + 八段 | 只有星标,没有机制 |
 
 ---
 
@@ -101,10 +136,10 @@ data/plugins/*.yml  ├─ ③ census.py ──► 全量结构数字 ──► 
 
 ## 五、视图规则
 
-1. **视图零原创**:`_view/` 与 `view_<领域>/` 的每个数字都要能在 `census.py`/`delta.py` 输出里找到出处;归纳判断可以写,但要标明是判断。
+1. **视图零原创**:`_view/` 与 `view_<领域>/` 的结构数字必须能在 `census.py`/`delta.py` 输出里找到出处;卡片级实时值必须能在 `_snapshots/live-*.json` 里找到对应仓库/包;归纳判断可以写,但要标明是判断。
 2. **覆盖式重建**:三块板每轮整页重写,不追加、不打补丁;历史归 `_change_log/`。
 3. **三级结构**:`view_<领域>/` → `<子分类>/` → `NN-<slug>.md`;子分类是领域内的真实分型,不是官方 23 类的复刻。
-4. **锚的两轴**:声量(星标)× 扩散(第三方提及/衍生,`delta.py` ③b 现算)。两轴都高才是真锚;只有声量高的是"明星"。
+4. **锚的两轴**:声量(星标)× 扩散(第三方提及/衍生)。扩散先用 `delta.py` ③b 的**候选分层**(同名/描述),再由卡片逐条判定采纳性质;两轴都高才是真锚,只有声量高的是"明星"。不要把候选数直接写成"接入数"。
 5. `view_<领域>/` 各有一份 `AGENTS.md`(写本册特有的判断线索);子分类只有 `README.md`(定义 + 成员 + 立卡条件)。通用规则只在本文件。
 
 ## 六、完成判据

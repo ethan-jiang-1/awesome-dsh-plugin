@@ -1,3 +1,14 @@
+---
+kind: card
+domain: ui
+subcategory: enhance-shell
+repo: Laplace-bit/dsh-smooth-stream
+commit: b93579a01c7c646761a360831b46e91f49114622
+evidence: 3
+status: active
+asof: 2026-11-18
+---
+
 # dsh-smooth-stream — 它替换的不只是文字节奏:一个字符揭示时钟 + 一个用合成层 transform 表达的跟随弹簧
 
 > 证据等级:★★★(源码级;`Laplace-bit/dsh-smooth-stream@b93579a01c7c646761a360831b46e91f49114622`,2026-11-18)。
