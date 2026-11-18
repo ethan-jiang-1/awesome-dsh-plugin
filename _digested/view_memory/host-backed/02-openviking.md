@@ -7,7 +7,7 @@
 
 | 项 | 值 |
 |----|-----|
-| 官方条目 | `volcengine/OpenViking#examples/dsh-memory-plugin`([registry](../../data/plugins/volcengine__OpenViking--examples-dsh-memory-plugin.yml)) |
+| 官方条目 | `volcengine/OpenViking#examples/dsh-memory-plugin`([registry](../../../data/plugins/volcengine__OpenViking--examples-dsh-memory-plugin.yml)) |
 | 类目 | memory |
 | 自述 | pre-step 自动召回与画像注入、会话捕获、`viking://` URI 防护、recall/write 工具,依赖 OpenViking 服务端 |
 | 星标 ⚠ | 29567(**宿主项目背书**) |
