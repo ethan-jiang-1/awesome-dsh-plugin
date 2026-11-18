@@ -86,8 +86,13 @@ def parse_yml(path):
                 cont_key = None
             continue
         m = re.match(r"^\s+(en|zh):\s*(.*)$", line)
-        if not (m and in_desc):
-            m = re.match(r"^([A-Za-z_]+):\s*(.*)$", stripped)
+        if m and in_desc:
+            key = f"description.{m.group(1)}"
+            doc[key] = strip_comment(m.group(2)).strip("'\"")
+            if m.group(2) and not quote_balanced(m.group(2)):
+                cont_key = key
+            continue
+        m = re.match(r"^([A-Za-z_]+):\s*(.*)$", stripped)
         if m:
             key, val = m.group(1), strip_comment(m.group(2))
             if key == "description":
@@ -98,12 +103,6 @@ def parse_yml(path):
             if val and not quote_balanced(val):
                 cont_key = key
             continue
-        m = re.match(r"^(en|zh):\s*(.*)$", stripped)
-        if m and in_desc:
-            key = f"description.{m.group(1)}"
-            doc[key] = strip_comment(m.group(2)).strip("'\"")
-            if m.group(2) and not quote_balanced(m.group(2)):
-                cont_key = key
     return doc
 
 
