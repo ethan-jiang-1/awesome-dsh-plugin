@@ -4,7 +4,7 @@
 
 ## 定位
 
-`data/` 是全仓库唯一人工编辑层:`data/plugins/*.yml` 一个插件一个文件(实测 **7924 个**,2026-10-31,来自 **5114 个不同 owner**;0004 为 6704/4298,0003 时 4489 条 / 2821 owner,0002 基线 4392,初问快照 2286;全部满足 `<owner>__<repo>.yml` 命名,monorepo 子包形如 `owner__repo--packages-my-plugin.yml`,sub 用单 `-` 连接)。除 `plugins/` 外的 data 文件全部是机器写或冻结的派生物(拓扑见下)。为什么一文件一插件:以前所有人往 README 同一分类的同一位置追加,合并一个 PR 就撞掉下一个——独立文件永不冲突(contributing.md:47)。投稿者也不必再 regenerate README(合并后由 main 重生成,见 [readme-pipeline](../readme-pipeline/00-map.md))。
+`data/` 是全仓库唯一人工编辑层:`data/plugins/*.yml` 一个插件一个文件(实测 **11744 个**(0006 基线),来自 **7652 个不同 owner**;0005 为 7924/5114,0004 为 6704/4298,0003 时 4489 条 / 2821 owner,0002 基线 4392,初问快照 2286;全部满足 `<owner>__<repo>.yml` 命名,monorepo 子包形如 `owner__repo--packages-my-plugin.yml`,sub 用单 `-` 连接)。除 `plugins/` 外的 data 文件全部是机器写或冻结的派生物(拓扑见下)。为什么一文件一插件:以前所有人往 README 同一分类的同一位置追加,合并一个 PR 就撞掉下一个——独立文件永不冲突(contributing.md:47)。投稿者也不必再 regenerate README(合并后由 main 重生成,见 [readme-pipeline](../readme-pipeline/00-map.md))。
 
 ## 条目 schema(validateEntries 白名单,scripts/lib/entries.mjs:169-256)
 
@@ -50,7 +50,7 @@
 | `screenshots-declared.json` / `-live.json` | probe-screenshots | ❌(.gitignore)| 刻意不缓存,重算免费 |
 | **`releases.json`(0006 新增)** | `scripts/probe-releases.mjs` | ❌(.gitignore:17)| **cache-only 第五个**;逐条 `{statistics:{downloads,checkedAt}, manifest:{version,enginesDsh,peerDependencies,tarball,checkedAt}}`;**当前没有任何 workflow 调 probe-releases**,仓库与 Actions cache 里都不会自动出现它(消费口径见 contributing.md「GitHub Release statistics」)|
 
-**`capabilities.json` 的形状(0002 新增边车)**:`{url: {version, spec, capabilities[], redLines[], scannedAt, tool}}`,`capabilities` ∈ {shell, fs-write, fs-read, network, env, credentials, llm, dynamic-code, host-runtime, subagent}。**0004 的扫描器升级没有落到这份文件上**:仓库里 3821 条记录的 `tool` 仍全部是 `dsh-trust-check@0.1.13`,而 package.json 的 devDependency 已经是 `^0.2.1`(新记录会多带可选的 `previous` 上一版能力与 npm build provenance,见 `lib/capabilities.mjs:36-37`,但这里一条都没有)。文件 47,464 行,`scannedAt` 全部落在 2026-09-24T17:02:46–17:41:52Z,即一次扫描快照;与当前名单 URL join 只有 **3764/7924(47.5%)**(57 行指向已删 URL)——分母 4489→6704→7924,是覆盖率被新条目稀释,不是旧扫描失效。语义见 [probes-and-decay/01](../probes-and-decay/01-probe-family.md);它被 build-site 透传进 `docs/plugins.json`,**站内页面不渲染**。
+**`capabilities.json` 的形状(0002 新增边车)**:`{url: {version, spec, capabilities[], redLines[], scannedAt, tool}}`,`capabilities` ∈ {shell, fs-write, fs-read, network, env, credentials, llm, dynamic-code, host-runtime, subagent}。**0004 的扫描器升级没有落到这份文件上**:仓库里 3821 条记录的 `tool` 仍全部是 `dsh-trust-check@0.1.13`,而 package.json 的 devDependency 已经是 `^0.2.1`(新记录会多带可选的 `previous` 上一版能力与 npm build provenance,见 `lib/capabilities.mjs:36-37`,但这里一条都没有)。文件 47,464 行,`scannedAt` 全部落在 2026-09-24T17:02:46–17:41:52Z,即一次扫描快照;与当前名单 URL join 只有 **3764/7924(47.5%,按 0005 分母;11744 条上未重算)**(57 行指向已删 URL)——分母 4489→6704→7924,是覆盖率被新条目稀释,不是旧扫描失效。语义见 [probes-and-decay/01](../probes-and-decay/01-probe-family.md);它被 build-site 透传进 `docs/plugins.json`,**站内页面不渲染**。
 
 `added-dates.json` 的规则值得单独记一笔(0004 已核对):它是**唯一被人工改写的边车**,键是条目 URL 原文(含 monorepo 子路径),值是首个 added 日期。548 个键里只有 **531 个对得上当前名单**(7.9%),其余 17 个是被改名/换 URL 甩下的旧键,没人清理;也就是说 **6173 条完全靠推导**——build-site 先翻默认语言 README 的 `-p` 历史,再翻 `data/plugins/` 的 `--name-only` 账本,最后用 `lib/added-dates.mjs:15-21` 的 `--diff-merges=first-parent --diff-filter=A` 取最老一次新增;还推不出来就拒绝构建(build-site.mjs:173-176 注释, :240-362,失败分支 :356-362)。人工键的用途因此很窄:**改名/换 URL 时把原日期钉回来**(否则新文件名的首个 added commit 会把老条目重新算成当天),本轮 +25/−2 全是这个用途,活着的键**没有任何值被改动**。
 

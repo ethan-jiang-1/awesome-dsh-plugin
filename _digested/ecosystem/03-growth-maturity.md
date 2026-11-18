@@ -52,7 +52,7 @@ Top owner (0006 census 重算,条目数):
 - **omdsh-dev(44)/ goodandready(31)**:与 perrylink 三家合计 163 条,常见命名为 `dsh-*`;omdsh-dev 41→41→41→44;
 - **当前头部作者节选**:liuhange789(39)、dingchenhui0618-arch(33)、drscrewdriver(29)、988hj7tczd-oss(27)、weibaohui(26)、johnxu22786(23)、aa2246740(23)、stardustlc666(21);这些批量上架行为描述源自旧样本,未对近期窗口重新核查。**0005 删撤 61 条,其中 `zoahdev` 一家 14 条整体消失**(21 → 现任 6 条),`BOWLUNA` 5 条、`Ersith` 5 条——名单收缩集中在少数系列作者(0006 删撤 60 条,远少于新增)。
 
-**monorepo 大户与条目数**(0006 重算,1204 条 / 763 仓;0005:797/523,0004:689/461,0003:472/316):`liuhange789/data-asset-inspector` 29 条、`mzzsfy/dsh-plugin` 17 条、`lznnnnn1998/dsh-artcraft` 15 条、`988hj7tczd-oss/dsh-lsp-packs` 12 条、`ityyq777/dsh-workbench` 12 条。关于 `zhu1090093659/dsh-web` 的 9→7 条变动和 `dsh-tool-describe-image` 删除,属于 0002 窗口记录,不是本轮发生的事件。
+**monorepo 大户与条目数**(0006 重算,1205 条 / 764 仓;0005:797/523,0004:689/461,0003:472/316):`liuhange789/data-asset-inspector` 29 条、`mzzsfy/dsh-plugin` 17 条、`lznnnnn1998/dsh-artcraft` 15 条、`988hj7tczd-oss/dsh-lsp-packs` 12 条、`ityyq777/dsh-workbench` 12 条。关于 `zhu1090093659/dsh-web` 的 9→7 条变动和 `dsh-tool-describe-image` 删除,属于 0002 窗口记录,不是本轮发生的事件。
 
 对生态健康的含义(基于作者条目数结构):单件作者占比 76.2%,与 0005 的 76.1%、0004 的 76.0%、0003 的 75.4% 基本持平——名单扩张主要仍由新作者带来,而不是既有作者扩产;作者基尼 0.324(0001 旧分析值)未基于当前基线重算,不应再引用为当前值。批量上架/描述同质化尚未对近期新增队列抽样;0005 的 34 个 batch/round/post-merge 修补提交说明被动的描述质量修补已成为常态动作。
 
