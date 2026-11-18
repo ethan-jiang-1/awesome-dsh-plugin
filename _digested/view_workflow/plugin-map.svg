@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1600" height="1078" viewBox="0 0 1600 1078" role="img" aria-labelledby="t d">
+<title id="t">view_workflow · 工作流 · 插件图谱</title>
+<desc id="d">8 张源码级单卡,按子分类组织;卡片标注机制/价值、⚠ 2026-08-19 边车星标、2026-11-18 实时星标、下载与第三方提及。</desc>
+<defs><filter id="shadow" x="-5%" y="-5%" width="110%" height="110%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.06"/></filter></defs>
+<rect width="1600" height="1078" fill="#f8fafc"/>
+<rect x="0" y="0" width="1600" height="8" fill="#10b981"/>
+<a xlink:href="README.md" href="README.md">
+<text x="48" y="56" font-family="'PingFang SC','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="30" font-weight="700" fill="#0f172a">view_workflow · 工作流</text>
+</a>
+<text x="48" y="86" font-family="'PingFang SC','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="14" fill="#475569">703 条 · 8 张源码级单卡 · 4 个子分类 · 数据截止 29b3ed46e(2026-11-18) · 点击卡片打开 MD</text>
+<rect x="48" y="106" width="12" height="12" rx="3" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+<text x="66" y="117" font-family="sans-serif" font-size="11.5" fill="#475569">平台/标准</text>
+<rect x="138" y="106" width="12" height="12" rx="3" fill="#f0fdfa" stroke="#0d9488" stroke-width="1.5"/>
+<text x="156" y="117" font-family="sans-serif" font-size="11.5" fill="#475569">锚/高扩散</text>
+<rect x="228" y="106" width="12" height="12" rx="3" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+<text x="246" y="117" font-family="sans-serif" font-size="11.5" fill="#475569">明星/高星</text>
+<rect x="318" y="106" width="12" height="12" rx="3" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+<text x="336" y="117" font-family="sans-serif" font-size="11.5" fill="#475569">机制样本</text>
+<rect x="402" y="106" width="12" height="12" rx="3" fill="#fef2f2" stroke="#b91c1c" stroke-width="1.5"/>
+<text x="420" y="117" font-family="sans-serif" font-size="11.5" fill="#475569">被取代/冻结</text>
+<rect x="504" y="106" width="12" height="12" rx="3" fill="#faf5ff" stroke="#7c3aed" stroke-width="1.5"/>
+<text x="522" y="117" font-family="sans-serif" font-size="11.5" fill="#475569">边界/特殊形态</text>
+<text x="48" y="140" font-family="sans-serif" font-size="11.5" fill="#64748b">边 2026-08-19 边车 · 实 2026-11-18 实时 · * 星标属仓库/主项目 · ↓ 下载 · 扩 第三方提及 · 底部横条 = 声量(log 尺度)</text>
+<line x1="48" y1="154" x2="1552" y2="154" stroke="#e2e8f0"/>
+<a xlink:href="external-engine/README.md" href="external-engine/README.md">
+<rect x="48" y="176" width="1504" height="36" rx="8" fill="#10b981" fill-opacity="0.10"/>
+<rect x="48" y="176" width="5" height="36" rx="2.5" fill="#10b981"/>
+<text x="66" y="200" font-family="'PingFang SC',sans-serif" font-size="15" font-weight="700" fill="#0f172a">external-engine</text>
+<text x="204" y="200" font-family="'PingFang SC',sans-serif" font-size="12" fill="#475569">挂外部引擎:配置包 + MCP 桥接</text>
+<text x="1534" y="200" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">2 卡</text>
+</a>
+<a xlink:href="external-engine/01-ouroboros.md" href="external-engine/01-ouroboros.md">
+<g><title>ouroboros — 明星 · 24 行配置挂引擎 (边 5,565 实 6,375 ↓ 0 扩 0)</title>
+<rect x="48" y="222" width="728" height="104" rx="10" fill="#fffbeb" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="222" width="5" height="104" rx="2.5" fill="#d97706"/>
+<text x="66" y="249" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">ouroboros</text>
+<text x="758" y="249" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">01 · ★★★</text>
+<text x="66" y="271" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">明星 · 24 行配置挂引擎</text>
+<text x="66" y="310" font-family="sans-serif" font-size="10.5" fill="#475569">边 5,565   实 6,375   ↓ 0   扩 0</text>
+<rect x="66" y="318" width="692" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="318" width="578.9" height="3" rx="1.5" fill="#d97706" fill-opacity="0.55"/>
+</g></a>
+<a xlink:href="external-engine/02-tongflow.md" href="external-engine/02-tongflow.md">
+<g><title>tongflow — 明星 · 1,039 行 + Python 引擎 (边 860 实 1,047 ↓ 0 扩 0)</title>
+<rect x="800" y="222" width="728" height="104" rx="10" fill="#fffbeb" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="800" y="222" width="5" height="104" rx="2.5" fill="#d97706"/>
+<text x="818" y="249" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">tongflow</text>
+<text x="1510" y="249" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">02 · ★★★</text>
+<text x="818" y="271" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">明星 · 1,039 行 + Python 引擎</text>
+<text x="818" y="310" font-family="sans-serif" font-size="10.5" fill="#475569">边 860   实 1,047   ↓ 0   扩 0</text>
+<rect x="818" y="318" width="692" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="818" y="318" width="453.6" height="3" rx="1.5" fill="#d97706" fill-opacity="0.55"/>
+</g></a>
+<a xlink:href="multi-agent/README.md" href="multi-agent/README.md">
+<rect x="48" y="348" width="1504" height="36" rx="8" fill="#10b981" fill-opacity="0.10"/>
+<rect x="48" y="348" width="5" height="36" rx="2.5" fill="#10b981"/>
+<text x="66" y="372" font-family="'PingFang SC',sans-serif" font-size="15" font-weight="700" fill="#0f172a">multi-agent</text>
+<text x="172" y="372" font-family="'PingFang SC',sans-serif" font-size="12" fill="#475569">多智能体编排:团队 / 任务板 / 角色</text>
+<text x="1534" y="372" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">4 卡</text>
+</a>
+<a xlink:href="multi-agent/01-agent-teams.md" href="multi-agent/01-agent-teams.md">
+<g><title>agent-teams — 团队 · team.json + 6 衍生 (边 573 实 3,005 ↓ 10,525 扩 6)</title>
+<rect x="48" y="394" width="728" height="104" rx="10" fill="#f0fdfa" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="394" width="5" height="104" rx="2.5" fill="#0d9488"/>
+<text x="66" y="421" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">agent-teams</text>
+<text x="758" y="421" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">01 · ★★★</text>
+<text x="66" y="443" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">团队 · team.json + 6 衍生</text>
+<text x="66" y="482" font-family="sans-serif" font-size="10.5" fill="#475569">边 573   实 3,005   ↓ 10,525   扩 6</text>
+<rect x="66" y="490" width="692" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="490" width="426.4" height="3" rx="1.5" fill="#0d9488" fill-opacity="0.55"/>
+</g></a>
+<a xlink:href="multi-agent/02-dsh-taskboard.md" href="multi-agent/02-dsh-taskboard.md">
+<g><title>taskboard — 任务板 · SQLite + 人验收 (边 40 实 328  扩 0)</title>
+<rect x="800" y="394" width="728" height="104" rx="10" fill="#eff6ff" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="800" y="394" width="5" height="104" rx="2.5" fill="#2563eb"/>
+<text x="818" y="421" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">taskboard</text>
+<text x="1510" y="421" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">02 · ★★★</text>
+<text x="818" y="443" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">任务板 · SQLite + 人验收</text>
+<text x="818" y="482" font-family="sans-serif" font-size="10.5" fill="#475569">边 40   实 328   扩 0</text>
+<rect x="818" y="490" width="692" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="818" y="490" width="249.3" height="3" rx="1.5" fill="#2563eb" fill-opacity="0.55"/>
+</g></a>
+<a xlink:href="multi-agent/03-dsh-workflow.md" href="multi-agent/03-dsh-workflow.md">
+<g><title>dsh_workflow — 工作流 · QuickJS + effect cache (边 82 实 159  扩 0) · 需注意</title>
+<rect x="48" y="512" width="728" height="104" rx="10" fill="#eff6ff" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="512" width="5" height="104" rx="2.5" fill="#2563eb"/>
+<text x="66" y="539" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">dsh_workflow</text>
+<text x="702" y="539" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">03 · ★★★</text>
+<text x="758" y="539" text-anchor="end" font-family="'PingFang SC',sans-serif" font-size="11.5" font-weight="700" fill="#b45309">需注意</text>
+<text x="66" y="561" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">工作流 · QuickJS + effect cache</text>
+<text x="66" y="600" font-family="sans-serif" font-size="10.5" fill="#475569">边 82   实 159   扩 0</text>
+<rect x="66" y="608" width="692" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="608" width="296.6" height="3" rx="1.5" fill="#2563eb" fill-opacity="0.55"/>
+</g></a>
+<a xlink:href="multi-agent/04-agent-team-gui.md" href="multi-agent/04-agent-team-gui.md">
+<g><title>agent-team-gui — 团队 UI · Settings + DAG (边 84 实 288  扩 0) · 需注意</title>
+<rect x="800" y="512" width="728" height="104" rx="10" fill="#eff6ff" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="800" y="512" width="5" height="104" rx="2.5" fill="#2563eb"/>
+<text x="818" y="539" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">agent-team-gui</text>
+<text x="1454" y="539" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">04 · ★★★</text>
+<text x="1510" y="539" text-anchor="end" font-family="'PingFang SC',sans-serif" font-size="11.5" font-weight="700" fill="#b45309">需注意</text>
+<text x="818" y="561" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">团队 UI · Settings + DAG</text>
+<text x="818" y="600" font-family="sans-serif" font-size="10.5" fill="#475569">边 84   实 288   扩 0</text>
+<rect x="818" y="608" width="692" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="818" y="608" width="298.2" height="3" rx="1.5" fill="#2563eb" fill-opacity="0.55"/>
+</g></a>
+<a xlink:href="vertical-preset/README.md" href="vertical-preset/README.md">
+<rect x="48" y="638" width="1504" height="36" rx="8" fill="#10b981" fill-opacity="0.10"/>
+<rect x="48" y="638" width="5" height="36" rx="2.5" fill="#10b981"/>
+<text x="66" y="662" font-family="'PingFang SC',sans-serif" font-size="15" font-weight="700" fill="#0f172a">vertical-preset</text>
+<text x="204" y="662" font-family="'PingFang SC',sans-serif" font-size="12" fill="#475569">垂直工作台与预设</text>
+<text x="1534" y="662" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">1 卡</text>
+</a>
+<a xlink:href="vertical-preset/01-ai-novel-writer.md" href="vertical-preset/01-ai-novel-writer.md">
+<g><title>AI-Novel-Writer — 垂直预设 · 冻结 0.1.0 (边 393 实 2,684*  扩 0) · 冻结</title>
+<rect x="48" y="684" width="1504" height="104" rx="10" fill="#fef2f2" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="684" width="5" height="104" rx="2.5" fill="#b91c1c"/>
+<text x="66" y="711" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">AI-Novel-Writer</text>
+<text x="1478" y="711" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">01 · ★★★</text>
+<text x="1534" y="711" text-anchor="end" font-family="'PingFang SC',sans-serif" font-size="11.5" font-weight="700" fill="#b91c1c">冻结</text>
+<text x="66" y="733" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">垂直预设 · 冻结 0.1.0</text>
+<text x="66" y="772" font-family="sans-serif" font-size="10.5" fill="#475569">边 393   实 2,684*   扩 0</text>
+<rect x="66" y="780" width="1468" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="780" width="851.0" height="3" rx="1.5" fill="#b91c1c" fill-opacity="0.55"/>
+</g></a>
+<a xlink:href="governance/README.md" href="governance/README.md">
+<rect x="48" y="810" width="1504" height="36" rx="8" fill="#10b981" fill-opacity="0.10"/>
+<rect x="48" y="810" width="5" height="36" rx="2.5" fill="#10b981"/>
+<text x="66" y="834" font-family="'PingFang SC',sans-serif" font-size="15" font-weight="700" fill="#0f172a">governance</text>
+<text x="164" y="834" font-family="'PingFang SC',sans-serif" font-size="12" fill="#475569">profile 级治理与路由</text>
+<text x="1534" y="834" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">1 卡</text>
+</a>
+<a xlink:href="governance/01-odai.md" href="governance/01-odai.md">
+<g><title>odai — 治理 · 证据账本 + Control Center (边 89 实 133 ↓ 1,951 扩 0)</title>
+<rect x="48" y="856" width="1504" height="104" rx="10" fill="#faf5ff" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="856" width="5" height="104" rx="2.5" fill="#7c3aed"/>
+<text x="66" y="883" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">odai</text>
+<text x="1534" y="883" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">01 · ★★★</text>
+<text x="66" y="905" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">治理 · 证据账本 + Control Center</text>
+<text x="66" y="944" font-family="sans-serif" font-size="10.5" fill="#475569">边 89   实 133   ↓ 1,951   扩 0</text>
+<rect x="66" y="952" width="1468" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="952" width="640.8" height="3" rx="1.5" fill="#7c3aed" fill-opacity="0.55"/>
+</g></a>
+<text x="48" y="1036" font-family="sans-serif" font-size="11" fill="#64748b">读法:先看颜色(平台/标准 / 锚 / 明星 / 样本 / 边界),再看卡内“机制/价值”短语与徽标;标“弃用/冻结/停更/需注意”的卡只作参考,不建议新装。</text>
+<text x="48" y="1056" font-family="sans-serif" font-size="11" fill="#94a3b8">本图由 _digested/view_*/ 下的单卡与 README 生成;数字以卡内为准。返回 <tspan font-weight="600" fill="#475569">view_workflow/README.md</tspan>。</text>
+</svg>

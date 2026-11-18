@@ -1,6 +1,9 @@
 # view_memory — 记忆与知识库
 
 > 已立册(504 条 / 新增 164 / owners 470、单件 94%)。⚠ 星标为历史采样。数据截止 `29b3ed46e`。
+![view_memory 插件图谱](plugin-map.svg)
+
+**怎么读这张图**:8 张卡按子分类排列;颜色是**角色/价值型**(平台/标准、锚、明星、机制样本、边界),不是质量排名。`边` = 2026-08-19 边车星标(⚠ 历史值),`实` = 2026-11-18 实时星标,`*` = 星标属仓库/主项目,`↓` = 下载,`扩` = 第三方提及;底部横条只是声量 log 尺度,不要当分数。点击图中卡片进单卡;渲染器不支持 SVG 内链时,用下方子分类表进入。
 
 ## 快照
 
@@ -22,9 +25,9 @@
 |--------|------|----------------|
 | [host-backed](host-backed/README.md) | 外部记忆系统适配(宿主背书陷阱) | 4 例,9 个第三方衍生(7 同名) |
 | [local-store](local-store/README.md) | 本地存储与检索(SQLite/markdown) | 5 例 |
-| [context-shaping](context-shaping/README.md) | 上下文整形与蒸馏 | 4 例 |
+| [context-shaping](context-shaping/README.md) | 上下文整形与蒸馏 | 2 例 |
 
-单卡落在子分类目录内:`<子分类>/NN-<slug>.md`;本册已有 9 张单卡(host-backed 4、local-store 3、context-shaping 2),全部 ★★★。
+单卡落在子分类目录内:`<子分类>/NN-<slug>.md`;本册已有 8 张单卡(host-backed 4、local-store 3、context-shaping 1),全部 ★★★。
 
 ## ⚠ 隐私提示
 
@@ -34,4 +37,4 @@
 
 memory 的头部被三个机构级宿主项目占据,读数时要**把"宿主项目火"与"插件被用"分开**(数字口径见 [`_method/00-index.md`](../_method/00-index.md))。源码级卡片修正了一条旧判断:**MisakaNet 不是"纯社区侧最高"**——它的 407 ⚠ 星(实时读数更高)属于一个支持 13 个宿主的失败知识库,DSH 适配层只有一行 MCP 行 + 3005 行面板,扩散为 0。
 
-扣除三个宿主背书型后,社区侧的真实头部是 `dsh-mnemon`(109 ⚠,实时读数显著更高;同一仓库、无宿主稀释)、`dsh-memento`(58 ⚠,同样高于边车值)与 `engramory#plugin`(160 ⚠,仓库级、多宿主协议,DSH 层只占一部分);前者有硬衍生,后者有可分发协议套件但第三方采纳为 0,engramory 的唯一衍生是照文档重写而非依赖。**context-shaping 的两张卡又分出两条路线**:auto-memory 把"何时想起"交给宿主规则,billion-context-dsh 把"何时压、压什么"交给模型(且已停维护、指向上游统一版)。**社区侧记忆方案同样未收敛**,与 session 类似但供给量小一半。RAG/知识库标签本期 +308(见 [01-emerging](../_view/01-emerging.md)),供给端在加速,锚位竞争未定。
+扣除三个宿主背书型后,社区侧的真实头部是 `dsh-mnemon`(109 ⚠,实时读数显著更高;同一仓库、无宿主稀释)、`dsh-memento`(58 ⚠,同样高于边车值)与 `engramory#plugin`(160 ⚠,仓库级、多宿主协议,DSH 层只占一部分);前者有硬衍生,后者有可分发协议套件但第三方采纳为 0,engramory 的唯一衍生是照文档重写而非依赖。**context-shaping 只剩一张活跃卡**:auto-memory 把"何时想起"交给宿主规则;模型驱动压缩的 DSH 原生实现(billion-context-dsh)已停维护、指向官方上游,不立卡,避免把死路当选项。**社区侧记忆方案同样未收敛**,与 session 类似但供给量小一半。RAG/知识库标签本期 +308(见 [01-emerging](../_view/01-emerging.md)),供给端在加速,锚位竞争未定。

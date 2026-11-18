@@ -11,6 +11,7 @@
 | 条目 | `EthanYoQ/AI-Novel-Writer#dsh-ai-novel-writer`([registry](../../../data/plugins/EthanYoQ__AI-Novel-Writer--plugins-dsh-ai-novel-writer.yml));旧 URL `…/AI-Novel-Writer/tree/master/plugins/dsh-ai-novel-writer` → 新 URL `https://github.com/EthanYoQ/Pagekin/tree/master/plugins/dsh-ai-novel-writer` |
 | 类目 | workflow([census](../../ecosystem/census.py) 703 条 / 全表 11 744 条) |
 | 子分类 | `vertical-preset`(整包交付一种工作方式:预设 + 工作台) |
+| 状态 | ⛔ **冻结**:0.1.0 preview 已冻结,20 个 peer 中 6 个在当前 DSH 不存在;仓库已改名 Pagekin。**不建议新装**,保留作垂直预设/写权限机制参考。 |
 | 自述 | 「安装专用 AI 小说创作预设与工作台:带修订号的本地项目资产、紧凑侧边工作台、需原生审批的逐文件变更」——三项在源码里都能落地,但自述漏了第四项:V2 的**提案箱**才是主线 |
 | 星标 ⚠ | **393**(2026-08-19 采样,**主应用仓库级星标**,非本插件);2026-11-18 实时 **2684** |
 | 下载 ⚠ | 边车无记录(2026-08-19 采样缺口);npm 实时读数见"为什么它突出" |

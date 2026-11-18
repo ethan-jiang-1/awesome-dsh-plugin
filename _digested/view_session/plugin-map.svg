@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1600" height="1078" viewBox="0 0 1600 1078" role="img" aria-labelledby="t d">
+<title id="t">view_session · 会话管理 · 插件图谱</title>
+<desc id="d">7 张源码级单卡,按子分类组织;卡片标注机制/价值、⚠ 2026-08-19 边车星标、2026-11-18 实时星标、下载与第三方提及。</desc>
+<defs><filter id="shadow" x="-5%" y="-5%" width="110%" height="110%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.06"/></filter></defs>
+<rect width="1600" height="1078" fill="#f8fafc"/>
+<rect x="0" y="0" width="1600" height="8" fill="#0ea5e9"/>
+<a xlink:href="README.md" href="README.md">
+<text x="48" y="56" font-family="'PingFang SC','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="30" font-weight="700" fill="#0f172a">view_session · 会话管理</text>
+</a>
+<text x="48" y="86" font-family="'PingFang SC','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="14" fill="#475569">914 条 · 7 张源码级单卡 · 4 个子分类 · 数据截止 29b3ed46e(2026-11-18) · 点击卡片打开 MD</text>
+<rect x="48" y="106" width="12" height="12" rx="3" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+<text x="66" y="117" font-family="sans-serif" font-size="11.5" fill="#475569">平台/标准</text>
+<rect x="138" y="106" width="12" height="12" rx="3" fill="#f0fdfa" stroke="#0d9488" stroke-width="1.5"/>
+<text x="156" y="117" font-family="sans-serif" font-size="11.5" fill="#475569">锚/高扩散</text>
+<rect x="228" y="106" width="12" height="12" rx="3" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+<text x="246" y="117" font-family="sans-serif" font-size="11.5" fill="#475569">明星/高星</text>
+<rect x="318" y="106" width="12" height="12" rx="3" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+<text x="336" y="117" font-family="sans-serif" font-size="11.5" fill="#475569">机制样本</text>
+<rect x="402" y="106" width="12" height="12" rx="3" fill="#fef2f2" stroke="#b91c1c" stroke-width="1.5"/>
+<text x="420" y="117" font-family="sans-serif" font-size="11.5" fill="#475569">被取代/冻结</text>
+<rect x="504" y="106" width="12" height="12" rx="3" fill="#faf5ff" stroke="#7c3aed" stroke-width="1.5"/>
+<text x="522" y="117" font-family="sans-serif" font-size="11.5" fill="#475569">边界/特殊形态</text>
+<text x="48" y="140" font-family="sans-serif" font-size="11.5" fill="#64748b">边 2026-08-19 边车 · 实 2026-11-18 实时 · * 星标属仓库/主项目 · ↓ 下载 · 扩 第三方提及 · 底部横条 = 声量(log 尺度)</text>
+<line x1="48" y1="154" x2="1552" y2="154" stroke="#e2e8f0"/>
+<a xlink:href="import-export/README.md" href="import-export/README.md">
+<rect x="48" y="176" width="1504" height="36" rx="8" fill="#0ea5e9" fill-opacity="0.10"/>
+<rect x="48" y="176" width="5" height="36" rx="2.5" fill="#0ea5e9"/>
+<text x="66" y="200" font-family="'PingFang SC',sans-serif" font-size="15" font-weight="700" fill="#0f172a">import-export</text>
+<text x="188" y="200" font-family="'PingFang SC',sans-serif" font-size="12" fill="#475569">会话导入导出</text>
+<text x="1534" y="200" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">2 卡</text>
+</a>
+<a xlink:href="import-export/01-dsh-chat-import.md" href="import-export/01-dsh-chat-import.md">
+<g><title>chat-import — 导入 · 38 格式兼容层 (边 71 实 318 ↓ 4,273 扩 0)</title>
+<rect x="48" y="222" width="728" height="104" rx="10" fill="#eff6ff" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="222" width="5" height="104" rx="2.5" fill="#2563eb"/>
+<text x="66" y="249" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">chat-import</text>
+<text x="758" y="249" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">01 · ★★★</text>
+<text x="66" y="271" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">导入 · 38 格式兼容层</text>
+<text x="66" y="310" font-family="sans-serif" font-size="10.5" fill="#475569">边 71   实 318   ↓ 4,273   扩 0</text>
+<rect x="66" y="318" width="692" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="318" width="287.1" height="3" rx="1.5" fill="#2563eb" fill-opacity="0.55"/>
+</g></a>
+<a xlink:href="import-export/02-dsh-session-export.md" href="import-export/02-dsh-session-export.md">
+<g><title>session-export — 导出 · live 会话散文投影 (边 42* 实 69  扩 0)</title>
+<rect x="800" y="222" width="728" height="104" rx="10" fill="#eff6ff" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="800" y="222" width="5" height="104" rx="2.5" fill="#2563eb"/>
+<text x="818" y="249" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">session-export</text>
+<text x="1510" y="249" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">02 · ★★★</text>
+<text x="818" y="271" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">导出 · live 会话散文投影</text>
+<text x="818" y="310" font-family="sans-serif" font-size="10.5" fill="#475569">边 42*   实 69   扩 0</text>
+<rect x="818" y="318" width="692" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="818" y="318" width="252.5" height="3" rx="1.5" fill="#2563eb" fill-opacity="0.55"/>
+</g></a>
+<a xlink:href="rewind-edit/README.md" href="rewind-edit/README.md">
+<rect x="48" y="348" width="1504" height="36" rx="8" fill="#0ea5e9" fill-opacity="0.10"/>
+<rect x="48" y="348" width="5" height="36" rx="2.5" fill="#0ea5e9"/>
+<text x="66" y="372" font-family="'PingFang SC',sans-serif" font-size="15" font-weight="700" fill="#0f172a">rewind-edit</text>
+<text x="172" y="372" font-family="'PingFang SC',sans-serif" font-size="12" fill="#475569">回退与编辑</text>
+<text x="1534" y="372" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">3 卡</text>
+</a>
+<a xlink:href="rewind-edit/01-dsh-turn-rewind.md" href="rewind-edit/01-dsh-turn-rewind.md">
+<g><title>turn-rewind — 回退 · 全树快照 + 宿主 fork (边 83 实 150 ↓ 2,373 扩 0)</title>
+<rect x="48" y="394" width="728" height="104" rx="10" fill="#eff6ff" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="394" width="5" height="104" rx="2.5" fill="#2563eb"/>
+<text x="66" y="421" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">turn-rewind</text>
+<text x="758" y="421" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">01 · ★★★</text>
+<text x="66" y="443" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">回退 · 全树快照 + 宿主 fork</text>
+<text x="66" y="482" font-family="sans-serif" font-size="10.5" fill="#475569">边 83   实 150   ↓ 2,373   扩 0</text>
+<rect x="66" y="490" width="692" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="490" width="297.4" height="3" rx="1.5" fill="#2563eb" fill-opacity="0.55"/>
+</g></a>
+<a xlink:href="rewind-edit/02-dsh-message-edit.md" href="rewind-edit/02-dsh-message-edit.md">
+<g><title>message-edit — 回退 · 消息级分支/版本树 (边 32 实 56 ↓ 1,250 扩 3) · 停更</title>
+<rect x="800" y="394" width="728" height="104" rx="10" fill="#fef2f2" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="800" y="394" width="5" height="104" rx="2.5" fill="#b91c1c"/>
+<text x="818" y="421" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">message-edit</text>
+<text x="1454" y="421" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">02 · ★★★</text>
+<text x="1510" y="421" text-anchor="end" font-family="'PingFang SC',sans-serif" font-size="11.5" font-weight="700" fill="#b45309">停更</text>
+<text x="818" y="443" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">回退 · 消息级分支/版本树</text>
+<text x="818" y="482" font-family="sans-serif" font-size="10.5" fill="#475569">边 32   实 56   ↓ 1,250   扩 3</text>
+<rect x="818" y="490" width="692" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="818" y="490" width="234.7" height="3" rx="1.5" fill="#b91c1c" fill-opacity="0.55"/>
+</g></a>
+<a xlink:href="rewind-edit/03-dsh-recall-plugin.md" href="rewind-edit/03-dsh-recall-plugin.md">
+<g><title>recall-plugin — 回退 · 逐消息影子 git (边 21 实 55 ↓ 1,105 扩 0)</title>
+<rect x="48" y="512" width="728" height="104" rx="10" fill="#eff6ff" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="512" width="5" height="104" rx="2.5" fill="#2563eb"/>
+<text x="66" y="539" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">recall-plugin</text>
+<text x="758" y="539" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">03 · ★★★</text>
+<text x="66" y="561" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">回退 · 逐消息影子 git</text>
+<text x="66" y="600" font-family="sans-serif" font-size="10.5" fill="#475569">边 21   实 55   ↓ 1,105   扩 0</text>
+<rect x="66" y="608" width="692" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="608" width="207.5" height="3" rx="1.5" fill="#2563eb" fill-opacity="0.55"/>
+</g></a>
+<a xlink:href="interconnect/README.md" href="interconnect/README.md">
+<rect x="48" y="638" width="1504" height="36" rx="8" fill="#0ea5e9" fill-opacity="0.10"/>
+<rect x="48" y="638" width="5" height="36" rx="2.5" fill="#0ea5e9"/>
+<text x="66" y="662" font-family="'PingFang SC',sans-serif" font-size="15" font-weight="700" fill="#0f172a">interconnect</text>
+<text x="180" y="662" font-family="'PingFang SC',sans-serif" font-size="12" fill="#475569">会话互连</text>
+<text x="1534" y="662" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">1 卡</text>
+</a>
+<a xlink:href="interconnect/01-dsh-interconnect.md" href="interconnect/01-dsh-interconnect.md">
+<g><title>interconnect — 互连 · 不共享日志的 WS (边 34 实 42  扩 0)</title>
+<rect x="48" y="684" width="1504" height="104" rx="10" fill="#faf5ff" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="684" width="5" height="104" rx="2.5" fill="#7c3aed"/>
+<text x="66" y="711" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">interconnect</text>
+<text x="1534" y="711" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">01 · ★★★</text>
+<text x="66" y="733" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">互连 · 不共享日志的 WS</text>
+<text x="66" y="772" font-family="sans-serif" font-size="10.5" fill="#475569">边 34   实 42   扩 0</text>
+<rect x="66" y="780" width="1468" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="780" width="506.3" height="3" rx="1.5" fill="#7c3aed" fill-opacity="0.55"/>
+</g></a>
+<a xlink:href="compression/README.md" href="compression/README.md">
+<rect x="48" y="810" width="1504" height="36" rx="8" fill="#0ea5e9" fill-opacity="0.10"/>
+<rect x="48" y="810" width="5" height="36" rx="2.5" fill="#0ea5e9"/>
+<text x="66" y="834" font-family="'PingFang SC',sans-serif" font-size="15" font-weight="700" fill="#0f172a">compression</text>
+<text x="172" y="834" font-family="'PingFang SC',sans-serif" font-size="12" fill="#475569">上下文压缩(改写请求里的历史表示)</text>
+<text x="1534" y="834" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">1 卡</text>
+</a>
+<a xlink:href="compression/01-billion-context.md" href="compression/01-billion-context.md">
+<g><title>billion-context — 压缩代理 · 两行 bundle 抢车道 (边 — 实 7,806* ↓ 93.5万/周 扩 6)</title>
+<rect x="48" y="856" width="1504" height="104" rx="10" fill="#f0fdfa" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="856" width="5" height="104" rx="2.5" fill="#0d9488"/>
+<text x="66" y="883" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">billion-context</text>
+<text x="1534" y="883" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">01 · ★★★</text>
+<text x="66" y="905" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">压缩代理 · 两行 bundle 抢车道</text>
+<text x="66" y="944" font-family="sans-serif" font-size="10.5" fill="#475569">边 —   实 7,806*   ↓ 93.5万/周   扩 6</text>
+<rect x="66" y="952" width="1468" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="952" width="1276.3" height="3" rx="1.5" fill="#0d9488" fill-opacity="0.55"/>
+</g></a>
+<text x="48" y="1036" font-family="sans-serif" font-size="11" fill="#64748b">读法:先看颜色(平台/标准 / 锚 / 明星 / 样本 / 边界),再看卡内“机制/价值”短语与徽标;标“弃用/冻结/停更/需注意”的卡只作参考,不建议新装。</text>
+<text x="48" y="1056" font-family="sans-serif" font-size="11" fill="#94a3b8">本图由 _digested/view_*/ 下的单卡与 README 生成;数字以卡内为准。返回 <tspan font-weight="600" fill="#475569">view_session/README.md</tspan>。</text>
+</svg>

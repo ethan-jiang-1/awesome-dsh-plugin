@@ -1,0 +1,159 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1600" height="1024" viewBox="0 0 1600 1024" role="img" aria-labelledby="t d">
+<title id="t">view_ui · 界面与交互 · 插件图谱</title>
+<desc id="d">10 张源码级单卡,按子分类组织;卡片标注机制/价值、⚠ 2026-08-19 边车星标、2026-11-18 实时星标、下载与第三方提及。</desc>
+<defs><filter id="shadow" x="-5%" y="-5%" width="110%" height="110%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.06"/></filter></defs>
+<rect width="1600" height="1024" fill="#f8fafc"/>
+<rect x="0" y="0" width="1600" height="8" fill="#ec4899"/>
+<a xlink:href="README.md" href="README.md">
+<text x="48" y="56" font-family="'PingFang SC','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="30" font-weight="700" fill="#0f172a">view_ui · 界面与交互</text>
+</a>
+<text x="48" y="86" font-family="'PingFang SC','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="14" fill="#475569">2,351 条 · 10 张源码级单卡 · 3 个子分类 · 数据截止 29b3ed46e(2026-11-18) · 点击卡片打开 MD</text>
+<rect x="48" y="106" width="12" height="12" rx="3" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+<text x="66" y="117" font-family="sans-serif" font-size="11.5" fill="#475569">平台/标准</text>
+<rect x="138" y="106" width="12" height="12" rx="3" fill="#f0fdfa" stroke="#0d9488" stroke-width="1.5"/>
+<text x="156" y="117" font-family="sans-serif" font-size="11.5" fill="#475569">锚/高扩散</text>
+<rect x="228" y="106" width="12" height="12" rx="3" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+<text x="246" y="117" font-family="sans-serif" font-size="11.5" fill="#475569">明星/高星</text>
+<rect x="318" y="106" width="12" height="12" rx="3" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+<text x="336" y="117" font-family="sans-serif" font-size="11.5" fill="#475569">机制样本</text>
+<rect x="402" y="106" width="12" height="12" rx="3" fill="#fef2f2" stroke="#b91c1c" stroke-width="1.5"/>
+<text x="420" y="117" font-family="sans-serif" font-size="11.5" fill="#475569">被取代/冻结</text>
+<rect x="504" y="106" width="12" height="12" rx="3" fill="#faf5ff" stroke="#7c3aed" stroke-width="1.5"/>
+<text x="522" y="117" font-family="sans-serif" font-size="11.5" fill="#475569">边界/特殊形态</text>
+<text x="48" y="140" font-family="sans-serif" font-size="11.5" fill="#64748b">边 2026-08-19 边车 · 实 2026-11-18 实时 · * 星标属仓库/主项目 · ↓ 下载 · 扩 第三方提及 · 底部横条 = 声量(log 尺度)</text>
+<line x1="48" y1="154" x2="1552" y2="154" stroke="#e2e8f0"/>
+<a xlink:href="enhance-shell/README.md" href="enhance-shell/README.md">
+<rect x="48" y="176" width="1504" height="36" rx="8" fill="#ec4899" fill-opacity="0.10"/>
+<rect x="48" y="176" width="5" height="36" rx="2.5" fill="#ec4899"/>
+<text x="66" y="200" font-family="'PingFang SC',sans-serif" font-size="15" font-weight="700" fill="#0f172a">enhance-shell</text>
+<text x="188" y="200" font-family="'PingFang SC',sans-serif" font-size="12" fill="#475569">增强现有壳:侧栏 / Tab / 注记 / 导航</text>
+<text x="1534" y="200" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">6 卡</text>
+</a>
+<a xlink:href="enhance-shell/01-better-sidebar.md" href="enhance-shell/01-better-sidebar.md">
+<g><title>better-sidebar — 平台型 · 63 插件接 Tab (边 2,216  ↓ 39,717 扩 63)</title>
+<rect x="48" y="222" width="728" height="104" rx="10" fill="#f0fdf4" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="222" width="5" height="104" rx="2.5" fill="#16a34a"/>
+<text x="66" y="249" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">better-sidebar</text>
+<text x="758" y="249" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">01 · ★★★</text>
+<text x="66" y="271" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">平台型 · 63 插件接 Tab</text>
+<text x="66" y="310" font-family="sans-serif" font-size="10.5" fill="#475569">边 2,216   ↓ 39,717   扩 63</text>
+<rect x="66" y="318" width="692" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="318" width="517.1" height="3" rx="1.5" fill="#16a34a" fill-opacity="0.55"/>
+</g></a>
+<a xlink:href="enhance-shell/02-at-file.md" href="enhance-shell/02-at-file.md">
+<g><title>at-file — 被内置取代 · @ 只传路径 (边 394 实 570  扩 3) · 弃用</title>
+<rect x="800" y="222" width="728" height="104" rx="10" fill="#fef2f2" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="800" y="222" width="5" height="104" rx="2.5" fill="#b91c1c"/>
+<text x="818" y="249" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">at-file</text>
+<text x="1454" y="249" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">02 · ★★★</text>
+<text x="1510" y="249" text-anchor="end" font-family="'PingFang SC',sans-serif" font-size="11.5" font-weight="700" fill="#b91c1c">弃用</text>
+<text x="818" y="271" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">被内置取代 · @ 只传路径</text>
+<text x="818" y="310" font-family="sans-serif" font-size="10.5" fill="#475569">边 394   实 570   扩 3</text>
+<rect x="818" y="318" width="692" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="818" y="318" width="401.3" height="3" rx="1.5" fill="#b91c1c" fill-opacity="0.55"/>
+</g></a>
+<a xlink:href="enhance-shell/03-openpencil.md" href="enhance-shell/03-openpencil.md">
+<g><title>openpencil — 设计适配 · 外部二进制/iframe (边 119 实 263 ↓ 2,562 扩 0)</title>
+<rect x="48" y="340" width="728" height="104" rx="10" fill="#eff6ff" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="340" width="5" height="104" rx="2.5" fill="#2563eb"/>
+<text x="66" y="367" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">openpencil</text>
+<text x="758" y="367" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">03 · ★★★</text>
+<text x="66" y="389" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">设计适配 · 外部二进制/iframe</text>
+<text x="66" y="428" font-family="sans-serif" font-size="10.5" fill="#475569">边 119   实 263   ↓ 2,562   扩 0</text>
+<rect x="66" y="436" width="692" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="436" width="321.4" height="3" rx="1.5" fill="#2563eb" fill-opacity="0.55"/>
+</g></a>
+<a xlink:href="enhance-shell/04-dsh-annotation.md" href="enhance-shell/04-dsh-annotation.md">
+<g><title>annotation — 交互样本 · 批注=纯文本 (边 76 实 169  扩 7)</title>
+<rect x="800" y="340" width="728" height="104" rx="10" fill="#eff6ff" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="800" y="340" width="5" height="104" rx="2.5" fill="#2563eb"/>
+<text x="818" y="367" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">annotation</text>
+<text x="1510" y="367" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">04 · ★★★</text>
+<text x="818" y="389" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">交互样本 · 批注=纯文本</text>
+<text x="818" y="428" font-family="sans-serif" font-size="10.5" fill="#475569">边 76   实 169   扩 7</text>
+<rect x="818" y="436" width="692" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="818" y="436" width="291.6" height="3" rx="1.5" fill="#2563eb" fill-opacity="0.55"/>
+</g></a>
+<a xlink:href="enhance-shell/05-auto-continue.md" href="enhance-shell/05-auto-continue.md">
+<g><title>auto-continue — 续跑 · 宿主侧单实例状态机 (边 26 实 204 ↓ 3,804 扩 0)</title>
+<rect x="48" y="458" width="728" height="104" rx="10" fill="#eff6ff" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="458" width="5" height="104" rx="2.5" fill="#2563eb"/>
+<text x="66" y="485" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">auto-continue</text>
+<text x="758" y="485" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">05 · ★★★</text>
+<text x="66" y="507" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">续跑 · 宿主侧单实例状态机</text>
+<text x="66" y="546" font-family="sans-serif" font-size="10.5" fill="#475569">边 26   实 204   ↓ 3,804   扩 0</text>
+<rect x="66" y="554" width="692" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="554" width="221.2" height="3" rx="1.5" fill="#2563eb" fill-opacity="0.55"/>
+</g></a>
+<a xlink:href="enhance-shell/06-smooth-stream.md" href="enhance-shell/06-smooth-stream.md">
+<g><title>smooth-stream — 手感 · 字符揭示 + 弹簧 (边 33 实 98 ↓ 937 扩 0)</title>
+<rect x="800" y="458" width="728" height="104" rx="10" fill="#eff6ff" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="800" y="458" width="5" height="104" rx="2.5" fill="#2563eb"/>
+<text x="818" y="485" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">smooth-stream</text>
+<text x="1510" y="485" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">06 · ★★★</text>
+<text x="818" y="507" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">手感 · 字符揭示 + 弹簧</text>
+<text x="818" y="546" font-family="sans-serif" font-size="10.5" fill="#475569">边 33   实 98   ↓ 937   扩 0</text>
+<rect x="818" y="554" width="692" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="818" y="554" width="236.7" height="3" rx="1.5" fill="#2563eb" fill-opacity="0.55"/>
+</g></a>
+<a xlink:href="replace-shell/README.md" href="replace-shell/README.md">
+<rect x="48" y="584" width="1504" height="36" rx="8" fill="#ec4899" fill-opacity="0.10"/>
+<rect x="48" y="584" width="5" height="36" rx="2.5" fill="#ec4899"/>
+<text x="66" y="608" font-family="'PingFang SC',sans-serif" font-size="15" font-weight="700" fill="#0f172a">replace-shell</text>
+<text x="188" y="608" font-family="'PingFang SC',sans-serif" font-size="12" fill="#475569">换壳:接管整个界面</text>
+<text x="1534" y="608" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">2 卡</text>
+</a>
+<a xlink:href="replace-shell/01-dsh-tui.md" href="replace-shell/01-dsh-tui.md">
+<g><title>dsh-TUI — 换壳 · 独立进程 TUI (边 2,009  ↓ 16,959 扩 0)</title>
+<rect x="48" y="630" width="728" height="104" rx="10" fill="#eff6ff" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="630" width="5" height="104" rx="2.5" fill="#2563eb"/>
+<text x="66" y="657" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">dsh-TUI</text>
+<text x="758" y="657" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">01 · ★★★</text>
+<text x="66" y="679" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">换壳 · 独立进程 TUI</text>
+<text x="66" y="718" font-family="sans-serif" font-size="10.5" fill="#475569">边 2,009   ↓ 16,959   扩 0</text>
+<rect x="66" y="726" width="692" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="726" width="510.6" height="3" rx="1.5" fill="#2563eb" fill-opacity="0.55"/>
+</g></a>
+<a xlink:href="replace-shell/02-dsh-tianshu-tui.md" href="replace-shell/02-dsh-tianshu-tui.md">
+<g><title>tianshu-tui — 换壳 · 进程内 ANSI 引擎 (边 217 实 313 ↓ 1,763 扩 0)</title>
+<rect x="800" y="630" width="728" height="104" rx="10" fill="#eff6ff" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="800" y="630" width="5" height="104" rx="2.5" fill="#2563eb"/>
+<text x="818" y="657" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">tianshu-tui</text>
+<text x="1510" y="657" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">02 · ★★★</text>
+<text x="818" y="679" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">换壳 · 进程内 ANSI 引擎</text>
+<text x="818" y="718" font-family="sans-serif" font-size="10.5" fill="#475569">边 217   实 313   ↓ 1,763   扩 0</text>
+<rect x="818" y="726" width="692" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="818" y="726" width="361.4" height="3" rx="1.5" fill="#2563eb" fill-opacity="0.55"/>
+</g></a>
+<a xlink:href="inline-genui/README.md" href="inline-genui/README.md">
+<rect x="48" y="756" width="1504" height="36" rx="8" fill="#ec4899" fill-opacity="0.10"/>
+<rect x="48" y="756" width="5" height="36" rx="2.5" fill="#ec4899"/>
+<text x="66" y="780" font-family="'PingFang SC',sans-serif" font-size="15" font-weight="700" fill="#0f172a">inline-genui</text>
+<text x="180" y="780" font-family="'PingFang SC',sans-serif" font-size="12" fill="#475569">内联生成式 UI:回复流渲染组件</text>
+<text x="1534" y="780" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">2 卡</text>
+</a>
+<a xlink:href="inline-genui/01-genui.md" href="inline-genui/01-genui.md">
+<g><title>genui — 协议型 · dsh-ui JSON + 同源 React (边 224 实 1,014  扩 10)</title>
+<rect x="48" y="802" width="728" height="104" rx="10" fill="#eff6ff" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="802" width="5" height="104" rx="2.5" fill="#2563eb"/>
+<text x="66" y="829" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">genui</text>
+<text x="758" y="829" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">01 · ★★★</text>
+<text x="66" y="851" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">协议型 · dsh-ui JSON + 同源 React</text>
+<text x="66" y="890" font-family="sans-serif" font-size="10.5" fill="#475569">边 224   实 1,014   扩 10</text>
+<rect x="66" y="898" width="692" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="898" width="363.6" height="3" rx="1.5" fill="#2563eb" fill-opacity="0.55"/>
+</g></a>
+<a xlink:href="inline-genui/02-dsh-visualize.md" href="inline-genui/02-dsh-visualize.md">
+<g><title>visualize — 协议型 · HTML + 沙箱 iframe (边 180 实 347  扩 0)</title>
+<rect x="800" y="802" width="728" height="104" rx="10" fill="#eff6ff" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="800" y="802" width="5" height="104" rx="2.5" fill="#2563eb"/>
+<text x="818" y="829" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">visualize</text>
+<text x="1510" y="829" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">02 · ★★★</text>
+<text x="818" y="851" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">协议型 · HTML + 沙箱 iframe</text>
+<text x="818" y="890" font-family="sans-serif" font-size="10.5" fill="#475569">边 180   实 347   扩 0</text>
+<rect x="818" y="898" width="692" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="818" y="898" width="349.0" height="3" rx="1.5" fill="#2563eb" fill-opacity="0.55"/>
+</g></a>
+<text x="48" y="982" font-family="sans-serif" font-size="11" fill="#64748b">读法:先看颜色(平台/标准 / 锚 / 明星 / 样本 / 边界),再看卡内“机制/价值”短语与徽标;标“弃用/冻结/停更/需注意”的卡只作参考,不建议新装。</text>
+<text x="48" y="1002" font-family="sans-serif" font-size="11" fill="#94a3b8">本图由 _digested/view_*/ 下的单卡与 README 生成;数字以卡内为准。返回 <tspan font-weight="600" fill="#475569">view_ui/README.md</tspan>。</text>
+</svg>

@@ -10,6 +10,7 @@
 | 条目 | `Moeblack/dsh-message-edit`([registry](../../../data/plugins/Moeblack__dsh-message-edit.yml)) |
 | 类目 | session([census](../../ecosystem/census.py) 914 条 / 全表 11 744 条) |
 | 子分类 | `rewind-edit`(回退与编辑) |
+| 状态 | ⚠ **停更**:最后 push 2026-08-16、0 测试;0.2.1-rc.5 上 3 处疑似不兼容。**不建议新装**,保留作"消息级分支"机制参考。 |
 | 自述 | 「基于分支的消息编辑、reroll、重试与版本时间线」;英文原文为 branch-based message editing + reroll + retry + version timeline |
 | 星标 ⚠ | **32**(2026-08-19 边车);2026-11-18 实时 **56**(+24,同日 GitHub API) |
 | 下载 ⚠ | **1250**(2026-08-19 边车;与星标同日采样) |

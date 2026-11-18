@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1600" height="1024" viewBox="0 0 1600 1024" role="img" aria-labelledby="t d">
+<title id="t">view_memory · 记忆与知识库 · 插件图谱</title>
+<desc id="d">8 张源码级单卡,按子分类组织;卡片标注机制/价值、⚠ 2026-08-19 边车星标、2026-11-18 实时星标、下载与第三方提及。</desc>
+<defs><filter id="shadow" x="-5%" y="-5%" width="110%" height="110%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.06"/></filter></defs>
+<rect width="1600" height="1024" fill="#f8fafc"/>
+<rect x="0" y="0" width="1600" height="8" fill="#8b5cf6"/>
+<a xlink:href="README.md" href="README.md">
+<text x="48" y="56" font-family="'PingFang SC','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="30" font-weight="700" fill="#0f172a">view_memory · 记忆与知识库</text>
+</a>
+<text x="48" y="86" font-family="'PingFang SC','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="14" fill="#475569">504 条 · 8 张源码级单卡 · 3 个子分类 · 数据截止 29b3ed46e(2026-11-18) · 点击卡片打开 MD</text>
+<rect x="48" y="106" width="12" height="12" rx="3" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+<text x="66" y="117" font-family="sans-serif" font-size="11.5" fill="#475569">平台/标准</text>
+<rect x="138" y="106" width="12" height="12" rx="3" fill="#f0fdfa" stroke="#0d9488" stroke-width="1.5"/>
+<text x="156" y="117" font-family="sans-serif" font-size="11.5" fill="#475569">锚/高扩散</text>
+<rect x="228" y="106" width="12" height="12" rx="3" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+<text x="246" y="117" font-family="sans-serif" font-size="11.5" fill="#475569">明星/高星</text>
+<rect x="318" y="106" width="12" height="12" rx="3" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+<text x="336" y="117" font-family="sans-serif" font-size="11.5" fill="#475569">机制样本</text>
+<rect x="402" y="106" width="12" height="12" rx="3" fill="#fef2f2" stroke="#b91c1c" stroke-width="1.5"/>
+<text x="420" y="117" font-family="sans-serif" font-size="11.5" fill="#475569">被取代/冻结</text>
+<rect x="504" y="106" width="12" height="12" rx="3" fill="#faf5ff" stroke="#7c3aed" stroke-width="1.5"/>
+<text x="522" y="117" font-family="sans-serif" font-size="11.5" fill="#475569">边界/特殊形态</text>
+<text x="48" y="140" font-family="sans-serif" font-size="11.5" fill="#64748b">边 2026-08-19 边车 · 实 2026-11-18 实时 · * 星标属仓库/主项目 · ↓ 下载 · 扩 第三方提及 · 底部横条 = 声量(log 尺度)</text>
+<line x1="48" y1="154" x2="1552" y2="154" stroke="#e2e8f0"/>
+<a xlink:href="host-backed/README.md" href="host-backed/README.md">
+<rect x="48" y="176" width="1504" height="36" rx="8" fill="#8b5cf6" fill-opacity="0.10"/>
+<rect x="48" y="176" width="5" height="36" rx="2.5" fill="#8b5cf6"/>
+<text x="66" y="200" font-family="'PingFang SC',sans-serif" font-size="15" font-weight="700" fill="#0f172a">host-backed</text>
+<text x="172" y="200" font-family="'PingFang SC',sans-serif" font-size="12" fill="#475569">外部记忆系统适配(宿主背书陷阱)</text>
+<text x="1534" y="200" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">4 卡</text>
+</a>
+<a xlink:href="host-backed/01-hindsight.md" href="host-backed/01-hindsight.md">
+<g><title>hindsight — 标准型 · 9 衍生,服务端/配置即接口 (边 20,218*  ↓ 9,558 扩 9)</title>
+<rect x="48" y="222" width="728" height="104" rx="10" fill="#f0fdf4" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="222" width="5" height="104" rx="2.5" fill="#16a34a"/>
+<text x="66" y="249" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">hindsight</text>
+<text x="758" y="249" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">01 · ★★★</text>
+<text x="66" y="271" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">标准型 · 9 衍生,服务端/配置即接口</text>
+<text x="66" y="310" font-family="sans-serif" font-size="10.5" fill="#475569">边 20,218*   ↓ 9,558   扩 9</text>
+<rect x="66" y="318" width="692" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="318" width="665.5" height="3" rx="1.5" fill="#16a34a" fill-opacity="0.55"/>
+</g></a>
+<a xlink:href="host-backed/02-openviking.md" href="host-backed/02-openviking.md">
+<g><title>OpenViking — 对接基线 · 宿主背书,未成标准 (边 29,567*   扩 3)</title>
+<rect x="800" y="222" width="728" height="104" rx="10" fill="#fffbeb" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="800" y="222" width="5" height="104" rx="2.5" fill="#d97706"/>
+<text x="818" y="249" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">OpenViking</text>
+<text x="1510" y="249" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">02 · ★★★</text>
+<text x="818" y="271" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">对接基线 · 宿主背书,未成标准</text>
+<text x="818" y="310" font-family="sans-serif" font-size="10.5" fill="#475569">边 29,567*   扩 3</text>
+<rect x="818" y="318" width="692" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="818" y="318" width="691.0" height="3" rx="1.5" fill="#d97706" fill-opacity="0.55"/>
+</g></a>
+<a xlink:href="host-backed/03-misakanet.md" href="host-backed/03-misakanet.md">
+<g><title>MisakaNet — 托管端点 + 3k 行面板 · 一行 MCP (边 407 实 564  扩 0)</title>
+<rect x="48" y="340" width="728" height="104" rx="10" fill="#fffbeb" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="340" width="5" height="104" rx="2.5" fill="#d97706"/>
+<text x="66" y="367" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">MisakaNet</text>
+<text x="758" y="367" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">03 · ★★★</text>
+<text x="66" y="389" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">托管端点 + 3k 行面板 · 一行 MCP</text>
+<text x="66" y="428" font-family="sans-serif" font-size="10.5" fill="#475569">边 407   实 564   扩 0</text>
+<rect x="66" y="436" width="692" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="436" width="403.5" height="3" rx="1.5" fill="#d97706" fill-opacity="0.55"/>
+</g></a>
+<a xlink:href="host-backed/04-flowix.md" href="host-backed/04-flowix.md">
+<g><title>flowix — 反向 host · 桌面端自己发行 DSH (边 320* 实 518  扩 0)</title>
+<rect x="800" y="340" width="728" height="104" rx="10" fill="#faf5ff" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="800" y="340" width="5" height="104" rx="2.5" fill="#7c3aed"/>
+<text x="818" y="367" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">flowix</text>
+<text x="1510" y="367" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">04 · ★★★</text>
+<text x="818" y="389" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">反向 host · 桌面端自己发行 DSH</text>
+<text x="818" y="428" font-family="sans-serif" font-size="10.5" fill="#475569">边 320*   实 518   扩 0</text>
+<rect x="818" y="436" width="692" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="818" y="436" width="387.4" height="3" rx="1.5" fill="#7c3aed" fill-opacity="0.55"/>
+</g></a>
+<a xlink:href="local-store/README.md" href="local-store/README.md">
+<rect x="48" y="466" width="1504" height="36" rx="8" fill="#8b5cf6" fill-opacity="0.10"/>
+<rect x="48" y="466" width="5" height="36" rx="2.5" fill="#8b5cf6"/>
+<text x="66" y="490" font-family="'PingFang SC',sans-serif" font-size="15" font-weight="700" fill="#0f172a">local-store</text>
+<text x="172" y="490" font-family="'PingFang SC',sans-serif" font-size="12" fill="#475569">本地存储与检索(SQLite / markdown)</text>
+<text x="1534" y="490" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">3 卡</text>
+</a>
+<a xlink:href="local-store/01-dsh-mnemon.md" href="local-store/01-dsh-mnemon.md">
+<g><title>dsh-mnemon — 框架型 · 41k 行 + 4 条硬衍生 (边 109 实 1,034 ↓ 6,799 扩 4)</title>
+<rect x="48" y="512" width="728" height="104" rx="10" fill="#f0fdfa" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="512" width="5" height="104" rx="2.5" fill="#0d9488"/>
+<text x="66" y="539" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">dsh-mnemon</text>
+<text x="758" y="539" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">01 · ★★★</text>
+<text x="66" y="561" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">框架型 · 41k 行 + 4 条硬衍生</text>
+<text x="66" y="600" font-family="sans-serif" font-size="10.5" fill="#475569">边 109   实 1,034   ↓ 6,799   扩 4</text>
+<rect x="66" y="608" width="692" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="608" width="315.5" height="3" rx="1.5" fill="#0d9488" fill-opacity="0.55"/>
+</g></a>
+<a xlink:href="local-store/02-dsh-memento.md" href="local-store/02-dsh-memento.md">
+<g><title>dsh-memento — 协议样本 · ctx.memory + 22 例套件 (边 58 实 144 ↓ 910 扩 0)</title>
+<rect x="800" y="512" width="728" height="104" rx="10" fill="#eff6ff" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="800" y="512" width="5" height="104" rx="2.5" fill="#2563eb"/>
+<text x="818" y="539" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">dsh-memento</text>
+<text x="1510" y="539" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">02 · ★★★</text>
+<text x="818" y="561" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">协议样本 · ctx.memory + 22 例套件</text>
+<text x="818" y="600" font-family="sans-serif" font-size="10.5" fill="#475569">边 58   实 144   ↓ 910   扩 0</text>
+<rect x="818" y="608" width="692" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="818" y="608" width="273.7" height="3" rx="1.5" fill="#2563eb" fill-opacity="0.55"/>
+</g></a>
+<a xlink:href="local-store/03-engramory.md" href="local-store/03-engramory.md">
+<g><title>engramory — 约定型 · 纯 markdown + 索引硬上限 (边 160* 实 208 ↓ 946 扩 1)</title>
+<rect x="48" y="630" width="728" height="104" rx="10" fill="#eff6ff" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="630" width="5" height="104" rx="2.5" fill="#2563eb"/>
+<text x="66" y="657" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">engramory</text>
+<text x="758" y="657" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">03 · ★★★</text>
+<text x="66" y="679" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">约定型 · 纯 markdown + 索引硬上限</text>
+<text x="66" y="718" font-family="sans-serif" font-size="10.5" fill="#475569">边 160*   实 208   ↓ 946   扩 1</text>
+<rect x="66" y="726" width="692" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="726" width="341.1" height="3" rx="1.5" fill="#2563eb" fill-opacity="0.55"/>
+</g></a>
+<a xlink:href="context-shaping/README.md" href="context-shaping/README.md">
+<rect x="48" y="756" width="1504" height="36" rx="8" fill="#8b5cf6" fill-opacity="0.10"/>
+<rect x="48" y="756" width="5" height="36" rx="2.5" fill="#8b5cf6"/>
+<text x="66" y="780" font-family="'PingFang SC',sans-serif" font-size="15" font-weight="700" fill="#0f172a">context-shaping</text>
+<text x="204" y="780" font-family="'PingFang SC',sans-serif" font-size="12" fill="#475569">上下文整形与蒸馏</text>
+<text x="1534" y="780" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">1 卡</text>
+</a>
+<a xlink:href="context-shaping/01-dsh-auto-memory.md" href="context-shaping/01-dsh-auto-memory.md">
+<g><title>auto-memory — 召回 · 固定边界 + 换窗交接 (边 16 实 204 ↓ 3,782 扩 0)</title>
+<rect x="48" y="802" width="1504" height="104" rx="10" fill="#eff6ff" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="802" width="5" height="104" rx="2.5" fill="#2563eb"/>
+<text x="66" y="829" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">auto-memory</text>
+<text x="1534" y="829" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">01 · ★★★</text>
+<text x="66" y="851" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">召回 · 固定边界 + 换窗交接</text>
+<text x="66" y="890" font-family="sans-serif" font-size="10.5" fill="#475569">边 16   实 204   ↓ 3,782   扩 0</text>
+<rect x="66" y="898" width="1468" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="898" width="403.5" height="3" rx="1.5" fill="#2563eb" fill-opacity="0.55"/>
+</g></a>
+<text x="48" y="982" font-family="sans-serif" font-size="11" fill="#64748b">读法:先看颜色(平台/标准 / 锚 / 明星 / 样本 / 边界),再看卡内“机制/价值”短语与徽标;标“弃用/冻结/停更/需注意”的卡只作参考,不建议新装。</text>
+<text x="48" y="1002" font-family="sans-serif" font-size="11" fill="#94a3b8">本图由 _digested/view_*/ 下的单卡与 README 生成;数字以卡内为准。返回 <tspan font-weight="600" fill="#475569">view_memory/README.md</tspan>。</text>
+</svg>

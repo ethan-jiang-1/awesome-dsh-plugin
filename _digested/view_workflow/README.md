@@ -1,6 +1,9 @@
 # view_workflow — 工作流
 
 > 已立册(703 条 / 新增 266 / owners 615、单件 91%)。⚠ 星标为历史采样。数据截止 `29b3ed46e`。
+![view_workflow 插件图谱](plugin-map.svg)
+
+**怎么读这张图**:8 张卡按子分类排列;颜色是**角色/价值型**,不是质量排名。`边`/`实`/`*`/`↓`/`扩` 见卡内日期;横条只是声量 log 尺度。`AI-Novel-Writer` 标 **冻结**、`dsh_workflow`/`agent-team-gui` 标 **需注意**,都只作参考;`odai` 的治理是 profile 运行时,不是任务编排。
 
 ## 快照
 

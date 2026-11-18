@@ -10,6 +10,7 @@
 | 条目 | `omdsh-dev/dsh_workflow`([registry](../../../data/plugins/omdsh-dev__dsh_workflow.yml)) |
 | 类目 | workflow([census](../../ecosystem/census.py) 703 条 / 全表 11 744 条) |
 | 子分类 | `multi-agent`(多 agent 编排;本卡回答 workflow 的数据模型、谁执行节点、恢复到底恢复什么) |
+| 状态 | ⚠ **main 停更**:0.1.2,而 tag 到 0.1.4;0.2.x 的只读路径 fail-closed。**需改造后使用**,保留作 workflow 恢复语义参考。 |
 | 自述 | 「把 UltraCode 式多 Agent 调度带给 DSH:可生成、可保存、可治理、可观察、可恢复的 Workflow 层」——五个词在源码里各有落点(见下节表),但"workflow"在实现里**不是图**,是一段受限 JS 程序 + 一份 capsule |
 | 星标 ⚠ | **82**(2026-08-19 采样;2026-11-18 实时 **159**,1.9 倍)。采样点距仓库创建(2026-08-12T16:39Z)**7 天**、距最后一次 main 提交 **6 天**;单仓库,无宿主项目可借星 |
 | 下载 ⚠ | 边车无记录;2026-11-18 查 npm `@dsh-external/workflow` 为 **Not found**(只从 git 装) |

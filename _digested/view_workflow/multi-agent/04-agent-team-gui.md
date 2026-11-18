@@ -10,6 +10,7 @@
 | 条目 | `toolclub/dsh-agent-team-gui`([registry](../../../data/plugins/toolclub__dsh-agent-team-gui.yml)) |
 | 类目 | workflow([census](../../ecosystem/census.py) 703 条 / 全表 11 744 条) |
 | 子分类 | `multi-agent` |
+| 状态 | ⚠ **需注意**:21 个 peer 钉 `0.1.5.x`,0.2.x 的 `toolFilter/persona` 已改为 `agentPreset`。**需改造后使用**,保留作团队/UI 机制参考。 |
 | 自述 | 「持久化多模型小队在 Settings 中配置、从 Composer 选择,支持逐成员模型与工具策略;默认主 Agent 自行完成简单任务,派工按有界 DAG 执行并可有限审核/返工;Run Center 展示重试与官方 usage 的逐成员 token」 |
 | 星标 ⚠ | **84**(2026-08-19 采样);2026-11-18 实时 **288**(同日 GitHub API,6 fork / 16 open issues) |
 | 下载 ⚠ | 边车无记录(`data/downloads.json` 共 624 条,不含该 URL;2026-08-19 采样缺口,不能读作零下载) |

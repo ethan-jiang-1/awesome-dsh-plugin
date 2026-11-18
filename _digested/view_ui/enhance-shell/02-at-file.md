@@ -9,6 +9,7 @@
 |----|-----|
 | 条目 | `FSMargoo/dsh-at-file`([registry](../../../data/plugins/FSMargoo__dsh-at-file.yml)) |
 | 类目 | ui(2351 条,全表最大;[census](../../ecosystem/census.py));子分类 [enhance-shell](README.md) |
+| 状态 | ⛔ **已被官方 `@file` 取代**(DSH 0.2.1 内置);0.2.1-rc.5 上 `ctx.settings.register` 消失,Host 半疑似加载失败。**不建议新装**,保留作兼容断代/权限边界参考。 |
 | 自述 | 「Codex 风格的 `@file` 文件引用,输入框里直接搜索并引用工作区文件」——registry 的 en 描述仍是旧口径「attach their contents to prompts」,仓库 `package.json` 描述已改成「without injecting file content」,源码站后者(0.3.0 起只传路径) |
 | 星标 ⚠ | **394**(2026-08-19 冻结采样;仓库 2026-08-13 创建,即发布第 6 天已 394);**实时 570**(2026-11-18,GitHub API) |
 | 下载 ⚠ | 边车无记录(2026-08-19 采样缺口) |
