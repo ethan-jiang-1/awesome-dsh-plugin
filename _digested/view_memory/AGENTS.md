@@ -24,4 +24,4 @@ memory 领域册。504 条、本期新增 164、owners 470(单件 94%)。上层�
 
 ## 刷新
 
-数字随 `census.py`/`delta.py`;衍生清单用 `grep -il hindsight data/plugins/*.yml` 复核。新卡优先看:扩散数上升者、从"适配"转"产品"的衍生(如 A2chitect 落在 ui 而非 memory)。
+数字随 `census.py`/`delta.py`;衍生清单用 `grep -ril hindsight data/plugins/` 复核。新卡优先看:扩散数上升者、从"适配"转"产品"的衍生(如 A2chitect 落在 ui 而非 memory)。

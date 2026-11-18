@@ -10,7 +10,7 @@
 
 | 条目 | 星标 ⚠ | 说明 | 第三方提及 |
 |------|--------|------|-----------|
-| Q00/ouroboros#integrations/dsh-plugin | 5565 | 纯配置包,MCP 挂载 36 个工具 | **0** |
+| Q00/ouroboros#integrations/dsh-plugin | 5565 | 纯配置包,MCP 挂载 36 个工具([01-ouroboros](01-ouroboros.md) ★★★) | **0** |
 | tong-io/tongflow#dsh-tongflow | 860 | 影视制作流水线(图/声/乐/视频) | 0 |
 | btspoony/mstar-harness#dsh | 49 | 技能驱动的 harness/loop 工程 | 0 |
 

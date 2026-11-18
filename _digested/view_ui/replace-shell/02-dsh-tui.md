@@ -7,15 +7,15 @@
 
 | 项 | 值 |
 |----|-----|
-| 条目 | `ccch1mneyyy/dsh-TUI`([registry](../../data/plugins/ccch1mneyyy__dsh-TUI.yml)) |
-| 类目 | ui(路线:`replace-shell` 换壳,见 [replace-shell/README.md](replace-shell/README.md)) |
+| 条目 | `ccch1mneyyy/dsh-TUI`([registry](../../../data/plugins/ccch1mneyyy__dsh-TUI.yml)) |
+| 类目 | ui(路线:`replace-shell` 换壳,见 [replace-shell/README.md](README.md)) |
 | 自述 | "Claude Code 风格全屏终端 UI:像素鲸鱼顶栏、实时工作状态行、思考流式展开"(registry 一句话;实际体量比这句大一个量级) |
 | 星标 ⚠ | 2009(2026-08-19;ui 内第二,第一是 better-sidebar 2216) |
 | npm 月下载 ⚠ | 16959(2026-08-19) |
 | 扩散 | 8 条第三方提及:**2 条真在对接**(`Enc-hanted/dsh-pulse` 的"dsh-tui 终端面"、`jakehemmerle/dsh-speed` 要求"patched dsh-TUI"),1 条并列提及(`jakehemmerle/dsh-web-search-exa`),5 条同名/同类独立实现(`fan56/dsh-tui-pi`、`kouyichi/dsh-tui-app`、`lk251066/dsh-tui-pro`、`tomowang/dsh-tui`、`xiaoshihou514/dsh-tui`)。复现:`grep -ril "dsh-tui" data/plugins/*.yml \| wc -l` → 9(含自身) |
 | 仓库 commit | `2d6c9a1`,2026-11-17 17:59 +0800;包版本 `@deepseek-harness-tui/dsh-tui@0.20.1`,MIT |
 | 包形态 | npm 包 + DSH bundle 双角色:`bin` 提供 `dsh-tui` / `dst` 启动器;`package.json:602-605` 的 `dsh.bundle.patch: "./cordis.patch.yml"` 让同一包又是 DSH profile 的一个 bundle 层。**全仓没有 `dsh.plugin.json`**(`find -name 'dsh.plugin.json'` 无结果) |
-| 代码规模 | `src/` 1835 文件 / 251,109 行 TS/TSX(1659 `.ts` + 174 `.tsx`);`bin/dsh-tui.js` 1800 行;`scripts/` 870 文件、`package.json` 156 个 script(其中 137 个 `verify:*`);`cordis.patch.yml` 48 个行条目 / 499 行 |
+| 代码规模 | `src/` 1835 个文件,其中 1833 个 TS/TSX 共 251,109 行(1659 `.ts` + 174 `.tsx`);`bin/dsh-tui.js` 1800 行;`scripts/` 870 个文件、`package.json` 156 个 script(其中 137 个 `verify:*`);`cordis.patch.yml` 48 个行条目 / 499 行 |
 
 ## 它到底是什么
 
@@ -75,7 +75,7 @@ DSH 内核 Agent / Session
 
 **它和 better-sidebar 不是同一类东西,星标接近是巧合。**
 
-| | [better-sidebar](01-better-sidebar.md) | dsh-TUI |
+| | [better-sidebar](../enhance-shell/01-better-sidebar.md) | dsh-TUI |
 |---|---|---|
 | 路线 | 增强现有壳(web UI 里加侧栏/Tab) | 换壳(自己起进程、自己组 profile) |
 | 依赖宿主的什么 | 一个注册点(Tab API) | **装载语义**:profile / bundle patch / 行 id / loader 行为 / `session/event` / `Agent.followup` |
@@ -120,6 +120,6 @@ grep -ril 'dsh-tui' data/plugins/*.yml | wc -l                       # 9(含自�
 
 1. **"换壳"是否真的不需要 web 客户端**:单文件 patch + `insertsSharedWithWebApp: []` 支持这个结论,但 `dsh-tui-webserver` 行说明某些路径仍会起回环 HTTP(OAuth 用)。是否有别的路径复用 web-app 的 server,待读 `host-dsh.ts` 后半与 `src/dsh-adapter/oauth/`。
 2. **第三方插件能否免补丁接入**:`dsh-speed` 自述要"patched dsh-TUI",与 `tui-profile` 宣称的准入协议矛盾。需读 `plugin-install.ts`、`plugin-manage.ts`、`admission-loader.ts` 才能判断是"插件 API 不够"还是"该插件用了非公开面"。
-3. **下载/星比值异常**:16959/2009 = 8.4,对照 better-sidebar 39717/2216 = 17.9——同为 2026-08-19 采样,它的星更"轻"(围观多、装机少)。两点采样不足以下结论,但值得在下一轮边车刷新时复核。
+3. **下载/星比值偏低**:16959/2009 ≈ 8.4(同为 2026-08-19 采样)。单点采样不足以下结论,下一轮边车刷新时复核。
 4. **`fullscreen` 两处默认值必须同步**:patch 的 `fullscreen: true` 与 schema 默认各有一份,注释自称"同步翻转,否则覆盖层会盖住 schema 默认"。此说法来自注释,未实测。
 5. **"零核心改动"与"复刻"是否兼容**:`host-contract.ts:90-97` 对 `process-shutdown`、`compose-profile`、`run-profile` 等 8 个宿主符号标了 `local:`(本地复刻实现),`host-replica.snapshot.json` 还钉了 sha256。这算"只消费公开导出"还是"复刻内部行为",需读该文件全文的 `HOST_DEVIATIONS` 才能定论。

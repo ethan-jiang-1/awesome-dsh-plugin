@@ -98,7 +98,6 @@ e2e/Dockerfile.dsh          # DSH 有独立 CI 镜像 + stub model composition
 
 也就是说:**标准收敛发生在"服务端 API + 配置文件 + bank 命名"这一层,而不是在这个插件的接口层。** 证据是源码级可查的:配置固定单文件 `~/.hindsight/coding-agent.json`(`config.ts:42`),bank 固定 `coding-agent::{gitProject}`,bank 的注释明说这个默认值**故意 harness 中立**,让所有 coding agent 共享一个仓库一份记忆(`bank.ts:47-53`)。于是第三方只要照抄这份约定,就能和官方插件读写同一个库——`dyrcjqlgcj` 的条目自述"不要与官方 `@vectorize-io/hindsight-coding-agents` 同时启用,两者读同一个记忆库,会重复注入上下文",正是这条 ABI 存在的外部证据(该插件源码本次未读,属自述级证据)。
 
-对照 **OpenViking**(3 个衍生、29567 ⚠):两者都是"宿主项目 + 示例插件",差别不在星标,在**衍生者接手的是哪一层**。OpenViking 的衍生落在"重新实现 / 管理工具 / UI 增强",彼此不共享一个可复用的配置与 bank 契约;hindsight 的衍生共享一个服务端 + 一份约定俗成的配置,bank 名和配置路径就是接口。**能被别人对着抄的接口,才算标准;只能被对着抄 UI 的,只是参照物。**
 
 还有一条反向证据支持"官方实现是真的被当基线":`hindsight-integrations/` 下有 48 个目录,DSH 是其中一个有独立 e2e 镜像与 stub-model composition 的宿主(`e2e/Dockerfile.dsh`、`src/e2e/harnesses.ts:316-332`)——社区包装通常不会有 CI。
 
@@ -123,8 +122,8 @@ wc -l hindsight-integrations/coding-agents/src/dsh.ts \
 ls -d hindsight-integrations/*/ | wc -l                        # 48
 
 # 扩散(在 awesome-dsh-plugin 仓库根)
-grep -il hindsight data/plugins/*.yml | wc -l                  # 10(含锚自身)
-grep -il hindsight data/plugins/*.yml | grep -c dsh-hindsight- # 7 ← 不是 8
+grep -ril hindsight data/plugins/ | wc -l                   # 10(含锚自身)
+grep -ril hindsight data/plugins/ | grep -c dsh-hindsight- # 7 ← 不是 8
 ```
 
 **更正**:旧版本页与本任务说明都写"8 个直接以 `dsh-hindsight-*` 命名",现算为 **7**;第三方衍生总数 9 不变(`SMPcosy/dsh-memnexus`、`soberkeen/dsh-vault` 不在前缀之列)。旧页的"9 条"与本次一致,错的是前缀计数。

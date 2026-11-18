@@ -7,8 +7,8 @@
 
 | 项 | 值 |
 |----|-----|
-| 条目 | `Q00/ouroboros#integrations/dsh-plugin`（[registry](../../data/plugins/Q00__ouroboros--integrations-dsh-plugin.yml)） |
-| 类目 | workflow（[census](../ecosystem/census.py) 703 条 / 全表 11 744 条） |
+| 条目 | `Q00/ouroboros#integrations/dsh-plugin`（[registry](../../../data/plugins/Q00__ouroboros--integrations-dsh-plugin.yml)） |
+| 类目 | workflow（[census](../../ecosystem/census.py) 703 条 / 全表 11 744 条） |
 | 子分类 | `external-engine`（挂外部引擎）——本册中该形态最纯的样本 |
 | 自述 | 纯配置包，经 DSH MCP 客户端挂载 Ouroboros，暴露 36 个访谈/Seed/执行/评估/演化工具 |
 | 星标 ⚠ | **5565**（2026-08-19 采样；2026-11-18 实时 6375）；类内第一，第二名 tong-io/tongflow 860（6.5 倍） |
@@ -103,7 +103,7 @@
 
 **再解释零衍生。四个理由，按解释力排序：**
 
-1. **没有可仿制的代码。** 24 行有效 YAML，内容就是"调用 DSH 自带的 mcp-client，指向一个 PyPI 包"。仿制它 = 仿制一次 `insert`。对比 better-sidebar 提供可扩展的 UI seam、hindsight 提供可复用的记忆算法——那些有"形状"可抄，这个没有。第三方即便照抄，产出的也只是一行指向同一个 `ouroboros-ai` 的配置，**不构成新条目**。
+1. **没有可仿制的代码。** 24 行有效 YAML，内容就是"调用 DSH 自带的 mcp-client，指向一个 PyPI 包"。仿制它 = 仿制一次 `insert`。它没有可扩展的 seam,也没有可复用的算法,24 行配置里没有被抄走的形状。第三方即便照抄，产出的也只是一行指向同一个 `ouroboros-ai` 的配置，**不构成新条目**。
 2. **价值不在适配层，在引擎。** 要复现能力，得重写 391 478 行 Python，或依赖同一个 PyPI 包。于是衍生只剩两种形态：换个 harness 再包一次（无新意），或直接 fork 主项目（那不算插件衍生）。**适配层薄 → 抄了没用；引擎厚 → 抄不动。两头都堵死。**
 3. **它是 vendor-published integration，不是 community primitive。** census ④ 显示 524/11 744（4.5%）命中 "MCP 协议"标签——"挂一个 stdio MCP server"是常规手法，不构成机制创新；`monorepo 子包条目` 也有 1205 条。第三方要提它，得先有理由讨论 Ouroboros 的**方法论**（访谈打分、Seed、隐藏 AC 判定），而那是产品讨论，不是插件生态讨论。
 4. **门槛确实不低，但这只解释"没人用"，不解释"没人提"。** `uv` + Python 3.12 + 首次联网下载；想用 `dsh` LLM 后端还要从源码 build dsh（`README.md:66-70`，且明说 npm 上 `@deepseek-ai/dsh-acp-demo` 因 `dsh-tool-bash` 的 peer 依赖冲突装不上）。这个门槛压低采用率，但零**提及**是理由 1+3 的结果，不是理由 4。

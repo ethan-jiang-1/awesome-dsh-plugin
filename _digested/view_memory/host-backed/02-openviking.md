@@ -25,23 +25,13 @@
 
 注意 `A2chitect` 的衍生条目落在 **ui** 而不是 memory——衍生方向开始偏离原类目,是"适配层变产品"的信号。
 
-## 与 hindsight 的对照
-
-| | OpenViking | hindsight |
-|---|---|---|
-| 星标 ⚠ | 29567(宿主背书) | 20218(宿主背书) |
-| 第三方衍生 | 3 | 9 |
-| 衍生命名 | 前缀 `dsh-openviking-` | 前缀 `dsh-hindsight-` 为主 |
-| 结论 | 有对接基线,未成标准 | 已成事实标准 |
-
-两者都是"宿主项目 + 示例插件"形态,差异在**衍生密度**:hindsight 的 9 条说明下游社区在主动扩展,OpenViking 的 3 条更像零星适配。
 
 ## 看点 / 待验证
 
-- 汇总回归:`grep -il openviking data/plugins/*.yml | wc -l` → 4(含锚自身)。
+- 汇总回归:`grep -ril openviking data/plugins/ | wc -l` → 4(含锚自身)。
 - 待验证:三个衍生是否都必须连 OpenViking 服务端(若是,则整个家族受同一后端可用性约束)。
 
 ## 相关档案
 
-- memory 类全貌:[../README.md](README.md)
-- 同类对照:[01-hindsight.md](01-hindsight.md)
+- memory 类全貌:[../README.md](../README.md)
+- 子分类成员与横向对照:[README.md](README.md)

@@ -31,7 +31,7 @@
 
 ### manifest 与两套分发通道
 
-- `dsh.plugin.json`(整份 20 行):`id: dsh-external/dsh-better-sidebar`、`main: ./lib/index.js`、`client.main: ./lib/client-registry.js`、`engines.dsh: >=0.2.2-rc.2`、`contributes.tools/skills` 均为空数组。
+- `dsh.plugin.json`(整份 16 行):`id: dsh-external/dsh-better-sidebar`、`main: ./lib/index.js`、`client.main: ./lib/client-registry.js`、`engines.dsh: >=0.2.2-rc.2`、`contributes.tools/skills` 均为空数组。
 - `package.json:41-56` 的 `dsh` 字段才是运行期契约:`bundle.patch: ./cordis.patch.yml`、`client.inject` 声明 5 个客户端模块(locale / ui-slots / ui-conversation / ui-sidebar-right / modules)、`client.platform: web`、`manifestVersion: 1`。
 - `tsdown.config.ts:345-352` 把**同一份** `src/client/index.tsx` 编两遍:官方 profile 通道用包名 bundle id `dsh-better-sidebar` → `lib/client.js`;第三方注册表通道用 manifest id `dsh-external/dsh-better-sidebar` → `lib/client-registry.js`。注释明说 "DSH never reads that file"(DSH 不读 `dsh.plugin.json`)。
 
@@ -45,7 +45,7 @@
 disabled: !!js "[...ctx.loader.entries()].some((e) => e.options.name === 'dsh-better-sidebar' && e.options.id !== 'better-sidebar' && !e.disabled)"
 ```
 
-它解决的是**聚合包重复挂载**:聚合包(如 `@linxin666/dsh-web-ui-all`)可能用自己的 entry id 挂同一个包,两个挂载各注册一次 `/sidebar/api` → loader 报 "duplicate prefix route" → 整棵插件树启动失败。守卫让本行在"前面已有另一个启用中的同名 entry"时退让。注释同时承认限制:loader 只看得见**排在它前面**的行,所以聚合包必须排在前面;反序无解,也没有运行时单例守卫(`cordis.patch.yml:25-41`)。
+它解决的是**聚合包重复挂载**:聚合包(如 `@linxin666/dsh-web-ui-all`)可能用自己的 entry id 挂同一个包,两个挂载各注册一次 `/sidebar/api` → loader 报 "duplicate prefix route" → 整棵插件树启动失败。守卫让本行在"前面已有另一个启用中的同名 entry"时退让。注释同时承认限制:loader 只看得见**排在它前面**的行,所以聚合包必须排在前面;反序无解,也没有运行时单例守卫(`cordis.patch.yml:26-38`)。
 
 ### 插件接口(宿主半,`src/index.ts`)
 
@@ -66,7 +66,7 @@ disabled: !!js "[...ctx.loader.entries()].some((e) => e.options.name === 'dsh-be
 
 - `inject = ['slots','sessions','locale','modules','connection','remote','remote.session']`(:54)。注释记录:少写 `remote.session` 会在渲染路径抛 `cannot get property "remote.session" without inject`,整块面板变白。
 - `ctx.provide('betterSidebar', service)`(:176)。
-- slot 注册:`settings.section.icon`(:480)、`settings.section`(:492)、`conversation.session.header.utilities`(`src/client/sidebar/bottom-toggle.tsx:23`)、`sidebar.right.tab.guide`(接管开始页)、`sidebar.right.pane.tab` / `sidebar.right.pane.tab.title`(每个 tab 一个,`src/client/native/index.ts:421-460`)。
+- slot 注册:`settings.section.icon`(:480)、`settings.section`(:492)、`conversation.session.header.utilities`(`src/client/sidebar/bottom-toggle.tsx:23`)、`sidebar.right.tab.guide`(接管开始页)、`sidebar.right.pane.tab` / `sidebar.right.pane.tab.title`(每个 tab 一个,`src/client/native/index.ts:422` 起)。
 - 原生类型注册:`tabs.register({ id, kind: descriptor.id, keepMounted: true, priority: 'extension', guide: [...] })`(`src/client/native/index.ts:470-497`)。
 
 ### 第三方接入的最小路径(源码可验证)
@@ -89,7 +89,7 @@ disabled: !!js "[...ctx.loader.entries()].some((e) => e.options.name === 'dsh-be
 
 ### 核心模块逐个
 
-**`wire.ts` + dispatch(`src/index.ts:1608` 的 `buildApi`)** — `POST /sidebar/api/<method>` 一个窄入口,44 个顶层方法(fs.* 8、git.* 23、archive/changes/settings/session/teams/workflows/subagents/open 等)+ `sidechat.*` 9 个。入口先过 `fence = ctx.connection.requestRejection(req) === undefined`(:1442)。派发用 `Object.hasOwn(api, method)` 而非裸查找——注释记录了一个真实漏洞:`POST /sidebar/api/constructor` 曾回 200 `{}`,`toString` 回 `"[object Undefined]"`。
+**`wire.ts` + dispatch(`src/index.ts:1608` 的 `buildApi`)** — `POST /sidebar/api/<method>` 一个窄入口,44 个顶层方法(fs.* 9、git.* 23、archive/changes/settings/session/teams/workflows/subagents/open 共 12)+ `sidechat.*` 9 个。入口先过 `fence = ctx.connection.requestRejection(req) === undefined`(:1442)。派发用 `Object.hasOwn(api, method)` 而非裸查找——注释记录了一个真实漏洞:`POST /sidebar/api/constructor` 曾回 200 `{}`,`toString` 回 `"[object Undefined]"`。
 
 **`path-security.ts`** — `resolveTarget(cwd, target)` 是唯一解析原语:相对路径挂到会话 cwd、绝对路径保留、`~` 展开、`..` 词法折叠。模块头明确写着 **"This module no longer enforces workspace containment"**(:1-16):原有 `realpath` + 越界拒绝被用户要求移除,现在能到达"宿主用户能到达的任何路径",只受 OS 权限和路由层的浏览器信任围栏约束。
 
@@ -97,7 +97,7 @@ disabled: !!js "[...ctx.loader.entries()].some((e) => e.options.name === 'dsh-be
 
 **`service.ts`** — Map + listener 集合,`useSyncExternalStore` 友好;重复 id **直接 throw**(`:1116-1122`),disposer 幂等且按对象身份校验。`SIDEBAR_SERVICE_VERSION = '0.32.1'`(:1014,`tests/service.spec.ts` 钉住与 package.json 同步);`SIDEBAR_FEATURES` 16 项能力位(:1050-1075),注释承诺 "features are never removed",并自己记录了 v0.19.0 移除 `floatWindows` 这个反例。
 
-**`native/index.ts`(适配层,291 行起)** — 一个描述符 → 一个原生类型 + 两个 slot,全部成组注册、成组回滚(部分成功也要能退)。`editor` 用 `priority: 'extension'` 认领 `dsh-resource://file/**`,压过宿主 `text` 预览;但 `HOST_OWNED_EXTS`(`:56-84`)主动**拒收** xlsx/pdf/图片/Office,交回宿主的文档预览;`files` 这个内置 page kind 被同名接管。`keepMounted: true` 让宿主的"隐藏"不再销毁插件侧 React 状态。
+**`native/index.ts`(适配层,291 行起)** — 一个描述符 → 一个原生类型 + 两个 slot,全部成组注册、成组回滚(部分成功也要能退)。`editor` 用 `priority: 'extension'` 认领 `dsh-resource://file/**`,压过宿主 `text` 预览;但 `HOST_OWNED_EXTS`(`:72-84`)主动**拒收** xlsx/pdf/图片/Office,交回宿主的文档预览;`files` 这个内置 page kind 被同名接管。`keepMounted: true` 让宿主的"隐藏"不再销毁插件侧 React 状态。
 
 **`state.ts`** — 每会话一份:分栏树(leaf / split 递归)+ 打开页签 + 展开集,持久化在 `localStorage` 的 `dsh-sidebar:v1:<sessionId>`;`SidebarTab.meta` 是插件私有可序列化状态;`line` 故意排除在持久化白名单外(一次性导航目标,刷新不该把读者拉回几天前的那一行)。
 
@@ -145,7 +145,7 @@ React tab(第三方或内置)
 3. **它替生态写了接入文档**。`docs/external-plugin-guide.md` 单文件 155 KB:§4.1 `TabDescriptor` 完整字段、§4.4 内置 tab 清单、§5.4 viewer 匹配算法、§7 服务方法清单、§15 真实接入案例。平台型插件的标志之一是它承担了上游文档的职责。
 4. **它愿意为宿主让路**。`HOST_OWNED_EXTS` 主动放弃宿主已经做得更好的格式,自绘右侧面板与自由窗口整体删除,插件自带终端/浏览器类型也删了。一个只想抢地盘的插件不会这么干。
 
-**与同类的对比:`ccch1mneyyy/dsh-TUI`(2009 星)是"换壳",不是"平台"。** 浅克隆(`2d6c9a13f`,2026-11-17)看:`@deepseek-harness-tui/dsh-tui@0.20.1`,package.json 只有 `dsh.bundle.patch`,**没有 `dsh.client`、没有 `dsh.plugin.json`**,仓内 1893 个 `.ts` / 258,392 行,grep 不到 `registerTab` 或 `betterSidebar`。它替换整个前门(终端 persona + bundle patch 覆盖 base 层各行),不提供任何第三方扩展面。两者星标同一量级,扩散信号 63 : 0——差别不在质量,在**有没有一张给别人用的表**。
+需要强调的是:这四条**不是**"它功能多"。功能多只解释星标;解释扩散的是"别人能往它身上加东西,而且加得便宜、加得稳定、加完不会被它下一次重构打碎"。
 
 ## 代价与边界
 
@@ -171,7 +171,7 @@ React tab(第三方或内置)
 
 **维护成本**
 
-- 81.5k 行源码 + 87.8k 行测试;300 个 spec + 15 个 e2e(含真宿主 + Chromium 挂载冒烟);CI 双平台(ubuntu + windows,Windows 全量单 fork 跑)。
+- 81.5k 行源码 + 87.8k 行测试;300 个 spec + 15 个 e2e(含真宿主 + Chromium 挂载冒烟);CI 双平台(ubuntu + windows,Windows 用 `--maxWorkers=1` 全量跑)。
 - `CHANGELOG.md` 271 KB / `CHANGELOG_EN.md` 185 KB,按版本逐条写"改了什么 + 补了哪些测试"。
 - 发布链严格:tag 必须等于 package.json version,`typecheck → lint → test → build → check:consumer-types → npm publish`(`.github/workflows/release.yml`)。
 

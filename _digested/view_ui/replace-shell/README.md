@@ -10,8 +10,10 @@
 
 | 条目 | 星标 ⚠ | 说明 |
 |------|--------|------|
-| ccch1mneyyy/dsh-TUI | 2009 | Claude Code 风格全屏终端 UI |
+| ccch1mneyyy/dsh-TUI | 2009 | Claude Code 风格全屏终端 UI([02-dsh-tui](02-dsh-tui.md) ★★★) |
 | huiliyi37/dsh-tianshu-tui | 217 | 另一种 TUI 实现 |
+
+**成员横向对照**:dsh-TUI 下载/星 ≈ 8.4(16959/2009),装机相对围观偏低;tianshu-tui 无下载边车数据。
 
 ## 立卡条件
 
