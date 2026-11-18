@@ -10,7 +10,7 @@
 
 | 条目 | 星标 ⚠ | 说明 |
 |------|--------|------|
-| omdsh-dev/DSH-better-sidebar | 2216 | 侧栏工作台,63 个第三方插件往它的 Tab 注册(平台级) |
+| omdsh-dev/DSH-better-sidebar | 2216 | 侧栏工作台,63 个第三方插件往它的 Tab 注册(平台级;[01-better-sidebar](01-better-sidebar.md) ★★★) |
 | ZSeven-W/dsh-openpencil | 119 | 设计预览与编辑 |
 | omdsh-dev/dsh-annotation | 76 | 选区批注 |
 | whiteguo233/dsh-openbiliclaw | 45 | 右侧抽屉面板 |
@@ -24,3 +24,5 @@
 ## 生长
 
 这是 ui 里**最容易长出平台**的分支(better-sidebar 已证明):插件越多地往同一扩展点注册,那个扩展点就越接近标准。新卡优先看"被多少人接入",不是星标。
+
+⚠ **权限边界(读源码后确认)**:better-sidebar 的 `path-security.ts` / `fs-operations.ts` 头注明写 **workspace 包含检查已被移除**,路由可达宿主用户可达的任何路径;`src/` 内无 sandbox 策略链引用,唯一准入是连接层的 `requestRejection`。选这类"增强壳"时,面板能力等于宿主机同权限。

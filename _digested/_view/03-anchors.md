@@ -9,7 +9,7 @@
 
 | 锚 | 声量 ⚠ | 扩散 | 类型 | 单卡 |
 |----|--------|------|------|------|
-| DSH-better-sidebar | 2216 | **63** | **平台型**:被接入(Tab 注册) | [enhance-shell/01](../view_ui/enhance-shell/01-better-sidebar.md) ★★ |
+| DSH-better-sidebar | 2216 | **63** | **平台型**:被接入(Tab 注册) | [enhance-shell/01](../view_ui/enhance-shell/01-better-sidebar.md) ★★★ |
 | hindsight | 20218(宿主背书) | **9** | **标准型**:被仿制(7 个同名 + 2 个仅提及) | [host-backed/01](../view_memory/host-backed/01-hindsight.md) ★★★ |
 | modlens | 3152 | 4 | vision 的参考实现 | — ★ |
 | OpenViking | 29567(宿主背书) | 3 | 对接基线,未成标准 | [host-backed/02](../view_memory/host-backed/02-openviking.md) ★★ |

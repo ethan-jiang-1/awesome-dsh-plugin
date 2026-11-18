@@ -73,7 +73,8 @@ DSH 内核 Agent / Session
 
 ## 为什么它突出
 
-**它和 better-sidebar 不是同一类东西,星标接近是巧合。**
+**它突出在"换壳"这条路线的彻底程度**:自己起进程、自己组 profile、自建渲染栈。换壳的代价与增强壳不可比,见子分类 README 的路线对照。
+
 
 | | [better-sidebar](../enhance-shell/01-better-sidebar.md) | dsh-TUI |
 |---|---|---|

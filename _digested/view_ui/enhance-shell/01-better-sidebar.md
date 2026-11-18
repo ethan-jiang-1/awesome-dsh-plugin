@@ -7,10 +7,10 @@
 
 | 项 | 值 |
 |----|-----|
-| 条目 | `omdsh-dev/DSH-better-sidebar`([registry](../../data/plugins/omdsh-dev__DSH-better-sidebar.yml)) |
+| 条目 | `omdsh-dev/DSH-better-sidebar`([registry](../../../data/plugins/omdsh-dev__DSH-better-sidebar.yml)) |
 | 类目 | ui(全表最大类) |
 | 自述 | 侧边栏完整工作台:文件渲染编辑、终端、Git、子代理;三方插件可注册新 Tab(`data/plugins/omdsh-dev__DSH-better-sidebar.yml`) |
-| 星标 ⚠ | 2216(2026-08-19,`data/stars.json`;边车口径见 [`_method/00-index.md`](../_method/00-index.md)) |
+| 星标 ⚠ | 2216(2026-08-19,`data/stars.json`;边车口径见 [`_method/00-index.md`](../../_method/00-index.md)) |
 | npm 月下载 ⚠ | 39717(2026-08-19,`data/downloads.json`) |
 | 扩散 | **63 个第三方条目**在 name/description 里点名它(`delta.py` ③b 口径;本次复现:65 命中 − 2 条锚自身) |
 | 仓库 commit | `2811573c9c0bad51d77db6c3c94d78f5aed8d38a`(2026-11-13,"Merge PR #1188 chore/code-slimming") |
