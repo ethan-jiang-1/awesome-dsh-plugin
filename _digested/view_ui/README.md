@@ -1,6 +1,6 @@
 # view_ui — 界面与交互
 
-> 已立册(满足 [00-front](00-front.md) 三条门槛:2351 条 / 新增 812 / owners 2017、单件 88%)。
+> 已立册(满足 [00-front](../_view/00-front.md) 三条门槛:2351 条 / 新增 812 / owners 2017、单件 88%)。
 > ⚠ 星标为历史采样。数据截止 `29b3ed46e`(2026-11-17)。
 
 ## 快照
@@ -11,11 +11,17 @@
 
 | 条目 | 星标 | 说明 |
 |------|------|------|
-| omdsh-dev/DSH-better-sidebar | 2216 | 类内唯一 2000+;作者系 omdsh-dev(跨 ui/notify/browser/tools 的系列化生产者,见 [03-anchors](03-anchors.md)) |
+| omdsh-dev/DSH-better-sidebar | 2216 | 类内唯一 2000+;作者系 omdsh-dev(跨 ui/notify/browser/tools 的系列化生产者,见 [03-anchors](../_view/03-anchors.md)) |
 | ccch1mneyyy/dsh-TUI | 2009 | 终端 UI 方向的代表 |
 | FSMargoo/dsh-at-file | 394 | 文件内嵌注记方向 |
 | omdsh-dev/dsh-genui | 224 | 同作者第二锚 |
 | huiliyi37/dsh-tianshu-tui | 217 | TUI 方向第二例 |
+
+## 册内页
+
+| 页 | 内容 |
+|----|------|
+| [01-better-sidebar](01-better-sidebar.md) | 平台级锚:63 个第三方插件提及,注册 Tab 的事实平台 |
 
 ## 本期动向
 

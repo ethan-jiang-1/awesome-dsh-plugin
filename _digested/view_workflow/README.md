@@ -16,6 +16,12 @@
 | EthanYoQ/AI-Novel-Writer#dsh-ai-novel-writer | 393 | 垂直场景(长文写作流水线) |
 | orziz/odai | 89 | |
 
+## 册内页
+
+| 页 | 内容 |
+|----|------|
+| [01-ouroboros](01-ouroboros.md) | 反例锚:类内星标第一(5565),但零第三方衍生 |
+
 ## 稳定性判读
 
 **头部断层最大的已立册领域**:ouroboros(5565)到第二名的差距是 6.5 倍——workflow 是"一超多弱"格局。ouroboros 若属"被同类模仿"的锚(其机制档案见 [`_leverage/leverage/`](../../_leverage/leverage/README.md) 证据卡),它的动向基本就是这个领域的动向。

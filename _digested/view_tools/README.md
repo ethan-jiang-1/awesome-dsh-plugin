@@ -16,6 +16,10 @@
 | omdsh-dev/dsh-data-agent | 55 | 同作者跨类系列 |
 | Noob-stupid/dsh-plugin-gating-hub | 54 | 工具链元方向 |
 
+## 册内页
+
+暂无——类内最高 477 星,尚无"醒目突出"到值得单独立卡的例子。
+
 ## 本期动向
 
 新增 586 条;新 owner 榜中 zjukop3(tools×12,单类目重度)、lucagiftzek(tools×4)、liufeicc、Threadripper123(tools×3)以 tools 为主要落点。tools 的"杂类工具箱"定位使其承接了最多无法归类的供给——按 [ecosystem/01](../ecosystem/01-scenario-taxonomy.md) 的说法,这是"agent 的手"类目的惯常形态。

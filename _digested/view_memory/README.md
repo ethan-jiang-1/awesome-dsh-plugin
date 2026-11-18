@@ -16,6 +16,13 @@
 | text2future/flowix#dsh-flowix-memory | 320 | monorepo 子包 |
 | tinqiao-oss/engramory#plugin | 160 | |
 
+## 册内页
+
+| 页 | 内容 |
+|----|------|
+| [01-hindsight](01-hindsight.md) | 标准级锚:9 个第三方衍生实现 |
+| [02-openviking](02-openviking.md) | 宿主背书锚:29567 星属主仓,3 个衍生 |
+
 ## 稳定性判读
 
-memory 的头部被两个机构级宿主项目占据,读数时要**把"宿主项目火"与"插件被用"分开**(账单口径见 [`_method/00-index.md`](../_method/00-index.md))。扣除背书型后,社区真实头部是 407 星的 MisakaNet——社区侧记忆方案同样未收敛,与 session 类似但供给量小一半。RAG/知识库标签本期 +308(见 [01-emerging](01-emerging.md)),供给端在加速,锚位竞争未定。
+memory 的头部被两个机构级宿主项目占据,读数时要**把"宿主项目火"与"插件被用"分开**(账单口径见 [`_method/00-index.md`](../_method/00-index.md))。扣除背书型后,社区真实头部是 407 星的 MisakaNet——社区侧记忆方案同样未收敛,与 session 类似但供给量小一半。RAG/知识库标签本期 +308(见 [01-emerging](../_view/01-emerging.md)),供给端在加速,锚位竞争未定。

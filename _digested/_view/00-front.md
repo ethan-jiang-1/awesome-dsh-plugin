@@ -14,9 +14,9 @@
 | ② 哪里热闹 | 23 类热度排名、真/假热闹判别 | [02-heat-map.md](02-heat-map.md) |
 | ③ 锚 | 热闹领域的有影响力之物 | [03-anchors.md](03-anchors.md) |
 
-## 领域专册(view_xxx)
+## 领域专册(`_digested/view_<领域>/`)
 
-对**已经稳定且有突出条目**的领域单独立册,持续追踪其中影响力大、仍在增长的插件。立册规则(满足才立,不随名单增长自动膨胀):
+对**已经稳定且有突出条目**的领域单独立册,每个领域是 `_digested/` 下一级子目录、入口 `README.md`,可持续增页(锚卡、样本笔记、机制拆解都放在册内,不进本板)。立册规则(满足才立,不随名单增长自动膨胀):
 
 1. 类目体量 ≥400 条且本期新增 ≥100(稳定供给);
 2. 存量中存在 ≥100 星或有 `_leverage`/源码级证据的锚条目(有东西可写);
@@ -24,12 +24,14 @@
 
 | 专册 | 领域 | 状态 |
 |------|------|------|
-| [view_ui.md](view_ui.md) | 界面与交互 | 已立 |
-| [view_tools.md](view_tools.md) | 工具箱 | 已立 |
-| [view_session.md](view_session.md) | 会话管理 | 已立 |
-| [view_workflow.md](view_workflow.md) | 工作流 | 已立 |
-| [view_memory.md](view_memory.md) | 记忆与知识库 | 已立 |
+| [view_ui](../view_ui/README.md) | 界面与交互 | 已立 |
+| [view_tools](../view_tools/README.md) | 工具箱 | 已立 |
+| [view_session](../view_session/README.md) | 会话管理 | 已立 |
+| [view_workflow](../view_workflow/README.md) | 工作流 | 已立 |
+| [view_memory](../view_memory/README.md) | 记忆与知识库 | 已立 |
 | — | dev/usage/model/docs/vision… | 候补(dev 缺 supply 外的头部沉淀;docs/vision 头部锚已在 03 板) |
+
+**册内结构约定**:`README.md` 是入口(一屏答案 + 快照 + 锚表 + 稳定性判读),固定字段必须保持;新增内容以 `NN-<主题>.md` 平铺在册内,由 README 链接到,不改变 README 的一屏契约。册内页同样受「视图零原创」约束。
 
 ## 纪律
 

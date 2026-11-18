@@ -59,6 +59,25 @@ def cat_stats(entries, label):
     return by
 
 
+def imitation_signals(entries, tokens):
+    """③b 模仿信号:名字或描述里提到某个锚的条目数(不含锚自身)。
+
+    比星标更少受采样缺口影响:衍生插件会立刻出现在本期名单里,
+    而星标边车可能半年没更新。口径:大小写不敏感的子串命中。
+    """
+    print("\n── ③b 模仿信号(提到该锚的条目数,不含自身;可复现)──")
+    low = [(e, (e.get("name", "") + " " + e.get("description.en", "") + " "
+                + e.get("description.zh", "")).lower()) for e in entries]
+    for token in tokens:
+        all_hits = [e for e, t in low if token.lower() in t]
+        # 锚自身 = 仓库名与 token 完全对得上的那一条(通常是官方或主仓)
+        mine = [e for e in all_hits if token.lower() in e.get("url", "").lower().split("github.com/")[-1].split("/tree/")[0]]
+        others = [e for e in all_hits if e not in mine]
+        print(f"  {token:<16} 第三方提及 {len(others):>3}(合计 {len(all_hits)},锚自身 {len(mine)})")
+        for e in others[:6]:
+            print(f"      {e.get('name', e['file'])}  [{e.get('category')}]")
+
+
 def main():
     if len(sys.argv) != 3:
         print(__doc__)
@@ -119,6 +138,9 @@ def main():
         print("    新增头部(本期冒出来的):")
         for e in new_es[:5]:
             print(f"      {star_of[e['url']]:>7}  {e.get('name', e['file'])}")
+
+    imitation_signals(new, ["hindsight", "openviking", "ouroboros", "mirage",
+                             "modlens", "better-sidebar", "tongflow"])
 
     print("\n── ①b 标签增长(34 组,按命中增量)──")
     old_tags = Counter(t for e in old for t in census.tag_of(

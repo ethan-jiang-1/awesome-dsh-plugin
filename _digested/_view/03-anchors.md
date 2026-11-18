@@ -3,9 +3,23 @@
 > **本期区间**:同 [01](01-emerging.md)。⚠ 星标为 2026-08-19 前后的**历史采样**,不反映当前;锚的机制结论链接档案层。
 > **复现**:`delta.py` ③ 节。证据等级:★=README 级 · ★★=源码级 · ★★★=实测(逐卡标注,本轮多数仍为 ★)。
 
+## 锚的两轴:声量 × 扩散
+
+星标是**声量**(且边车过期),第三方提及/衍生是**扩散**(每期名单现算,不过期)。两轴都高才是真锚;只有声量高的是"明星"。证据等级:★ 注册表自述 · ★★ 读过源码/文档 · ★★★ 实测。
+
+| 锚 | 声量 ⚠ | 扩散 | 类型 | 单卡 |
+|----|--------|------|------|------|
+| DSH-better-sidebar | 2216 | **63** | **平台型**:被接入(Tab 注册) | [view_ui/01](../view_ui/01-better-sidebar.md) ★★ |
+| hindsight | 20218(宿主背书) | **9** | **标准型**:被仿制(8 个 `dsh-hindsight-*`) | [view_memory/01](../view_memory/01-hindsight.md) ★★ |
+| modlens | 3152 | 4 | vision 的参考实现 | — ★ |
+| OpenViking | 29567(宿主背书) | 3 | 对接基线,未成标准 | [view_memory/02](../view_memory/02-openviking.md) ★★ |
+| ouroboros | 5565 | **0** | **明星,非锚**:高星零衍生 | [view_workflow/01](../view_workflow/01-ouroboros.md) ★★ |
+
+**可复现**:`python3 _digested/ecosystem/delta.py <old> <new>` 的 ③b 节。
+
 ## 一屏答案
 
-热闹领域的锚集中在三处:**memory 的 OpenViking/hindsight(2.9 万/2 万星,但 star 数远超插件本体热度,实为宿主项目背书)**、**workflow 的 ouroboros(5565)/tongflow(860)**、**ui 的 DSH-better-sidebar(2216)/dsh-TUI(2009)**。本期新增条目无一进入任何类目的锚位——不是没有好苗子,是采样没跟上,列为缺口。
+热闹领域的锚按扩散轴重排后<b>并不等于星标榜</b>:真正的平台是 DSH-better-sidebar(63 个第三方插件接入),真正的标准是 hindsight(9 个衍生),而 workflow 星标第一的 ouroboros 零衍生。原星标视图见下(**memory 的 OpenViking/hindsight 2.9 万/2 万星实为宿主项目背书**)。本期新增条目无一进入任何类目的锚位——不是没有好苗子,是采样没跟上,列为缺口。
 
 | 类目 | 存量锚(星标 ⚠) | 备注 |
 |------|----------------|------|
