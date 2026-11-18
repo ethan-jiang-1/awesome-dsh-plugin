@@ -16,9 +16,15 @@
 | omdsh-dev/dsh-data-agent | 55 | 同作者跨类系列 |
 | Noob-stupid/dsh-plugin-gating-hub | 54 | 工具链元方向 |
 
-## 册内页
+## 子分类(册内目录)
 
-暂无——类内最高 477 星,尚无"醒目突出"到值得单独立卡的例子。
+| 子分类 | 定义 | 成员数(已确认) |
+|--------|------|----------------|
+| [single-purpose](single-purpose/README.md) | 单点工具 | 3 例 |
+| [toolchain-meta](toolchain-meta/README.md) | 工具链元层(门控/注册) | 1 例,潜在锚 |
+| [integration-bridge](integration-bridge/README.md) | 集成桥(外部服务/协议) | 1 例 |
+
+单卡落在子分类目录内:`<子分类>/NN-<slug>.md`;本册当前无单卡。
 
 ## 本期动向
 

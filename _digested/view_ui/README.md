@@ -1,6 +1,6 @@
 # view_ui — 界面与交互
 
-> 已立册(满足 [00-front](../_view/00-front.md) 三条门槛:2351 条 / 新增 812 / owners 2017、单件 88%)。
+> 已立册(满足 [00-front](../_view/README.md) 三条门槛:2351 条 / 新增 812 / owners 2017、单件 88%)。
 > ⚠ 星标为历史采样。数据截止 `29b3ed46e`(2026-11-17)。
 
 ## 快照
@@ -17,11 +17,15 @@
 | omdsh-dev/dsh-genui | 224 | 同作者第二锚 |
 | huiliyi37/dsh-tianshu-tui | 217 | TUI 方向第二例 |
 
-## 册内页
+## 子分类(册内目录)
 
-| 页 | 内容 |
-|----|------|
-| [01-better-sidebar](01-better-sidebar.md) | 平台级锚:63 个第三方插件提及,注册 Tab 的事实平台 |
+| 子分类 | 定义 | 成员数(已确认) |
+|--------|------|----------------|
+| [enhance-shell](enhance-shell/README.md) | 增强现有壳:侧栏、Tab、注记、导航 | 6 例,platform 已现 |
+| [replace-shell](replace-shell/README.md) | 换壳:接管整个界面(TUI) | 2 例 |
+| [inline-genui](inline-genui/README.md) | 内联生成式 UI:模型在回复流渲染组件 | 3 例 |
+
+单卡落在子分类目录内:`<子分类>/NN-<slug>.md`。
 
 ## 本期动向
 

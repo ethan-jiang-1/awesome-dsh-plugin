@@ -16,12 +16,15 @@
 | text2future/flowix#dsh-flowix-memory | 320 | monorepo 子包 |
 | tinqiao-oss/engramory#plugin | 160 | |
 
-## 册内页
+## 子分类(册内目录)
 
-| 页 | 内容 |
-|----|------|
-| [01-hindsight](01-hindsight.md) | 标准级锚:9 个第三方衍生实现 |
-| [02-openviking](02-openviking.md) | 宿主背书锚:29567 星属主仓,3 个衍生 |
+| 子分类 | 定义 | 成员数(已确认) |
+|--------|------|----------------|
+| [host-backed](host-backed/README.md) | 外部记忆系统适配(宿主背书陷阱) | 5 例,9 个衍生 |
+| [local-store](local-store/README.md) | 本地存储与检索(SQLite/markdown) | 4 例 |
+| [context-shaping](context-shaping/README.md) | 上下文整形与蒸馏 | 3 例 |
+
+单卡落在子分类目录内:`<子分类>/NN-<slug>.md`。
 
 ## 稳定性判读
 

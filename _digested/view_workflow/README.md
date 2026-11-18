@@ -16,11 +16,15 @@
 | EthanYoQ/AI-Novel-Writer#dsh-ai-novel-writer | 393 | 垂直场景(长文写作流水线) |
 | orziz/odai | 89 | |
 
-## 册内页
+## 子分类(册内目录)
 
-| 页 | 内容 |
-|----|------|
-| [01-ouroboros](01-ouroboros.md) | 反例锚:类内星标第一(5565),但零第三方衍生 |
+| 子分类 | 定义 | 成员数(已确认) |
+|--------|------|----------------|
+| [external-engine](external-engine/README.md) | 挂外部引擎:配置包 + MCP 桥接 | 3 例,**全部零衍生** |
+| [multi-agent](multi-agent/README.md) | 多智能体编排:团队、任务板、角色 | 5 例 |
+| [vertical-preset](vertical-preset/README.md) | 垂直工作台与预设 | 2 例 |
+
+单卡落在子分类目录内:`<子分类>/NN-<slug>.md`。
 
 ## 稳定性判读
 

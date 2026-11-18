@@ -16,9 +16,15 @@
 | Chinesezjc/dsh-interconnect | 34 | |
 | Moeblack/dsh-message-edit | 32 | |
 
-## 册内页
+## 子分类(册内目录)
 
-暂无——本册当前无达到立卡门槛的例子(类内头部仅 83 星、零衍生)。立卡门槛见 [../_view/00-front.md](../_view/00-front.md)。
+| 子分类 | 定义 | 成员数(已确认) |
+|--------|------|----------------|
+| [import-export](import-export/README.md) | 会话导入导出 | 2 例 |
+| [rewind-edit](rewind-edit/README.md) | 回退与编辑 | 2 例 |
+| [interconnect](interconnect/README.md) | 会话互连 | 1 例 |
+
+单卡落在子分类目录内:`<子分类>/NN-<slug>.md`;本册当前无单卡。
 
 ## 稳定性判读
 
