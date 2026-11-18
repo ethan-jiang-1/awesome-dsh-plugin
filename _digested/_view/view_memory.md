@@ -1,0 +1,21 @@
+# view_memory — 记忆与知识库
+
+> 已立册(504 条 / 新增 164 / owners 470、单件 94%)。⚠ 星标为历史采样。数据截止 `29b3ed46e`。
+
+## 快照
+
+中盘类目,本期占比 −0.0pp 匀速;owners 470、单件 94%,多样性尚可。
+
+## 锚(存量头部,⚠ 星标历史采样)
+
+| 条目 | 星标 | 说明 |
+|------|------|------|
+| volcengine/OpenViking#examples/dsh-memory-plugin | 29567 | ⚠ 宿主背书型:星标属于 OpenViking 主项目,非插件热度 |
+| vectorize-io/hindsight#coding-agents | 20218 | 同上,hindsight 主仓背书 |
+| Ikalus1988/MisakaNet | 407 | **纯社区侧实际最高** |
+| text2future/flowix#dsh-flowix-memory | 320 | monorepo 子包 |
+| tinqiao-oss/engramory#plugin | 160 | |
+
+## 稳定性判读
+
+memory 的头部被两个机构级宿主项目占据,读数时要**把"宿主项目火"与"插件被用"分开**(账单口径见 [`_method/00-index.md`](../_method/00-index.md))。扣除背书型后,社区真实头部是 407 星的 MisakaNet——社区侧记忆方案同样未收敛,与 session 类似但供给量小一半。RAG/知识库标签本期 +308(见 [01-emerging](01-emerging.md)),供给端在加速,锚位竞争未定。
