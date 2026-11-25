@@ -2,8 +2,8 @@
 
 > **这是什么**:对外的生态动向入口。回答外部读者的三个问题——①什么冒出来了、②哪里热闹、③热闹领域里谁说了算。结构数字由 `census.py`/`delta.py` 复现,卡片级实时指标由 `live-2026-11-19.json` 归档,每轮 upstream 同步后覆盖式重建。
 
-**数据截止**:`main@29b3ed46e`(2026-11-18);本期区间 `efe602e7b` → `29b3ed46e`(2026-10-31 → 11-17,18 天)。实时指标快照 `2026-11-19`。
-**复现**:`python3 _digested/ecosystem/census.py`(全量)+ `python3 _digested/ecosystem/delta.py efe602e7b 29b3ed46e`(本期 diff)+ `python3 _digested/ecosystem/view_data.py`(卡片/健康表)。
+**数据截止**:`main@8f1a1800e`(2026-11-25);本期区间 `29b3ed46e` → `8f1a1800e`(2026-11-17 → 11-25,8 天)。实时指标快照 `2026-11-19`(卡片级,未随本轮重采)。
+**复现**:`python3 _digested/ecosystem/census.py`(全量)+ `python3 _digested/ecosystem/delta.py 29b3ed46e 8f1a1800e`(本期 diff)+ `python3 _digested/ecosystem/view_data.py`(卡片/健康表)。
 **⚠ 数据边界**:星标/下载边车为 2026-08-19 前后的历史采样,本期新增条目大多不在其中——「新增头部」多数为空是采样缺口,不是没有影响力;卡片级实时值见 [`_data/health.md`](../_data/health.md),锚的证据等级见各页标注。
 
 ## 三块板

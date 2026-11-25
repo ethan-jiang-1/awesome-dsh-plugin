@@ -1,6 +1,6 @@
 # 02 · pr-gate 与 check-submission:判决机
 
-> 基线:`upstream@b4d0049a8`(0004 复核;pr-gate.yml 369→**375 行**,`check-submission.mjs` **584 行未变**)。0001 最大变更:commit floor 删除(#4196)+ 已收录仓库豁免 + 非法扩展名的显式归因。**0002 最大变更:非法 YAML 的显式归因(#4680)+ held-rescan 收编"CI 从未运行"的 PR(#2202)。** 0003 对本专题零 diff;**0004 对 pr-gate 的唯一改动是 `npm ci` 的 registry 环境变量(:96-102),其余全是行号 +6**。
+> 基线:`upstream@8f1a1800e`(2026-11-25 复核;`pr-gate.yml` **375 行零 diff**、`check-submission.mjs` **584 行零 diff**,held-rescan 258→**262 行**——涨的 4 行是 job 级 fork 门)。0001 最大变更:commit floor 删除(#4196)+ 已收录仓库豁免 + 非法扩展名的显式归因。**0002 最大变更:非法 YAML 的显式归因(#4680)+ held-rescan 收编"CI 从未运行"的 PR(#2202)。** 0003/0006 对本专题零 diff;**0004 对 pr-gate 的唯一改动是 `npm ci` 的 registry 环境变量(:96-102),其余全是行号 +6**。**0007 对判决机同样零改动**——判据、阈值、出口一字未动,唯一变化在"谁在跑"这一层,见文末 0007 一节。**最近核验:`8f1a1800e`(2026-11-25)。**
 
 ## 分工
 
@@ -28,7 +28,7 @@
 
 - `GATE_EFFECTIVE_FROM`:2026-08-16T00:00:00Z(:58)之后开的 PR 才受年龄/门槛约束;
 - `BULK_RULE_FROM`:2026-08-20T00:00:00Z(:79)之后才受 ≤3 条上限约束;
-- workflow 侧(pr-gate.yml:152-153)用 `git log --diff-filter=A -- <pr-gate.yml>` 取 workflow 实际落地日作为 effective_from,**不让脚本默认值和现实漂移**。
+- workflow 侧(pr-gate.yml:158-159)用 `git log --diff-filter=A -- <pr-gate.yml>` 取 workflow 实际落地日作为 effective_from,**不让脚本默认值和现实漂移**。
 
 ### 判决的四种出口(:560-567 附近)
 
@@ -103,11 +103,24 @@
 | ok 全绿 | success | "dsh.bundle declared, repo old enough, enough commits" + modifiedNote(**上游遗留**:commit floor 已删但这句没改,现位于 **pr-gate.yml:368**)|
 | 有 failures | failure | 每条逐点列出 + 指向 contributing.md |
 
-## held-rescan.yml(258 行):"从未运行"也是队列成员
+## held-rescan.yml(262 行):"从未运行"也是队列成员
 
-0002 唯一改动(233→258 行):gate 过滤条件从 `gate !== 'SUCCESS'` 放宽为 `gate !== 'SUCCESS' && gate !== undefined`(:139),于是**根本没有 gate 判决**的 PR 也进队列。理由是:"A pull request whose branch conflicts with main has no merge ref, so GitHub never creates its `PR check` run"——**#2202 因此在作者四次追问下干等**。NEUTRAL 仍被排除(gate 跑过、只是配额耗尽 fail-open),两者不可混为一谈。
+0002 唯一改动(233→258 行):gate 过滤条件从 `gate !== 'SUCCESS'` 放宽为 `gate !== 'SUCCESS' && gate !== undefined`(:143),于是**根本没有 gate 判决**的 PR 也进队列。理由是:"A pull request whose branch conflicts with main has no merge ref, so GitHub never creates its `PR check` run"——**#2202 因此在作者四次追问下干等**。NEUTRAL 仍被排除(gate 跑过、只是配额耗尽 fail-open),两者不可混为一谈。
 
-配套:issue 表格新增 `gate` 列(✅/—,:190/:225),表头改为"green **or has never had the chance to run**",并明确补救手段是**维护者 rebase 到 main**,不是让作者 push。
+配套:issue 表格新增 `gate` 列(✅/—,:194/:229),表头改为"green **or has never had the chance to run**",并明确补救手段是**维护者 rebase 到 main**,不是让作者 push。
+
+**0007:258→262,只多了一道 job 门。** 新增的 4 行是 :44-47(三行注释 :44-46 + 一行 `if` :47,`if: github.repository_owner == 'awesome-dsh-plugin' || github.event_name == 'workflow_dispatch'`),上面那些判据与表格**一行没动**——过滤条件仍在 :143,gate 列仍在 :194,表头仍在 :229。对本仓的后果很具体:**每日 06:19 UTC 重生成那枚 tracking issue 的 job 在 fork 上不再自动跑**,所以本仓不会有自己的 held 队列;上游照常。
+
+## 0007:判决机零 diff,只换了"谁在跑"
+
+这一轮 `pr-gate.yml`(375 行)与 `check-submission.mjs`(584 行)都是**零 diff**——不是"改了但没看",是 `git diff 29b3ed46e 8f1a1800e -- .github/workflows/pr-gate.yml scripts/check-submission.mjs` 输出为空。所以上文的常量表、两级准入日期、四种出口、`hasBundle()` 三层、403 三义、memo、已收录豁免、非法 YAML 归因、判决翻译表**全部继续有效**,不需要按"历史"打折。
+
+真正变的是两条:
+
+1. **`pr-gate.yml` 没有加 fork 门,这是刻意的。** 八条里只有它和 `pr-check.yml` 没加。理由在读代码时是自明的:`pull_request` 事件在 fork 上仍要跑(`pr-check.yml`),`workflow_run` 就得跟着跑,否则 fork 里的 PR 只会有半张判决;而且 pr-gate 自己的 `if: github.event.workflow_run.event == 'pull_request'`(:33)已经是它的准入条件,再叠一层 owner 门等于让"PR 事件"与"判决"在 fork 上脱钩——**"没有 verdict"与"通过"不可区分**,正是这条链从 0001 起反复要防的形态。
+2. **`held-rescan` 加了门**(见上一节)。于是本专题的"人工 held 保鲜"半区只在上游组织自动运转;在本仓,它和 [pr-guard](./01-pr-check-and-guard.md) 一样,要手动 dispatch 才会跑一次。
+
+最后记一个不受影响的细节:`effective_from` 仍由 `git log --diff-filter=A -- .github/workflows/pr-gate.yml` 从文件**首次落地日**推出(:158-159),`pr-gate.yml` 零 diff 意味着这个日期不动——所以本轮新增的条目与既有条目适用的仍是同一条 age floor,不会因为一次同步被"重新按新规则审判"。
 
 ## 待复核
 
@@ -115,3 +128,5 @@
 - [ ] `concurrency.group: pr-gate-<head_sha>` cancel-in-progress 的实际效果(同一 head_sha 连续完成两次会互相取消?)UNVERIFIED,值得跑一次观察
 - [ ] **0002 新增**:`entries.mjs` 的 name↔url 规则(#5756)会不会误伤"顺手把 name 写成上游组织名"的合法条目——六条违规里五条指向不存在的仓库,可疑但未抽样全部
 - [ ] **0004 新增**:`validateEntries()` 只在 `generate-readme.mjs` 里跑,`build-site.mjs` 直接 `readEntries()`、不校验——main 上的 `build-site.yml` 会把 `icon` 原样写进 `plugins.json` 发布出去。今天挡住非法值的是"PR 里第 5 步先跑过"这个顺序,不是构建自己的判据;维护者直推 main 的路径没有这层保险。要否给构建/发布也接一层,未决
+- [ ] **0007 新增**:本仓的 `pr-gate` 仍会随 PR 事件跑,但它把 `--base` 指向的 base commit 来自 `workflow_run` 事件——本仓若与上游长期不同步,"已收录仓库豁免"(`listedReposAt(base)`)在本仓读到的会是本仓 main 的条目树。豁免集合与上游一致与否,未核
+- [ ] **0007 新增**:`held-rescan` 在 fork 上不跑,意味着本仓**没有**任何机制在提醒"某个 PR 的 `PR check` 从未运行";而这一轮同步后本仓恰好处在"多条 workflow 被门挡住"的状态,若将来本仓自己收 PR,这条静默面会放大。要不要在本仓保留一条手动扫描的节奏,未决

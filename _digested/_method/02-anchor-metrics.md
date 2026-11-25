@@ -23,7 +23,7 @@
 复现:
 
 ```sh
-python3 _digested/ecosystem/delta.py efe602e7b 29b3ed46e
+python3 _digested/ecosystem/delta.py 29b3ed46e 8f1a1800e
 python3 -m unittest _digested/ecosystem/test_delta.py
 ```
 

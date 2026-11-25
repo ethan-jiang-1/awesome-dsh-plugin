@@ -1,6 +1,6 @@
 # view_session — 会话管理
 
-> 已立册(914 条 / 新增 352 / owners 829、单件 92%)。⚠ 星标为历史采样。数据截止 `29b3ed46e`。
+> 已立册(1024 条 / 新增 111 / owners 931、单件 92%)。⚠ 星标为历史采样。数据截止 `8f1a1800e`(2026-11-25)。
 ![view_session 插件图谱](plugin-map.svg)
 
 > 健康/衰减:见 [`_data/health.md`](../_data/health.md)(2026-11-19 快照)。状态词定义见 [`../AGENTS.md`](../AGENTS.md) §二。
@@ -12,7 +12,7 @@
 
 ## 快照
 
-第三大类,本期占比 +0.6pp(头部加速并列第一)。新 owner 榜的 imcaibaicai(session×4)、879745uhjun(session×6)、liufeicc 都以 session 为主落点——与 ui 并列的新作者进场方向。
+第三大类,本期 1024 条:上期 914 → 净 +110(新增 111 / 删除 1),占比 +0.0pp 匀速。本轮新 owner 榜以 browser/tools 为主,session 不是主要进场方向。
 
 ## 锚(存量头部,⚠ 星标历史采样)
 

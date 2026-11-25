@@ -3,7 +3,7 @@
 > 站位声明:我是**评估者**,不是贡献者。关心的是这东西有什么用、生态长什么样、数据可不可信——不学怎么投稿、不复刻它的门禁。本目录的结构就按这个视角组织。
 
 **产品**:DSH = DeepSeek Harness(`deepseek-ai/deepseek-harness`,官方开源 agent 框架,"一切皆插件");本仓库是它的社区插件目录,`dsh plugin add` 安装制。
-**审计基线**:`main@29b3ed46e`(2026-11-18;0006 同步记录见 [`_change_log/`](./_change_log/00-index.md))。生态结构统计已按 **11744 条**重算;本轮上游源码有实质 diff——新增 Release 探针家族(probe-releases + 批量 GraphQL)、probe-stars 重写、site href 编码与 market-index 名仲裁、build-site.yml 缓存回写修复(site-surface 与 probes-and-decay 需复核/已改写,其余专题已核验)。下载/星标**未做全量重采**——仓库边车冻结于 2026-08-19;卡内逐条读数是 2026-11-18 采集;最新统一快照见 [`ecosystem/_snapshots/live-2026-11-19.json`](./ecosystem/_snapshots/live-2026-11-19.json),口径见 [`_method/02`](./_method/02-anchor-metrics.md)。
+**审计基线**:`main@8f1a1800e`(2026-11-25;0007 同步记录见 [`_change_log/`](./_change_log/00-index.md))。生态结构统计已按 **13136 条**重算;本轮上游源码有实质 diff——Release 历史成为第三个发布面(probe-release-history + `docs/release-history/v1/`)、tarball 安装命令加 `-w`、npm 身份例外(`publishedNpmName`)、**8 条 workflow 加 fork 安全门(本 fork 不再自动构建/部署)**、contributing 补发布时效、英文首页标题改用 "DSH Plugins"(site-surface / probes-and-decay / submission-gates 已复核改写,其余专题已核验)。下载/星标**未做全量重采**——仓库边车冻结于 2026-08-19;卡内逐条读数是 2026-11-19 快照,见 [`ecosystem/_snapshots/live-2026-11-19.json`](./ecosystem/_snapshots/live-2026-11-19.json),口径见 [`_method/02`](./_method/02-anchor-metrics.md)。
 
 ## 读法(三站)
 

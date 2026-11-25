@@ -1,10 +1,10 @@
 # 01 · pr-check 与 pr-guard:fork 安全层与元检查
 
-> 基线:`upstream@b4d0049a8`(0004 复核;pr-check 233→**244 行**,pr-guard 212 行未变)。行号对应该基线,段内引用为步骤序号。0003 对本专题零 diff,故 0002 的逐个结论原样带到 0004,只改有 diff 的部分。
+> 基线:`upstream@8f1a1800e`(2026-11-25 复核;pr-check 244→**246 行**、十二步,pr-guard 212→**216 行**)。行号对应该基线,段内引用为步骤序号。0002/0004 的逐个结论原样保留;0003、0006 对本专题零 diff,0005 只加合同文本(见 [00-map](./00-map.md)),**0007 只动两处**:pr-check 多一步测试、pr-guard 多一道 job 门。**最近核验:`8f1a1800e`(2026-11-25)。**
 
-## pr-check.yml(244 行,fork 可见的第一层)
+## pr-check.yml(246 行,fork 可见的第一层)
 
-触发 `pull_request`,权限 `contents: read`,无任何 secrets。**十一个 step** 依次(pr-check.yml:30-244;0001 六个、0002 十个):
+触发 `pull_request`,权限 `contents: read`,无任何 secrets。**十二个 step** 依次(pr-check.yml:30-246;0001 六个 → 0002 十个 → 0004 十一个 → **0007 十二个**):
 
 1. **Stale-fork 守卫**(:30)。计数对象是**条目文件数**(`git diff -- data/plugins/`)——README 行数口径下,一个只带 `data/plugins/` 的 stale fork 会显示干净的对称 diff;本口径提示语为"单一投稿应为 +1/-0"。防的仍是落后 fork 静默吞条目(#502 案,删除在中英两侧对称自洽)。
 2. **扩展名守卫**(:55)。`find data/plugins -type f ! -name '*.yml'`;丢失扩展名 = 沉默消失且全树自洽(#2495/#2140)。
@@ -16,9 +16,10 @@
 5. **READMEs match data/plugins**(:158-213)。两种形态都接受——yml-only(新常态:runner 现场重生成,保持树一致)与 yml+再生 README(仍须 `--check` 匹配,手改被抓)。**0002 修正比对对象**:从 checkout 出来的 `refs/pull/N/merge` 改为 **PR 自己的 head commit**(`base.sha...head.sha`)。原因是 `pull_request` 事件的检出停在 merge ref 上,"as soon as main advanced past the PR's base, the merge tree's READMEs differed from base.sha's READMEs"——**#5796 实测(2026-09-24):96 个开放 PR 里有 18 个挂在这个假红上**。新增 `git fetch refs/pull/N/head` 兜底,并且 head SHA 解析不出来时显式报错。
 6. **awesome-lint**(:214)。
 7-10. **四个纯规则测试**(:216-232;0002 三个、**0004 加 entry-path**):`node --test scripts/added-dates.test.mjs`、`scripts/capabilities.test.mjs`、`scripts/adopt-discussions.test.mjs`、`scripts/entries-path.test.mjs`。注释强调 "Pure rules only — no downloads, no scanner, no token" 与 "Pure rules only, no token and no network"——这是升级成"有测试的仓库"的同时不破坏 fork 安全边界的做法(测试不许联网、不许要 token)。
-11. **站点构建**(:233),带 `SKIP_PUBLISH_CHECKS=1`、探针数据缺失容忍——PR 检查必须免 token、fork 安全,发布前的 star 覆盖率门槛在这里关掉。
+11. **`node --test scripts/npm-name.test.mjs`**(:233-234,**0007 新增**,步骤名 "Published npm identity tests")——见下方 0007 段落。
+12. **站点构建**(:235),带 `SKIP_PUBLISH_CHECKS=1`、探针数据缺失容忍——PR 检查必须免 token、fork 安全,发布前的 star 覆盖率门槛在这里关掉。
 
-**0004 新增:`icon` 的准入判据在第 5 步生效,不在 pr-gate。** 这是本轮唯一新增的**内容判据**,却和"实质层"无关:`validateEntries()` 全仓只被 `scripts/generate-readme.mjs:95` 调用,失败就 `exit 1`("N problem(s) in data/plugins — refusing to generate.");第 5 步的两条分支都会跑到它——yml-only 走 `node scripts/generate-readme.mjs`(:206),改了 README 的走 `:210` 的 `--check`。所以非法 `icon` 让 `PR check` 红,而 `Submission gate` 那枚判决一动不动:`check-submission.mjs` 里没有任何一行读 `icon`。判据本身(`entries.mjs:116-134`,接在 `:247-253`)是四个条件的合取——非空字符串且能解析、`https`、`hostname` 精确等于四台之一(`raw.githubusercontent.com`、`user-images.githubusercontent.com`、`camo.githubusercontent.com`、`github.com`)、`pathname` 小写后以 `.png`/`.jpg`/`.jpeg`/`.webp` 结尾。**SVG 没有专门分支**,是被最后一条挡下的。与合同的两处差:`contributing.md:169-173` 只写"GitHub 托管",没列这四台,而报错只报作者用的那台(`entries.mjs:129`),所以 `avatars.githubusercontent.com` 这类"明明是 GitHub、却不在名单里"的主机会得到一句 "must be hosted on GitHub"——方向对、照做不了;模板里的 `icon:`(:21)是**活示例**,照抄能过检,但它指向的 `owner/repo/main/assets/icon-180.png` 九成不存在,而 404 在判据里合法。当前 13 条条目带 `icon:`,基线 0 条。
+**0004 新增:`icon` 的准入判据在第 5 步生效,不在 pr-gate。** 这是本轮唯一新增的**内容判据**,却和"实质层"无关:`validateEntries()` 全仓只被 `scripts/generate-readme.mjs:95` 调用,失败就 `exit 1`("N problem(s) in data/plugins — refusing to generate.");第 5 步的两条分支都会跑到它——yml-only 走 `node scripts/generate-readme.mjs`(:206),改了 README 的走 `:210` 的 `--check`。所以非法 `icon` 让 `PR check` 红,而 `Submission gate` 那枚判决一动不动:`check-submission.mjs` 里没有任何一行读 `icon`。判据本身(`entries.mjs:116-134`,接在 `:247-253`)是四个条件的合取——非空字符串且能解析、`https`、`hostname` 精确等于四台之一(`raw.githubusercontent.com`、`user-images.githubusercontent.com`、`camo.githubusercontent.com`、`github.com`)、`pathname` 小写后以 `.png`/`.jpg`/`.jpeg`/`.webp` 结尾。**SVG 没有专门分支**,是被最后一条挡下的。与合同的两处差:`contributing.md:198-200` 只写"GitHub 托管",没列这四台,而报错只报作者用的那台(`entries.mjs:129`),所以 `avatars.githubusercontent.com` 这类"明明是 GitHub、却不在名单里"的主机会得到一句 "must be hosted on GitHub"——方向对、照做不了;模板里的 `icon:`(:21)是**活示例**,照抄能过检,但它指向的 `owner/repo/main/assets/icon-180.png` 九成不存在,而 404 在判据里合法。当前 13 条条目带 `icon:`,基线 0 条。
 
 **0004 新增:entry-path 测试修的是"通过"与"没跑过"的本地版本,不是 CI 判决。** `readEntries()` 现在把 `file` 归一化成 POSIX(`entries.mjs:75` 的 `toPosix`,`:105` 应用)。原来的故障链在 Windows 上:`path.join` 给出 `data\plugins\x.yml`,而 `check-submission.mjs:495` 拿它去比 `git diff --name-only` 的集合,恒不命中 → `targets` 为空 → `:507` 打印 "no entry files added or changed — nothing to verify" → `:508` 写下 `{ok:true, checked:0}` → 退出码 0。**一个明显加了条目的 PR 得到一份自称通过的判决**,正是脚本自己在 `:501-505` 注释里点名要防的那种 gate。但别把影响说大:GitHub 的 runner 是 ubuntu-latest(`pr-check.yml:15`),而且 `pr-gate` 调校验器时带 `--only-list`(`pr-gate.yml:177-182`),过滤用的是 `path.basename`(`:491`),根本不走 `changedEntryFiles()`(`:415-417`)。所以**这条修复不改变任何 CI 判决**;它修的是"照 CI 的方式在本机复跑"这条路(维护者在 Windows 上手动跑)以及 `::error file=` 注解(`:570`)——注解要的本来就是仓库相对的 POSIX 路径。配套测试 `scripts/entries-path.test.mjs`(65 行、3 个 test)覆盖三种形状:绝对目录、`process.chdir` 进临时树后用默认的 `data/plugins`、以及 `icon` 的三条断言。诚实的边界写在覆盖面上:在 POSIX 主机上 `path.sep === '/'` 会短路 `toPosix`,这两条对"分隔符"这一项恒真——它们钉住的是**输出契约**,不是**那次回归**(只有在 Windows 上跑才会红);`icon` 也只测了"异地主机"和"SVG"两个拒绝分支,非字符串、非 https、其余三台主机、以及 `github.com` 的 blob 页都没测。
 
@@ -34,9 +35,11 @@
 
 对"什么会打回我的 PR"的结论是零影响;对"这个目录的披露可不可信"的结论是**一层不可约的不透明**——它是唯一一个"判断会变成目录对外披露、而我们只能核接口"的依赖。`dsh-trust-check` 自己又是已收录条目(`data/plugins/liuwenji007__dsh-trust-check.yml`)——同一份代码既是被审对象、又是审查工具,这条"自食其粮"仍无成文政策。
 
+**0007 新增的第 11 步:一条身份映射的回归网,不是新判据。** pr-check 本轮只多了这两行(`:233-234`),测的是 12 行的 `scripts/lib/npm-name.mjs`——一个硬编码例外:`tests4gptplay/dsh-dots` 的经典列表条目在主仓 main 被 Dot MCP 占用之后,仍解析到已发布的 `@tests4gptplay/dsh-dots`,其余条目一律用 `package.json` 声明名。6 例覆盖四种形状:已发布身份走例外、别的仓库同名不继承、不覆盖将来源码自己声明的名字、以及子包解析自己的名字。**它不放宽也不收紧任何门槛**:不读 `data/plugins/`、不联网、不要 token,跑红了只说明有人动了那张映射表却没顾上某个 case。顺带记一个**注释面的不对称**:前四步里有三步写着 "Pure rules only … no token and no network",这一步没写——不是纪律松了,而是它没有需要承诺的边界(只 import `node:assert`、`node:test` 和那个纯函数)。判据侧的清单仍是 0002/0004 那几条,一条没动;身份解析的归属见 [registry-data](../registry-data/00-map.md) 与 [probes-and-decay](../probes-and-decay/00-map.md)。
+
 ## 为什么需要 pr-guard.yml:两类「检查根本不会运行」的状态
 
-pr-guard.yml:1-27 的注释是全文最关键的设计说明(0002 复核:文件本身零 diff):
+pr-guard.yml:1-27 的注释是全文最关键的设计说明(0002 复核:当时文件零 diff;0007 只在 job 上加了一道门,这段注释未动):
 
 - **状态一:PR 删掉了 pr-check.yml 本身。** GitHub 对 `pull_request` 事件取的是 PR merge ref 里的 workflow 文件——删文件的 PR 同时删掉了审判自己的法官。零 check run,和"CI 还没跑完"在队列里不可区分。#1635 真实发生:五个 workflow 文件被删,零检查运行。
 - **状态二:PR 动了 `.github/` 下任何文件。** 投稿者不会故意这么干——这是 stale fork 的指纹:fork 的 `.github` 早于现行 CI,sync 回来会把旧 workflow 推回来,合并即静默回滚所有人的 CI(#1614、#1635)。
@@ -45,13 +48,15 @@ pr-guard.yml:1-27 的注释是全文最关键的设计说明(0002 复核:文件�
 
 > **0002 补记**:held-rescan 后来补上了这类状态的第三种子情形——**分支与 main 冲突的 PR 没有 merge ref,GitHub 根本不会为它创建 `PR check` run**(#2202)。pr-guard 抓的是"检查被外力关掉",held-rescan 抓的是"检查从未有机会跑",两者合起来才覆盖"没有 check run"的全部成因。见 [02](./02-pr-gate-and-check-submission.md)。
 
+**0007 新增:这条守护线在 fork 上被一道 job 门挡住了。** `guard:`(:42)下面是三行注释(:43-45)加一行条件,`:46` 是 `if: github.repository_owner == 'awesome-dsh-plugin' || github.event_name == 'workflow_dispatch'`。注释直说理由——"A fork mirrors the catalog but has no upstream PRs to guard… this one runs hourly",省的是 fork owner 的配额(它每小时一次,是八条里最贵的节奏)。对本仓的含义要说透:**这不是"检查还没跑",是"检查不会跑"**——而 pr-guard 存在的全部理由就是抓这一类状态。本仓若有人对自己提 PR,删 workflow 文件与动 `.github/` 这两种形态在本仓没有替补(`pr-check` 自己就在那个 PR 的爆炸半径里,这正是 pr-guard 被拆出来的原因)。条件按**仓库 owner** 判、不看 PR 数;`event_name == 'workflow_dispatch'` 那支与 owner 无关,所以维护者仍可手动跑一次。
+
 ## pr-guard.yml 运行机制
 
-- **成本纪律**:一条 GraphQL 查询按 50 个 PR 分页,同时携带文件列表(first:100)与 head commit 的 checkSuites/checkRuns;REST 等价物约 350 次调用,会挤兑门禁依赖的 1000/h 仓库配额(:64-69,又见 :113-116:GraphQL 返回 SCREAMING_CASE 结论枚举,与 REST 小写直接比较永远为 false——第一版撤回逻辑因此从不触发)。
-- **两分钟原则变成九十分钟原则**(:48-57):"没有检查"只对出生满 `MIN_AGE_MINUTES=90` 的 PR 标;首次贡献者的 fork PR 要等维护者批准才起跑,等待以小时计,20 分钟版会把正常投稿哭成狼。
-- **判决每轮重算、只在变化时张贴**(:119-129):第一版贴了 failure 就永不复查,#1624 在检查变绿后仍挂着红 X。"过期的红"与"过期的绿"互为镜像,同属这个 guard 要防的事。**0002:这个"过期证据"的论证被 regate 推广到了红 check 本身**(见 [03](./03-regate-and-bleed.md))。
-- files 超 100 时补一次 REST 全量分页(:131-143),不从残缺清单里得出"没动配置文件"。
-- 对 `.github/` 触碰给出可直接粘贴的三行恢复命令,并解释 push 被 workflow scope 拒绝时是同一根因的另一面(:163-172)。
+- **成本纪律**:一条 GraphQL 查询按 50 个 PR 分页,同时携带文件列表(first:100)与 head commit 的 checkSuites/checkRuns;REST 等价物约 350 次调用,会挤兑门禁依赖的 1000/h 仓库配额(:68-73,又见 :115-119:GraphQL 返回 SCREAMING_CASE 结论枚举,与 REST 小写直接比较永远为 false——第一版撤回逻辑因此从不触发)。
+- **两分钟原则变成九十分钟原则**(:51-61):"没有检查"只对出生满 `MIN_AGE_MINUTES=90` 的 PR 标;首次贡献者的 fork PR 要等维护者批准才起跑,等待以小时计,20 分钟版会把正常投稿哭成狼。
+- **判决每轮重算、只在变化时张贴**(:123-133):第一版贴了 failure 就永不复查,#1624 在检查变绿后仍挂着红 X。"过期的红"与"过期的绿"互为镜像,同属这个 guard 要防的事。**0002:这个"过期证据"的论证被 regate 推广到了红 check 本身**(见 [03](./03-regate-and-bleed.md))。
+- files 超 100 时补一次 REST 全量分页(:135-147),不从残缺清单里得出"没动配置文件"。
+- 对 `.github/` 触碰给出可直接粘贴的三行恢复命令,并解释 push 被 workflow scope 拒绝时是同一根因的另一面(:167-176)。
 
 ## 与上游冲突解决工具:maint-rebase.sh
 
@@ -66,7 +71,8 @@ pr-guard.yml:1-27 的注释是全文最关键的设计说明(0002 复核:文件�
 ## 待复核
 
 - [ ] ISSUE_TEMPLATE/list-problem.yml 的字段与 decay scan 处置流的衔接(与 probes-and-decay 共同核验)
-- [ ] **0002 新增**:四个 `node --test` 步骤在 fork PR 上确认真的不触网(注释是承诺,未见 CI 层面的网络隔离;`entries-path.test.mjs` 自己 `process.chdir`,更值得确认它不会读到工作树之外的东西)
+- [ ] **0002 新增**:五个 `node --test` 步骤(0007 把 npm identity 那步加进来)在 fork PR 上确认真的不触网(注释只覆盖其中三步,另两步靠代码本身:新增那步只 import `node:assert`/`node:test`/纯函数,没有可联网的面;`entries-path.test.mjs` 自己 `process.chdir`,更值得确认它不会读到工作树之外的东西)
 - [ ] **0004 新增**:`entries-path.test.mjs` 的分隔符断言在 POSIX runner 上恒真——它测的是形状,不是那次 Windows 回归。要真回归,需要有人偶尔在 Windows 上跑一次这 65 行
 - [ ] **0004 新增**:`icon` 的五个拒绝分支只测了两个(异地主机、SVG);`https` 强制、非字符串、以及 `github.com` 的 blob 页(能过检却取回 HTML)都无测试
 - [ ] **0004 新增**:`npm_config_replace_registry_host` 只在 CI 生效,lockfile 里仍有 7 条 npmmirror 的 `resolved`——本机 `npm ci` 仍走镜像,一旦镜像再 504,贡献者的本地复现与 CI 会分叉
+- [ ] **0007 新增**:pr-guard 的 job 门(:46)把这条守护线留在了上游。本仓若自己收 PR,"删掉 workflow 文件"与"动了 `.github/`"这两种零 check 状态无人抓,而这两种恰好是**检查不会跑**而不是**还没跑**——是否需要在本仓练一次手动 dispatch 当应急预案,未演练

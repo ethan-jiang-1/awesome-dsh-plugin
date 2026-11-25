@@ -1,6 +1,6 @@
 # 02 · scan-decay:腐坏判据与人机分工
 
-> 基线:`upstream@29b3ed46e`(0006 复核,2026-11-18)。`scan-decay.mjs` 仍 **388 行**,自 0002 基线 `c18ba4a0d` 起逐字节未变,**0006 亦零 diff**(`decay-scan.yml` 本轮也无改动);此前 0004(基线 `b4d0049a8`,2026-10-24)唯一的 diff 是 `decay-scan.yml` 的 `npm ci` registry 覆盖(6 行,:28-34),触发、权限、并发语义都没动。所以 0006 在本专题没有"新判据",判据闭合与安装源两节仍是 0004 的记录。
+> 基线:`upstream@8f1a1800e`(0007 复核,2026-11-25)。`scan-decay.mjs` 仍 **388 行**,自 0002 基线 `c18ba4a0d` 起逐字节未变,**0006、0007 均零 diff**;`decay-scan.yml` 在 0006 也没动,0007 只加了 4 行 **job 级 fork 门**(`if: github.repository_owner == 'awesome-dsh-plugin' || github.event_name == 'workflow_dispatch'`,:22-25)——触发、权限、并发、判据全未变,所以本专题在 0007 同样没有"新判据",判据闭合与安装源两节仍是 0004 的记录。此前 0004(基线 `b4d0049a8`,2026-10-24)唯一的 diff 是 `decay-scan.yml` 的 `npm ci` registry 覆盖(6 行,现 :32-38),触发、权限、并发语义都没动。最近核验:`8f1a1800e`。
 
 ## 职责边界
 

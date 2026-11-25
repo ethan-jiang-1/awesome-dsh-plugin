@@ -1,17 +1,21 @@
 # submission-gates · 提交与门禁
 
-> 状态:**0005 已核验**。10 条 workflow 与两个校验脚本**零 diff**(行数同 0004:pr-check 244、pr-gate 375、entries.mjs 281、regate 369、held-rescan 258、pr-guard 212、check-submission 584、check-bleed 94);本轮唯一变化在**合同文本**:`contributing.md` 新增「After review」一节(+20/−1),把 `held: author` 的语义、tracking issue 自查与 gate 列 `—` 的含义写清楚。最近核验:`efe602e7b`,2026-10-31。(0003 对本专题是零 diff 同步,故"已复核"从 0002 直接接到 0004。)
+> 基线:`upstream@8f1a1800e`(2026-11-25)。**0007 已核验**:判据一条没改,**谁在跑**变了。`pr-gate.yml`(375)、`check-submission.mjs`(584)、`check-bleed.mjs`(94)、`scripts/lib/entries.mjs`(281)一行未动;`pr-check.yml` 244→**246**(十二步,多的那步是 `npm-name.test.mjs`);`pr-guard` 212→**216**、`regate` 369→**373**、`held-rescan` 258→**262**——后三条涨的全是 job 级 fork 门。workflow 总数仍 **10 条**,没有增删。**最近核验:`8f1a1800e`,2026-11-25。**
+>
+> 行号口径:全页行号按当前 checkout(`8f1a1800e`);本轮 diff 造成的偏移已就地更新,0006 及更早的**结论**原样保留并按轮次标注(0003、0006 对本专题都是零 diff 同步,`pr-check` 与两个校验器的行数从 0004 一直稳到 0006)。
+>
+> **0005 记录(历史)**:10 条 workflow 与两个校验脚本**零 diff**(行数同 0004:pr-check 244、pr-gate 375、entries.mjs 281、regate 369、held-rescan 258、pr-guard 212、check-submission 584、check-bleed 94);本轮唯一变化在**合同文本**:`contributing.md` 新增「After review」一节(+20/−1),把 `held: author` 的语义、tracking issue 自查与 gate 列 `—` 的含义写清楚。最近核验:`efe602e7b`,2026-10-31。(0003 对本专题是零 diff 同步,故"已复核"从 0002 直接接到 0004。)
 
 ![submission-gates 复核后结构图(0001)](./gates-overview.svg)
-*0001 复核产物:三道准入门 + 两条保鲜线 + 一条监督线;绿=未变 / 橙=本轮变更 / 蓝=新增。行号级细节见四篇笔记。0002 未重绘此图(结构不变,变的是门禁内部的判据与例外);0004 同样未重绘——准入层仍是三道,变的是 pr-check 从十步变十一步、共享校验器多了一条字段判据。*
+*0001 复核产物:三道准入门 + 两条保鲜线 + 一条监督线;绿=未变 / 橙=本轮变更 / 蓝=新增。行号级细节见四篇笔记。0002 未重绘此图(结构不变,变的是门禁内部的判据与例外);0004 同样未重绘——准入层仍是三道,变的是 pr-check 从十步变十一步、共享校验器多了一条字段判据。**0007 依然未重绘**:3+2+1 的层次没动,变的是这张图上四条线在本仓不再自动点亮——准入层在本 fork 实际只剩两条(见 §0007)。*
 
 ## 定位
 
-一个日均几十个 commit 的注册表,人工 review 是瓶颈也是最后防线。机器门禁的职责因此非常明确:**把形式问题在合并前拦下,并保证「没有核验过」永远不会被读成「已核验」**。这个专题记录六条 workflow + 两个校验脚本(加一个共用的 `scripts/lib/entries.mjs`)如何构成这台防线(0001:结构从"五条门禁"改为 **3 道准入门 + 2 条保鲜线 + 1 条监督线**——held-rescan 不做判决,是队列保鲜线,与 regate 构成"stale green 会被合并"哲学的机器/人工两个半区)。
+一个日均几十个 commit 的注册表,人工 review 是瓶颈也是最后防线。机器门禁的职责因此非常明确:**把形式问题在合并前拦下,并保证「没有核验过」永远不会被读成「已核验」**。这个专题记录六条 workflow + 两个校验脚本(加一个共用的 `scripts/lib/entries.mjs`)如何构成这台防线(0001:结构从"五条门禁"改为 **3 道准入门 + 2 条保鲜线 + 1 条监督线**——held-rescan 不做判决,是队列保鲜线,与 regate 构成"stale green 会被合并"哲学的机器/人工两个半区)。**0007 起要加一句读法**:同一台机器有两个坐标——上游 `awesome-dsh-plugin` 组织里六条都自动跑,本仓库(`ethan-jiang-1/awesome-dsh-plugin`,fork)里只有 PR 路径的两条(`pr-check` → `pr-gate`)自动跑,其余四条要手动 dispatch。
 
 ## 设计原则(从源码与注释中提炼)
 
-1. **fork 安全优先于一切。** 面向 fork PR 的 `pull_request` job 没有 token(`pr-check.yml`),所有需要认证 API 的检查挪进 `workflow_run` 触发的 `pr-gate.yml`,在基础仓库上下文里跑;checkout 永远停在 main,PR 的 YAML 只作为数据被 `git archive` 抽出,**绝不执行来自 PR 的任何代码**(`pr-gate.yml:9-15` 有显式 SECURITY 注释)。0002/0004 新增的四个测试步骤也守这条:注释分别写明 "Pure rules only — no downloads, no scanner, no token" 与 "Pure rules only, no token and no network"。
+1. **fork 安全优先于一切。** 面向 fork PR 的 `pull_request` job 没有 token(`pr-check.yml`),所有需要认证 API 的检查挪进 `workflow_run` 触发的 `pr-gate.yml`,在基础仓库上下文里跑;checkout 永远停在 main,PR 的 YAML 只作为数据被 `git archive` 抽出,**绝不执行来自 PR 的任何代码**(`pr-gate.yml:9-15` 有显式 SECURITY 注释)。0002/0004/0007 新增的五个测试步骤也守这条:注释分别写明 "Pure rules only — no downloads, no scanner, no token" 与 "Pure rules only, no token and no network"(0007 那一步没写注释,但同样不读条目、不联网)。
 2. **判决是快照,会过期。** regate 用**七类**理由重跑(0001 只有四类 urgent + passStale):从未被判、判决早于当前门禁代码、被判早于当前**检查代码**、门禁本身跑挂、「时间能解决」的失败、neutral(fail-open 放行的未核验);连绿灯满 48 小时也会被重查。0002 的新论点是**"过期证据"不再专属于 gate**:红 `check` 若比 `check` 自身的代码还旧,也是过期证据(见 [03](./03-regate-and-bleed.md))。
 3. **门槛过滤的是仓库,不是投稿动作。** 已收录仓库豁免(`listedReposAt(base)`,从条目**文件名**解析 owner/repo,base 读不到一律视为"全部新仓库"fail-closed)——在自己仓里挪目录的插件不再被重新审判(#1554 的改名绕过检查原样保留:改名落到未收录仓库仍受全量审查)。
 4. **fail-open 但必须自曝。** 配额挤兑时条目放行但标 neutral,"nothing here vouches for them";检查器自身崩溃明确写成 failure 而非静默绿("The gate could not run" 现在还会被 regate 认出来并 1 小时后自动重问,#5083)。这条纪律源自 2026-08-18 六个不达标条目因 403 与正常通过不可区分而变绿的翻车。
@@ -22,27 +26,27 @@
 
 ### 准入门
 
-| workflow | 触发 | 权限面 | 职责 |
-|----------|------|--------|------|
-| [`pr-check.yml`](./01-pr-check-and-guard.md)(244 行) | `pull_request`(含 fork) | 无 token | 形式层(**十一步**):stale-fork 守卫(数条目文件)、`.yml` 扩展名守卫、条目路径守卫、**"只改生成 README 行不算投稿"(0002 新增)**,README 一致性(两种形态、比对 PR head;`generate-readme` 就在这一步跑,**0004 的 `icon` 判据从这儿生效**),awesome-lint,**四个纯规则测试**(0002 三个 + 0004 entry-path),站点构建 |
-| [`pr-gate.yml`](./02-pr-gate-and-check-submission.md)(375 行) | `workflow_run: PR check completed` | 有 token | 实质层:dsh.bundle 清单、仓库年龄≥1天、每 PR ≤3 条、已收录仓库豁免、**条目文件必须能被 YAML 解析(0002 新增)**;产出 check-run 判决 |
-| [`pr-guard.yml`](./01-pr-check-and-guard.md)(212 行,未变) | schedule `37 * * * *` + 手动 | 元检查 | 抓两类"其他检查根本不会运行"的状态:删掉 workflow 文件的 PR(#1635)、动了 `.github/` 的 stale fork(#1614/#1635) |
+| workflow | 触发 | 权限面 | 本 fork 自动跑 | 职责 |
+|----------|------|--------|----------------|------|
+| [`pr-check.yml`](./01-pr-check-and-guard.md)(246 行) | `pull_request`(含 fork) | 无 token | **是**(PR 事件) | 形式层(**十二步**):stale-fork 守卫(数条目文件)、`.yml` 扩展名守卫、条目路径守卫、**"只改生成 README 行不算投稿"(0002 新增)**,README 一致性(两种形态、比对 PR head;`generate-readme` 就在这一步跑,**0004 的 `icon` 判据从这儿生效**),awesome-lint,**五个纯规则测试**(0002 三个 + 0004 entry-path + **0007 npm identity**),站点构建 |
+| [`pr-gate.yml`](./02-pr-gate-and-check-submission.md)(375 行) | `workflow_run: PR check completed` | 有 token | **是**(级联) | 实质层:dsh.bundle 清单、仓库年龄≥1天、每 PR ≤3 条、已收录仓库豁免、**条目文件必须能被 YAML 解析(0002 新增)**;产出 check-run 判决 |
+| [`pr-guard.yml`](./01-pr-check-and-guard.md)(216 行) | schedule `37 * * * *` + 手动 | 元检查 | **否**(0007 起,:46) | 抓两类"其他检查根本不会运行"的状态:删掉 workflow 文件的 PR(#1635)、动了 `.github/` 的 stale fork(#1614/#1635) |
 
 ### 保鲜线
 
-| workflow | 触发 | 权限面 | 职责 |
-|----------|------|--------|------|
-| [`regate.yml`](./03-regate-and-bleed.md)(369 行) | schedule `19 */6 * * *` + 手动 | 重跑驱动 | 机器判决保鲜:**七类理由**(never/stale/aged/unverified/**faulted**/**checkStaleRed** + passStale),调度三层 blocking→revalidate→speculative,每轮 ≤20 次 |
-| [`held-rescan.yml`](./02-pr-gate-and-check-submission.md)(258 行) | schedule `19 6 * * *` | issues:write | **人工 held 保鲜**:每日列出"已修好仍挂 `held: author`"的 PR 到单一 tracking issue;**0002 起把"CI 从未运行"(分支与 main 冲突,无 merge ref)也入列**,新增 gate 列 ✅/—,NEUTRAL 仍不算过;**绝不自动摘 label** |
+| workflow | 触发 | 权限面 | 本 fork 自动跑 | 职责 |
+|----------|------|--------|----------------|------|
+| [`regate.yml`](./03-regate-and-bleed.md)(373 行) | schedule `19 */6 * * *` + 手动 | 重跑驱动 | **否**(0007 起,:38) | 机器判决保鲜:**七类理由**(never/stale/aged/unverified/**faulted**/**checkStaleRed** + passStale),调度三层 blocking→revalidate→speculative,每轮 ≤20 次 |
+| [`held-rescan.yml`](./02-pr-gate-and-check-submission.md)(262 行) | schedule `19 6 * * *` | issues:write | **否**(0007 起,:47) | **人工 held 保鲜**:每日列出"已修好仍挂 `held: author`"的 PR 到单一 tracking issue;**0002 起把"CI 从未运行"(分支与 main 冲突,无 merge ref)也入列**,新增 gate 列 ✅/—,NEUTRAL 仍不算过;**绝不自动摘 label** |
 
 ### 监督线
 
-| workflow | 触发 | 权限面 | 职责 |
-|----------|------|--------|------|
-| `decay-scan.yml` | 归 [probes-and-decay](../probes-and-decay/00-map.md) | — | 收录后的持续监督,不属于准入 |
-| `site-health.yml`(0002 新增) | schedule `23 7 * * *` | contents:read | 盯**线上字节**:页面数落后 catalog 超过 tolerance(300)即红,归 [site-surface](../site-surface/00-map.md) |
+| workflow | 触发 | 权限面 | 本 fork 自动跑 | 职责 |
+|----------|------|--------|----------------|------|
+| `decay-scan.yml` | 归 [probes-and-decay](../probes-and-decay/00-map.md) | — | **否**(0007 起,:25) | 收录后的持续监督,不属于准入 |
+| `site-health.yml`(0002 新增) | schedule `23 7 * * *` | contents:read | **否**(0007 起,:37) | 盯**线上字节**:页面数落后 catalog 超过 tolerance(300)即红,归 [site-surface](../site-surface/00-map.md) |
 
-> 口径注:本专题覆盖六条 workflow——三道准入门 + regate/held-rescan(保鲜线)+ decay-scan(监督线);`build-site.yml` 归 site-surface、`sync-readme.yml` 归 readme-pipeline、`adopt-discussions.yml`/`site-health.yml` 分别归 [probes-and-decay](../probes-and-decay/00-map.md) 与 [site-surface](../site-surface/00-map.md)(后两条不在本专题的六条里)。全仓 workflow 总数 0001 八条 → 0002 **十条**。
+> 口径注:本专题覆盖六条 workflow——三道准入门 + regate/held-rescan(保鲜线)+ decay-scan(监督线);`build-site.yml` 归 site-surface、`sync-readme.yml` 归 readme-pipeline、`adopt-discussions.yml`/`site-health.yml` 分别归 [probes-and-decay](../probes-and-decay/00-map.md) 与 [site-surface](../site-surface/00-map.md)(后两条不在本专题的六条里)。全仓 workflow 总数 0001 八条 → 0002 **十条**,0007 仍 **十条**(八条只加 job 门,没有拆并)。
 
 配套脚本:[`check-submission.mjs`](./02-pr-gate-and-check-submission.md)(584 行,实质校验,未变)、[`check-bleed.mjs`](./03-regate-and-bleed.md)(94 行,描述串染检测,#1348,未变),以及两者都要经过的共享层 `scripts/lib/entries.mjs`(0004 起 281 行):`readEntries()` 决定条目的 `file` 长什么样,`validateEntries()` 决定一个条目文件允不允许存在——0004 新增的 `icon` 判据就在这里(`:116-134` 定规则、`:247-253` 接入主循环)。
 
@@ -50,7 +54,7 @@
 
 "CI 通过是前置条件,不是结论"(contributing.md:92)。**八个评审维度**(0001:+7 纯聚合包不单收;+8 依赖须指向原作者):描述与代码一致、分类合理(永不打回,维护者直接改)、真实可用代码、是否重复收录(规则不是先来后到,是谁更好)、源码无可疑行为(常识检查而非安全审计)、PR 不碰无关条目、聚合包、依赖归属。
 
-**0002 更新**:≤3 条上限的论据被重新称量——contributing.md:154 现在写"当初定这个余量时"是 92×1 / 8×2,而 **2026-09-24 对最近 100 个"新增过条目"的 PR 重数得 88×1、3×2、9×3**。也就是"没人一次加 3 条"已不成立,余量正在被真实使用(多子包 monorepo)。contributing 另保留两条投稿方预防性警告:tarball 用 `latest/download/`+版本名资产 = 下次发版即 404 的静默腐烂;peerDeps 不带显式预发布分支会静默排除 prerelease。表述基调不变:「我们不是插件好坏的裁判」。
+**0002 更新**:≤3 条上限的论据被重新称量——contributing.md:162 现在写"当初定这个余量时"是 92×1 / 8×2,而 **2026-09-24 对最近 100 个"新增过条目"的 PR 重数得 88×1、3×2、9×3**。也就是"没人一次加 3 条"已不成立,余量正在被真实使用(多子包 monorepo)。contributing 另保留两条投稿方预防性警告:tarball 用 `latest/download/`+版本名资产 = 下次发版即 404 的静默腐烂;peerDeps 不带显式预发布分支会静默排除 prerelease。表述基调不变:「我们不是插件好坏的裁判」。
 
 ## 0005 变化:合同补上了 held 的语义
 
@@ -70,7 +74,35 @@
 
 由此被拒的形状:非字符串/空值("must be a URL string")、解析不了("is not a valid URL")、http("must be https")、异地主机("must be hosted on GitHub (got X)")、任何非位图后缀。**SVG 没有专门分支**,是被第 4 条挡下的——报错落在 "must point at a raster image"。判据读的是 **URL 字符串而不是字节**:`https://github.com/<owner>/<repo>/blob/main/icon.png` 主机与后缀都满足、一路通过,但它取回来的是 HTML 页面;真正兜底的是消费端(提交信息写明 dsh-market 在"字段缺失**或图片加载失败**"时回退作者头像)。当前 13 条条目带 `icon:`,基线是 0 条。
 
-落点值得记一笔:它**不在 pr-gate**,而在 pr-check 第 5 步——`generate-readme.mjs:95` 调 `validateEntries()` 并 `exit 1`("N problem(s) in data/plugins — refusing to generate.")。所以非法 `icon` 让 `PR check` 变红,而 `Submission gate` 那枚判决完全不动:`check-submission.mjs` 一行都没读 `icon`。契约面还剩两处缝(见 [01](./01-pr-check-and-guard.md)):contributing 只说"GitHub 托管",没列四台主机(`contributing.md:169-173`);模板里的 `icon:` 是一条**活的**示例 URL(指向 `owner/repo/main/assets/icon-180.png`),照抄不会报错,但九成是 404——而 404 在判据里是合法输入。
+落点值得记一笔:它**不在 pr-gate**,而在 pr-check 第 5 步——`generate-readme.mjs:95` 调 `validateEntries()` 并 `exit 1`("N problem(s) in data/plugins — refusing to generate.")。所以非法 `icon` 让 `PR check` 变红,而 `Submission gate` 那枚判决完全不动:`check-submission.mjs` 一行都没读 `icon`。契约面还剩两处缝(见 [01](./01-pr-check-and-guard.md)):contributing 只说"GitHub 托管",没列四台主机(`contributing.md:198-200`);模板里的 `icon:` 是一条**活的**示例 URL(指向 `owner/repo/main/assets/icon-180.png`),照抄不会报错,但九成是 404——而 404 在判据里是合法输入。
+
+## 0007:门的判据一条没改,谁在跑全变了
+
+八条 workflow 在 **job 级**加同一行条件(每条 +4 行 = 3 行注释 + 1 行 `if`):
+
+```yaml
+if: github.repository_owner == 'awesome-dsh-plugin' || github.event_name == 'workflow_dispatch'
+```
+
+落点:`build-site.yml:78`、`sync-readme.yml:53`、`decay-scan.yml:25`、`pr-guard.yml:46`、`regate.yml:38`、`held-rescan.yml:47`、`adopt-discussions.yml:49`、`site-health.yml:37`。**`pr-check.yml` 与 `pr-gate.yml` 不加门**——PR 事件在 fork 上仍要跑,判卷这件事不能外包给上游。workflow 总数仍 10 条,一条判据也没有改。
+
+`sync-readme.yml` 是唯一 +4/−1:新条件与既有的 `github.actor != 'github-actions[bot]'` 用 `&&` 合并(:53),语义是叠加而非替换——机器人自己触发的 push 照旧跳过,人工 dispatch 照旧放行。
+
+**为什么加**,注释把理由分成两层,值得分开记:
+
+1. **配额**。八条里七条是 schedule 驱动(`pr-guard` 每小时、`regate` 每 6 小时、其余按天或按周),在 fork 上跑等于烧 fork owner 的 Actions 分钟。附一个可核的细节:全仓用到 token 的四处(`adopt-discussions.yml:65`、`build-site.yml:160`、`decay-scan.yml:41`、`pr-gate.yml:174`)都只取内置 `secrets.GITHUB_TOKEN`,没有自定义 secret,权限面由各文件的 `permissions:` 块自足——所以"跳过"省的是钱,"手动 dispatch 还能跑"保住的是调试能力,不需要额外配置。
+2. **语义**(只在 `sync-readme` 明写,比配额更要紧):fork 镜像这份目录,但不该由机器人往 fork 的 main 上提交它自己生成的 README——"its main drifts from upstream on a commit nobody reviewed"。这条不是省钱,是防止 fork 的 main 长出一份没人审过的提交。
+
+**对本仓库的直接后果。** 本仓库是 `ethan-jiang-1/awesome-dsh-plugin` fork,所以:
+
+- 本专题六条里,**只有 `pr-check` → `pr-gate` 这条 PR 路径在 fork 上自动跑**;`pr-guard`、`regate`、`held-rescan`、`decay-scan` 默认不跑。门禁只在上游 `awesome-dsh-plugin` 组织里自动执行。上表新增的"本 fork 自动跑"一列就是这件事。
+- 手动 dispatch 仍可跑:条件第二支是 `event_name == 'workflow_dispatch'`,与 owner 无关(注释把用途写成 "A manual dispatch still runs, for debugging")。
+- 门是**仓库 owner 粒度**,不区分"这个 fork 自己收到了 PR"。本仓若有人对自己提 PR,`pr-guard` 不会替它抓"删掉了 workflow 文件"或"动了 `.github/`",`regate` 也不会替它的判决保鲜——这两种情形在本仓要按**没有护栏**处理(`pr-check` 自己就在被审 PR 的爆炸半径里,这正是 pr-guard 当初被拆出来的原因)。
+- 同步后看到的 `docs/`、边车、README 都是**上游产物随 merge 带进来的**,不是本 fork 跑出来的;想验证构建只能手动 dispatch。这条与 [site-surface](../site-surface/00-map.md)、[readme-pipeline](../readme-pipeline/00-map.md) 共担。
+
+**`pr-check.yml` +2:第 11 步 `node --test scripts/npm-name.test.mjs`**(:233-234,步骤名 "Published npm identity tests")。它测的是 12 行的 `scripts/lib/npm-name.mjs`,6 例覆盖四种形状:已发布身份走例外、其他条目一律用 `package.json` 声明名、同名不同仓不继承、以及不覆盖将来源码自己声明的名字。**对门禁判决零影响**:它不读条目、不联网、不放宽也不收紧任何判据,加它等于给这张硬编码映射表上一条回归网。身份解析本身归 [registry-data](../registry-data/00-map.md) 与 [probes-and-decay](../probes-and-decay/00-map.md)——那是探针层的事,pr-check 只是它的跑场。
+
+**`contributing.md` +8:发布时效,不是判决。** 新增两段中英对照(:146-152),讲的是 npm 新包 `npm publish` 回显成功 ≠ 可安装的两种形态(`0.0.0-stage` 占位 / tarball 数分钟 404),以及 npmmirror 可能长期把占位版当 `latest`(2026-11-23 实测 `ERR_PNPM_TARBALL_EXTRACT … Invalid checksum for TAR header`);判据是 registry 的 `dist-tags.latest` + `dist.tarball` 可下载 + 在干净 profile 里实装。**它新增的是一条投稿方自查项,不是机器判据**:`check-submission.mjs` 与 `entries.mjs` 里都没有读 registry 的代码,"评审会拿 registry 核对条目"仍是人做的事。这段文字的价值在于让作者在提交前就知道会被这么查——与 0005 那一节同一个作用:把机器行为(和人肉动作)翻译成投稿者可据以行动的话。
 
 ## 待回答的问题
 
@@ -81,3 +113,5 @@
 - [ ] **0004 重问**:`dsh-trust-check` 本身是已收录插件(`data/plugins/liuwenji007__dsh-trust-check.yml`),又被写成 CI 的 devDependency(0004 从 `^0.1.13` 升到 **`^0.2.1`**)——"自食其粮"是否需要在 contributing 里写明政策。更要紧的是**可核性**:本仓能核的只有"钉了哪个版本、怎么调、消费哪些字段";`0.2.1` 的检测规则与分类逻辑在 npm 包里,核不了。它判的又正是我们发布出去的能力披露——这层不透明记在 [01](./01-pr-check-and-guard.md) 的 pr-check 一节。
 - [ ] **0004 新增**:`icon` 判据只看主机与 URL 后缀,不看字节——`github.com/.../blob/...png` 能过检却取回 HTML;是否要在门禁里区分 raw/blob,还是继续把"图挂了回退头像"全交给消费端。
 - [ ] **0002 新增**:README-row 守卫是否会对"合法地同时改生成区与手写区、但不带条目"的 PR 误伤(注释自称按行作用域,未实测)
+- [ ] **0007 新增**:fork 门是**仓库 owner 粒度**,不区分"这个 fork 自己收到了 PR"。本仓若真要接自己的 PR,`pr-guard` 的两类零 check 状态与 `regate` 的判决保鲜都不会自动跑——是给这几条换成"只在有 open PR 时跑"的条件,还是接受"fork 不设护栏",未决。
+- [ ] **0007 新增**:本仓手动 dispatch 的实际可用面只核到"条件允许 + 不需要自定义 secret",没真跑过。`regate` 要 `actions: write`、`held-rescan` 要 `issues: write`,在 fork 的默认 GITHUB_TOKEN 权限下是否仍被组织策略收紧,需要一次实跑才知道。

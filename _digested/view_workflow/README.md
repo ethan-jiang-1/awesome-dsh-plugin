@@ -1,6 +1,6 @@
 # view_workflow — 工作流
 
-> 已立册(703 条 / 新增 266 / owners 615、单件 91%)。⚠ 星标为历史采样。数据截止 `29b3ed46e`。
+> 已立册(799 条 / 新增 98 / owners 702、单件 92%)。⚠ 星标为历史采样。数据截止 `8f1a1800e`(2026-11-25)。
 ![view_workflow 插件图谱](plugin-map.svg)
 
 > 健康/衰减:见 [`_data/health.md`](../_data/health.md)(2026-11-19 快照)。状态词定义见 [`../AGENTS.md`](../AGENTS.md) §二。
@@ -12,7 +12,7 @@
 
 ## 快照
 
-第四大类,本期占比 +0.4pp 匀速。新 owner 榜中 Daphne999(workflow×3)、Delthin(workflow×3)以 workflow 为主落点。
+第四大类,本期 799 条:上期 703 → 净 +96(新增 98 / 删除 1),占比 +0.1pp 匀速。本轮新 owner 榜没有以 workflow 为主落点的头部新作者。
 
 ## 锚(存量头部,⚠ 星标历史采样)
 

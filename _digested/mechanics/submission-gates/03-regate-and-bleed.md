@@ -1,8 +1,8 @@
 # 03 · regate 与 check-bleed:判决保鲜与描述污染检测
 
-> 基线:`upstream@b4d0049a8`(0004 复核;regate.yml 218→**369 行后未再变**,check-bleed 94 行未变)。0003/0004 对这两份文件都是零 diff,但 0004 **动了 regate 的两个输入时钟**——见下节末。
+> 基线:`upstream@8f1a1800e`(2026-11-25 复核;regate.yml 218→369→**373 行**——0007 那 4 行是 job 级 fork 门,七类理由与调度档一行未动;check-bleed 94 行仍未变)。0003/0004/0006 对这两份文件都是零 diff;0004 **动了 regate 的两个输入时钟**,0007 只动了其中一个——两轮对照见下节末那两段。**最近核验:`8f1a1800e`(2026-11-25)。**
 
-## regate.yml(369 行):判决是快照
+## regate.yml(373 行):判决是快照
 
 核心论断在工作流头注释(:1-18):判决过期有两种方式——**被时钟过期**(0.5 天的仓库几小时后就合格了,但没人重查)和**被代码过期**(门禁本身改了,旧判决全是已不存在的代码作出的;"stale red 会被人注意到,stale green 会被合并")。所以它重跑 `PR check`(从而级联触发 gate)于以下开放 PR:
 
@@ -11,33 +11,44 @@
 | 理由 | 判定 | 语义 |
 |------|------|------|
 | `never` | gate check-run 不存在 | PR 早于 gate 出生,或 run 死在贴出判决之前——"没被判过"与"通过"在扫队列时不可区分 |
-| `stale` | 判决时间 < **门禁**最后变更时间 | `gateChangedAt` = `pr-gate.yml` 与 `scripts/check-submission.mjs` 两路径最近 commit 取大者(:90-94,与 0001 相同) |
-| **`checkStaleRed`(0002 新增)** | 红 `check` 的判决时间 < **检查**最后变更时间 | **0002 的核心新论点:过期证据不只属于 gate**。`checkChangedAt`(:95-99)覆盖 `.github/workflows/pr-check.yml`、`scripts/build-site.mjs`、`scripts/generate-readme.mjs`、`scripts/lib` 四个输入,注释解释:"`check` … builds the WHOLE catalog, so it fails for reasons that have nothing to do with the pull request"——**#4731 在 2026-09-08→09-12 让每一个开放 PR 都红着** |
-| `aged` | conclusion=failure 且 summary 匹配 `/days old\|commit\(s\)/`(:223)且距上次 ≥24h | "时间能解决的失败"。正则仍保留 `commit(s)` 分支兼容存量判决(门槛已删,**该分支现在大概已是死代码**,未证实);配合 check-submission 的文案,aged PR **静默自愈**,作者不再被支使去重开 PR |
+| `stale` | 判决时间 < **门禁**最后变更时间 | `gateChangedAt` = `pr-gate.yml` 与 `scripts/check-submission.mjs` 两路径最近 commit 取大者(:94-95,与 0001 相同) |
+| **`checkStaleRed`(0002 新增)** | 红 `check` 的判决时间 < **检查**最后变更时间 | **0002 的核心新论点:过期证据不只属于 gate**。`checkChangedAt`(:99-103)覆盖 `.github/workflows/pr-check.yml`、`scripts/build-site.mjs`、`scripts/generate-readme.mjs`、`scripts/lib` 四个输入,注释解释:"`check` … builds the WHOLE catalog, so it fails for reasons that have nothing to do with the pull request"——**#4731 在 2026-09-08→09-12 让每一个开放 PR 都红着** |
+| `aged` | conclusion=failure 且 summary 匹配 `/days old\|commit\(s\)/`(:227)且距上次 ≥24h | "时间能解决的失败"。正则仍保留 `commit(s)` 分支兼容存量判决(门槛已删,**该分支现在大概已是死代码**,未证实);配合 check-submission 的文案,aged PR **静默自愈**,作者不再被支使去重开 PR |
 | `unverified` | conclusion=neutral | **gate fail-open 的闭环**:放行了但没人 vouch 的条目,`aged` 只匹配 failure、`passStale` 只匹配 success,不补这条 neutral 将永远无人复查 |
-| **`faulted`(0002 新增)** | gate conclusion=failure 且标题是 `The gate could not run`,冷却 1 小时 | 门禁自己跑挂不是投稿的问题(#5083 因限流 fault 于 2026-09-14,"was still sitting on that verdict nine days later")。冷却用内联 `3600*1000`(:249-252),没有抽成命名常量 |
-| `passStale`(**非紧急**) | success 满 `PASS_STALE_MS = 48h`(:262) | 绿灯只是"对当时那个仓库的陈述"——作者可以 force-push 掉提交、改名让 URL 404、干脆删库,绿灯依旧绿。#1022:一条"All 11 entries pass"一天后四个仓库三个跌破提交门槛一个 404,靠人肉复核才发现,"which is not a control" |
+| **`faulted`(0002 新增)** | gate conclusion=failure 且标题是 `The gate could not run`,冷却 1 小时 | 门禁自己跑挂不是投稿的问题(#5083 因限流 fault 于 2026-09-14,"was still sitting on that verdict nine days later")。冷却用内联 `3600*1000`(:253-256),没有抽成命名常量 |
+| `passStale`(**非紧急**) | success 满 `PASS_STALE_MS = 48h`(:266) | 绿灯只是"对当时那个仓库的陈述"——作者可以 force-push 掉提交、改名让 URL 404、干脆删库,绿灯依旧绿。#1022:一条"All 11 entries pass"一天后四个仓库三个跌破提交门槛一个 404,靠人肉复核才发现,"which is not a control" |
 
 ### 0002 的第二个新论点:新鲜的红才是否决票
 
 ```js
-if (checkRedFresh && !aged && !unverified && !faulted) continue   // :298
+if (checkRedFresh && !aged && !unverified && !faulted) continue   // :302
 ```
 
-0001 的写法是"check 本身失败的 PR 直接跳过(:147):内容错了时间治不好,重跑纯烧配额"。0002 把它收窄成**只有"新鲜的红"**才否决,并且豁免 `aged`/`unverified`/`faulted` 三类——注释:"all three mean the gate itself needs re-asking"。**#5533 因此被连续跳过 9 次**。`never`、`stale`、`passStale` 仍在否决之下。
+0001 的写法是"check 本身失败的 PR 直接跳过(:147 是 0001 基线的行号;本轮文件里已无对应行,`continue` 只剩上面那一处):内容错了时间治不好,重跑纯烧配额"。0002 把它收窄成**只有"新鲜的红"**才否决,并且豁免 `aged`/`unverified`/`faulted` 三类——注释:"all three mean the gate itself needs re-asking"。**#5533 因此被连续跳过 9 次**。`never`、`stale`、`passStale` 仍在否决之下。
 
 ### 成本与排序纪律
 
 - `MAX_RERUNS = 20`:从 12 提上来——重跑陈旧判决规则上线后有积压要清。
-- oldest-first 是修出来的(:100-107):`pulls.list` 返回最新在前,#2146 曾挂"aged in"判决 119 小时——每一轮 20 个名额都被更新的 PR 吃掉。
-- 排序三档(blocking > revalidate > speculative):门禁文件一变更,全体 open 判决同时变 stale(~140 个),按 PR 号升序会让积压 backlog 排在真正被卡的投稿前面——"一个只等仓库满一天的插件要等两天而不是六小时"。**0002:blocking 档新增 `faulted` 与 `checkStaleRed`**(:302/:304);diligence yields。
+- oldest-first 是修出来的(:104-111):`pulls.list` 返回最新在前,#2146 曾挂"aged in"判决 119 小时——每一轮 20 个名额都被更新的 PR 吃掉。
+- 排序三档(blocking > revalidate > speculative):门禁文件一变更,全体 open 判决同时变 stale(~140 个),按 PR 号升序会让积压 backlog 排在真正被卡的投稿前面——"一个只等仓库满一天的插件要等两天而不是六小时"。**0002:blocking 档新增 `faulted` 与 `checkStaleRed`**(:306/:308);diligence yields。
 - run id 不再依赖最近 100 次 run 的 SHA 索引(:113-118):任何两小时窗口外的 push 都会被静默跳过;改从 check-run 自带的 details_url 里抠 run id。
-- **403 不再等于限流(0002 重写,:316-364)**:只有 `429`、或 403 且正文匹配 `/rate limit/i` 才终止本轮;`tooOld`(运行时间超过一个月,403 + `/over a month ago/i`)现在**跳过该 PR 并点名**,继续处理其余(:333-346)。事故:**#932 在 2026-09-18 跨过 30 天,把 8 轮里的 7 轮打死**;当时有 28 个开放 PR 挂着超龄 run。另一个误判案例:#5582 的 "This workflow is already running" 也是 403,同样不该停。
+- **403 不再等于限流(0002 重写,:318-368)**:只有 `429`、或 403 且正文匹配 `/rate limit/i` 才终止本轮;`tooOld`(运行时间超过一个月,403 + `/over a month ago/i`)现在**跳过该 PR 并点名**,继续处理其余(:337-350)。事故:**#932 在 2026-09-18 跨过 30 天,把 8 轮里的 7 轮打死**;当时有 28 个开放 PR 挂着超龄 run。另一个误判案例:#5582 的 "This workflow is already running" 也是 403,同样不该停。
 - 全部包在 try/catch 里且把配额紧张当"本轮少干点",绝不为配额紧张发红色告警。
 
-**0004 的副作用:这一轮同步自己把两个时钟都推前了。** 上表的 `stale` 与 `checkStaleRed` 是同一条道理——"代码变了,旧判决作废"。0004 恰好同时命中两侧:`gateChangedAt` 的输入里有 `pr-gate.yml`(本轮 369→375 行),`checkChangedAt` 的输入里有 `.github/workflows/pr-check.yml` 与整个 `scripts/lib` 目录(`entries.mjs` 就在里面,:95-97)。后果按代码推得出来,不需要观测:开放 PR 里判决时间早于这几个 commit 的 `Submission gate`(实际上就是全体)一起变 `stale`,而所有**当前是红**的 `check` 一起变 `checkStaleRed`——`stale` 进 revalidate 档(:305),`checkStaleRed` 进 blocking 档(:304),每轮上限仍 20(`MAX_RERUNS`)。**这是设计意图,不是事故**:pr-check 改了,旧的红就不再是对当前代码的陈述。反过来说,一次纯 CI 改动会让队列排上几轮——**队列长度本窗口无法离线测量**(不联网取不到开放 PR 数),所以"要排多久"这里不给数字。
+**0004 的副作用:那一轮同步自己把两个时钟都推前了。** 上表的 `stale` 与 `checkStaleRed` 是同一条道理——"代码变了,旧判决作废"。0004 恰好同时命中两侧:`gateChangedAt` 的输入里有 `pr-gate.yml`(那一轮 369→375 行),`checkChangedAt` 的输入里有 `.github/workflows/pr-check.yml` 与整个 `scripts/lib` 目录(`entries.mjs` 就在里面,:99-103)。后果按代码推得出来,不需要观测:开放 PR 里判决时间早于这几个 commit 的 `Submission gate`(实际上就是全体)一起变 `stale`,而所有**当前是红**的 `check` 一起变 `checkStaleRed`——`stale` 进 revalidate 档(:309),`checkStaleRed` 进 blocking 档(:308),每轮上限仍 20(`MAX_RERUNS`)。**这是设计意图,不是事故**:pr-check 改了,旧的红就不再是对当前代码的陈述。反过来说,一次纯 CI 改动会让队列排上几轮——**队列长度本窗口无法离线测量**(不联网取不到开放 PR 数),所以"要排多久"这里不给数字。
 
-## check-bleed.mjs(94 行,**未变**;0003/0004 均零 diff):跨条目文本污染指纹
+**0007:fork 门(:38)把这条线留在了上游,而两侧时钟只动了一侧。** 本轮 regate 的变化只有那 4 行 job 门(:35-37 三行注释 + :38 的 `if: github.repository_owner == 'awesome-dsh-plugin' || github.event_name == 'workflow_dispatch'`),七类理由、三个调度档、`MAX_RERUNS`、403 处理一行未动。判据照旧,但**它在 fork 上不再自动运转**——本仓所依赖的"stale green 会被重问"这一层等于不存在,只能手动 dispatch(注释:"A manual dispatch still runs, for debugging")。
+
+与 0004 对照,这一轮的时钟分析得出的是**单向**结论,不是又一轮"两个都推前":
+
+- `checkChangedAt` **动了**:四个输入里有三个有新 commit——`.github/workflows/pr-check.yml`(+2 行)、`scripts/lib`(新增的 `npm-name.mjs` 就在里面)、`scripts/build-site.mjs`(+24/−3,Release 历史分片与 tarball 安装命令,内容归 [site-surface](../site-surface/00-map.md))。
+- `gateChangedAt` **没动**:`pr-gate.yml` 与 `check-submission.mjs` 都是零 diff,取大者仍是旧值。
+
+于是按代码可推:上游的开放 PR 里,`Submission gate` 的判决**不会**因为本轮变 `stale`(它仍比当前 gate 代码新),但所有**当前为红**的 `check` 会集体变 `checkStaleRed` 并进 blocking 档(:308),每轮仍 20 个名额(`MAX_RERUNS`)。换句话说,这轮的重问只针对"红 check 是不是旧代码造成的",不针对"gate 判决是不是旧代码造成的"——**这是设计使然**:pr-check 多了那一步测试,旧的红就不再是对当前检查代码的陈述;而 gate 的判据一个字没改,没有理由把已下的 gate 判决全部作废重下。
+
+**唯一的空白仍是观测**:本仓既没有开放 PR 队列可看,regate 又被门挡住不跑,所以"上游要排几轮才清空"这里照旧不给数字——与 0004 同一条限制。
+
+## check-bleed.mjs(94 行,**未变**;0003/0004/0006/0007 均零 diff):跨条目文本污染指纹
 
 #1348 案的产物:一个声称刷新 dsh-notifier 条目的 PR,顺手把 dsh-notifier 的新句子追加到了无关插件 dsh-cyber-particle 的描述上。发生过两次,YAML 合法、README 能再生、lint 干净——没有检查看「PR 是否碰了它不该碰的条目」。检测机制:
 
@@ -63,6 +74,8 @@ if (checkRedFresh && !aged && !unverified && !faulted) continue   // :298
 
 ## 待复核
 
-- [ ] **0002**:`commit(s)` 分支是否真已无判决命中(正则仍在 regate.yml:223)——需拉一次开放 PR 队列的 summary 抽样
+- [ ] **0002**:`commit(s)` 分支是否真已无判决命中(正则仍在 regate.yml:227)——需拉一次开放 PR 队列的 summary 抽样
 - [ ] **0002**:`faulted` 的 1 小时冷却是否够——#5083 那次 fault 的根因是限流,冷却期内配额未必恢复
-- [ ] **0004 新增**:本轮 `gateChangedAt`/`checkChangedAt` 同时前移之后,重新入队的开放 PR 有多少轮才清空——需要联网取开放 PR 数,本窗口未测
+- [ ] **0004 新增**:0004 那一轮 `gateChangedAt`/`checkChangedAt` 同时前移之后,重新入队的开放 PR 有多少轮才清空——需要联网取开放 PR 数,本窗口未测
+- [ ] **0007 新增**:本轮只有 `checkChangedAt` 前移,于是"红 check 集体重问"会独占 20/轮的预算若干轮;`checkStaleRed` 与 `passStale` 争同一个 `MAX_RERUNS` 时谁先被饿死,只能在上游观测,本仓(regate 被门挡住)看不到
+- [ ] **0007 新增**:`checkChangedAt` 把整个 `scripts/lib` 当输入——本轮新增一个 12 行的 `npm-name.mjs` 也算"检查代码变了",从而让所有红 check 重新排队。这个粒度是否过宽(目录下任何探针辅助文件都会触发),还是正合设计,值得记一笔再判
