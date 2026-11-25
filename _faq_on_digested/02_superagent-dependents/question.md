@@ -64,7 +64,12 @@
 | superagents-lab/dsh-s1 | browser | 组织名带 superagents,实为检索工具 |
 | LittleChenLiya/dsh-superagent | workflow | 同名,自述并行子任务/合成报告 |
 
-## 预期产出
+## 预期产出(question 与 answer 分开)
 
-- [answer.md](answer.md):分层计数、每个依赖者用了哪一面、解决什么问题、设计思路与代价;
-- 若存在有影响力的依赖者,另写一张独立单卡(标题、事实、机制、代价、证据),并在 answer 里链接。
+- [answer.md](answer.md):**只回答"有多少、用了什么、解决什么问题"**——分层计数与 16 行判定表;
+- [impact.md](impact.md):**影响面**,谁有杠杆、什么被复用、什么会坏、值得盯什么(不与 answer 混写);
+- [lines/](lines/README.md):**每条符合"明显依赖或衍生"标准的线各一页**,上游原型 + 10 条依赖/衍生线(共 11 页;低价值线退册,理由见该页);每页回答五问:
+  1. 它要解决什么问题、2. 它的路径是什么、3. 它如何利用 `dsh-superagent`、
+  4. 技术思考是什么、5. 代价与边界;
+- 每页开头一屏事实表(条目/类目/★/`repo@commit`/包形态/证据等级),结尾"证据与未验证";
+- 只靠名字相近、没有代码/契约/设计关系的 4 个条目**不入分线册**,在 [lines/README.md](lines/README.md) 末尾列排除理由。

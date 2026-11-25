@@ -4,7 +4,9 @@
 
 ## 一句话答案
 
-16 个名字命中里,**9 个真依赖**:6 个代码级(D1,整树分叉或 vendor 内核)、3 个契约级(D2,只吃 Source/stateDir/`orchestrator.sqlite`/profile 进程);另有 3 个"同设计"(D3)、4 个只是名字里有 superagent(D0)。**上游自己不在注册表**;而注册表里**星标最高的两个社区条目反而不是依赖者**(MYCF711 52★ = D3,LittleChenLiya 22★ = D0)——这个反差是答案的一半。依赖者里唯一过百星的是 [HiSeax/dsh-windows-superagent](deep-dive-dsh-windows-superagent.md)(138★),单卡见链接。
+16 个名字命中里,**9 个真依赖**:6 个代码级(D1,整树分叉或 vendor 内核)、3 个契约级(D2,只吃 Source/stateDir/`orchestrator.sqlite`/profile 进程);另有 3 个"同设计"(D3)、4 个只是名字里有 superagent(D0)。**上游自己不在注册表**;而注册表里**星标最高的两个社区条目反而不是依赖者**(MYCF711 52★ = D3,LittleChenLiya 22★ = D0)——这个反差是答案的一半。依赖者里唯一过百星的是 [HiSeax/dsh-windows-superagent](lines/01-windows-hiseax.md)(138★);影响面见 [impact.md](impact.md),分线见 [lines/](lines/README.md)。
+
+**它们都在 GitHub 上**;上游 `private: true` 不发 npm。npm 上能装到的是 03(`dsh-superagent-desktop`)、05(`@vfvrpq/dsh-superagent`)、06(`@nelsonlongxiang/dsh-open-a2a-net`)、07(`dsh-superagent-trace`)、08(`dsh-superagent-wechat-source`)、10(`dsh-session-superagent`);02/04 走 GitHub tarball,09 走 Release tgz。
 
 ## 计数
 
@@ -67,12 +69,14 @@
 
 这也解释了为什么分叉者大多**不改领域模型,只改部署与渠道**——模型是可复用的,Source/Channel/Executor 属于部署。
 
-## 影响力的边界
+## 影响面与分线
 
-- 上游 **24.5k★ / 3.1k forks** 是 DeepSeek Harness 团队的机构背书,不能当"社区采用"读;它甚至不在注册表里。
-- 9 个真依赖里,只有 HiSeax 过百星(138);其余 ≤11。**注册表里星标最高的 MYCF711(52★)与 LittleChenLiya(22★)都不是依赖者**——它们分别是 D3 和 D0。
-- 所以"superagent 生态"目前是:**一个大上游 + 一圈小分叉**,分叉的价值在补上游不覆盖的部署面(Windows、本机、IM、可观测性),不在改设计。
-- 单卡:[HiSeax/dsh-windows-superagent](deep-dive-dsh-windows-superagent.md)。
+本文只回答"有多少、用了什么、解决什么问题"。**谁有杠杆、什么值得盯、每条线各自怎么长**另开两页:
+
+- [impact.md](impact.md):影响面分析(机构背书 vs 社区采用、四种杠杆、分叉经济学、风险与观察点);
+- [lines/](lines/README.md):每条符合"明显依赖或衍生"标准的线各一页(上游原型 + 10 条依赖/衍生线,共 11 页;两条低价值线退册,原因见该页)。
+
+单条线里影响力最大的 Windows 分叉见 [lines/01-windows-hiseax.md](lines/01-windows-hiseax.md)(138★)。
 
 ## 复现
 

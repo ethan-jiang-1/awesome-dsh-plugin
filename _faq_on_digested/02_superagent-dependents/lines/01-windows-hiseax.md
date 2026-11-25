@@ -1,6 +1,6 @@
 # HiSeax/dsh-windows-superagent — 16k 行的 Windows 分叉,给 Super-agent 补上微信与一块看板
 
-> `repo@2f3dd46`(2026-11-20;138★ / 1 fork)。上游 `deepseek-ai/dsh-superagent-prototype@8c32a9dc`(24,565★ / 3,081 forks,2026-11-25)。注册表条目 [`HiSeax__dsh-windows-superagent--packages-dsh-windows-superagent.yml`](../../data/plugins/HiSeax__dsh-windows-superagent--packages-dsh-windows-superagent.yml),类目 workflow。证据等级 ★★★(读了 README、两个 `package.json`、`cordis.patch.yml`、源码树并与上游逐文件比对;**没有**在 Windows 上实装运行)。
+> `repo@2f3dd46`(2026-11-20;138★ / 1 fork)。上游 `deepseek-ai/dsh-superagent-prototype@8c32a9dc`(24,565★ / 3,081 forks,2026-11-25)。注册表条目 [`HiSeax__dsh-windows-superagent--packages-dsh-windows-superagent.yml`](../../../data/plugins/HiSeax__dsh-windows-superagent--packages-dsh-windows-superagent.yml),类目 workflow。证据等级 ★★★(读了 README、两个 `package.json`、`cordis.patch.yml`、源码树并与上游逐文件比对;**没有**在 Windows 上实装运行)。
 
 ## 一屏事实
 
@@ -14,6 +14,22 @@
 | 宿主钉版 | 23 个 peer,`@deepseek-ai/dsh-* ^0.2.1-alpha.2`、`@deepseek-ai/cordis 4.0.5-alpha.1`;README 实测 DSH **0.2.2-rc.3** |
 | 与上游关系 | 上游 `src/` **92 个文件全部存在、全部有改动**(抽样:`sources/github.ts` 920 行 diff、`limits.ts` 22 行、`kv.ts` 15 行),另加 **22 个新文件** |
 | 复现 | `git clone https://github.com/HiSeax/dsh-windows-superagent && git checkout 2f3dd46`;`diff -rq` 对照上游 |
+
+## 影响力
+
+- **数字**:138★ / 1 fork / pushed 2026-11-20;两个包都 `private: true`,不发 npm;注册表里是一个 workflow 条目。
+- **相对位置**:它是**依赖者里唯一过百星的**(第二名 local 11★、第三 nelson 10★),也是唯一把 Windows/微信/看板三件事同时做进发布快照的;65 个测试文件、16k 行,分叉密度远高于同族。
+- **判断**:有影响,但影响面是"证明这条路能走通",不是"成为标准"。没有看到下游再依赖它;1 个 fork 说明还没形成二次开发生态。它的价值在**补上游不覆盖的部署面**,不在改设计。
+
+## 它要解决什么问题
+
+上游原型在实践上是 Unix 团队仓库的形态:依赖 `fcntl`/`tmux`/`#!/bin/sh`/`bash` 工具与 `/…` 路径,默认一个 GitHub 仓库 + 飞书,人通过终端/日志看进展。三类人因此用不上:
+
+1. **Windows 工作站上的团队**——装得上、跑起来在路径、进程管理、shell 工具上失败;
+2. **想从微信而不是 GitHub/飞书派活的人**——上游只有两个 Source;
+3. **需要"现在到底在干什么"的人**——上游的可见面是终端与日志,长任务对非操作者不可见。
+
+它的路径不是"给上游提 PR"(上游 issues/PR 关闭),而是**整树 fork + 保留领域模型**,把部署面(OS、渠道、面板)补齐。
 
 ## 它到底是什么
 
@@ -74,12 +90,44 @@ Source(GitHub / 飞书 / 本地会话 / 微信 iLink)
 
 微信走 iLink 机器人:设置页扫码绑定,私聊消息由 `weixin-trigger.ts` 翻译成 Trigger,结果回到同一聊天;只支持纯文本一对一。grill 卡不是自绘 UI,而是复用官方 `ask_user_question`,把"需要你拍板"变成主会话里的一张点选卡。
 
+## 技术思考:为什么改内核,而不是写一个 Source
+
+上游的扩展缝是 **Source**(`docs/008-cookbook.md`),理论上只需新写一个渠道就能接微信——wechat-source 就是这么做的。HiSeax 没走这条路,因为它的三个痛点都不在 Source 层:
+
+1. **OS 层**:路径、`PATHEXT`、`pwsh`、进程管理、文件锁——这些在 `infra/` 与 `deployment.ts` 里,Source 插件碰不到;
+2. **执行器层**:worker 会话/目录/prepare 命令/后台 job 的时限,属于 Executor 与 `executor/dsh.ts`,也不在 Source 契约里;
+3. **可见面**:看板要读宿主的 `sessions` 服务并过滤 `worker-*`,需要 client 插件与 profile 挂载,不是 Source。
+
+所以它选择**保留领域模型、重写部署层**:Source/Eval/Ticket/Mandate 的语义不动,动的都是"怎么在 Windows 上跑、怎么让人看见"。
+
+几条具体的失败模式判断:
+
+- **看板 fail-open**:宿主改了 `sessions` 服务的 store 形状时,过滤失效、worker 行重新出现,而不是把列表打挂。作者在 README 里明说这是有意的——可见性退化优于不可用。
+- **服务停止 fail-closed**:先按 PID 身份校验再 `taskkill /T /F`,认不出就不杀。停错进程比停不掉更糟。
+- **权限取舍**:worker 以 OS 用户执行、无审批;README 把"不能接受"写进 "not a good fit",而不是假装有沙箱。这是把边界说清楚,不是解决它。
+- **默认 observe**:准入表默认只记录"本来会接受什么",要人显式切 `auto` 才动手——与上游"主动但受控"的原则一致。
+
 ## 为什么它突出
 
 - **它是依赖者里唯一过百星的**(138★;第二名的真依赖是 local 的 11★)。在一圈个位数分叉里,这个量级说明它至少被一部分人当成"能跑起来的 Windows 版"。
 - **它补的是上游明确不覆盖的面**:上游 README 自己说 prototype 面向团队仓库、Unix 实践;HiSeax 把"Windows + 微信 + 看板"做成了发布快照。
 - **分叉密度高**:92/92 文件全改、+22 文件、16k 行、65 个测试文件——不是改两行路径就发版的玩票。
 - **它没有改设计**:五段管线、Mandate、Subscription 语义与上游一致;新增的是部署面(OS、渠道、面板)。这正是"依赖"与"复刻"的分界。
+
+## 界面体验
+
+- **看板是第二个插件**:`dsh-windows-superagent-board`(992 行)在 DSH 侧栏注册自己的入口与主面板,只读展示并发位、工单阶段、失败原因;它按 `worker-*` 过滤会话,把执行器从普通会话列表里拿掉。README 的截图标注 "demo instance · fabricated data",不冒充真实数据。
+- **主会话里的 grill 卡**:需要人拍板时,不走自绘 UI,直接复用官方 `ask_user_question` 在主会话里出现一张点选卡——选项、推荐项、需要的文件都在卡上。
+- **渠道内的体验**:微信走设置页扫码绑定,私聊里收到"接单确认 + 最终结果";GitHub/飞书仍是评论/话题回复。**回执与结果都在原对话**,看板只负责"现在怎么样"。
+- **失败时**:README 明说看板过滤是 **fail-open**——宿主改了 sessions 服务形状,worker 行会重新出现,而不是把面板打挂;服务停止前按 PID 身份校验,认不出就不杀(fail-closed)。可见性退化优于不可用。
+- **Windows 细节**:`windowsHide` 避免控制台闪窗;服务脚本走 PowerShell,不依赖 tmux。
+
+## 用户交互的思路
+
+- **一个入口,多条渠道**:GitHub issue/PR、飞书、微信私聊、本地 DSH 会话,最后都汇到同一条 Source → Eval → Ticket 管线;人在哪个渠道说,就在哪个渠道收到回执与结果。
+- **人只被叫三次**:被问(grill 卡/blocked)、结果待审(ready)、失败;其余时间看板安静,不推送"正在进行"。
+- **看板是观察面,不是控制面**:只读,不能从面板改工单;真正的动作发生在对话(回执/回答/结果)与 PR(审阅/合并)里。这是刻意的:控制面留在原对话,面板只回答"现在怎么样"。
+- **与上游的差异**:上游只有 GitHub+飞书、终端/日志看进展;这里把"长任务可见"做成侧栏一屏,并把微信拉进同一条管线。代价是看板绑死宿主 `sessions` 形状,升级可能静默失效。
 
 ## 代价与边界
 
