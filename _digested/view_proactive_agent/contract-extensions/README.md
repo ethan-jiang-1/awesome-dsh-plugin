@@ -1,6 +1,6 @@
 # contract-extensions — 吃运行契约,不搬代码
 
-> D2 层:仓库里没有上游源码,但依赖它的事实契约——`stateDir`、`orchestrator.sqlite`、Source 接口、profile 进程与 `bridge.js`。**本子分类 3 个成员,0 卡。**
+> D2 层:仓库里没有上游源码,但依赖它的事实契约——`stateDir`、`orchestrator.sqlite`、Source 接口、profile 进程与 `bridge.js`。**本子分类 3 个成员,已立 1 张(trace);wechat-source、power 留待下一轮。**
 
 ## 定义
 
@@ -28,4 +28,4 @@
 
 ## 立卡条件
 
-默认 ≥500★ 或被 ≥5 个条目引用其契约;本层无人达标。按机制例外,**trace 最值得先立**:它是唯一把"黑箱变白盒"做成只读工具的样本,且把"内部表 → 对外视图"的代价暴露得最清楚。wechat-source 与 power 更像渠道/生命周期样本,可在 trace 之后。
+默认 ≥500★ 或被 ≥5 个条目引用其契约;本层无人达标。已按机制例外立 **trace**:它是唯一把"黑箱变白盒"做成只读工具的样本,且把"内部表 → 对外视图"的代价暴露得最清楚。wechat-source 与 power 更像渠道/生命周期样本,下一轮再评估。

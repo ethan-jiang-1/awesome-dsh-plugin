@@ -10,7 +10,7 @@
 | 自述 | "DeepSeek Harness team 的 dsh-superagent 研究原型的桌面 bundle 分支"——实际是 Windows 发布快照,不是 GitHub fork 关系 |
 | 声量 | **138★ / 1 fork**,pushed 2026-11-20(实时值,非冻结边车) |
 | 包形态 | monorepo 两个 DSH 插件:`dsh-windows-superagent@0.2.6`(编排)+ `dsh-windows-superagent-board@0.2.6`(看板);均 `private: true`,MIT,不发 npm |
-| 代码规模 | 编排包 `src/` **114 个 TS 文件 / 16,078 行**;看板包 **992 行**;测试 **65 个文件** |
+| 代码规模 | 编排包 `src/` **114 个 TS 文件 / 16,078 行**(全部文件类型 133 个 / 19,286 行);看板包 **992 行 TS / 3,125 行**;测试 **78 个文件**(71 + 7) |
 | 宿主钉版 | 23 个 peer,`@deepseek-ai/dsh-* ^0.2.1-alpha.2`、`@deepseek-ai/cordis 4.0.5-alpha.1`;README 实测 DSH **0.2.2-rc.3** |
 | 与上游关系 | 上游 `src/` **92 个文件全部存在、全部有改动**(抽样:`sources/github.ts` 920 行 diff、`limits.ts` 22 行、`kv.ts` 15 行),另加 **22 个新文件** |
 | 复现 | `git clone https://github.com/HiSeax/dsh-windows-superagent && git checkout 2f3dd46`;`diff -rq` 对照上游 |
@@ -18,7 +18,7 @@
 ## 影响力
 
 - **数字**:138★ / 1 fork / pushed 2026-11-20;两个包都 `private: true`,不发 npm;注册表里是一个 workflow 条目。
-- **相对位置**:它是**依赖者里唯一过百星的**(第二名 local 11★、第三 nelson 10★),也是唯一把 Windows/微信/看板三件事同时做进发布快照的;65 个测试文件、16k 行,分叉密度远高于同族。
+- **相对位置**:它是**依赖者里唯一过百星的**(第二名 local 11★、第三 nelson 10★),也是唯一把 Windows/微信/看板三件事同时做进发布快照的;78 个测试文件、19k 行,分叉密度远高于同族。
 - **判断**:有影响,但影响面是"证明这条路能走通",不是"成为标准"。没有看到下游再依赖它;1 个 fork 说明还没形成二次开发生态。它的价值在**补上游不覆盖的部署面**,不在改设计。
 
 ## 它要解决什么问题
@@ -33,7 +33,7 @@
 
 ## 它到底是什么
 
-**不是薄封装,是深分叉。** 上游 `dsh-superagent` 的 92 个源文件一个不少地搬了过来,而且每一个都有实质改动;新增的 22 个文件集中在 `app/`(看板、团队、本地会话、心跳)与 `sources/weixin*`。包名与 plugin id 全部改成 `dsh-windows-superagent-*`(上游是 `dsh-superagent-*`),所以两者理论上可以在同一宿主的不同 profile 里并存。
+**不是薄封装,是深分叉。** 上游 `dsh-superagent` 的 **92 个 `.ts` 源文件 92/92 全在且全部被改**(全文件类型 111/111 也在);新增的 22 个文件集中在 `app/`(看板、团队、本地会话、心跳)与 `sources/weixin*`。包名与 plugin id 全部改成 `dsh-windows-superagent-*`(上游是 `dsh-superagent-*`),所以两者理论上可以在同一宿主的不同 profile 里并存。
 
 它继承的是上游的五段管线:
 
@@ -49,7 +49,7 @@ Source(GitHub / 飞书 / 本地会话 / 微信 iLink)
 
 1. **Windows 适配**:盘符/UNC 路径、`PATHEXT`、`pwsh` 工具、`windowsHide`、大小写不敏感路径、`waitForStateLock()`、无 tmux/fcntl 的服务管理;
 2. **新渠道**:微信(iLink 机器人,扫码绑定)、本地 DSH 会话(不用 GitHub 也能派活);
-3. **人的界面**:侧栏看板(只读面板,按 `worker-*` 会话过滤)+ 主会话里的 grill 问题卡(复用官方 `ask_user_question`);
+3. **人的界面**:侧栏看板(按 `worker-*` 会话过滤;0.2.6 已有 stop/retry/unfocus 三个动作,但 README 仍称 read-only)+ 主会话里的 grill 问题卡(复用官方 `ask_user_question`);
 4. **授权与评估工具链**:版本化 Policy、准入表、`off/observe/auto` 三档、Mandate、决定记录与重排队。
 
 血缘上它是**分叉的分叉**:README 把 Windows 基线指向 `vHao11/dsh-windows-superagent@windows-adapt`,而该仓库在 2026-11-25 已 **404**;能直接核对的只有它与 `deepseek-ai/dsh-superagent` 的 92/92 文件重叠与"derived from the upstream research prototype"的自述。
@@ -88,7 +88,7 @@ Source(GitHub / 飞书 / 本地会话 / 微信 iLink)
 
 ### 6. 微信与 grill 卡
 
-微信走 iLink 机器人:设置页扫码绑定,私聊消息由 `weixin-trigger.ts` 翻译成 Trigger,结果回到同一聊天;只支持纯文本一对一。grill 卡不是自绘 UI,而是复用官方 `ask_user_question`,把"需要你拍板"变成主会话里的一张点选卡。
+微信走 iLink 机器人:设置页扫码绑定,私聊消息由 `weixin-trigger.ts` 翻译成 Trigger,结果回到同一聊天;图片可收可发,群消息直接丢弃(`weixin-trigger.ts:125`),README 的 "text only" 已落后于实现。grill 卡不是自绘 UI,而是复用官方 `ask_user_question`,把"需要你拍板"变成主会话里的一张点选卡。
 
 ## 技术思考:为什么改内核,而不是写一个 Source
 
@@ -116,7 +116,7 @@ Source(GitHub / 飞书 / 本地会话 / 微信 iLink)
 
 ## 界面体验
 
-- **看板是第二个插件**:`dsh-windows-superagent-board`(992 行)在 DSH 侧栏注册自己的入口与主面板,只读展示并发位、工单阶段、失败原因;它按 `worker-*` 过滤会话,把执行器从普通会话列表里拿掉。README 的截图标注 "demo instance · fabricated data",不冒充真实数据。
+- **看板是第二个插件**:`dsh-windows-superagent-board`(992 行 TS)在 DSH 侧栏注册自己的入口与主面板,展示并发位、工单阶段、失败原因,并提供 stop/retry/unfocus 三个动作(`POST /superagent-board/action`,`board-actions.ts:30-40`);它按 `worker-*` 过滤会话,把执行器从普通会话列表里拿掉。README 的截图标注 "demo instance · fabricated data",不冒充真实数据。
 - **主会话里的 grill 卡**:需要人拍板时,不走自绘 UI,直接复用官方 `ask_user_question` 在主会话里出现一张点选卡——选项、推荐项、需要的文件都在卡上。
 - **渠道内的体验**:微信走设置页扫码绑定,私聊里收到"接单确认 + 最终结果";GitHub/飞书仍是评论/话题回复。**回执与结果都在原对话**,看板只负责"现在怎么样"。
 - **失败时**:README 明说看板过滤是 **fail-open**——宿主改了 sessions 服务形状,worker 行会重新出现,而不是把面板打挂;服务停止前按 PID 身份校验,认不出就不杀(fail-closed)。可见性退化优于不可用。
@@ -126,7 +126,7 @@ Source(GitHub / 飞书 / 本地会话 / 微信 iLink)
 
 - **一个入口,多条渠道**:GitHub issue/PR、飞书、微信私聊、本地 DSH 会话,最后都汇到同一条 Source → Eval → Ticket 管线;人在哪个渠道说,就在哪个渠道收到回执与结果。
 - **人只被叫三次**:被问(grill 卡/blocked)、结果待审(ready)、失败;其余时间看板安静,不推送"正在进行"。
-- **看板是观察面,不是控制面**:只读,不能从面板改工单;真正的动作发生在对话(回执/回答/结果)与 PR(审阅/合并)里。这是刻意的:控制面留在原对话,面板只回答"现在怎么样"。
+- **看板主要是观察面**:0.2.6 只有 stop/retry/unfocus 三个动作,不能改工单内容或 Policy;回执/回答/结果仍在对话,PR 审阅/合并仍是最终闸。README 与包描述仍写 "read-only"/"skeleton",与动作路由不一致。
 - **与上游的差异**:上游只有 GitHub+飞书、终端/日志看进展;这里把"长任务可见"做成侧栏一屏,并把微信拉进同一条管线。代价是看板绑死宿主 `sessions` 形状,升级可能静默失效。
 
 ## 代价与边界
@@ -135,7 +135,7 @@ Source(GitHub / 飞书 / 本地会话 / 微信 iLink)
 2. **不能 `npm install`**:两个包都 `private: true`,没有 npm 发布;安装要 clone + build + `link:` junction。对普通用户,这是一条有门槛的路径。
 3. **分叉的分叉**:Windows 基线 `vHao11/dsh-windows-superagent@windows-adapt` 已 404;上游本身没有版本契约(`private`,无 npm),所以"跟上游同步"只能人工 diff 92 个文件。
 4. **权限边界**:worker 以 OS 用户跑命令、无审批;Windows 上 `blockedCommands` 不生效。README 自己把"不能接受这一点"列为不适合使用的条件。
-5. **单仓单团队**:不支持多仓编排(ctrl439 才做多仓);看板只读,不能从面板改工单。
+5. **单仓单团队**:不支持多仓编排(ctrl439 才做多仓);看板动作只有 stop/retry/unfocus,不能改工单内容或 Policy。
 6. **发布状态**:最新提交还在说"board bundle mount until a fixed release ships",说明打包/挂载仍有已知缺口。
 
 ## 可信度与复现

@@ -54,7 +54,7 @@ Reply        回 issue/群             →  回发起那条主会话(runtime.ts:
 
 1. **新的 Source kind `dsh`**:`src/sources/dsh.ts`,注册为"本机操作者(所有工作区)"(`dsh.ts:203-206`)。它不听网络,只听宿主事件 `session/event` 里的 `user/message`(`dsh.ts:307-317`);Trigger 的 thread 就是会话本身、Channel 地址就是 `{ sessionId }`(`dsh.ts:150,156`),于是"回原对话"变成"回这条主会话"。
 2. **一个 workspace 一条主会话**:`KV.runtime.masters` 存 `workspaceId → sessionId`(`src/kv.ts:34-35`),`masterFor(workspaceId)` 按需创建,会话 id 由工作区路径确定性地推出来:`orchestrator-${key(workspace.path)}`(`runtime.ts:288`);HTTP 上是 `GET /orchestrator/api/master?workspace=`(`src/app/http.ts:259-263`)。上游的 `isMaster` 只认一条,这里改成"认一组"(`runtime.ts:236-242`)。
-3. **工单落在工作区目录、且一条需求一张单**:`ticketExecution` 对 `source === 'dsh'` 用 `trigger.meta.workspace` 当执行目录,没指定才退回默认(`src/executor/dsh.ts:117-129,157`);Trigger 带 `meta.newTicket: true`(`dsh.ts:162`),Intake 见到它就不再折进正在跑的工单、也不复活已结束的(`src/core/intake.ts:36-43`、`src/core/engine.ts:114-119`、`src/core/tickets.ts:262`)。
+3. **工单落在工作区目录、且一条需求一张单**:`ticketExecution` 对 `source === 'dsh'` 用 `trigger.meta.workspace` 当执行目录,没指定才退回默认(`src/executor/dsh.ts:117-129,157`);Trigger 带 `meta.newTicket: true`(`dsh.ts:162`),Intake 见到它**只阻止复活已结束的工单**,正在跑的工单仍接得住补充消息(`src/core/intake.ts:36-45`,注释明说这是刻意的;`engine.ts:114-119`、`tickets.ts:262`)。
 
 **放弃了什么**:一是"直接用上游"——不行,不是因为不好用,而是因为上游的 gate 只认 Source 身份、执行目录由 `work/<工单名>` 决定(`docs/003-execution.md:25`)、主会话是单例,三件事分别落在 domain/app、executor、runtime 三处,配置文件改不动。二是"只写一个 Source 插件"(D2 那条路)——Source 契约能声明的只有配置、scope、policy、channel、threadContext 与 execution 变量(`src/sources/kind.ts`,例如 environment 在 `:140-141`),它能造 Trigger,但决定不了"哪条会话是主会话""工单在哪个目录跑""这条消息要不要另开一张单"。所以它必须动 app 与 executor,分叉是必然的,不是图省事。
 

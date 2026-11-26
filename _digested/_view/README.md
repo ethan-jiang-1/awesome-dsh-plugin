@@ -25,7 +25,7 @@
 | [view_session](../view_session/README.md) | 会话管理 | 已立 |
 | [view_workflow](../view_workflow/README.md) | 工作流 | 已立 |
 | [view_memory](../view_memory/README.md) | 记忆与知识库 | 已立 |
-| [view_proactive_agent](../view_proactive_agent/README.md) | 主动式 agent | **前沿专题**(0007 首立,0 卡,未计入五领域) |
+| [view_proactive_agent](../view_proactive_agent/README.md) | 主动式 agent | **已立·前沿专题**(0007 首立,6 卡) |
 | — | dev/usage/model/docs/vision… | 候补:dev/usage/model 已过体量门槛,但按“头部沉淀 + 读者问题”判断暂不立册(dev 的 3520 星 mirage 是宿主项目;usage 的 416 星锚 dsh-context 尚未做源码级卡;model 头部仅 62 星);docs/vision 头部锚已在 03 板。下次复核。 |
 
 ### 候补专题(未立册)

@@ -1,6 +1,6 @@
 # 卡片健康表(生成物)
 
-> 生成:`python3 _digested/ecosystem/view_data.py`;实时快照 `2026-11-19`;结构 asof `2026-11-18`。
+> 生成:`python3 _digested/ecosystem/view_data.py`;实时快照 `2026-11-19`;结构 asof `2026-11-25`。
 > `stars` / `downloads` 来自 live 快照;`—` = 快照未覆盖或未发布,不是 0。
 
 | 卡 | 域 | 证据 | 状态 | stars | pushed_at | 下载/月 | flags |
@@ -13,6 +13,12 @@
 | [01-dsh-mnemon.md](../view_memory/local-store/01-dsh-mnemon.md) | memory | ★★★ | active | 1042 | 2026-11-18 | 140656 |  |
 | [02-dsh-memento.md](../view_memory/local-store/02-dsh-memento.md) | memory | ★★★ | active | 145 | 2026-11-18 | 7337 |  |
 | [03-engramory.md](../view_memory/local-store/03-engramory.md) | memory | ★★★ | active | 208 | 2026-11-17 | 8894 |  |
+| [01-trace.md](../view_proactive_agent/contract-extensions/01-trace.md) | proactive_agent | ★★★ | active | — | — | — | no-live-repo |
+| [01-mycf711.md](../view_proactive_agent/design-derivatives/01-mycf711.md) | proactive_agent | ★★★ | active | — | — | — | no-live-repo |
+| [01-hiseax.md](../view_proactive_agent/runtime-forks/01-hiseax.md) | proactive_agent | ★★★ | active | — | — | — | no-live-repo |
+| [02-local.md](../view_proactive_agent/runtime-forks/02-local.md) | proactive_agent | ★★★ | active | — | — | — | no-live-repo |
+| [03-nelson.md](../view_proactive_agent/runtime-forks/03-nelson.md) | proactive_agent | ★★★ | active | — | — | — | no-live-repo |
+| [04-desktop.md](../view_proactive_agent/runtime-forks/04-desktop.md) | proactive_agent | ★★★ | active | — | — | — | no-live-repo |
 | [01-billion-context.md](../view_session/compression/01-billion-context.md) | session | ★★★ | active | 7853 | 2026-11-18 | 3520997 |  |
 | [01-dsh-chat-import.md](../view_session/import-export/01-dsh-chat-import.md) | session | ★★★ | active | 321 | 2026-11-18 | 20739 |  |
 | [02-dsh-session-export.md](../view_session/import-export/02-dsh-session-export.md) | session | ★★★ | active | 69 | 2026-11-18 | 1264 |  |

@@ -1,6 +1,6 @@
 # design-derivatives — 只借领域模型,另写实现
 
-> D3 层:仓库里没有上游代码、没有 `stateDir`/`orchestrator.sqlite`/Source 契约,但在文档、结构或提示词层面明确以 `dsh-superagent` 的领域模型为起点。**本子分类 3 个成员,0 卡。**
+> D3 层:仓库里没有上游代码、没有 `stateDir`/`orchestrator.sqlite`/Source 契约,但在文档、结构或提示词层面明确以 `dsh-superagent` 的领域模型为起点。**本子分类 3 个成员,已立 1 张(MYCF711);NattoCB、imperial 留待观察。**
 
 ## 定义
 
@@ -28,4 +28,4 @@
 
 ## 立卡条件
 
-默认 ≥500★;本层最高 52★,不达标。按机制例外,MYCF711 是唯一有社区量纲的 D3(52★ / 12 forks),且它的"降级取舍"写得最清楚,可作为"主动式 agent 的最小化路线"样本;另两个不建议立卡——NattoCB 与上游 Ticket 语义重叠,imperial 是独立产品,放进本册只为记录"设计可脱离实现"。
+默认 ≥500★;本层最高 52★,不达标。已按机制例外立 **MYCF711**:唯一有社区量纲的 D3(52★ / 12 forks),"降级取舍"写得最清楚。另两个不立卡——NattoCB 与上游 Ticket 语义重叠,imperial 是独立产品,放进本册只为记录"设计可脱离实现"。

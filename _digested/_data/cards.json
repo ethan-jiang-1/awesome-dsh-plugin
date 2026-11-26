@@ -144,6 +144,126 @@
     "flags": []
   },
   {
+    "path": "view_proactive_agent/contract-extensions/01-trace.md",
+    "kind": "card",
+    "domain": "proactive_agent",
+    "subcategory": "contract-extensions",
+    "repo": "luckyxiang6688/dsh-superagent-trace",
+    "commit": "5d6feab72868eb9caa6c93b7fd28f9721033424c",
+    "evidence": "3",
+    "status": "active",
+    "asof": "2026-11-25",
+    "stars_live": null,
+    "pushed_at": null,
+    "archived": null,
+    "npm": null,
+    "downloads_live": null,
+    "downloads_window": null,
+    "flags": [
+      "no-live-repo"
+    ]
+  },
+  {
+    "path": "view_proactive_agent/design-derivatives/01-mycf711.md",
+    "kind": "card",
+    "domain": "proactive_agent",
+    "subcategory": "design-derivatives",
+    "repo": "MYCF711/dsh-session-superagent",
+    "commit": "fe1c356efa66fb52e87403ffeb1660cdf97c876d",
+    "evidence": "3",
+    "status": "active",
+    "asof": "2026-11-25",
+    "stars_live": null,
+    "pushed_at": null,
+    "archived": null,
+    "npm": null,
+    "downloads_live": null,
+    "downloads_window": null,
+    "flags": [
+      "no-live-repo"
+    ]
+  },
+  {
+    "path": "view_proactive_agent/runtime-forks/01-hiseax.md",
+    "kind": "card",
+    "domain": "proactive_agent",
+    "subcategory": "runtime-forks",
+    "repo": "HiSeax/dsh-windows-superagent",
+    "commit": "2f3dd46ee30ff7994f36c7c46410b29d453d5bae",
+    "evidence": "3",
+    "status": "active",
+    "asof": "2026-11-25",
+    "stars_live": null,
+    "pushed_at": null,
+    "archived": null,
+    "npm": null,
+    "downloads_live": null,
+    "downloads_window": null,
+    "flags": [
+      "no-live-repo"
+    ]
+  },
+  {
+    "path": "view_proactive_agent/runtime-forks/02-local.md",
+    "kind": "card",
+    "domain": "proactive_agent",
+    "subcategory": "runtime-forks",
+    "repo": "mengzhongjie/dsh-superagent-local",
+    "commit": "fe5929a5b138e0872eb2aacea7a3f270bc71aa46",
+    "evidence": "3",
+    "status": "active",
+    "asof": "2026-11-25",
+    "stars_live": null,
+    "pushed_at": null,
+    "archived": null,
+    "npm": null,
+    "downloads_live": null,
+    "downloads_window": null,
+    "flags": [
+      "no-live-repo"
+    ]
+  },
+  {
+    "path": "view_proactive_agent/runtime-forks/03-nelson.md",
+    "kind": "card",
+    "domain": "proactive_agent",
+    "subcategory": "runtime-forks",
+    "repo": "NelsonLongXiang/dsh-open-a2a-net",
+    "commit": "41517214ed7175caf88f5c190b78f976d8c9c513",
+    "evidence": "3",
+    "status": "active",
+    "asof": "2026-11-25",
+    "stars_live": null,
+    "pushed_at": null,
+    "archived": null,
+    "npm": null,
+    "downloads_live": null,
+    "downloads_window": null,
+    "flags": [
+      "no-live-repo"
+    ]
+  },
+  {
+    "path": "view_proactive_agent/runtime-forks/04-desktop.md",
+    "kind": "card",
+    "domain": "proactive_agent",
+    "subcategory": "runtime-forks",
+    "repo": "jinghuaihuaxiang-star/dsh-superagent-desktop",
+    "commit": "e2cee418f9549f1e006e4d2900c5a3f222946362",
+    "evidence": "3",
+    "status": "active",
+    "asof": "2026-11-09",
+    "stars_live": null,
+    "pushed_at": null,
+    "archived": null,
+    "npm": null,
+    "downloads_live": null,
+    "downloads_window": null,
+    "flags": [
+      "no-live-repo"
+    ]
+  },
+  {
     "path": "view_session/compression/01-billion-context.md",
     "kind": "card",
     "domain": "session",

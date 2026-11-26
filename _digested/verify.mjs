@@ -187,7 +187,7 @@ for (const data of dataCards) {
 
 // ---------- SVG 契约：每个卡必须上图谱，且证据级一致 ----------
 const domainMaps = new Map();
-for (const domain of ['memory', 'session', 'tools', 'ui', 'workflow']) {
+for (const domain of ['memory', 'session', 'tools', 'ui', 'workflow', 'proactive_agent']) {
   const mapRel = `_digested/view_${domain}/plugin-map.svg`;
   let svg;
   try {
@@ -230,7 +230,7 @@ for (const domain of ['memory', 'session', 'tools', 'ui', 'workflow']) {
 }
 
 // ---------- 领域册的“全部 ★★★”必须真的全 3 星 ----------
-for (const domain of ['memory', 'session', 'tools', 'ui', 'workflow']) {
+for (const domain of ['memory', 'session', 'tools', 'ui', 'workflow', 'proactive_agent']) {
   const readme = `_digested/view_${domain}/README.md`;
   const text = textsByFile.get(readme) || '';
   if (!text.includes('全部 ★★★')) continue;

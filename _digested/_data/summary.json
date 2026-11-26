@@ -1,23 +1,24 @@
 {
-  "asof_cards": "2026-11-18",
+  "asof_cards": "2026-11-25",
   "asof_live": "2026-11-19",
-  "cards": 40,
+  "cards": 46,
   "by_domain": {
     "memory": 8,
+    "proactive_agent": 6,
     "session": 7,
     "tools": 7,
     "ui": 10,
     "workflow": 8
   },
   "by_status": {
-    "active": 35,
+    "active": 41,
     "stale": 1,
     "deprecated": 1,
     "watch": 2,
     "frozen": 1
   },
   "by_evidence": {
-    "3": 39,
+    "3": 45,
     "2": 1
   },
   "live_coverage": {

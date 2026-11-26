@@ -10,8 +10,8 @@
 | 声量 | 1★ / 0 forks;npm 上 5 个版本,全部发布于 2026-11-09 05:57–12:14 UTC |
 | repo@commit | `e2cee41`,HEAD 即 `release 0.1.3` |
 | 包形态 | `dsh-superagent-desktop@0.1.3`,**`private: false`**,MIT;npm 可装,latest = 0.1.3,unpacked 1.33 MB,maintainer `jinghuaihuaxiang` |
-| 宿主钉版 | 23 个 peer,`^0.2.1-alpha.2 \|\| ^0.2.2-rc.1`;`cordis 4.0.5-alpha.1` 精确钉;`engines.dsh` 同范围(`package.json:56-88`) |
-| 与上游的关系 | 整树 D1,但**只动部署面**:7 个 `src` 文件 + `package.json` + `cordis.patch.yml`(14 行)+ README;`docs/`、`SETUP.md`、`examples/`、`locale/`、`tests/` 一字未改 |
+| 宿主钉版 | 23 个 peer(21 个放宽 + 2 个精确钉),`^0.2.1-alpha.2 \|\| ^0.2.2-rc.1`;`cordis 4.0.5-alpha.1` 精确钉;`engines.dsh` 同范围(`package.json:56-88`) |
+| 与上游的关系 | 整树 D1,但**只动部署面**:7 个 `src` 文件 + `package.json` + `cordis.patch.yml`(7 行)+ README + `tsdown.config.ts`(树级 11 个文件);`docs/`、`SETUP.md`、`examples/`、`locale/`、`tests/` 一字未改 |
 | 自述差异 | "desktop-bundle packaging, a default `stateDir`, peer ranges widened to `0.2.x`, Windows compatibility fixes in the host code"(`README.md:68-70`) |
 | 复现 | `git clone https://github.com/jinghuaihuaxiang-star/dsh-superagent-desktop && git checkout e2cee41`;`diff -rq ../upstream/src src` 输出 7 行 |
 
@@ -55,7 +55,7 @@
                                              disabled: true
    ```
 
-   14 行 patch 差异里,实质内容就是这三组 `name` 加飞书默认关闭;preset 段(worker `:20`、router `:125`)与上游一字不差。
+   7 行 patch 差异里,实质内容就是三组 entry `name` 与两个 preset 显示名;飞书 `disabled: true` 上游本来就有,preset 段(worker `:20`、router `:125`)与上游一字不差。
 3. **`stateDir` 给默认值**。`.required()` 换成 `.default(defaultStateDir())`,默认 `<DSH_HOME>/state/superagent`(`src/deployment.ts:16-19,23`);配套把 `cordis.patch.yml:1-3` 的注释改成"profile 可以覆盖"。
 4. **补 Windows 与首次使用**。7 个文件按职责分:平台适配 2 个(`infra/environment.ts` 的 shim/git 来源、`app/sessions.ts` 的 pwsh 与工具白名单)、打包连带 1 个(`infra/paths.ts` 的包根识别)、配置默认值 1 个(`deployment.ts`)、面板新增 1 个(`client/overview.tsx` 的"开始使用"卡),另 2 个是文案与样式(`client/locales.ts`、`client/client.css`)。
 
@@ -84,9 +84,9 @@
 
 **Windows 适配是补丁式的,不是重构。** 它没有动 `Commands`/`Deployment` 的结构,只在写 shim、找包根、注册工具、比对 git 来源这四处按平台分叉。好处是 diff 小、可对照;坏处是平台判断散落在各模块里(`process.platform === 'win32'` 出现在 `environment.ts`、`cordis.patch.yml` 的 `!!js` 表达式里),没有单一的"平台层"。
 
-**peer 放宽是声明,不是验证。** 23 个 peer 从 `^0.2.1-alpha.2` 放宽到 `^0.2.1-alpha.2 || ^0.2.2-rc.1`,但 `cordis` 仍精确钉在 `4.0.5-alpha.1`、`schemastery` 精确钉在 `3.18.5-alpha.1`。所以"支持 0.2.x"实际是"支持两个 pre-release 世代,且宿主必须带这两个精确版本";README 也只在 desktop `0.2.2-rc.1` + Windows 11 上测过(`README.md:11`)。
+**peer 放宽是声明,不是验证。** 23 个 peer 里 21 个从 `^0.2.1-alpha.2` 放宽到 `^0.2.1-alpha.2 || ^0.2.2-rc.1`,但 `cordis` 仍精确钉在 `4.0.5-alpha.1`、`schemastery` 精确钉在 `3.18.5-alpha.1`。所以"支持 0.2.x"实际是"支持两个 pre-release 世代,且宿主必须带这两个精确版本";README 也只在 desktop `0.2.2-rc.1` + Windows 11 上测过(`README.md:11`)。
 
-**它没有碰的那些假设。** 仍然是"一个 GitHub 仓库"(README 第 5 行的产品描述与上游相同)、仍然是 GitHub/飞书两个 Source、仍然只有单团队单仓策略、worker 仍然以操作者身份无审批执行。它改的是**装在哪、默认值是多少、Windows 上能不能起**,不是**谁能派活、活落在哪**——后者是 02-local 与 05-multi-repo 各自去解的问题。这一点让它的 diff 只有 7 个文件,也让它的适用面止步于"上游本来就能用、只是装起来麻烦"的人。
+**它没有碰的那些假设。** 仍然是"一个 GitHub 仓库"(README 第 5 行的产品描述与上游相同)、仍然是 GitHub/飞书两个 Source、仍然只有单团队单仓策略、worker 仍然以操作者身份无审批执行。它改的是**装在哪、默认值是多少、Windows 上能不能起**,不是**谁能派活、活落在哪**——后者是 02-local 与 05-multi-repo 各自去解的问题。这一点让它的代码面 diff 只有 7 个 `src` 文件(树级 11 个),也让它的适用面止步于"上游本来就能用、只是装起来麻烦"的人。
 
 ## 界面体验
 
