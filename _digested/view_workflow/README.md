@@ -32,8 +32,19 @@
 | [multi-agent](multi-agent/README.md) | 多智能体编排:团队、任务板、角色 | 5 例 |
 | [vertical-preset](vertical-preset/README.md) | 垂直工作台与预设 | 2 例 |
 | [governance](governance/README.md) | profile 级治理与路由:准入、证据、验收 | 1 例 |
+| [proactive-agent](proactive-agent/README.md) | 主动式 agent:Source → 工单 → 隔离执行 → 回原对话 | 7 例(0007 新增,0 卡待立) |
 
-单卡落在子分类目录内:`<子分类>/NN-<slug>.md`;本册已有 8 张单卡(external-engine 2、multi-agent 4、vertical-preset 1、governance 1),全部 ★★★。
+单卡落在子分类目录内:`<子分类>/NN-<slug>.md`;本册已有 **8 张单卡**(external-engine 2、multi-agent 4、vertical-preset 1、governance 1),全部 ★★★。**0007 新增一个子分类 [proactive-agent](proactive-agent/README.md),7 个成员、0 张卡**——本轮先登记边界与候选,下一轮按机制例外立 1-2 张(HiSeax 138★ 优先)。
+
+## 本期动向
+
+新增 **98 条**(0006 窗口 266;本轮 8 天)。三条线同时变粗:
+
+- **团队/角色运行时**:约 20 条描述带 team/role/council/verifier;新面孔如 `0131kikimy/dsh-council`(leader/executor/verifier 三上下文)、`08mamba24/dsh-team-presets`(按角色配模型/工具)、`LaoLiang-agent/HarnessKit`(七角色四流程)、`luokexiaoguo/dsh-team-mode`(产品/研究/架构/前后端/QA/发布分工)。
+- **任务树/队列/画布**:约 46 条带 task/queue/todo/plan/progress;`Oak-liuhj/dsh-taskflow`(持久任务树 + 子会话)、`Wasabi2575/dsh-workflow-canvas`(侧栏画布连线)、`czy t1988/dsh-workflow-orchestrator`(拖拽节点串并行)、`xuexue61/dsh-task-queue`(队列即会话视图)。
+- **主动式 agent**:7 条落在 Source→工单→隔离执行→回原对话,单独登记为 [proactive-agent](proactive-agent/README.md)。
+
+共同点:**都还没有星标读数**,也都没有被第三方复用为协议;下一轮先看"谁被抄了 schema/存储布局",而不是谁星多。
 
 ## 稳定性判读
 

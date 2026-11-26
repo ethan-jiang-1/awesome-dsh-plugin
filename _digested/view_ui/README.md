@@ -38,7 +38,13 @@
 
 ## 本期动向
 
-新增 812 条为全表之最;新增侧暂无星标读数(采样缺口)。新 owner 榜里 imcaibaicai(ui×3)、stallenlu、TLEWA、fujingzhai、AvenYQ(ui×4)都以 ui 为主落点——**ui 是新作者进场的第一落点**,与「做壳门槛最低」的档案结论([ecosystem/01](../ecosystem/01-scenario-taxonomy.md))一致。
+本期新增 **279 条**(全表第一;0006 窗口为 812,本轮窗口只有 8 天)。新增侧仍无星标读数(采样缺口),但形态有一条明显位移:**从"改聊天窗"转向"改工作区壳"**。
+
+- **侧栏/工作区**:约 186 条描述带 sidebar/panel/composer/workspace;新面孔如 `18059842153/dsh-multi-dir-workspace`(一个 workspace 挂多个目录)、`GarinZ/dsh-sidebar-view`(按仓库/工作树/标签分组侧栏)、`GUGUQ1/dsh-todo`(右栏双看板)、`DeepSlacking/dsh-task-progress`(输入框上方的任务进度轨)。
+- **会话/人群 UI**:`7ygys/dsh-fishchat`(多 agent 群聊面板)、`Elysian1knight/Elysian-repository`(把已有会话拉进一个聊天室)把"多个会话"变成可看的对象。
+- **输入框扩展**:emoji、拖拽 `@path`、选区批注等仍在小步增长,但不再是最热的一层。
+
+**ui 仍是新作者进场的第一落点**,与「做壳门槛最低」的档案结论([ecosystem/01](../ecosystem/01-scenario-taxonomy.md))一致;变化的是"壳"的位置——从聊天窗挪到侧栏与工作区。
 
 ## 稳定性判读
 

@@ -34,6 +34,13 @@
 
 单卡落在子分类目录内:`<子分类>/NN-<slug>.md`;本册已有 8 张单卡(host-backed 4、local-store 3、context-shaping 1),其中 **7 张 ★★★ + 1 张 ★★ 参考卡(OpenViking,未读源码)**。
 
+## 本期动向
+
+新增 **45 条**(0006 窗口 164)。新增几乎全是**本地优先长期记忆**:Markdown/SQLite/FTS5、分层/衰减/巩固、人物画像/日记。候选:
+
+- `HANPU5838/dsh-memory`(11 个 memory_* 工具、4 条召回通道)、`emo-bird/dsh-deepmemory`(跨会话 SQLite + 日记)、`JqandCl/dsh-memory-huixiang`(会衰减/增强的卡片)、`xkshct198570/dsh-whale-memory`(SQLite 召回 + 写审计 + 六 tab)、`howtomakeaname/dsh-memory-service`(FTS5 + revision)。
+- 方向:从"接一个外部记忆服务"转向"**自己存、自己召回、可审计**"。这与本册 `local-store` 的定义重合,暂不新开子分类;下一轮从中挑 1–2 个有安装/扩散证据的立卡。
+
 ## ⚠ 隐私提示
 
 本领域三个头部(hindsight、OpenViking、MisakaNet)都依赖**外部服务**。hindsight 默认后端为 Cloud,装完即上传会话内容;OpenViking 需 `viking://` 服务端;MisakaNet 默认 MCP 行指向 `misakanet.org`,并把查询前 80 字符写入托管端的 `search_signals`。engramory 则是明文 markdown 落盘,放在项目里必须 git-ignore。引用"记忆能力"时,先确认数据存哪——这是选择记忆插件比选工具更要紧的一条。

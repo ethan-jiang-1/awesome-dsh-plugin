@@ -36,7 +36,13 @@
 
 ## 本期动向
 
-新增 586 条;新 owner 榜中 zjukop3(tools×12,单类目重度)、lucagiftzek(tools×4)、liufeicc、Threadripper123(tools×3)以 tools 为主要落点。tools 的"杂类工具箱"定位使其承接了最多无法归类的供给——按 [ecosystem/01](../ecosystem/01-scenario-taxonomy.md) 的说法,这是"agent 的手"类目的惯常形态。
+本期新增 **289 条**(0006 时为 586,窗口只有 8 天)。结构上不是一个新方向,而是**三股旧需求继续灌进来**:
+
+- **浏览器/MCP 桥**:约 55 条描述带 browser/CDP/playwright,30 条带 MCP;新面孔如 `Jestions-dev/Desktop-MCP`(Windows 桌面自动化走 MCP)、`FenrirCait/dsh-tool-hub`(把插件/技能/MCP 服务器收进一个面板)、`0131kikimy/dsh-collect`(网页→Markdown/Office)。没有千星条目,仍是"接入点"竞争。
+- **垂直工具**:串口(`1158295269/dsh-serial-trigger`)、ChemDraw(`CGH999/dsh-chemdraw`)、通达信(`Fahaoxi/dsh-tdx-tools`)、智能家居(`Jessicaisleep/dsh-mihome`)——每个都绑一个外部系统,靠 MCP/CLI/文件协议接进来。
+- **成本/编排的横向工具**:`BioAIEvolu/dsh-token-tally`(token/成本看板)、`CoolrfulDARkness/resource-lease`(跨进程资源租约)等,把"多 agent 并行"的配套需求带进 tools。
+
+tools 的"杂类工具箱"定位使其承接了最多无法归类的供给——按 [ecosystem/01](../ecosystem/01-scenario-taxonomy.md) 的说法,这是"agent 的手"类目的惯常形态;0007 没有改变这一点。
 
 ## 稳定性判读
 

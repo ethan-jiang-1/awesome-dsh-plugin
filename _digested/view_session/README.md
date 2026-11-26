@@ -36,6 +36,17 @@
 
 单卡落在子分类目录内:`<子分类>/NN-<slug>.md`;本册已有 7 张单卡(rewind-edit 3、import-export 2、interconnect 1、compression 1),均为 ★★★。
 
+## 本期动向
+
+新增 **111 条**(0006 窗口 352;本轮 8 天)。新增不再集中在"压缩/导入导出",而是**会话生命周期与检索**:
+
+- **管理**:删除/归档/回收站(`EndlessPoem/dsh-session-delete`、`Lingliqeye/dsh-session-revenant`)、每日备份(`Maybe-Zero-not-one/dsh-daily-backup`);
+- **检索**:全历史搜索(`IvesCheung/dsh-search-everything`、`Noeau-AI/dsh-history-search`);
+- **交接**:上下文阈值自动交接(`1502074527-svg/dsh-handoff-at-75`)、会话编排/信箱(`7nian173/dsh-session-orchestrator`);
+- **旁路问答**:`BullyHigh/dsh-side-ask`。
+
+这些多数没有星标读数;共同信号是**竞争点从"压缩算法"转向"能不能找到/接上/清掉一条会话"**。本册暂无对应子分类,候选 `session-control`(生命周期 + 检索);下一轮按成员数与安装证据决定是否立册。
+
 ## 稳定性判读
 
 **供给第三大、锚最弱**:914 条的类目,头部只有 83 星,无千星、无五百星。这说明 session 领域处于"需求已被广泛感知、方案尚未收敛"的阶段——导入/导出/回退/压缩各家各做各的,没有出现公认实现。**这是五个已立册领域中不确定性最大、也最值得跟踪收敛信号的一个**。
