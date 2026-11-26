@@ -14,6 +14,48 @@ asof: 2026-11-09
 > ★★★ 源码级，`jinghuaihuaxiang-star/dsh-superagent-desktop@e2cee41`（2026-11-09 20:12 +0800，`release 0.1.3`）。
 > 星标与 npm 下载为 2026-11-26 实时读数；结构事实截止 2026-11-09。深读材料见 [FAQ 03](../../../_faq_on_digested/02_superagent-dependents/lines/03-desktop-fork.md)。
 
+## 它替谁解决什么问题
+
+**角色**：已经在用 DSH desktop 的个人开发者，或 2–5 人小团队里那个负责装插件的人。DSH 常开着，模型、插件、会话都在里面，他要的是**侧栏多一个入口**，不是再开一个应用。
+
+**场景**：想让名单内的人在 GitHub issue（可选飞书）里提的请求自动变成工单，交给隔离会话去做，结果回到原对话——而第一次装的时候，他面对的是上游的**部署**文档，不是功能文档。
+
+**他不想要的**：为试一个功能建第二个 profile、再记一个端口与 token、再多一个要手动重启的东西。
+
+**现有笨办法**：照 `docs/006-deployment.md` 走一遍——建专用 profile、`dsh plugin --profile superagent add "link:$PWD"`、复制 `examples/profile.cordis.patch.yml` 并替换每个占位符、给 `stateDir` 一个绝对路径、用 `scripts/dsh-superagent` 在 tmux 里起停。六步手工，任一步漏了就是 invalid config；而 `stateDir` 是 `.required()`，漏写整个插件不响应。
+
+**为什么现在需要**：DSH 的 "Add bundle" 按包名去 registry 取包，上游 `private: true`、不发 npm——所以"能装"这件事本身得有人先做。再加一层：上游的 worker shim 是 `#!/bin/sh` + `0o755`，Windows 上根本起不来，而桌面用户用的正是 Windows。
+
+一句话：痛点是**装起来比用起来还麻烦**，它把六步压成一个包名。
+
+## 适用面:谁该用、谁别用
+
+**适合**
+- 个人桌面或小团队、**单 profile**：DSH 已经开着，装完重启就有入口。
+- 能接受**进程级环境注入**：`PATH`、`GIT_CONFIG_GLOBAL`、被清空的 `GH_TOKEN`/`GITHUB_TOKEN` 会落在你每天用的那个进程里。
+- 想零配置起步：`stateDir` 默认 `<DSH_HOME>/state/superagent`，不填也能起。
+
+**不适合**
+- 多租户或强隔离场景：隔离只到 stateDir 一级，worker 以操作者 OS 用户、`danger-full-access` 执行。
+- 需要独立 profile / 独立重启：上游的前提就是独立，这一支主动放弃了它。
+- 想与上游原版（或任何同 id 的分叉）并存：`dsh-superagent` / `-github` / `-feishu` 三个 id 相同，一个 loader 里不能有两份。
+
+**前置条件**
+- 宿主 desktop `^0.2.1-alpha.2 || ^0.2.2-rc.1`，且必须带 `cordis 4.0.5-alpha.1`、`schemastery 3.18.5-alpha.1`（两个都精确钉）；npm 可装（`private: false`）或本地 `link:`。
+- Windows：只在 desktop `0.2.2-rc.1` + Windows 11 上测过；测试套件仍假设 POSIX。
+
+## 业务价值
+
+**能算清的**
+- **安装步骤**：从"建 profile + link 安装 + 抄 patch + 填绝对路径 + tmux 起停"降到"填一个包名"或一条 `dsh plugin --profile desktop add` + 重启；`stateDir` 的必填失败面同时消失。
+- **改动面**：7 个 `src` 文件 + `package.json` + `cordis.patch.yml`，合计 +78/−19 行；对照整树 110 个文件 / 15,261 行，升级时要重看的量很小。
+- **分发证据**：npm 月下载 **1,753**、周 380（2026-10-26–11-24），5 个版本一天发完，latest `0.1.3`。
+
+**只是预期（推断，无实测）**
+- "装进现有 profile 就会有人持续用"：1,753 次含 CI、镜像与重复安装，不是用户数；0 fork、0 issue、5 个版本后再无发布，没有社区信号。
+- "peer 放宽到 `0.2.x` 就能跟宿主升级"：`cordis`/`schemastery` 仍精确钉死，`0.2.2-rc.2+` 未验证。
+- 口径：它省的是**安装摩擦**，不是运行成本（worker 仍以操作者身份无审批执行）；没有用户数或节省人时的数据，本卡不给 ROI。
+
 ## 一屏事实
 
 | 项 | 值 |

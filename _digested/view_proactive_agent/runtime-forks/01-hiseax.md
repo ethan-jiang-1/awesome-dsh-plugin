@@ -14,6 +14,49 @@ asof: 2026-11-25
 > 证据等级 ★★★(源码级;`HiSeax/dsh-windows-superagent@2f3dd46`)。Windows 上的实际运行**未做**,平台结论只到代码、作者实测声明与 `WINDOWS-ADAPT.md`。
 > 星标/forks 是 2026-11-25 GitHub API 实时值。上游基线 `deepseek-ai/dsh-superagent-prototype@8c32a9dc`(0.1.0,schema 11)。
 
+## 它替谁解决什么问题
+
+**一个 Windows 工作站上、只有一个 GitHub 仓库的团队**(README 的 good fit 只承诺 "one repository and one team")。需求本来就长在 issue / PR 评论或群里,他们想让 agent 接单、在自己的目录里干、把 PR 与答复送回原对话——但没人愿意为此维护一台 Linux 机器或 WSL。
+
+现在有三种笨办法,疼点都很具体:
+
+- **上 WSL 或第二台机器**:上游服务脚本是 Python + `fcntl` + `tmux`,worker shim 是 `#!/bin/sh`,`deployment.ts` 只认 `/…` 绝对路径;在 Windows 上装得上、一跑就废(`WINDOWS-ADAPT.md:10-18`)。
+- **人肉转述**:issue 里的话由人抄进 DSH 会话,干完再抄回 PR。转述丢上下文,长任务期间也没人知道进行到哪一步。
+- **只看终端**:上游的可见面是终端与日志;不坐在那台机器前的人,等于没有可见面。
+
+最疼的通常是**既写代码又要派活的那个人**:他得在 issue、终端、PR 三处来回切,而 agent 卡住时只有他能拍板。
+
+为什么是现在:DSH 0.2 的 profile / bundle patch / client 插槽让第三方插件能只挂自己的行、不改宿主,官方也提供了 `pwsh` 工具与 `dsh plugin … add link:` 的 profile 安装路径——这是它能"打完补丁就挂上去"的前提;剩下的 Windows 路径、进程与服务管理,才由这个仓库自己补。
+
+## 适用面:谁该用、谁别用
+
+**适合**:Windows 工作站、单 GitHub 仓库、一个团队;渠道是 issue/PR、飞书或微信私聊之一;愿意先跑几天 `observe`(只记录"本来会接受什么")再切 `auto`;身边有人能维护 clone + `pnpm build` + 一份 profile patch。
+
+**不适合**:要跨多个仓库编排(README 自己把 multi-repo 列进 not a good fit);需要 OS 级隔离或强合规——worker 以你的 OS 用户执行、无审批,Windows 上 `blockedCommands` 还不生效;要求 `npm install` 一条命令搞定,或不能接受看板 fail-open(宿主升级后 worker 行重新出现,而不是报错)。
+
+**前置条件**:
+
+- DSH 0.2+(作者只在 `0.2.2-rc.3` 实测;`install-windows.ps1` 拒绝 0.1.x),Node ≥18、pnpm、git;
+- 一个**专用** profile + 绝对 `stateDir`(没有默认值,漏写不启动);
+- 一个 GitHub 机器人账号与 repo scope token;
+- 微信渠道要一部手机扫码,且 iLink 只在对方最后一条消息后 24 小时内允许主动推送。
+
+## 业务价值
+
+**能算清的**(动作数或数据可核对):
+
+- **派活少两次转述**:需求从 issue/群进工单、结果再回原对话,中间不需要人抄进抄出;按一天 3 次派活算,省下的是 6 次复制与上下文重建——这是可数的动作数,不是工时。
+- **状态可见**:每条工单有自己的 `worker-<id>` 会话与目录,看板一屏给出团队成员与工单分组(含需要人处理的那一栏),长任务不再需要有人守着终端。
+- **安装成本**:README 是 6 步(clone/构建 → 建 profile → 挂编排器 → 填 `stateDir` → 挂看板 → 启停检查);tarball 路线因看板缺 `dsh.bundle` 仍要手写一行,不能算"1 步"。
+- **采用信号(2026-11-25 读数)**:138★ / 1 fork、0 open issue;6 个 release 集中在 2026-11-18→19 的 34 小时里——证明有人看、有人试,不证明有人在生产里跑。
+
+**只是预期**(推断,没有数据支撑):
+
+- 微信入口可能把"群里随口一句"变成可追踪工单,减少需求漏掉;没有工单量或留存数据。
+- 看板可能减少"现在到底在干什么"的追问;README 截图是 fabricated demo,不是使用统计。
+
+**明确不算**:没有 token 成本、没有工时节省、没有并发上限下的真实吞吐——这些不做 ROI 推算。
+
 ## 一屏事实
 
 | 项 | 值 |
