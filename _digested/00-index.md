@@ -21,6 +21,8 @@
 | ui | [plugin-map.svg](view_ui/plugin-map.svg) | 10 |
 | workflow | [plugin-map.svg](view_workflow/plugin-map.svg) | 8 |
 
+> **前沿专题(未计入五领域)**:[view_proactive_agent](view_proactive_agent/README.md)——主动式 agent(Source → 工单 → 隔离执行 → 回原对话),0007 首立,12 个注册表成员 + 1 个上游根,0 卡待立。
+
 ### 第一站 · [`ecosystem/`](./ecosystem/00-map.md) — 生态全景(主轴)
 
 回答"这里头有什么、结构如何变化":

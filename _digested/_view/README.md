@@ -25,7 +25,18 @@
 | [view_session](../view_session/README.md) | 会话管理 | 已立 |
 | [view_workflow](../view_workflow/README.md) | 工作流 | 已立 |
 | [view_memory](../view_memory/README.md) | 记忆与知识库 | 已立 |
+| [view_proactive_agent](../view_proactive_agent/README.md) | 主动式 agent | **前沿专题**(0007 首立,0 卡,未计入五领域) |
 | — | dev/usage/model/docs/vision… | 候补:dev/usage/model 已过体量门槛,但按“头部沉淀 + 读者问题”判断暂不立册(dev 的 3520 星 mirage 是宿主项目;usage 的 416 星锚 dsh-context 尚未做源码级卡;model 头部仅 62 星);docs/vision 头部锚已在 03 板。下次复核。 |
+
+### 候补专题(未立册)
+
+不是领域册,只是"可能长成专题"的观察项;每轮同步后重估,达标才立。
+
+| 候选 | 证据(0007 基线) | 判断 |
+|------|------------------|------|
+| **personal agent** | 严格命中 11 条(描述里明确"personal agent / personal assistant / second brain"):最高 `MJ-CJM/DSH-Bot` **91★**、`hanshanyike/dsh-yolo` **52★**,其余 ≤6★;跨 workflow/agi/memory/remote/usage/fun 六类 | **主题已出现,机制未成形**:没有共享引擎/上游/契约,11 条是 11 种实现(记忆、日历、提醒、习惯、群聊、陪伴),彼此不引用。先观察,不立册;若出现"个人上下文 → 受权行动"的共用协议,再按 proactive-agent 的方式立 |
+| **dev / usage / model** | 见上一行体量判断 | 仍候补 |
+
 
 **册内结构(三级)**:领域册 `README.md` 是入口(快照 + 子分类索引 + 稳定性判读)→ 子分类 `<子分类>/README.md`(定义 + 成员 + 立卡条件)→ 单卡 `<子分类>/NN-<slug>.md`(源码级八段)。子分类从头部条目的自述里归纳,分型会随生态重划;单卡编号在每个子分类内从 01 起。立册门槛是**默认值**,按 [`AGENTS.md`](../AGENTS.md) §二 可调。
 
