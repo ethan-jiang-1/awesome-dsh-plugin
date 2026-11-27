@@ -43,6 +43,12 @@ ANCHORS = {
     "misakanet": "ikalus1988/misakanet",
     "mnemon": "omdsh-dev/dsh-mnemon",
     "memento": "perrylink/dsh-memento",
+    "agent-teams": "nanmicoder/dsh-agent-teams",
+    "dsh-tui": "ccch1mneyyy/dsh-tui",
+    "billion-context": "ranxianglei/billion-context",
+    "treg": "superdesigndev/treg",
+    "genui": "omdsh-dev/dsh-genui",
+    "superagent": "deepseek-ai/dsh-superagent-prototype",
 }
 
 

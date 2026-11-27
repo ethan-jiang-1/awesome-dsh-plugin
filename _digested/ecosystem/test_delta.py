@@ -89,6 +89,10 @@ class ClassifyTest(unittest.TestCase):
         self.assertEqual(len(tiers["name"]), 1)
         self.assertEqual(tiers["mention"], [])
 
+    def test_extended_anchors_present(self):
+        for tok in ("agent-teams", "dsh-tui", "billion-context", "treg", "genui", "superagent"):
+            self.assertIn(tok, delta.ANCHORS)
+
 
 if __name__ == "__main__":
     unittest.main()

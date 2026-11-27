@@ -110,6 +110,10 @@ const REQUIRED_H2 = [
   '一屏事实', '它到底是什么', '怎么接进 DSH', '关键实现',
   '为什么它突出', '代价与边界', '可信度与复现', '待验证',
 ];
+const WRITING_TOP3_H2 = [
+  '它替谁解决什么问题', '适用面', '业务价值',
+];
+const WRITING_ENFORCE_SINCE = '2026-11-25';
 const cards = new Map(); // rel -> meta
 
 function parseFrontmatter(text) {
@@ -154,10 +158,20 @@ for (const rel of mdFiles) {
     for (const req of REQUIRED_H2) {
       if (!h2.some((h) => h.startsWith(req))) fail(rel, 1, `卡片缺小节：## ${req}`);
     }
+    if ((meta.asof || '') >= WRITING_ENFORCE_SINCE) {
+      const factIdx = h2.findIndex((h) => h.startsWith('一屏事实'));
+      for (const req of WRITING_TOP3_H2) {
+        const idx = h2.findIndex((h) => h.startsWith(req));
+        if (idx < 0) fail(rel, 1, `新卡(asof>=${WRITING_ENFORCE_SINCE})缺读者优先小节：## ${req}`);
+        else if (factIdx >= 0 && idx > factIdx) {
+          fail(rel, 1, `读者优先小节 ## ${req} 必须位于 ## 一屏事实 之前`);
+        }
+      }
+    }
   }
 }
 
-// ---------- `_data/cards.json` 必须与 frontmatter 同步 ----------
+// ---------- `_data/cards.json` 与 `summary.json` 必须与 frontmatter 同步 ----------
 let dataCards = [];
 try {
   dataCards = JSON.parse(readFileSync(join(repoRoot, '_digested/_data/cards.json'), 'utf8'));
@@ -185,9 +199,33 @@ for (const data of dataCards) {
   }
 }
 
+try {
+  const summary = JSON.parse(readFileSync(join(repoRoot, '_digested/_data/summary.json'), 'utf8'));
+  if (summary.cards !== cards.size) {
+    fail('_digested/_data/summary.json', null, `cards=${summary.cards} 与实际卡片数 ${cards.size} 不一致；跑 view_data.py`);
+  }
+  const actualByDomain = {};
+  for (const meta of cards.values()) {
+    actualByDomain[meta.domain] = (actualByDomain[meta.domain] || 0) + 1;
+  }
+  for (const [d, n] of Object.entries(actualByDomain)) {
+    if ((summary.by_domain || {})[d] !== n) {
+      fail('_digested/_data/summary.json', null, `by_domain.${d}=${(summary.by_domain || {})[d]} 与实际 ${n} 不一致；跑 view_data.py`);
+    }
+  }
+} catch (err) {
+  fail('_digested/_data/summary.json', null, `读不到或不是 JSON：${err.message}`);
+}
+
+// ---------- 自动发现领域册（view_*） ----------
+const domains = readdirSync(join(repoRoot, '_digested'), { withFileTypes: true })
+  .filter((d) => d.isDirectory() && d.name.startsWith('view_'))
+  .map((d) => d.name.slice('view_'.length))
+  .sort();
+
 // ---------- SVG 契约：每个卡必须上图谱，且证据级一致 ----------
 const domainMaps = new Map();
-for (const domain of ['memory', 'session', 'tools', 'ui', 'workflow', 'proactive_agent']) {
+for (const domain of domains) {
   const mapRel = `_digested/view_${domain}/plugin-map.svg`;
   let svg;
   try {
@@ -230,7 +268,7 @@ for (const domain of ['memory', 'session', 'tools', 'ui', 'workflow', 'proactive
 }
 
 // ---------- 领域册的“全部 ★★★”必须真的全 3 星 ----------
-for (const domain of ['memory', 'session', 'tools', 'ui', 'workflow', 'proactive_agent']) {
+for (const domain of domains) {
   const readme = `_digested/view_${domain}/README.md`;
   const text = textsByFile.get(readme) || '';
   if (!text.includes('全部 ★★★')) continue;

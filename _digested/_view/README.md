@@ -19,15 +19,15 @@
 
 对**已经稳定且有突出条目**的领域单独立册,每个领域是 `_digested/` 下一级子目录、入口 `README.md`,其下再分子分类与单卡。**立册门槛是默认值,不是硬规定**:数值见 [`../AGENTS.md`](../AGENTS.md) §二,生态涨了可以抬,某个领域突然热了可以破例先立。
 
-| 专册 | 领域 | 状态 |
-|------|------|------|
-| [view_ui](../view_ui/README.md) | 界面与交互 | 已立 |
-| [view_tools](../view_tools/README.md) | 工具箱 | 已立 |
-| [view_session](../view_session/README.md) | 会话管理 | 已立 |
-| [view_workflow](../view_workflow/README.md) | 工作流 | 已立 |
-| [view_memory](../view_memory/README.md) | 记忆与知识库 | 已立 |
-| [view_proactive_agent](../view_proactive_agent/README.md) | 主动式 agent | **已立·前沿专题**(0007 首立,6 卡) |
-| — | dev/usage/model/docs/vision… | 候补:dev/usage/model 已过体量门槛,但按“头部沉淀 + 读者问题”判断暂不立册(dev 的 3520 星 mirage 是宿主项目;usage 的 416 星锚 dsh-context 尚未做源码级卡;model 头部仅 62 星);docs/vision 头部锚已在 03 板。下次复核。 |
+| 专册 | 类型 | 领域 | 状态 |
+|------|------|------|------|
+| [view_ui](../view_ui/README.md) | 类目大册 | 界面与交互 | 已立 |
+| [view_tools](../view_tools/README.md) | 类目大册 | 工具箱 | 已立 |
+| [view_session](../view_session/README.md) | 类目大册 | 会话管理 | 已立 |
+| [view_workflow](../view_workflow/README.md) | 类目大册 | 工作流 | 已立 |
+| [view_memory](../view_memory/README.md) | 类目大册 | 记忆与知识库 | 已立 |
+| [view_proactive_agent](../view_proactive_agent/README.md) | 跨域专题 | 主动式 agent | **已立·前沿专题**(0007 首立,6 卡) |
+| — | 候补 | dev/usage/model/docs/vision… | 候补:dev/usage/model 已过体量门槛,但按“头部沉淀 + 读者问题”判断暂不立册(dev 的 3520 星 mirage 是宿主项目;usage 的 416 星锚 dsh-context 尚未做源码级卡;model 头部仅 62 星);docs/vision 头部锚已在 03 板。下次复核。 |
 
 ### 候补专题(未立册)
 
@@ -45,7 +45,7 @@
 
 ## 纪律
 
-- **视图零原创**:结构数字可由 `census.py`/`delta.py` 复现;卡片级实时值必须能对到 [`_snapshots/live-2026-11-19.json`](../ecosystem/_snapshots/live-2026-11-19.json);锚卡的机制结论必须链接到档案层(`_leverage/`、`_digested/mechanics/`),视图里出现档案没有的断言即违规。
+- **视图零原创**:`_view/` 汇总板与领域册 README 的结构数字必须可由 `census.py`/`delta.py` 复现,实时值必须能对到最新 `_snapshots/live-*.json` 或增量雷达快照,机制与借鉴结论必须指向 `view_*` 源码级单卡、`_leverage/` 或 `_digested/mechanics/`;而 `view_*` 下的 ★★★ 源码卡本身就是第一手源码证据源(锁 `repo@commit` 与文件行号)。
 - **候选 ≠ 采纳**:扩散数先按 `delta.py` ③b 的同名/描述分层,再由卡片逐条判定;不得把候选数写成“接入数”,也不得把“零协议复用”写成“零提及”。
 - **覆盖式重建**:每轮同步后本目录三块板(01/02/03)整页重写,不追加历史;历史在 `_change_log/` 与 ecosystem 档案里。
 - **一屏契约**:读者只读各页顶部一屏,即可得到该板答案与数据新鲜度。

@@ -6,18 +6,21 @@
   _digested/_data/health.md     人读的健康/衰减表
   _digested/_data/summary.json  域/子分类/证据级/状态计数
 
-用法:python3 _digested/ecosystem/view_data.py
+用法:
+  python3 _digested/ecosystem/view_data.py
+  python3 _digested/ecosystem/view_data.py --snap _digested/ecosystem/_snapshots/live-2026-11-27.json
 """
+import argparse
 import importlib.util
 import json
 import sys
 from collections import Counter
-from datetime import date, datetime, timezone
+from datetime import date, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "_digested" / "_data"
-SNAP = Path(__file__).resolve().parent / "_snapshots" / "live-2026-11-19.json"
+SNAP_DIR = Path(__file__).resolve().parent / "_snapshots"
 
 _spec = importlib.util.spec_from_file_location(
     "cardmeta", Path(__file__).resolve().parent / "cardmeta.py")
@@ -30,24 +33,46 @@ live_probe = importlib.util.module_from_spec(_spec2)
 _spec2.loader.exec_module(live_probe)
 
 
-def load_snapshot():
-    if not SNAP.exists():
+def latest_snapshot(snap_dir=SNAP_DIR):
+    """按文件名降序选最新的 live-YYYY-MM-DD.json。"""
+    cands = sorted(Path(snap_dir).glob("live-*.json"))
+    return cands[-1] if cands else None
+
+
+def load_snapshot(snap_path=None):
+    path = Path(snap_path) if snap_path else latest_snapshot()
+    if not path or not path.exists():
         return {"asof": None, "repos": {}, "packages": {}, "coverage": {}}
-    return json.loads(SNAP.read_text())
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
-def days_since(iso):
+def parse_ref_date(asof):
+    if asof:
+        try:
+            return date.fromisoformat(str(asof)[:10])
+        except ValueError:
+            pass
+    return date.today()
+
+
+def days_since(iso, ref_date=None):
     if not iso:
         return None
     try:
         d = datetime.fromisoformat(iso.replace("Z", "+00:00")).date()
     except ValueError:
         return None
-    return (date.today() - d).days
+    base = ref_date if ref_date is not None else date.today()
+    return (base - d).days
 
 
-def main():
-    snap = load_snapshot()
+def main(argv=None):
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--snap", default=None, help="显式指定 live-*.json 快照路径")
+    args = ap.parse_args(argv)
+
+    snap = load_snapshot(args.snap)
+    ref_date = parse_ref_date(snap.get("asof"))
     repo_npm = dict(live_probe.load_index()[1])
     repo_npm.update({k: v for k, v in snap.get("repo_packages", {}).items() if v})
     cards = []
@@ -60,7 +85,7 @@ def main():
         flags = []
         if live.get("archived"):
             flags.append("archived")
-        age = days_since(live.get("pushed_at"))
+        age = days_since(live.get("pushed_at"), ref_date=ref_date)
         if age is not None and age > 90 and meta.get("status") in {"active", "watch"}:
             flags.append(f"stale-candidate({age}d)")
         if age is not None and age <= 90 and meta.get("status") == "stale":
