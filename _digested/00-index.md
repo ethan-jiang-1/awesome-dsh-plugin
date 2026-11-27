@@ -3,11 +3,11 @@
 > 站位声明:我是**评估者**,不是贡献者。关心的是这东西有什么用、生态长什么样、数据可不可信——不学怎么投稿、不复刻它的门禁。本目录的结构就按这个视角组织。
 
 **产品**:DSH = DeepSeek Harness(`deepseek-ai/deepseek-harness`,官方开源 agent 框架,"一切皆插件");本仓库是它的社区插件目录,`dsh plugin add` 安装制。
-**审计基线**:`main@8f1a1800e`(2026-11-25;0007 同步记录见 [`_change_log/`](./_change_log/00-index.md))。生态结构统计已按 **13136 条**重算;本轮上游源码有实质 diff——Release 历史成为第三个发布面(probe-release-history + `docs/release-history/v1/`)、tarball 安装命令加 `-w`、npm 身份例外(`publishedNpmName`)、**8 条 workflow 加 fork 安全门(本 fork 不再自动构建/部署)**、contributing 补发布时效、英文首页标题改用 "DSH Plugins"(site-surface / probes-and-decay / submission-gates 已复核改写,其余专题已核验)。下载/星标**未做全量重采**——仓库边车冻结于 2026-08-19;卡内逐条读数是 2026-11-19 快照,见 [`ecosystem/_snapshots/live-2026-11-19.json`](./ecosystem/_snapshots/live-2026-11-19.json),口径见 [`_method/02`](./_method/02-anchor-metrics.md)。
+**审计基线**:`main@8f1a1800e`(2026-11-25;0007 同步记录见 [`_change_log/`](./_change_log/00-index.md))。生态结构统计已按 **13136 条**重算;本轮上游源码有实质 diff——Release 历史成为第三个发布面(probe-release-history + `docs/release-history/v1/`)、tarball 安装命令加 `-w`、npm 身份例外(`publishedNpmName`)、**8 条 workflow 加 fork 安全门(本 fork 不再自动构建/部署)**、contributing 补发布时效、英文首页标题改用 "DSH Plugins"(site-surface / probes-and-decay / submission-gates 已复核改写,其余专题已核验)。实时声量已于 **2026-11-27** 由三层分层雷达补齐:卡片级全量快照 [`live-2026-11-27.json`](./ecosystem/_snapshots/live-2026-11-27.json)(46/46 卡覆盖)、0007 新增雷达 [`radar-29b3ed46e-to-8f1a1800e-2026-11-27.json`](./ecosystem/_snapshots/radar-29b3ed46e-to-8f1a1800e-2026-11-27.json)(1,387/1,395 = 99.4%)及全库纯 GraphQL 星标 [`stars-2026-11-27.json`](./ecosystem/_snapshots/stars-2026-11-27.json)(12,501/12,636 = 98.9%),口径见 [`_method/02`](./_method/02-anchor-metrics.md)。
 
 ## 读法(三站)
 
-> **只关心当前动向的外部读者**:从 [`_view/`](_view/README.md) 进——①什么冒出来了、②哪里热闹、③热闹领域里谁说了算;再往下是领域册 `view_<领域>/` → 子分类 `view_<领域>/<子分类>/` → 单卡 `NN-<slug>.md`(源码级八段)。三块板每轮同步后覆盖式重建,规则见本目录 [AGENTS.md](AGENTS.md)。
+> **只关心当前动向与干货的外部读者**:从 [`_view/`](_view/README.md) 进——①什么冒出来了、②哪里热闹、③热闹领域里谁说了算、④[**干货与借鉴总索引**](_view/04-leverage.md)(逻辑收口 `view_*` 46 张源码卡与 `_leverage/` 四册);再往下是领域册 `view_<领域>/`(类目大册 + 跨域专题)→ 子分类 `view_<领域>/<子分类>/` → 单卡 `NN-<slug>.md`。前三块板每轮同步后覆盖式重建,`04-leverage.md` 按新机制增量更新,规则见本目录 [AGENTS.md](AGENTS.md)。
 
 ### 可视化导航(六领域)
 

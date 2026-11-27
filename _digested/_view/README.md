@@ -1,19 +1,20 @@
 # `_view` — 生态动向呈现层(可再生视图)
 
-> **这是什么**:对外的生态动向入口。回答外部读者的三个问题——①什么冒出来了、②哪里热闹、③热闹领域里谁说了算。结构数字由 `census.py`/`delta.py` 复现,卡片级实时指标由 `live-2026-11-19.json` 归档,每轮 upstream 同步后覆盖式重建。
+> **这是什么**:对外的生态动向与干货入口。回答外部读者的四个问题——①什么冒出来了、②哪里热闹、③热闹领域里谁说了算、④**有哪些干货可直接借鉴**。结构数字由 `census.py`/`delta.py` 复现,卡片级与新苗子实时指标由 `_snapshots/` 归档,每轮 upstream 同步后覆盖式重建前三块板,`04-leverage.md` 按新机制增量更新。
 
-**数据截止**:`main@8f1a1800e`(2026-11-25);本期区间 `29b3ed46e` → `8f1a1800e`(2026-11-17 → 11-25,8 天)。实时指标快照 `2026-11-19`(卡片级,未随本轮重采)。
+**数据截止**:`main@8f1a1800e`(2026-11-25);本期区间 `29b3ed46e` → `8f1a1800e`(2026-11-17 → 11-25,8 天)。实时指标快照见 [`_data/health.md`](../_data/health.md)。
 **写作规范**:卡片与领域册的读者顺序、适用面/价值要求、反模式与存量回填策略见 [`WRITING.md`](WRITING.md)。
-**复现**:`python3 _digested/ecosystem/census.py`(全量)+ `python3 _digested/ecosystem/delta.py 29b3ed46e 8f1a1800e`(本期 diff)+ `python3 _digested/ecosystem/view_data.py`(卡片/健康表)。
-**⚠ 数据边界**:星标/下载边车为 2026-08-19 前后的历史采样,本期新增条目大多不在其中——「新增头部」多数为空是采样缺口,不是没有影响力;卡片级实时值见 [`_data/health.md`](../_data/health.md),锚的证据等级见各页标注。
+**复现**:`python3 _digested/ecosystem/census.py`(全量)+ `python3 _digested/ecosystem/delta.py 29b3ed46e 8f1a1800e`(本期 diff)+ `python3 _digested/ecosystem/radar_probe.py --delta 29b3ed46e 8f1a1800e`(新增雷达)+ `python3 _digested/ecosystem/view_data.py`(卡片/健康表)。
+**⚠ 数据边界**:仓库自带星标/下载边车冻结在 2026-08-19,趋势与新苗子统一以 `_snapshots/` 带日期实时采样为准;各页顶部均标明采样日期与覆盖率。
 
-## 三块板
+## 四块板
 
 | 板 | 回答 | 文件 |
 |----|------|------|
-| ① 冒出来的 | 新 owner 群体、新苗子、标签增长 | [01-emerging.md](01-emerging.md) |
+| ① 冒出来的 | 新 owner 群体、实时高星新苗子、标签增长 | [01-emerging.md](01-emerging.md) |
 | ② 哪里热闹 | 23 类热度排名、真/假热闹判别 | [02-heat-map.md](02-heat-map.md) |
-| ③ 锚 | 热闹领域的有影响力之物 | [03-anchors.md](03-anchors.md) |
+| ③ 锚 | 热闹领域的有影响力之物(扩散 × 声量) | [03-anchors.md](03-anchors.md) |
+| ④ 干货借鉴 | 不用回原 repo 翻:可抄走的架构模式、反模式与 `_leverage/` 四册总路由 | [04-leverage.md](04-leverage.md) |
 
 ## 领域专册(`_digested/view_<领域>/`)
 
