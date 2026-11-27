@@ -28,7 +28,7 @@
 
 - 每轮同步后:先跑 census 核分母,再看 `data/plugins/` 里新出现的 `superagent|super-agent|super_agent` 命中与上游是否发版;
 - 成员表按 D1/D2/D3 重排;新增成员先归层,再决定是否立卡;
-- 本册已进 `_digested/verify.mjs` 的领域列表与 `_data/` 卡表;新增卡必须同步 `plugin-map.svg` 与 `view_data.py`(证据级、链接、卡表三处一致);
+- 本册由 `_digested/verify.mjs` 自动发现并纳入 `_data/` 卡表校验;新增卡必须同步 `plugin-map.svg`、`view_data.py`,并在有新可复用机制/反模式时补进 [`../_view/04-leverage.md`](../_view/04-leverage.md);
 - 立册状态在 [`../_view/README.md`](../_view/README.md) 与 [`../00-index.md`](../00-index.md) 各留一行指针,不复制成员表;
 
 ## 完成判据

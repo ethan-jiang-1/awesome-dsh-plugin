@@ -217,11 +217,46 @@ try {
   fail('_digested/_data/summary.json', null, `读不到或不是 JSON：${err.message}`);
 }
 
+// ---------- 视图四块板与领域册生长闭环检查 ----------
+for (const board of ['README.md', '01-emerging.md', '02-heat-map.md', '03-anchors.md', '04-leverage.md']) {
+  const rel = `_digested/_view/${board}`;
+  if (!textsByFile.has(rel)) fail(rel, null, `缺少 _view/ 固定板文件：${board}`);
+}
+
+const viewReadmeText = textsByFile.get('_digested/_view/README.md') || '';
+const rootIndexText = textsByFile.get('_digested/00-index.md') || '';
+
 // ---------- 自动发现领域册（view_*） ----------
 const domains = readdirSync(join(repoRoot, '_digested'), { withFileTypes: true })
   .filter((d) => d.isDirectory() && d.name.startsWith('view_'))
   .map((d) => d.name.slice('view_'.length))
   .sort();
+
+for (const domain of domains) {
+  const readmeRel = `_digested/view_${domain}/README.md`;
+  const agentsRel = `_digested/view_${domain}/AGENTS.md`;
+  if (!textsByFile.has(readmeRel)) {
+    fail(readmeRel, null, `领域册 view_${domain} 缺少 README.md`);
+  }
+  const agentsText = textsByFile.get(agentsRel);
+  if (!agentsText) {
+    fail(agentsRel, null, `领域册 view_${domain} 缺少 AGENTS.md`);
+  } else if (!agentsText.includes('WRITING.md')) {
+    fail(agentsRel, null, `view_${domain}/AGENTS.md 必须指向 _view/WRITING.md`);
+  }
+  if (!viewReadmeText.includes(`view_${domain}/README.md`)) {
+    fail('_digested/_view/README.md', null, `领域册 view_${domain} 未登记到 _view/README.md`);
+  }
+  if (!rootIndexText.includes(`view_${domain}/`)) {
+    fail('_digested/00-index.md', null, `领域册 view_${domain} 未登记到 _digested/00-index.md`);
+  }
+}
+
+for (const data of dataCards) {
+  if (Array.isArray(data.flags) && data.flags.includes('no-live-repo')) {
+    warnings.push(`${data.path} 缺实时快照(no-live-repo)，建议重跑 live_probe.py && view_data.py`);
+  }
+}
 
 // ---------- SVG 契约：每个卡必须上图谱，且证据级一致 ----------
 const domainMaps = new Map();

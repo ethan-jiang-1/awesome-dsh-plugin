@@ -8,7 +8,7 @@ session 领域册。1024 条(第三大类)、本期新增 111、owners 931(单�
 
 ## 分型(会随生态重划)
 
-`import-export`(导入导出)/ `rewind-edit`(回退与编辑)/ `interconnect`(会话互连)。
+`import-export`(导入导出)/ `rewind-edit`(回退与编辑)/ `interconnect`(会话互连)/ `compression`(上下文压缩)。
 
 ## 本册特有的判断线索
 

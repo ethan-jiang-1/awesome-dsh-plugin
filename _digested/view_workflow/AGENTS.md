@@ -8,7 +8,7 @@ workflow 领域册。799 条、本期新增 98、owners 702(单件 92%)。
 
 ## 分型(会随生态重划)
 
-`external-engine`(挂外部引擎)/ `multi-agent`(多智能体)/ `vertical-preset`(垂直预设)。
+`external-engine`(挂外部引擎)/ `multi-agent`(多智能体)/ `vertical-preset`(垂直预设)/ `governance`(profile 级治理与路由)。(主动式 agent 已升级为独立专题 [`../view_proactive_agent/`](../view_proactive_agent/README.md)。)
 
 ## 本册特有的判断线索
 
@@ -23,4 +23,4 @@ workflow 领域册。799 条、本期新增 98、owners 702(单件 92%)。
 
 ## 刷新
 
-数字随 `census.py`/`delta.py`;星标若要更新需重采边车(`fresh_probe.py`),否则只能引 ⚠ 值。
+数字随 `census.py`/`delta.py`;实时星标/下载走 `live_probe.py` + `radar_probe.py`(见 [`../_method/02-anchor-metrics.md`](../_method/02-anchor-metrics.md)),历史边车数字必须标 ⚠。
