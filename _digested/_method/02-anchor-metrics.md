@@ -48,70 +48,47 @@ python3 -m unittest _digested/ecosystem/test_delta.py
 - session:message-edit 3 个第三方引用(2 fork + 1 vendor 集成)、billion-context 6 个;
   七个方向仍然**没有可被复用的协议面**。"零协议复用"不等于"零提及"。
 
-## 3. 实时快照(`live-2026-11-19.json`)
+## 3. 实时快照与三层分层雷达(`live-*.json` / `radar-*.json` / `stars-*.json`)
 
-卡片里的"实时星标/下载"过去是逐条查、逐条写,没有落盘。现在统一归档:
+过去全量 `fresh_probe.py` 连续五轮未跑,根本瓶颈不是查星标,而是对约 9,000 个未缓存包名的仓逐个调 GitHub REST `contents` API 读 `package.json`,直接撞穿 5,000/hr 限额。2026-11-27 起改为**三层分层采集**:
 
-```text
-_digested/ecosystem/_snapshots/live-2026-11-19.json
-```
+| 层 | 脚本与命令 | 覆盖与成本 | 落盘产物 |
+|---|---|---|---|
+| **Tier 1 · 卡片与存量锚全量** | `python3 _digested/ecosystem/live_probe.py --asof YYYY-MM-DD` | 全部已立卡仓库(当前 46 卡) + 星标边车 Top 80 + 下载边车 Top 40;REST + npm 下载 | `_snapshots/live-YYYY-MM-DD.json` |
+| **Tier 2 · 增量/全库纯 GraphQL 星标** | `python3 _digested/ecosystem/radar_probe.py --delta <old> <new> --asof YYYY-MM-DD` 或 `--full` | 80 仓/批仅取 `stargazerCount/forkCount/createdAt/pushedAt/isArchived/isFork`;扫一期新增(~1,400 仓)仅 ~17 次请求(~15 秒),扫全库(~12,600 仓)仅 ~158 次请求(~3 分钟) | `_snapshots/radar-<old>-to-<new>-YYYY-MM-DD.json` · `_snapshots/stars-YYYY-MM-DD.json` |
+| **Tier 3 · 过线新苗子补 npm 下载** | 随 `radar_probe.py --delta` 自动执行(`--star-threshold 30`) | 仅对星标 ≥30 的新增仓回源 `package.json` + `api.npmjs.org` 月下载,把 REST 配额集中在真冒头候选 | 同 `radar-*.json` 内的 `packages` / `ranked` |
 
-结构:
+**来源启发式打标(`origin`)**:`radar_probe.py` 按仓库 `createdAt` 与 URL 形态自动标记四类来源,防止把老主项目误读为原生新苗子:
 
-```json
-{
-  "asof": "2026-11-19",
-  "generated_at": "2026-11-19T...Z",
-  "method": "gh api repos/{repo} + api.npmjs.org downloads/point/last-month/{pkg}",
-  "repos": {
-    "owner/repo": {"stars": 0, "pushed_at": "...", "archived": false, "default_branch": "main"}
-  },
-  "repo_packages": {"owner/repo": "pkg"},
-  "packages": {
-    "pkg": {"downloads": 0, "start": "...", "end": "..."}
-  },
-  "coverage": {"repos": "N/M", "packages": "N/M", "unpublished": [], "errors": []}
-}
-```
+- `pre-dsh-host`:仓库创建于 DSH 诞生日(`2026-08-13`)之前,高星大概率属主项目背书;
+- `monorepo-subpath`:条目指向仓库子目录(`#` 或 `/tree/`),星标属整个 monorepo;
+- `github-fork`:仓库为 GitHub fork;
+- `dsh-native`:2026-08-13 后创建的非 fork 独立仓库(仍需读源码核实是否仅包外部服务)。
 
 **引用规则**:
 
-- 卡片正文里的 2026-11-18 读数保留其原始日期,不冒充 11-19;最新统一快照以 `live-2026-11-19.json` 为准,差异见 `_data/health.md`。
-- 历史值一律带 ⚠ 与 `2026-08-19`;实时值必须能对应到本快照的 `asof`。
-- 快照没有覆盖到的条目,写"缺口",不写 0。
-- 快照只证明"某天的读数",不证明趋势;趋势仍需两次以上同口径快照。
-
-复现命令(需要 `gh auth login`;npm 端点无鉴权):
-
-```sh
-python3 _digested/ecosystem/live_probe.py --asof 2026-11-19
-```
-
-脚本默认覆盖:全部卡片仓库 + `data/stars.json` 里星标最高的 80 个仓库 + 下载边车
-前 40 个仓库;去重后逐仓请求 REST。包名先取 `raw-name-cache.json`,卡片仓库缺失时
-回源 `package.json`。任何单仓/单包失败只记入 `coverage.errors`,404 的 npm 包记入
-`coverage.unpublished`,不写 0,不中断整轮。
-
-2026-11-19 实跑:**repos 107/108**(1 个 404:`revolutionla/dsh-dream-skin`)、
-**packages 39/52 已发布 + 13 unpublished**;`unpublished` 不等于“没人用”,只说明
-该包名在 npm 上不存在或解析错了。
+- `view_data.py` 自动选取 `_snapshots/live-*.json` 中最新一份(可用 `--snap` 显式覆盖),且 `stale-candidate(>90d)` 相对快照 `asof` 日期计算,不随本地时钟漂移;
+- 历史边车值一律带 ⚠ 与 `2026-08-19`;实时值必须标明对应快照的 `asof` 日期与覆盖率;
+- 快照未覆盖或 npm 返回 404(`unpublished`)一律记 `—` 或缺口,**不写 0**;
+- 单次快照只证明某日截面,趋势仍需两次以上同口径快照对照。
 
 ## 4. 时效口径(与 `_method/01` 对齐)
 
 | 数据 | 最后完整快照 | 引用时必须写 |
 |------|--------------|--------------|
 | 结构(条数/类目/owner/标签) | 当前 checkout(`census.py`) | commit + 运行日期 |
-| 仓库边车 stars/downloads | 2026-08-19 | ⚠ + 日期;覆盖率(1410/596) |
-| 自采 stars | 2026-09-30 | ⚠ + 日期;覆盖 4385/4392 |
-| 自采 downloads | 2026-09-12 | ⚠ + 日期;覆盖 3552 名单 |
-| 卡片逐条实时值 | `live-2026-11-19.json` | `asof` + 覆盖状态 |
-| capabilities | 2026-09-24 | ⚠ + 日期;覆盖率 47.5%(旧基线) |
+| 仓库边车 stars/downloads | 2026-08-19 | ⚠ + 日期;覆盖率(1408/596) |
+| 卡片与存量锚实时值(Tier 1) | 最新 `live-YYYY-MM-DD.json` | `asof` + 覆盖率(见 `_data/health.md`) |
+| 增量新苗子雷达(Tier 2+3) | `radar-29b3ed46e-to-8f1a1800e-2026-11-27.json` | `asof` + 覆盖率(1387/1395) + `origin` 口径 |
+| 全库纯 GraphQL 星标(Tier 2 full) | `stars-2026-11-27.json` | `asof` + 覆盖率 |
+| 全量自采 downloads | 2026-09-12 | ⚠ + 日期;覆盖 3552 名单 |
+| capabilities | 2026-09-24 | ⚠ + 日期;覆盖率 28.5%(3745/13136) |
 
-**禁止**:把不同日期的两个数放进同一个"增量"句子;把"新增头部为空"写成"无影响力";
-把 `delta.py` 的候选数直接写成"接入数"。
+**禁止**:把不同日期的两个数放进同一个"增量"句子;把 `pre-dsh-host` 的老主项目高星写成“DSH 原生爆发”;把 `delta.py` 的候选数直接写成"接入数"。
 
 ## 5. 什么时候重跑
 
-- 每次 `_change_log` 同步后:先 `census.py` 核分母,再 `live_probe.py` 刷卡片/锚快照;
+- 每次 `_change_log` 同步后:① `census.py` 核分母 → ② `live_probe.py --asof <today>` 刷全部卡片 → ③ `radar_probe.py --delta <old> <new> --asof <today>` 扫本期新增苗子 → ④ `view_data.py` 更新 `_data/`;
+- 按需(每隔 2–3 轮或需要重排全库星标时):`radar_probe.py --full --asof <today>` 刷全库纯 GraphQL 星标;
 - 只改文案、不动数据的轮次:不重跑,但要在页面顶部保留 `asof`;
 - 网络失败:保留旧快照,把失败写进 `coverage.errors`;不要把失败写成 0。
