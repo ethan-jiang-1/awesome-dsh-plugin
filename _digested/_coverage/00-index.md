@@ -97,12 +97,20 @@
 
 `_view/01` 的“没有任何苗子”改成“不能判断(采样缺口)”;`04` 的“连续两轮”改成“四轮”;`00-index` 的星标口径改为指向 live 快照。本轮没有重跑 `fresh_probe` 全量下载,历史下载数字仍按 2026-09-12 标注。
 
+**2026-11-27(体系梳理与分层雷达轮)**:围绕「看分布趋势 → 找锚 → 直接拿干货」完成五项系统升级:
+
+| 升级项 | 改动 | 验收 |
+|--------|------|------|
+| 文档基线对齐与脚本除硬编码 | 同步 `mechanics/00-map`、`00-index`、`_data/README`、`view_session/tools` 残留旧数字;`view_data.py` 改为自动选最新 `live-*.json` 且 `days_since()` 相对快照 `asof` 计算;`verify.mjs` 自动发现 `view_*` 目录、校验 `summary.json` 同步、并对 `asof >= 2026-11-25` 新卡强制检查 `WRITING.md` 前三节顺序;`delta.py` `ANCHORS` 扩至 17 项 | `node _digested/verify.mjs` + `test_delta.py` + `test_view_data.py` |
+| 三层分层热度雷达(`radar_probe.py`) | Tier 1 重跑 `live-2026-11-27.json`(112/113 仓,46/46 卡 100% 覆盖,`proactive_agent` 的 `no-live-repo` 清零);Tier 2+3 扫 0007 新增 `1,387/1,395`(99.4%,16 个 ≥30★ 补齐 npm 下载);Tier 2 全库扫 `12,501/12,636`(98.9%)生成 `stars-2026-11-27.json` 并按 `createdAt` 区分老主项目背书与原生新仓 | `test_radar_probe.py` + `01-emerging.md` / `03-anchors.md` 实数刷新 |
+| `_view/04-leverage.md`(四块板收口) | 保持 `_leverage/`(226 篇)物理独立自包含,在 `_view/` 新增第四块板逻辑收口 `view_*` 46 卡与 `_leverage/` 四册干货路由、架构模式库与 Top 10 反模式;`_view/README` 显式区分 `类目大册 / 跨域专题` | `node _digested/verify.mjs` + `node _leverage/verify.mjs` |
+| 8 张核心锚卡按 `WRITING.md` 升级 | `better-sidebar`、`hindsight`、`openviking`、`ouroboros`、`treg`、`agent-teams`、`dsh-tui`、`genui` 补齐「替谁解决什么 / 适用面 / 业务价值」前三节并判定 0007 扩散增量,`asof` 升至 `2026-11-27` 纳入 `verify.mjs` 强制顺序检查 | `node _digested/verify.mjs`(143 篇全绿) |
+
 **后续(未做,已列缺口)**:
 
-- 全量 npm 下载 + 星标重采(本轮只做了卡片/锚的 11-19 快照;全量下载仍是 09-12);
-- repo 级去重统计(本轮只在 `_view/02` 加了口径提醒,未改 census/delta 输出);
-- 领域选型矩阵(数据存哪/外部依赖/权限/宿主耦合/测试/健康) — `_data/cards.json` 已具备字段基础;
-- 接缝图谱(seam atlas)与 50 条新条目质量抽样(模板化/账号年龄/README/测试);
-- 全量 `fresh_probe` 的网络窗口与预算仍未验证。
+- 其余 **32 张**存量旧卡按 `WRITING.md` 补齐前三节(随插件更新或复核顺手回填);
+- 全库扫描浮出的新原生高星仓(`dsh-our-free-model`、`dsh-routing-suite`、`T-Auto/dsh-ops`、`answer-me-with-html`、`dsh-workflow-lite` 等)源码级择优立卡;
+- repo 级去重统计(纳入 `census.py`/`delta.py` 输出)与领域选型矩阵(基于 `_data/cards.json`);
+- 50 条新条目质量抽样(模板化/账号年龄/README/测试)与全量 npm 下载窗口评估。
 
 上游合入后,把受影响的专题标为「需复核」再逐个降回；流程见 [`_change_log/`](../_change_log/00-index.md)。
