@@ -6,13 +6,32 @@ repo: omdsh-dev/dsh-genui
 commit: 382a4a6149c0f7c0926104d4e49d1d0805aa9e00
 evidence: 3
 status: active
-asof: 2026-11-18
+asof: 2026-11-27
 ---
 
 # dsh-genui — 模型写 `dsh-ui` JSON 围栏,宿主页面里挂 React 树
 
 > 证据等级:★★★(源码级;`omdsh-dev/dsh-genui@382a4a6149c0f7c0926104d4e49d1d0805aa9e00`,2026-11-18)。
-> 数据截止 `29b3ed46e`(2026-11-18)。⚠ 星标 224 为 2026-08-19 历史采样;下载边车无记录。
+> 数据截止 `8f1a1800e`(2026-11-25)。⚠ 边车星标 224 为 2026-08-19 历史采样;实时快照见 [`_data/health.md`](../../_data/health.md)。
+
+## 它替谁解决什么问题
+
+**希望模型在对话流里直接交付可点击表单、交互图表、对比表、测验题、3D/流程图面板——而不是扔一大坨 Markdown 或让用户复制代码自己跑的 Web 端用户与垂直工作流作者。** 现在的笨办法要么看纯文本表格和静态代码块,要么让模型吐整段 HTML(容易把页面搞炸或触发 XSS),要么为每个小场景单写一个专用 React 插件。
+
+对插件作者而言,它把“生成式 UI”做成了一整套可复用的四层栈(声明式 JSON 协议 + 按需加载的 64 KB `SKILL.md` + 确定性分级修复 guard + 多表面渲染),其他插件只需依赖它的提示词/渲染面就能产出交互卡片。
+
+## 适用面:谁该用、谁别用
+
+- **适合**:使用 DSH Web 壳(`0.2.0-rc.1` / `0.2.1-rc.1` / `0.2.2-alpha.2` 三条线之一)、需要高频展示结构化数据/图表/表单/教学交互、希望“本地交互先不走模型、坏节点不拖垮整块 UI”的个人与产品团队。
+- **不适合**:**把模型输出视为不可信代码、要求强制 iframe/sandbox 隔离**的高安全场景(本插件直接 `createRoot` 挂载在宿主同源 DOM,无 iframe 沙箱;mermaid/ECharts 的任何渲染绕过即宿主同源失守,且 `inputType:password` + `action` 仍能把用户输入发回模型);追求极致轻网络或无 `webServer` 的精简宿主(首个围栏后会 idle 预取约 1.25 MB gzip 的 mermaid + three);只看名字盲装 npm `dsh-genui` 的人(非 scoped `dsh-genui` 是无关的 Vue/OpenTiny 包,正确包名是 `@changfenhuang/dsh-genui`)。
+- **前置条件**:DSH Web 壳(需 `slots` 与 `sessions` 服务)、Node 22.19+ 或 24+;安装命令必须指定 `@changfenhuang/dsh-genui`。
+
+## 业务价值
+
+- **能算清的**:
+  - **组件覆盖与容错可核**:内置 **60 个组件类型**、27 种 diagram kind、14 个 ECharts preset;每轮系统提示固定压在 ≤1,600 字符(组件字典走 64 KB skill 按需加载);流式闭合首节点即出图,单个坏组件被 `partialRepairGenuiSpec` 丢弃而不毁整块 UI,根不可修时回退原始代码块。
+  - **纯原生高活跃 + 真实生态伴生**:仓库专为 DSH 创建(2026-08-09 首提交,无母项目分账),822 提交 / 161 份测试 spec / 28,655 行测试;实时星标与月下载见 [`_data/health.md`](../../_data/health.md);全库排除 11 条 `genuine` 假阳性后有 **3 个明确依赖/伴生插件**(`dsh-genui-scope`、`dsh-status-card`、`dsh-learning-mode`)与 4 个互操作提及。
+- **只是预期(推断)**:本地优先的表单/测验/筛选与回合尾自动修正(`fence-feedback`,每回合硬顶 2 次)可能减少多轮纯文本来回确认,但真实 token 成本增量(“1 次 skill + 1 次验证 + 1 次正文”)与点击转化未做生产量化。
 
 ## 一屏事实
 

@@ -1,6 +1,6 @@
 {
-  "asof_cards": "2026-11-25",
-  "asof_live": "2026-11-19",
+  "asof_cards": "2026-11-27",
+  "asof_live": "2026-11-27",
   "cards": 46,
   "by_domain": {
     "memory": 8,
@@ -22,10 +22,12 @@
     "2": 1
   },
   "live_coverage": {
-    "repos": "107/108",
-    "packages": "39/52",
+    "repos": "112/113",
+    "packages": "43/58",
     "unpublished": [
       "dsh-flowix-memory",
+      "dsh-windows-superagent",
+      "dsh-superagent",
       "treg-dsh",
       "@dsh-external/dsh-visualize",
       "dsh-ouroboros",

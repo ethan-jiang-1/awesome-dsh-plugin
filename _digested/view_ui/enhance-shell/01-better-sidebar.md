@@ -6,13 +6,35 @@ repo: omdsh-dev/DSH-better-sidebar
 commit: 2811573c9c0bad51d77db6c3c94d78f5aed8d38a
 evidence: 3
 status: active
-asof: 2026-11-17
+asof: 2026-11-27
 ---
 
 # DSH-better-sidebar — 官方右列里的插件注册表:第三方注册 Tab,它翻译成 DSH 原生 Tab
 
 > 证据等级:★★★(源码级;`repo@commit 2811573c9c0bad51d77db6c3c94d78f5aed8d38a`,2026-11-13)。
-> 数据截止 `29b3ed46e`(2026-11-17)。⚠ 星标/下载为 2026-08-19 历史采样。
+> 数据截止 `8f1a1800e`(2026-11-25)。⚠ 边车星标/下载为 2026-08-19 历史采样;实时星标/下载见 [`_data/health.md`](../../_data/health.md)。
+
+## 它替谁解决什么问题
+
+**两类人:一是把 DSH 当主力 IDE 用的个人/小团队开发者,二是想往官方右侧栏里塞自定义面板的插件作者。** 原生 DSH Web 壳以对话流为主,想一边聊一边看文件树、改代码、查 Git diff、盯子代理进展,现在的笨办法是切回 VS Code 或开多个终端窗口,对话和代码上下文来回断层。
+
+对插件作者更疼:想往 DSH 原生右侧栏加一个 Tab,必须自己 `inject` `sidebarRightTabs`、理解 `keepMounted` / `priority: 'extension'` / guide 条目,还得成组注册两个 slot 并写回滚逻辑;只要宿主 RC 改一次内部注册表签名,每个插件各自炸一遍。
+
+为什么现在需要:DSH 0.1.5+ 把右侧栏收归宿主原生渲染,但没有给第三方提供一个带版本承诺和能力位探测的高层 Tab SDK。`DSH-better-sidebar` 把这层复杂度吃进自己肚子里,对外只暴露 `ctx.betterSidebar.registerTab(...)`。
+
+## 适用面:谁该用、谁别用
+
+- **适合**:以 DSH Web 壳为主工作台、愿意跟随官方 `0.2.2-rc.2+` 升级节奏的个人或小团队开发者;以及希望低成本挂右侧栏 Tab、不想直面宿主原生 `sidebarRightTabs` 细节的插件作者。
+- **不适合**:要求所有文件读写/Git 操作必须走 DSH 沙箱策略链与审批流的强合规团队(它的 8 HTTP + 3 WS 路由以宿主进程身份直接执行,且 `path-security.ts` 已主动取消 workspace 越界限制);不能接受跟随宿主 RC 升级或装了聚合包但无法控制 `bundles` 加载顺序的环境(双挂载触发 `duplicate prefix route` 导致整棵插件树起不来)。
+- **前置条件**:DSH `>=0.2.2-rc.2`(14 条 `@deepseek-ai/*` peer 钉版);可选系统二进制 `git` / `zip` / `tar`(缺失仅对应功能降级不崩);需要与宿主同源浏览器认证围栏(`ctx.connection.requestRejection`)。
+
+## 业务价值
+
+- **能算清的**:
+  - **插件接入动作减负**:第三方加一个原生右栏 Tab 只需 3 步(`inject: ['betterSidebar']` → `registerTab` → 交 `ctx.effect` 注销),不必碰 `sidebarRightTabs` 与双 slot 翻译。
+  - **生态采纳信号**:在 `8f1a1800e`(13,136 条)注册表中已有 **66 个第三方条目提及**(1 个同名 fork `All3nCN/dsh-better-sidebar-N23` + 65 个描述提及;0007 较 0006 新增 `kp-z/dsh-plugins#dsh-cove-task` 明确声明依赖与 `KyoMio/dsh-zen-remote` Plugin Bridge 兼容);2026-11-18 抽样 3 家呈 1 硬依赖 / 1 软依赖 / 1 仅提及。
+  - **声量与下载**:⚠ 边车 2,216★ / 39,717 月下载(2026-08-19);实时快照见 [`_data/health.md`](../../_data/health.md)。
+- **只是预期(推断)**:在聊天窗内直接完成文件浏览、编辑与 Git 操作可能减少切窗口次数;作为右栏事实注册表可能降低生态插件各自造轮子的重复维护成本——但缺乏实际工时与 66 条全量代码级接入比例的实测数据。
 
 ## 一屏事实
 
@@ -23,7 +45,7 @@ asof: 2026-11-17
 | 自述 | 侧边栏完整工作台:文件渲染编辑、终端、Git、子代理;三方插件可注册新 Tab(`data/plugins/omdsh-dev__DSH-better-sidebar.yml`) |
 | 星标 ⚠ | 2216(2026-08-19,`data/stars.json`;边车口径见 [`_method/00-index.md`](../../_method/00-index.md)) |
 | npm 月下载 ⚠ | 39717(2026-08-19,`data/downloads.json`) |
-| 扩散 | **64 个第三方条目**命中(1 个同名 fork `All3nCN/dsh-better-sidebar-N23` + 63 个描述提及;`delta.py` ③b 候选分层,卡内逐条判定) |
+| 扩散 | **66 个第三方条目**命中(1 个同名 fork `All3nCN/dsh-better-sidebar-N23` + 65 个描述提及;`delta.py` ③b 候选分层,0007 新增 `kp-z/dsh-plugins#dsh-cove-task` 声明依赖与 `KyoMio/dsh-zen-remote` 桥接兼容) |
 | 仓库 commit | `2811573c9c0bad51d77db6c3c94d78f5aed8d38a`(2026-11-13,"Merge PR #1188 chore/code-slimming") |
 | 包形态 | npm `dsh-better-sidebar@0.32.1`(MIT,`publishConfig.access: public`);宿主半 ESM `lib/index.js`,客户端半 **CJS 双产物** `lib/client.js`(官方 profile 通道)+ `lib/client-registry.js`(注册表通道)+ 4 个 lazy chunk;无 postinstall |
 | 代码规模 | `src/` 250 个 `.ts/.tsx` / **81,551 行**;`tests/` 328 文件 / 87,823 行;全仓 764 文件、119 篇 markdown |

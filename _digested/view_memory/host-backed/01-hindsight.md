@@ -6,23 +6,43 @@ repo: vectorize-io/hindsight
 commit: 9fb28dbd724dc1ce4da7cb4c49008e601db76c5f
 evidence: 3
 status: active
-asof: 2026-11-17
+asof: 2026-11-27
 ---
 
 # hindsight — 宿主项目的示例插件,却是 memory 领域的接口层标准
 
 > 证据等级:★★★(源码级;`vectorize-io/hindsight@9fb28dbd724dc1ce4da7cb4c49008e601db76c5f`,2026-11-17)。
-> 数据截止 `29b3ed46e`(2026-11-17)。⚠ 星标 20218 为宿主项目背书,且为 2026-08-19 历史采样。
+> 数据截止 `8f1a1800e`(2026-11-25)。⚠ 星标 20218 为宿主项目背书,且为 2026-08-19 历史采样;实时星标/下载见 [`_data/health.md`](../../_data/health.md)。
+
+## 它替谁解决什么问题
+
+**同时在多个 coding agent(DSH / Claude Code / Codex 等)之间切换、反复维护同一个 Git 仓库的开发者。** 每次新开会话或换一个工具,模型都忘掉昨天定下的架构约定、踩过的坑和在办事项;现在的笨办法是手写并维护冗长的 `CLAUDE.md` / `AGENTS.md`,或者每次开局手动翻旧对话粘贴上下文,不仅漏信息,改了决策也很快和代码脱节。
+
+对记忆插件作者还有另一层痛点:不同宿主(48 个 coding agent 集成面)的会话日志和生命周期差异极大,想做到“不把仓库记忆锁死在某一个工具里”,需要一套跨宿主共享的 bank 命名、配置文件与 HTTP 协议。
+
+## 适用面:谁该用、谁别用
+
+- **适合**:希望按 Git 仓库自动沉淀跨会话/跨工具记忆(含 git log 冷启动播种、知识页与 `reflect` 综合)、且能接受运行外部 Hindsight 服务(云端或本地 `hindsight-embed` daemon)的开发者与小团队。
+- **不适合**:**严禁代码/会话正文离开本机**却直接按默认配置安装的人(不改 `serverMode` 默认指向 `https://api.hindsight.vectorize.io`,装完即上传);追求零外部依赖、几毫秒冷启动的轻量本机环境(本地 daemon 走 `uvx --from hindsight-embed`,冷启动需数十秒且依赖 Python + 自备 LLM key);要求记忆失败必须显式阻断的场景(本插件全程 fail-open,服务端挂了会话看似完全正常)。
+- **前置条件**:工作区必须是 Git 仓库(探不到仓库会直接跳过整个会话);选云端需 Hindsight 云账号/key,选本地 daemon 需 `uvx` + Python 环境 + LLM API key;不要与第三方 `dsh-hindsight-*` 记忆插件同时启用,否则同一 bank 会重复注入。
+
+## 业务价值
+
+- **能算清的**:
+  - **零 DSH 版本锁死与跨宿主共享**:`src/dsh.ts` 零 `@deepseek-ai/*` import,且 bank 默认命名 `coding-agent::{gitProject}` 故意保持 harness 中立,使一个仓库在多个工具与 worktree 间复用同一份记忆。
+  - **不打断前缀缓存**:召回内容以 `form: 'recall'` 的 user 消息注入(而非动态改写 system prompt),并倒扫 session 历史去重、切掉 fork 继承前缀与跳过 subagent,避免重复召回与重复写入。
+  - **扩散信号**:在 `8f1a1800e` 名单中已有 **10 个第三方条目**(7 个 `dsh-hindsight-*` 同名衍生 + 3 个描述提及,0007 新增 `yb-zhai/agent-memory` 作为可选语义增强后端),其中卡内判定 **4 个**真实现记忆工具,另有 2 个控制台与 1 个 daemon 运维插件。
+- **只是预期(推断)**:知识页(`searchPages/getPage`)与 `reflect` 综合可能减少跨会话重复解释架构背景的次数;但由于 Hindsight 服务端抽取引擎未读、召回 token 占用未实测,无法量化召回准确率或工时节省。
 
 ## 一屏事实
 
 | 项 | 值 |
 |----|-----|
 | 条目 | `vectorize-io/hindsight#coding-agents`([registry](../../../data/plugins/vectorize-io__hindsight--hindsight-integrations-coding-agents.yml)) |
-| 类目 | memory(504 条) |
+| 类目 | memory(546 条) |
 | 自述 | 「会学习的 Agent 长期记忆:自动召回/保存、知识页、深度反思、按仓库隔离的记忆银行」——四项在适配层都能找到落点;但对模型暴露的工具面是**页中心**(搜页/读页/反思/记 initiative),没有 recall/remember 这类读写原语 |
-| 星标 ⚠ | 20218(**宿主项目背书**,非插件热度;2026-08-19 冻结采样) |
-| 扩散 | **9 个第三方衍生**(其中 **7** 个以 `dsh-hindsight-*` 命名,2 个仅在描述中提及;旧卡写的「8 个前缀」是错的,复现命令见末节) |
+| 星标 ⚠ | 20218(**宿主项目背书**,非插件热度;2026-08-19 冻结采样;实时快照见 [`_data/health.md`](../../_data/health.md)) |
+| 扩散 | **10 个第三方条目**(其中 **7** 个以 `dsh-hindsight-*` 命名,3 个描述提及——0007 新增 `yb-zhai/agent-memory` 可选语义增强;卡内判定 **4 个**真实现记忆工具,复现命令见末节) |
 | 仓库 commit | `9fb28dbd`(2026-11-17,`main`),单条目目录 `hindsight-integrations/coding-agents/` |
 | 包形态 | npm `@vectorize-io/hindsight-coding-agents@0.8.7`,**一个包覆盖 `hindsight-integrations/` 下 48 个目录**;DSH 的面 = 一条 Cordis plugin row + patch 层 + 一个 companion skill,不走 MCP |
 | 适配层规模 | `src/dsh.ts` 458 行 + `src/core/transcript-dsh.ts` 109 行 = **567 行**;测试 449 行(`src/dsh.test.ts` 322 + `transcript-dsh.test.ts` 127);`cordis.patch.yml` 18 行;e2e 39 行 |

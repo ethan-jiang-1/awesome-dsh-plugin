@@ -3,7 +3,7 @@
 > 已立册(799 条 / 新增 98 / owners 702、单件 92%)。⚠ 星标为历史采样。数据截止 `8f1a1800e`(2026-11-25)。
 ![view_workflow 插件图谱](plugin-map.svg)
 
-> 健康/衰减:见 [`_data/health.md`](../_data/health.md)(2026-11-19 快照)。状态词定义见 [`../AGENTS.md`](../AGENTS.md) §二。
+> 健康/衰减:见 [`_data/health.md`](../_data/health.md)(2026-11-27 实时快照)。状态词定义见 [`../AGENTS.md`](../AGENTS.md) §二。
 > 抽样框:本册卡是**目的性抽样**(锚 + 机制例外),不是随机样本;不能用于估计领域内比例。
 
 **状态优先**:`AI-Novel-Writer` 已冻结(0.1.0、6 个 peer 不存在),不建议新装;`dsh_workflow`(main 停更)与 `agent-team-gui`(钉 0.1.5.x)需改造后使用。其余 5 张可用;真正有衍生的仍是 agent-teams。

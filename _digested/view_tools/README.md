@@ -3,7 +3,7 @@
 > 已立册(1918 条 / 新增 289 / owners 1408、单件 87%)。⚠ 星标为历史采样。数据截止 `8f1a1800e`(2026-11-25)。
 ![view_tools 插件图谱](plugin-map.svg)
 
-> 健康/衰减:见 [`_data/health.md`](../_data/health.md)(2026-11-19 快照)。状态词定义见 [`../AGENTS.md`](../AGENTS.md) §二。
+> 健康/衰减:见 [`_data/health.md`](../_data/health.md)(2026-11-27 实时快照)。状态词定义见 [`../AGENTS.md`](../AGENTS.md) §二。
 > 抽样框:本册卡是**目的性抽样**(锚 + 机制例外),不是随机样本;不能用于估计领域内比例。
 
 **状态优先**:本册 7 张卡都在维护或可用;但"高星"多数属主项目(treg/notes/argo),选型应优先看下载、测试与机制密度(computer-use/deepread),而不是星标。

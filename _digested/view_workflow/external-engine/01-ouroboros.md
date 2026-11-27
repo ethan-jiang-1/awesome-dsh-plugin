@@ -6,13 +6,32 @@ repo: Q00/ouroboros
 commit: c0a64b7d1b3fd792a2ffe13aedcb3e65c96fbc8b
 evidence: 3
 status: active
-asof: 2026-11-17
+asof: 2026-11-27
 ---
 
 # ouroboros — 24 行 YAML 的接线器，替一台 39 万行 Python 引擎在 DSH 里开门
 
 > 证据等级:★★★(源码级;`Q00/ouroboros@c0a64b7d1b3fd792a2ffe13aedcb3e65c96fbc8b`,2026-11-18)。
-> 数据截止 `29b3ed46e`(2026-11-17)。⚠ 星标 5565 为 2026-08-19 历史采样。
+> 数据截止 `8f1a1800e`(2026-11-25)。⚠ 星标 5565 为 2026-08-19 历史采样;实时快照见 [`_data/health.md`](../../_data/health.md)。
+
+## 它替谁解决什么问题
+
+**已经认同 Ouroboros 的「先访谈澄清需求 → 生成 Seed 规格 → 执行与隐藏 AC 评估 → 演化」方法论、但不想离开 DSH 会话切到外部 CLI 去跑完整套流程的研发人员。** 以前的笨办法是手动把需求抄进 Ouroboros CLI 跑完访谈和 Seed,再把产物搬回 DSH 让 agent 写代码,两套上下文割裂。
+
+对准备把自有 Python/Rust 大引擎接进 DSH 的作者,它还示范了一条极低成本路径:不必写一行 JS 插件代码,靠 24 行 `cordis.patch.yml` 挂自带 `dsh-mcp-client` + `uvx` 就能把整套 36 个 MCP 工具放进 DSH。
+
+## 适用面:谁该用、谁别用
+
+- **适合**:本机装有 `uv` 与 Python ≥3.12、熟悉 Ouroboros 工作流、希望在 DSH 内直接调用其访谈/Seed/评估工具的个人开发者;以及想抄「零 JS 纯配置 MCP bundle + 契约测试」范式的插件作者。
+- **不适合**:追求纯 Node/轻量零外部运行时的用户(无 `uv` 则 36 个工具静默消失);需要锁死确定版本的生产流水线(`--from 'ouroboros-ai[mcp]'` 默认不 pin 版本,每次首装可能拿到不同版本);想直接用当前 DSH 作为 Ouroboros 反向 LLM 后端的新手(反向后端需自备绝对路径 `cordis.yml`、源码构建 `dsh-acp-demo`,且缺配置时工具列表照常显示、第一次调用才炸)。
+- **前置条件**:`uv` 在 PATH 上、Python ≥3.12、首次运行需联网从 PyPI 拉 `ouroboros-ai[mcp]`;需从 GitHub 子目录安装(`github:Q00/ouroboros#main&path:integrations/dsh-plugin`,npm 无包);按需在环境里配置 `ANTHROPIC_API_KEY` / `DEEPSEEK_API_KEY`。
+
+## 业务价值
+
+- **能算清的**:
+  - **DSH 侧集成维护面极小**:适配层仅 3 个文件 / 253 行(有效 YAML **24 行**,0 行 JS 代码),配 8 个契约测试把安装命令、`env` 转发与“不承诺自动恢复”的文档诚实度锁进 CI。
+  - **明确拆掉星标错配**:⚠ 5,565★(2026-08-19)与实时高星全部属于已运行 7 个月、支持 15 个 runtime 的主项目;本插件在全库 13,136 条中**第三方扩散为 0**,且 npm `dsh-ouroboros` 为 404——判定是**明星而非锚**。
+- **只是预期(推断)**:在 DSH 内直接运行 Ouroboros 访谈与 AC 评估可能减少“需求没说清就盲写代码”的返工,但由于 39 万行 Python 引擎内核未读、也无真实项目吞吐对比数据,不做效果量化。
 
 ## 一屏事实
 

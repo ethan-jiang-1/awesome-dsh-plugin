@@ -98,3 +98,4 @@
 
 - 2026-11-26:首次制定。`view_proactive_agent` 的 6 张新卡按本规范补齐 1–3 节;其余 **40 张旧卡**列入回填队列(锚卡优先):memory 8、session 7、tools 7、ui 10、workflow 8(含 1 张 ★★ 参考卡 OpenViking,按 reference 规则只补"问题/适用面/价值"三段,不要求八段)。
 - 同日:六个领域册 README 都加了「读者与价值」一段;六个 `view_*/AGENTS.md` 都指向本规范。
+- 2026-11-27:第一批 **8 张核心锚卡**回填完成(`better-sidebar`、`hindsight`、`openviking`、`ouroboros`、`treg`、`agent-teams`、`dsh-tui`、`genui`),`asof` 升至 `2026-11-27` 并纳入 `verify.mjs` 自动化顺序校验;剩余 **32 张**旧卡待按变更顺手回填。

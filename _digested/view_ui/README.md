@@ -4,7 +4,7 @@
 > ⚠ 星标为历史采样。数据截止 `8f1a1800e`(2026-11-25)。
 ![view_ui 插件图谱](plugin-map.svg)
 
-> 健康/衰减:见 [`_data/health.md`](../_data/health.md)(2026-11-19 快照)。状态词定义见 [`../AGENTS.md`](../AGENTS.md) §二。
+> 健康/衰减:见 [`_data/health.md`](../_data/health.md)(2026-11-27 实时快照)。状态词定义见 [`../AGENTS.md`](../AGENTS.md) §二。
 > 抽样框:本册卡是**目的性抽样**(锚 + 机制例外),不是随机样本;不能用于估计领域内比例。
 
 **状态优先**:`at-file` 已被官方 `@file` 取代,不建议新装;其余 9 张可用或可作机制样本。平台候选看 better-sidebar,协议路线看 genui/visualize,换壳看 dsh-TUI/tianshu。
