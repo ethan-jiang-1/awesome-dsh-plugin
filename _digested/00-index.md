@@ -7,9 +7,9 @@
 
 ## 读法(三站)
 
-> **只关心当前动向与干货的外部读者**:从 [`_view/`](_view/README.md) 进——①什么冒出来了、②哪里热闹、③热闹领域里谁说了算、④[**干货与借鉴总索引**](_view/04-leverage.md)(逻辑收口 `view_*` 46 张源码卡与 `_leverage/` 四册);再往下是领域册 `view_<领域>/`(类目大册 + 跨域专题)→ 子分类 `view_<领域>/<子分类>/` → 单卡 `NN-<slug>.md`。前三块板每轮同步后覆盖式重建,`04-leverage.md` 按新机制增量更新,规则见本目录 [AGENTS.md](AGENTS.md)。
+> **只关心当前动向与干货的外部读者**:从 [`_view/`](_view/README.md) 进——①什么冒出来了、②哪里热闹、③热闹领域里谁说了算、④[**干货与借鉴总索引**](_view/04-leverage.md)(逻辑收口 `view_*` 58 张源码/参考卡与 `_leverage/` 四册);再往下是领域册 `view_<领域>/`(类目大册 + 跨域专题)→ 子分类 `view_<领域>/<子分类>/` → 单卡 `NN-<slug>.md`。前三块板每轮同步后覆盖式重建,`04-leverage.md` 按新机制增量更新,规则见本目录 [AGENTS.md](AGENTS.md)。
 
-### 可视化导航(六领域)
+### 可视化导航(七领域)
 
 每张图是「子分类 × 单卡 × 影响力/状态」的一屏,卡上标机制/价值、`边` 车星标(2026-08-19)、`实` 时星标(见 `_data/health.md` 与卡内日期)、下载、第三方提及和底部声量横条。**选型先看卡内「状态」「代价与边界」;图只负责导航,不替代文字。** 红色状态词(`弃用/冻结/停更/需注意`)只作参考,不建议新装;未标状态 = 活跃/可用。
 
@@ -21,6 +21,7 @@
 | ui | [plugin-map.svg](view_ui/plugin-map.svg) | 10 |
 | workflow | [plugin-map.svg](view_workflow/plugin-map.svg) | 8 |
 | proactive_agent | [plugin-map.svg](view_proactive_agent/plugin-map.svg) | 6 |
+| personal_agent | [plugin-map.svg](view_personal_agent/plugin-map.svg) | 12 |
 
 ### 第一站 · [`ecosystem/`](./ecosystem/00-map.md) — 生态全景(主轴)
 

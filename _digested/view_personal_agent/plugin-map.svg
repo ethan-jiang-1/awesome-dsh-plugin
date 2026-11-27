@@ -1,0 +1,190 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1600" height="1760" viewBox="0 0 1600 1760" role="img" aria-labelledby="t d">
+<title id="t">view_personal_agent · 个人 Agent · 插件与生态图谱</title>
+<desc id="d">12 张卡按四条主轴组织:bot-teams 3(★★★)、cross-device-agents 4(★★★)、im-personal-hubs 2(★★★)、oss-benchmarks 3(★★ 参考基线)。</desc>
+<defs><filter id="shadow" x="-5%" y="-5%" width="110%" height="110%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.06"/></filter></defs>
+<rect width="1600" height="1760" fill="#f8fafc"/>
+<rect x="0" y="0" width="1600" height="8" fill="#8b5cf6"/>
+<a xlink:href="README.md" href="README.md">
+<text x="48" y="56" font-family="'PingFang SC','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="30" font-weight="700" fill="#0f172a">view_personal_agent · 个人 Agent(Muse / Dots / Grok Bot 范式)</text>
+<text x="48" y="82" font-family="'PingFang SC',sans-serif" font-size="13" fill="#475569">9 张 DSH ★★★ 源码卡(7 未入库高星 + 2 已入库实装锚)+ 3 张外部开源标杆 ★★ 参考卡;星标/下载为 2026-11-27 实时值</text>
+</a>
+
+<a xlink:href="bot-teams/README.md" href="bot-teams/README.md">
+<rect x="48" y="110" width="1504" height="36" rx="8" fill="#8b5cf6" fill-opacity="0.10"/>
+<rect x="48" y="110" width="5" height="36" rx="2.5" fill="#8b5cf6"/>
+<text x="66" y="134" font-family="'PingFang SC',sans-serif" font-size="15" font-weight="700" fill="#0f172a">bot-teams</text>
+<text x="168" y="134" font-family="'PingFang SC',sans-serif" font-size="12" fill="#475569">多 Bot 个人工作台(仿 Grok Bot / OpenAI Dots,未入库高星 DSH 根)</text>
+<text x="1534" y="134" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">3 卡 · ★★★</text>
+</a>
+
+<a xlink:href="bot-teams/01-ds-bot.md" href="bot-teams/01-ds-bot.md">
+<g><title>Fei-Craft/DS-Bot — bot-teams · 9,110 stars / npm 75,869/mo · 未入库但库内 10 衍生</title>
+<rect x="48" y="154" width="1504" height="104" rx="10" fill="#f5f3ff" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="154" width="5" height="104" rx="2.5" fill="#8b5cf6"/>
+<text x="66" y="181" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">Fei-Craft/DS-Bot</text>
+<text x="1534" y="181" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">01 · ★★★</text>
+<text x="66" y="203" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">1 Bot = 1 原生 DSH 会话;三形态 + 8 渠道 IM + 浏览器硬拒支付 + 已长出 7+ 库内 D2 伴生插件</text>
+<text x="66" y="242" font-family="sans-serif" font-size="10.5" fill="#475569">实 9,110★ / npm ds-bot 75,869/月 / 库内 10 衍生(未入库根)</text>
+<rect x="66" y="250" width="1468" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="250" width="1240" height="3" rx="1.5" fill="#8b5cf6" fill-opacity="0.65"/>
+</g></a>
+
+<a xlink:href="bot-teams/02-anymodelbot.md" href="bot-teams/02-anymodelbot.md">
+<g><title>modelflare-ai/AnyModelBot — bot-teams · 5,006 stars · 未入库</title>
+<rect x="48" y="266" width="1504" height="104" rx="10" fill="#f5f3ff" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="266" width="5" height="104" rx="2.5" fill="#8b5cf6"/>
+<text x="66" y="293" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">modelflare-ai/AnyModelBot</text>
+<text x="1534" y="293" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">02 · ★★★</text>
+<text x="66" y="315" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">独立宿主按每 Bot 一独立 DSH 子进程(dsh.asar)运行;Linux bwrap 读围栏 + 4 级应用硬门(注意默认免审批 CUA)</text>
+<text x="66" y="354" font-family="sans-serif" font-size="10.5" fill="#475569">实 5,006★ / 124 forks / Electron+Docker(未入库)</text>
+<rect x="66" y="362" width="1468" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="362" width="1120" height="3" rx="1.5" fill="#8b5cf6" fill-opacity="0.65"/>
+</g></a>
+
+<a xlink:href="bot-teams/03-deepseekbot.md" href="bot-teams/03-deepseekbot.md">
+<g><title>BotHarness/DeepSeekBot (Tobs) — bot-teams · 1,076 stars · 未入库</title>
+<rect x="48" y="378" width="1504" height="104" rx="10" fill="#f5f3ff" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="378" width="5" height="104" rx="2.5" fill="#8b5cf6"/>
+<text x="66" y="405" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">BotHarness/DeepSeekBot (Tobs 托布)</text>
+<text x="1534" y="405" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">03 · ★★★</text>
+<text x="66" y="427" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">85 万行 DSH 多插件矩阵 + Expo 移动端;Git 记忆仓 + Noise XK 中继 + ask_secret/secret_http 凭据代填</text>
+<text x="66" y="466" font-family="sans-serif" font-size="10.5" fill="#475569">实 1,076★ / 81 forks / npm @botharness/tobs(未入库)</text>
+<rect x="66" y="474" width="1468" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="474" width="900" height="3" rx="1.5" fill="#8b5cf6" fill-opacity="0.65"/>
+</g></a>
+
+<a xlink:href="cross-device-agents/README.md" href="cross-device-agents/README.md">
+<rect x="48" y="498" width="1504" height="36" rx="8" fill="#0ea5e9" fill-opacity="0.10"/>
+<rect x="48" y="498" width="5" height="36" rx="2.5" fill="#0ea5e9"/>
+<text x="66" y="522" font-family="'PingFang SC',sans-serif" font-size="15" font-weight="700" fill="#0f172a">cross-device-agents</text>
+<text x="238" y="522" font-family="'PingFang SC',sans-serif" font-size="12" fill="#475569">跨设备、口袋真 DSH 与常驻个人世界(仿 Meta Muse / 随身 DSH)</text>
+<text x="1534" y="522" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">4 卡 · ★★★</text>
+</a>
+
+<a xlink:href="cross-device-agents/01-nanomuse.md" href="cross-device-agents/01-nanomuse.md">
+<g><title>nano-muse/nanoMuse — cross-device-agents · 3,740 stars · 未入库</title>
+<rect x="48" y="542" width="1504" height="104" rx="10" fill="#f0f9ff" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="542" width="5" height="104" rx="2.5" fill="#0ea5e9"/>
+<text x="66" y="569" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">nano-muse/nanoMuse</text>
+<text x="1534" y="569" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">01 · ★★★</text>
+<text x="66" y="591" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">明牌复刻 Meta Muse;桌面 dsh-nanomuse Cordis 包 + HMAC Hands 审批 + 本地代理注 OAuth(注意中继非 E2EE)</text>
+<text x="66" y="630" font-family="sans-serif" font-size="10.5" fill="#475569">实 3,740★ / 468 forks / GPL-3.0(未入库)</text>
+<rect x="66" y="638" width="1468" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="638" width="1080" height="3" rx="1.5" fill="#0ea5e9" fill-opacity="0.65"/>
+</g></a>
+
+<a xlink:href="cross-device-agents/02-dsh-go.md" href="cross-device-agents/02-dsh-go.md">
+<g><title>ccch1mneyyy/dsh-Go — cross-device-agents · 33,066 stars · 未入库</title>
+<rect x="48" y="654" width="1504" height="104" rx="10" fill="#f0f9ff" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="654" width="5" height="104" rx="2.5" fill="#0ea5e9"/>
+<text x="66" y="681" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">ccch1mneyyy/dsh-Go</text>
+<text x="1534" y="681" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">02 · ★★★</text>
+<text x="66" y="703" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">口袋真 DSH(266 补丁 + Ubuntu/Node/pnpm)+ Kotlin SafetyGate 硬拒 29 金融 App + SSH/Noise_IK 双远控</text>
+<text x="66" y="742" font-family="sans-serif" font-size="10.5" fill="#475569">实 33,066★ / 1,599 forks / v1.3.0 APK 98,436 下载(未入库)</text>
+<rect x="66" y="750" width="1468" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="750" width="1440" height="3" rx="1.5" fill="#0ea5e9" fill-opacity="0.65"/>
+</g></a>
+
+<a xlink:href="cross-device-agents/03-dsh-android.md" href="cross-device-agents/03-dsh-android.md">
+<g><title>jackwener/DSH-Android — cross-device-agents · 1,097 stars · 未入库</title>
+<rect x="48" y="766" width="1504" height="104" rx="10" fill="#f0f9ff" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="766" width="5" height="104" rx="2.5" fill="#0ea5e9"/>
+<text x="66" y="793" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">jackwener/DSH-Android</text>
+<text x="1534" y="793" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">03 · ★★★</text>
+<text x="66" y="815" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">免 Root 双进程 Bionic Node 24 嵌入未分叉 dsh@0.2.2-rc.5 + Shizuku 后台虚拟屏 + 18 份微信/小红书指南</text>
+<text x="66" y="854" font-family="sans-serif" font-size="10.5" fill="#475569">实 1,097★ / 130 forks / Apache-2.0(未入库)</text>
+<rect x="66" y="862" width="1468" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="862" width="910" height="3" rx="1.5" fill="#0ea5e9" fill-opacity="0.65"/>
+</g></a>
+
+<a xlink:href="cross-device-agents/04-dsh-world.md" href="cross-device-agents/04-dsh-world.md">
+<g><title>chenkezhen480/dsh-world — cross-device-agents · 454 stars · 未入库</title>
+<rect x="48" y="878" width="1504" height="104" rx="10" fill="#f0f9ff" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="878" width="5" height="104" rx="2.5" fill="#0ea5e9"/>
+<text x="66" y="905" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">chenkezhen480/dsh-world</text>
+<text x="1534" y="905" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">04 · ★★★</text>
+<text x="66" y="927" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">单依赖 ws 纯插件实现自唤醒时间线 + 无工具压缩 + 夜间日记 + Win32 后台/UAC 桌面(微信引擎非商用许可)</text>
+<text x="66" y="966" font-family="sans-serif" font-size="10.5" fill="#475569">实 454★ / 21 forks / npm dsh-world@0.8.5(未入库)</text>
+<rect x="66" y="974" width="1468" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="974" width="760" height="3" rx="1.5" fill="#0ea5e9" fill-opacity="0.65"/>
+</g></a>
+
+<a xlink:href="im-personal-hubs/README.md" href="im-personal-hubs/README.md">
+<rect x="48" y="998" width="1504" height="36" rx="8" fill="#10b981" fill-opacity="0.10"/>
+<rect x="48" y="998" width="5" height="36" rx="2.5" fill="#10b981"/>
+<text x="66" y="1022" font-family="'PingFang SC',sans-serif" font-size="15" font-weight="700" fill="#0f172a">im-personal-hubs</text>
+<text x="218" y="1022" font-family="'PingFang SC',sans-serif" font-size="12" fill="#475569">注册表实装个人管家(已收录于 awesome-dsh-plugin)</text>
+<text x="1534" y="1022" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">2 卡 · ★★★</text>
+</a>
+
+<a xlink:href="im-personal-hubs/01-dsh-roost.md" href="im-personal-hubs/01-dsh-roost.md">
+<g><title>roost-qq/dsh-roost — im-personal-hubs · 55 stars / npm 22,012/mo · 已入库</title>
+<rect x="48" y="1042" width="1504" height="104" rx="10" fill="#ecfdf5" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="1042" width="5" height="104" rx="2.5" fill="#10b981"/>
+<text x="66" y="1069" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">roost-qq/dsh-roost</text>
+<text x="1534" y="1069" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">01 · ★★★</text>
+<text x="66" y="1091" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">官方 QQ 1:1 持久会话 + 6 级说话人动态工具剪枝 + 零外部 DB 三层夜间整理记忆(AGPL-3.0)</text>
+<text x="66" y="1130" font-family="sans-serif" font-size="10.5" fill="#475569">实 55★ / npm dsh-roost 22,012/月(已入库)</text>
+<rect x="66" y="1138" width="1468" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="1138" width="1020" height="3" rx="1.5" fill="#10b981" fill-opacity="0.65"/>
+</g></a>
+
+<a xlink:href="im-personal-hubs/02-dsh-bot-mjcjm.md" href="im-personal-hubs/02-dsh-bot-mjcjm.md">
+<g><title>MJ-CJM/DSH-Bot (dsh-botgroup) — im-personal-hubs · 100 stars / npm 1,854/mo · 已入库</title>
+<rect x="48" y="1154" width="1504" height="104" rx="10" fill="#ecfdf5" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="1154" width="5" height="104" rx="2.5" fill="#10b981"/>
+<text x="66" y="1181" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">MJ-CJM/DSH-Bot (dsh-botgroup)</text>
+<text x="1534" y="1181" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">02 · ★★★</text>
+<text x="66" y="1203" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">注册表最高星个人工作台;三层信息流控制(IFC)防私密记忆外泄 + 零模型群根 + TLA+ 形式化模型</text>
+<text x="66" y="1242" font-family="sans-serif" font-size="10.5" fill="#475569">实 100★ / npm dsh-botgroup 1,854/月(已入库)</text>
+<rect x="66" y="1250" width="1468" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="1250" width="740" height="3" rx="1.5" fill="#10b981" fill-opacity="0.65"/>
+</g></a>
+
+<a xlink:href="oss-benchmarks/README.md" href="oss-benchmarks/README.md">
+<rect x="48" y="1274" width="1504" height="36" rx="8" fill="#f59e0b" fill-opacity="0.12"/>
+<rect x="48" y="1274" width="5" height="36" rx="2.5" fill="#f59e0b"/>
+<text x="66" y="1298" font-family="'PingFang SC',sans-serif" font-size="15" font-weight="700" fill="#0f172a">oss-benchmarks</text>
+<text x="206" y="1298" font-family="'PingFang SC',sans-serif" font-size="12" fill="#475569">外部高星开源复现标杆(非 DSH 本体,★★ 参考基线)</text>
+<text x="1534" y="1298" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">3 卡 · ★★</text>
+</a>
+
+<a xlink:href="oss-benchmarks/01-openmausbot.md" href="oss-benchmarks/01-openmausbot.md">
+<g><title>milind-soni/OpenMausBot — oss-benchmarks · 28,403 stars · reference</title>
+<rect x="48" y="1318" width="1504" height="104" rx="10" fill="#fffbeb" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="1318" width="5" height="104" rx="2.5" fill="#f59e0b"/>
+<text x="66" y="1345" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">milind-soni/OpenMausBot (参考)</text>
+<text x="1534" y="1345" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">01 · ★★</text>
+<text x="66" y="1367" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">GitHub 最高星 Grok Bot/Muse/Dots 复现;原生 customAcp 可零代码挂载 DSH 为工作引擎</text>
+<text x="66" y="1406" font-family="sans-serif" font-size="10.5" fill="#475569">实 28,403★ / 4,035 forks / 非 DSH 本体</text>
+<rect x="66" y="1414" width="1468" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="1414" width="1400" height="3" rx="1.5" fill="#f59e0b" fill-opacity="0.65"/>
+</g></a>
+
+<a xlink:href="oss-benchmarks/02-openbot.md" href="oss-benchmarks/02-openbot.md">
+<g><title>CopilotKit/OpenBot — oss-benchmarks · 13,733 stars · reference</title>
+<rect x="48" y="1430" width="1504" height="104" rx="10" fill="#fffbeb" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="1430" width="5" height="104" rx="2.5" fill="#f59e0b"/>
+<text x="66" y="1457" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">CopilotKit/OpenBot (参考)</text>
+<text x="1534" y="1457" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">02 · ★★</text>
+<text x="66" y="1479" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">正式合并 OpenDots+openfuse 为皮肤;fail-closed CEL 策略网关 + 人机实时接管 + AG-UI BYO Harness</text>
+<text x="66" y="1518" font-family="sans-serif" font-size="10.5" fill="#475569">实 13,733★ / 1,718 forks / 含专有后端镜像</text>
+<rect x="66" y="1526" width="1468" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="1526" width="1290" height="3" rx="1.5" fill="#f59e0b" fill-opacity="0.65"/>
+</g></a>
+
+<a xlink:href="oss-benchmarks/03-n8n-nod.md" href="oss-benchmarks/03-n8n-nod.md">
+<g><title>n8n-io/nod — oss-benchmarks · 4,158 stars · reference</title>
+<rect x="48" y="1542" width="1504" height="104" rx="10" fill="#fffbeb" stroke="#e2e8f0" filter="url(#shadow)"/>
+<rect x="48" y="1542" width="5" height="104" rx="2.5" fill="#f59e0b"/>
+<text x="66" y="1569" font-family="'PingFang SC',sans-serif" font-size="16" font-weight="700" fill="#0f172a">n8n-io/nod (参考)</text>
+<text x="1534" y="1569" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">03 · ★★</text>
+<text x="66" y="1591" font-family="'PingFang SC',sans-serif" font-size="12.5" fill="#334155">纯 Apache-2.0 自带电脑个人 Agent;上下文隔离 Checker + 盲填 Vault(六元组支付绑定)+ 三层预算闸门</text>
+<text x="66" y="1630" font-family="sans-serif" font-size="10.5" fill="#475569">实 4,158★ / 627 forks / 纯 Apache-2.0 安全蓝本</text>
+<rect x="66" y="1638" width="1468" height="3" rx="1.5" fill="#e2e8f0"/>
+<rect x="66" y="1638" width="1100" height="3" rx="1.5" fill="#f59e0b" fill-opacity="0.65"/>
+</g></a>
+
+<text x="48" y="1700" font-family="sans-serif" font-size="11" fill="#64748b">读法:先区分 DSH ★★★ 源码卡(紫/蓝/绿,含未入库独立分发仓)与外部 ★★ 参考基线(黄);选型必读卡内「代价与边界」中的默认权限、沙箱读围栏与遥测/许可实测。</text>
+<text x="48" y="1722" font-family="sans-serif" font-size="11" fill="#94a3b8">本图覆盖 _digested/view_personal_agent/ 全部 12 张卡(9 ★★★ + 3 ★★);点击卡片直达对应文档,返回 view_personal_agent/README.md。</text>
+</svg>

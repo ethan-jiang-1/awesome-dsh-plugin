@@ -1,7 +1,7 @@
 # ④ leverage — 干货与借鉴总索引
 
 > **这是什么**:看完 ① 冒出来的、② 哪里热闹、③ 谁是锚 之后,回答**「不用回原 repo 翻,哪些经过源码验证的机制可以直接拿走,哪些坑绝对别踩」**。
-> **数据口径**:汇总自 [`_digested/view_*`](README.md) 46 张源码级/参考单卡(`main@8f1a1800e`)与同级 [`_leverage/`](../../_leverage/README.md) 四册(226 篇,各自独立校验);**本页零原创**,每一条均可直达原卡或 `_leverage/` 原始论证。实时健康与活跃度见 [`_data/health.md`](../_data/health.md)。
+> **数据口径**:汇总自 [`_digested/view_*`](README.md) 58 张源码级/参考单卡(`main@8f1a1800e` + 2026-11-27 实采)与同级 [`_leverage/`](../../_leverage/README.md) 四册(226 篇,各自独立校验);**本页零原创**,每一条均可直达原卡或 `_leverage/` 原始论证。实时健康与活跃度见 [`_data/health.md`](../_data/health.md)。
 
 ## 一屏路由:按你要做的事直接找干货
 
@@ -15,6 +15,7 @@
 | **挂外部大引擎 / 商业 API / 本地 CLI 工具** | [view_tools](../view_tools/README.md) · [ouroboros](../view_workflow/external-engine/01-ouroboros.md) · [treg](../view_tools/single-purpose/01-treg.md) · [dsh-data-agent](../view_tools/integration-bridge/01-dsh-data-agent.md) | [生命周期 BORROW](../../_leverage/leverage-lifecycle/BORROW.md) |
 | **多 Agent 团队编排 / 任务板 / DAG / 跨实例协作** | [view_workflow](../view_workflow/README.md) · [agent-teams](../view_workflow/multi-agent/01-agent-teams.md) · [dsh-taskboard](../view_workflow/multi-agent/02-dsh-taskboard.md) | [协作册 BORROW](../../_leverage/leverage-agent-collaboration/BORROW.md) |
 | **让 Agent 从外部源主动接单 → 授权 → 隔离执行 → 回原对话** | [view_proactive_agent](../view_proactive_agent/README.md) · [hiseax](../view_proactive_agent/runtime-forks/01-hiseax.md) · [mycf711](../view_proactive_agent/design-derivatives/01-mycf711.md) | [协作册 BORROW](../../_leverage/leverage-agent-collaboration/BORROW.md) |
+| **把 DSH 做成 24/7 常驻个人 Agent(多 Bot / 跨设备 / IM / 凭据隔离)** | [view_personal_agent](../view_personal_agent/README.md) · [DS-Bot](../view_personal_agent/bot-teams/01-ds-bot.md) · [dsh-Go](../view_personal_agent/cross-device-agents/02-dsh-go.md) · [n8n-io/nod](../view_personal_agent/oss-benchmarks/03-n8n-nod.md) | [LIMIT 三层](../../_leverage/leverage/lever-draw-limit/01-trust-layers.md) · [产品线 BORROW](../../_leverage/leverage-reshape-product/BORROW.md) |
 | **给 Agent 输出装硬门禁 / 验收闭环 / 审计账本** | [odai](../view_workflow/governance/01-odai.md) · [dsh-taskboard](../view_workflow/multi-agent/02-dsh-taskboard.md) | [门禁与权限 BORROW](../../_leverage/leverage/BORROW.md) · [PROVE 六环](../../_leverage/leverage/lever-prove-output/01-quality-chain.md) |
 | **做权限边界 / 工具拦截 / 审批管道 / 隔离** | [gating-hub](../view_tools/toolchain-meta/01-gating-hub.md) · [dsh-computer-use](../view_tools/single-purpose/04-dsh-computer-use.md) | [LIMIT 三层](../../_leverage/leverage/lever-draw-limit/01-trust-layers.md) · [控制预算](../../_leverage/leverage/lever-draw-limit/09-control-budget.md) |
 | **发一个在 Web 和 Desktop 都能一次装上、起得来、能自愈的包** | [dsh-TUI](../view_ui/replace-shell/01-dsh-tui.md) · [treg](../view_tools/single-purpose/01-treg.md) | [生命周期 REFERENCE](../../_leverage/leverage-lifecycle/reference/REFERENCE.md) · [发布 18 项自检](../../_leverage/leverage-lifecycle/practice/CHECKLIST.md) |
@@ -70,6 +71,8 @@
 | 模式 | 代表项目 | 可直接拿走的做法 | 代价与失效边界 | 出处 |
 |---|---|---|---|---|
 | **最小安全三件套:沙箱 + 硬否决 + fail-closed** | `dsh-isolation-gate` 等 | 权限/名单类配置读不到或坏文件一律拒绝(绝不覆盖坏文件);同步守卫只做纯函数判断,重活放异步;明确标清失败方向(fail-closed / fail-open / 转人工) | DSH 原生沙箱**只覆盖文件**,网络与进程不在其策略词汇内,必须在沙箱外单独建门 | [LIMIT 预算](../../_leverage/leverage/lever-draw-limit/09-control-budget.md) · [全禁状态样本](../../_leverage/leverage-lifecycle/config/31_全禁状态-dsh-isolation-gate.md) |
+| **个人 Agent 出站防越权四件套(外置硬门 / IFC / HMAC 票据 / 盲填 Vault)** | `dsh-Go` / `MJ-CJM/DSH-Bot` / `nanoMuse` / `DS-Bot` / `n8n-io/nod` | 手机端把金融黑名单与自身包禁点放在 LLM 之外的原生 `SafetyGate`,任务忙时禁解锁;多 Bot 记忆用会话污点 + 不可序列化 `OnceGrant` + 群外发纯文本审核;跨进程 GUI 审批用启动随机密钥签 `HMAC-SHA256(args)` 票据防模型伪造;外部 `im:`/`api:` 来源剔出记忆整理;凭证走服务端/本地代理盲填(密钥绝不进 LLM 上下文) | DSH `workspace-write` 沙箱**只拦写不拦读**,Windows/macOS 与 Docker Landlock 下 Shell 仍可绕过词法检查读宿主文件;仅原生 Linux `bwrap --tmpfs` 能补齐读围栏 | [01-ds-bot](../view_personal_agent/bot-teams/01-ds-bot.md) · [02-dsh-go](../view_personal_agent/cross-device-agents/02-dsh-go.md) · [01-nanomuse](../view_personal_agent/cross-device-agents/01-nanomuse.md) · [02-dsh-bot-mjcjm](../view_personal_agent/im-personal-hubs/02-dsh-bot-mjcjm.md) · [03-n8n-nod](../view_personal_agent/oss-benchmarks/03-n8n-nod.md) |
+| **多说话人动态工具剪枝 + 零白天 LLM 记忆整理** | `dsh-roost` / `dsh-world` | 入站按说话人等级先查实时 `tools.schemas()` 再算 `deny = pool \ allow` 规避未知工具名抛错,回合 `finally` 无条件恢复;白天规则落盘 SQLite,夜间单次批量蒸馏;记忆仅首轮/冷启动/压缩后注入保前缀缓存 | 群聊确认门若漏验回复者身份可被群友代回 `确认`;`dsh-world` 日记写守卫不拦 Shell 工具 | [01-dsh-roost](../view_personal_agent/im-personal-hubs/01-dsh-roost.md) · [04-dsh-world](../view_personal_agent/cross-device-agents/04-dsh-world.md) |
 | **双面分发 + 装后自证 + 外部进程六默认** | `cfbridge` / `dsh-noema` | 发标准 `dsh.bundle` 让用户在应用内装(CLI 仅作 web 自动化,Desktop profile 名与 home 路径有差异);`package.json` 别漏 `files`;自带 `doctor` 三条自检;拉外部进程配齐懒起/保活/退避/去重 | 没重启宿主新装 CLI 插件不会生效;用 patch 覆盖宿主已有行时 `name` 是断言,只改配置应只写 `id + config` | [生命周期 REFERENCE](../../_leverage/leverage-lifecycle/reference/REFERENCE.md) · [SURFACES](../../_leverage/leverage-lifecycle/reference/SURFACES.md) · [装后自证](../../_leverage/leverage-lifecycle/install/11_装后自证-cfbridge.md) · [外部进程](../../_leverage/leverage-lifecycle/boot/23_外部进程生命周期-dsh-noema.md) |
 
 ---

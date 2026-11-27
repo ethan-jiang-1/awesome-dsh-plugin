@@ -1,6 +1,6 @@
 {
   "asof": "2026-11-27",
-  "generated_at": "2026-11-27T06:33:42+00:00",
+  "generated_at": "2026-11-27T12:40:27+00:00",
   "method": "gh api repos/{repo}; api.npmjs.org downloads/point/last-month/{pkg}; repo set = cards + top80 stars sidecar + top40 downloads sidecar",
   "repos": {
     "aik358/dsh-auto-memory": {
@@ -13,16 +13,16 @@
     },
     "vectorize-io/hindsight": {
       "full_name": "vectorize-io/hindsight",
-      "stars": 63745,
-      "pushed_at": "2026-11-26T22:41:55Z",
+      "stars": 63794,
+      "pushed_at": "2026-11-27T11:55:47Z",
       "archived": false,
       "default_branch": "main",
       "html_url": "https://github.com/vectorize-io/hindsight"
     },
     "volcengine/openviking": {
       "full_name": "volcengine/OpenViking",
-      "stars": 42892,
-      "pushed_at": "2026-11-27T06:21:46Z",
+      "stars": 42919,
+      "pushed_at": "2026-11-27T12:27:51Z",
       "archived": false,
       "default_branch": "main",
       "html_url": "https://github.com/volcengine/OpenViking"
@@ -30,14 +30,14 @@
     "ikalus1988/misakanet": {
       "full_name": "Ikalus1988/MisakaNet",
       "stars": 567,
-      "pushed_at": "2026-11-27T06:18:11Z",
+      "pushed_at": "2026-11-27T12:10:46Z",
       "archived": false,
       "default_branch": "main",
       "html_url": "https://github.com/Ikalus1988/MisakaNet"
     },
     "text2future/flowix": {
       "full_name": "text2future/flowix",
-      "stars": 520,
+      "stars": 521,
       "pushed_at": "2026-11-26T16:40:33Z",
       "archived": false,
       "default_branch": "main",
@@ -45,7 +45,7 @@
     },
     "omdsh-dev/dsh-mnemon": {
       "full_name": "omdsh-dev/dsh-mnemon",
-      "stars": 1139,
+      "stars": 1148,
       "pushed_at": "2026-11-26T18:39:14Z",
       "archived": false,
       "default_branch": "main",
@@ -67,6 +67,102 @@
       "default_branch": "master",
       "html_url": "https://github.com/tinqiao-oss/engramory"
     },
+    "fei-craft/ds-bot": {
+      "full_name": "Fei-Craft/DS-Bot",
+      "stars": 9112,
+      "pushed_at": "2026-11-27T12:20:34Z",
+      "archived": false,
+      "default_branch": "main",
+      "html_url": "https://github.com/Fei-Craft/DS-Bot"
+    },
+    "modelflare-ai/anymodelbot": {
+      "full_name": "modelflare-ai/AnyModelBot",
+      "stars": 5006,
+      "pushed_at": "2026-11-26T03:57:32Z",
+      "archived": false,
+      "default_branch": "master",
+      "html_url": "https://github.com/modelflare-ai/AnyModelBot"
+    },
+    "botharness/deepseekbot": {
+      "full_name": "BotHarness/DeepSeekBot",
+      "stars": 1076,
+      "pushed_at": "2026-11-27T12:19:18Z",
+      "archived": false,
+      "default_branch": "main",
+      "html_url": "https://github.com/BotHarness/DeepSeekBot"
+    },
+    "nano-muse/nanomuse": {
+      "full_name": "nano-muse/nanoMuse",
+      "stars": 3741,
+      "pushed_at": "2026-11-27T05:00:32Z",
+      "archived": false,
+      "default_branch": "main",
+      "html_url": "https://github.com/nano-muse/nanoMuse"
+    },
+    "ccch1mneyyy/dsh-go": {
+      "full_name": "ccch1mneyyy/dsh-Go",
+      "stars": 33075,
+      "pushed_at": "2026-11-27T04:28:01Z",
+      "archived": false,
+      "default_branch": "main",
+      "html_url": "https://github.com/ccch1mneyyy/dsh-Go"
+    },
+    "jackwener/dsh-android": {
+      "full_name": "jackwener/DSH-Android",
+      "stars": 1097,
+      "pushed_at": "2026-11-24T04:48:42Z",
+      "archived": false,
+      "default_branch": "main",
+      "html_url": "https://github.com/jackwener/DSH-Android"
+    },
+    "chenkezhen480/dsh-world": {
+      "full_name": "chenkezhen480/dsh-world",
+      "stars": 455,
+      "pushed_at": "2026-11-27T10:52:01Z",
+      "archived": false,
+      "default_branch": "main",
+      "html_url": "https://github.com/chenkezhen480/dsh-world"
+    },
+    "roost-qq/dsh-roost": {
+      "full_name": "roost-qq/dsh-roost",
+      "stars": 55,
+      "pushed_at": "2026-11-27T02:52:37Z",
+      "archived": false,
+      "default_branch": "main",
+      "html_url": "https://github.com/roost-qq/dsh-roost"
+    },
+    "mj-cjm/dsh-bot": {
+      "full_name": "MJ-CJM/DSH-Bot",
+      "stars": 100,
+      "pushed_at": "2026-11-26T16:49:23Z",
+      "archived": false,
+      "default_branch": "main",
+      "html_url": "https://github.com/MJ-CJM/DSH-Bot"
+    },
+    "milind-soni/openmausbot": {
+      "full_name": "milind-soni/OpenMausBot",
+      "stars": 28409,
+      "pushed_at": "2026-11-27T12:25:27Z",
+      "archived": false,
+      "default_branch": "main",
+      "html_url": "https://github.com/milind-soni/OpenMausBot"
+    },
+    "copilotkit/openbot": {
+      "full_name": "CopilotKit/OpenBot",
+      "stars": 13736,
+      "pushed_at": "2026-11-27T11:05:01Z",
+      "archived": false,
+      "default_branch": "main",
+      "html_url": "https://github.com/CopilotKit/OpenBot"
+    },
+    "n8n-io/nod": {
+      "full_name": "n8n-io/nod",
+      "stars": 4161,
+      "pushed_at": "2026-11-27T12:24:55Z",
+      "archived": false,
+      "default_branch": "main",
+      "html_url": "https://github.com/n8n-io/nod"
+    },
     "luckyxiang6688/dsh-superagent-trace": {
       "full_name": "luckyxiang6688/dsh-superagent-trace",
       "stars": 0,
@@ -78,7 +174,7 @@
     "mycf711/dsh-session-superagent": {
       "full_name": "MYCF711/dsh-session-superagent",
       "stars": 53,
-      "pushed_at": "2026-11-25T23:53:25Z",
+      "pushed_at": "2026-11-27T11:28:09Z",
       "archived": false,
       "default_branch": "main",
       "html_url": "https://github.com/MYCF711/dsh-session-superagent"
@@ -102,7 +198,7 @@
     "nelsonlongxiang/dsh-open-a2a-net": {
       "full_name": "NelsonLongxiang/dsh-open-a2a-net",
       "stars": 10,
-      "pushed_at": "2026-11-27T05:53:28Z",
+      "pushed_at": "2026-11-27T12:15:05Z",
       "archived": false,
       "default_branch": "master",
       "html_url": "https://github.com/NelsonLongxiang/dsh-open-a2a-net"
@@ -117,15 +213,15 @@
     },
     "ranxianglei/billion-context": {
       "full_name": "ranxianglei/billion-context",
-      "stars": 8555,
-      "pushed_at": "2026-11-27T06:19:08Z",
+      "stars": 8582,
+      "pushed_at": "2026-11-27T07:46:25Z",
       "archived": false,
       "default_branch": "master",
       "html_url": "https://github.com/ranxianglei/billion-context"
     },
     "nwflower/dsh-chat-import": {
       "full_name": "Nwflower/dsh-chat-import",
-      "stars": 331,
+      "stars": 332,
       "pushed_at": "2026-11-23T12:30:57Z",
       "archived": false,
       "default_branch": "main",
@@ -134,7 +230,7 @@
     "whyihaveyou/dsh-suite": {
       "full_name": "whyihaveyou/dsh-suite",
       "stars": 69,
-      "pushed_at": "2026-11-26T23:56:38Z",
+      "pushed_at": "2026-11-27T08:36:33Z",
       "archived": false,
       "default_branch": "main",
       "html_url": "https://github.com/whyihaveyou/dsh-suite"
@@ -181,8 +277,8 @@
     },
     "superdesigndev/treg": {
       "full_name": "superdesigndev/treg",
-      "stars": 9642,
-      "pushed_at": "2026-11-27T06:27:26Z",
+      "stars": 9686,
+      "pushed_at": "2026-11-27T12:18:29Z",
       "archived": false,
       "default_branch": "main",
       "html_url": "https://github.com/superdesigndev/treg"
@@ -190,7 +286,7 @@
     "taxueseek/argo": {
       "full_name": "taxueseek/argo",
       "stars": 286,
-      "pushed_at": "2026-11-26T14:56:13Z",
+      "pushed_at": "2026-11-27T07:31:51Z",
       "archived": false,
       "default_branch": "main",
       "html_url": "https://github.com/taxueseek/argo"
@@ -222,7 +318,7 @@
     "noob-stupid/dsh-plugin-gating-hub": {
       "full_name": "Noob-stupid/dsh-plugin-gating-hub",
       "stars": 135,
-      "pushed_at": "2026-11-26T23:45:10Z",
+      "pushed_at": "2026-11-27T12:01:15Z",
       "archived": false,
       "default_branch": "main",
       "html_url": "https://github.com/Noob-stupid/dsh-plugin-gating-hub"
@@ -277,7 +373,7 @@
     },
     "omdsh-dev/dsh-genui": {
       "full_name": "omdsh-dev/dsh-genui",
-      "stars": 1067,
+      "stars": 1068,
       "pushed_at": "2026-11-25T10:36:19Z",
       "archived": false,
       "default_branch": "main",
@@ -285,7 +381,7 @@
     },
     "nagi-ovo/dsh-visualize": {
       "full_name": "Nagi-ovo/dsh-visualize",
-      "stars": 349,
+      "stars": 350,
       "pushed_at": "2026-11-15T23:07:56Z",
       "archived": false,
       "default_branch": "main",
@@ -293,8 +389,8 @@
     },
     "ccch1mneyyy/dsh-tui": {
       "full_name": "ccch1mneyyy/dsh-TUI",
-      "stars": 8333,
-      "pushed_at": "2026-11-27T06:02:01Z",
+      "stars": 8353,
+      "pushed_at": "2026-11-27T11:53:36Z",
       "archived": false,
       "default_branch": "main",
       "html_url": "https://github.com/ccch1mneyyy/dsh-TUI"
@@ -333,7 +429,7 @@
     },
     "nanmicoder/dsh-agent-teams": {
       "full_name": "NanmiCoder/dsh-agent-teams",
-      "stars": 3112,
+      "stars": 3115,
       "pushed_at": "2026-11-18T17:49:56Z",
       "archived": false,
       "default_branch": "main",
@@ -365,15 +461,15 @@
     },
     "ethanyoq/ai-novel-writer": {
       "full_name": "EthanYoQ/Pagekin",
-      "stars": 2934,
-      "pushed_at": "2026-11-27T06:07:16Z",
+      "stars": 2936,
+      "pushed_at": "2026-11-27T12:30:35Z",
       "archived": false,
       "default_branch": "master",
       "html_url": "https://github.com/EthanYoQ/Pagekin"
     },
     "tt-a1i/archify": {
       "full_name": "tt-a1i/archify",
-      "stars": 100691,
+      "stars": 100776,
       "pushed_at": "2026-11-26T01:45:04Z",
       "archived": false,
       "default_branch": "main",
@@ -381,7 +477,7 @@
     },
     "zhu1090093659/dsh-web-ui": {
       "full_name": "zhu1090093659/dsh-web",
-      "stars": 10660,
+      "stars": 10666,
       "pushed_at": "2026-11-26T17:09:24Z",
       "archived": false,
       "default_branch": "dev",
@@ -389,15 +485,15 @@
     },
     "strukto-ai/mirage": {
       "full_name": "strukto-ai/mirage",
-      "stars": 3939,
-      "pushed_at": "2026-11-27T06:06:23Z",
+      "stars": 3941,
+      "pushed_at": "2026-11-27T12:28:54Z",
       "archived": false,
       "default_branch": "main",
       "html_url": "https://github.com/strukto-ai/mirage"
     },
     "liustack/modlens": {
       "full_name": "liustack/modlens",
-      "stars": 5096,
+      "stars": 5099,
       "pushed_at": "2026-11-25T19:14:12Z",
       "archived": false,
       "default_branch": "main",
@@ -405,23 +501,23 @@
     },
     "small-tailqwq/dsh-deep-whale": {
       "full_name": "Small-tailqwq/dsh-deep-whale",
-      "stars": 3153,
-      "pushed_at": "2026-11-26T08:29:37Z",
+      "stars": 3155,
+      "pushed_at": "2026-11-27T11:48:32Z",
       "archived": false,
       "default_branch": "main",
       "html_url": "https://github.com/Small-tailqwq/dsh-deep-whale"
     },
     "liguobao/ds-harness-remote": {
       "full_name": "liguobao/ds-harness-remote",
-      "stars": 3853,
-      "pushed_at": "2026-11-27T03:10:01Z",
+      "stars": 3870,
+      "pushed_at": "2026-11-27T11:07:01Z",
       "archived": false,
       "default_branch": "main",
       "html_url": "https://github.com/liguobao/ds-harness-remote"
     },
     "dsh-market/dsh-market": {
       "full_name": "dsh-market/dsh-market",
-      "stars": 13611,
+      "stars": 13637,
       "pushed_at": "2026-11-26T16:50:51Z",
       "archived": false,
       "default_branch": "main",
@@ -429,7 +525,7 @@
     },
     "openpetshq/openpets": {
       "full_name": "OpenPetsHQ/openpets",
-      "stars": 1416,
+      "stars": 1417,
       "pushed_at": "2026-11-23T06:28:25Z",
       "archived": false,
       "default_branch": "main",
@@ -454,7 +550,7 @@
     "ysr666/dsh-vision-router": {
       "full_name": "ysr666/dsh-vision-router",
       "stars": 1306,
-      "pushed_at": "2026-11-27T05:39:24Z",
+      "pushed_at": "2026-11-27T10:45:32Z",
       "archived": false,
       "default_branch": "main",
       "html_url": "https://github.com/ysr666/dsh-vision-router"
@@ -469,7 +565,7 @@
     },
     "nagi-ovo/dsh-ads": {
       "full_name": "Nagi-ovo/dsh-ads",
-      "stars": 736,
+      "stars": 737,
       "pushed_at": "2026-11-15T23:07:58Z",
       "archived": false,
       "default_branch": "main",
@@ -477,7 +573,7 @@
     },
     "superdesigndev/superdesign-skill": {
       "full_name": "superdesigndev/superdesign-skill",
-      "stars": 1083,
+      "stars": 1084,
       "pushed_at": "2026-08-21T05:23:23Z",
       "archived": false,
       "default_branch": "main",
@@ -485,7 +581,7 @@
     },
     "bowenliang123/dsh-context": {
       "full_name": "bowenliang123/dsh-context",
-      "stars": 5546,
+      "stars": 5559,
       "pushed_at": "2026-11-26T09:48:04Z",
       "archived": false,
       "default_branch": "main",
@@ -525,7 +621,7 @@
     },
     "shaobeichen/dsh-pocket": {
       "full_name": "shaobeichen/dsh-pocket",
-      "stars": 3187,
+      "stars": 3191,
       "pushed_at": "2026-11-22T07:45:46Z",
       "archived": false,
       "default_branch": "main",
@@ -541,7 +637,7 @@
     },
     "pc2005-cloud/dsh-pet": {
       "full_name": "PC2005-cloud/dsh-pet",
-      "stars": 6771,
+      "stars": 6782,
       "pushed_at": "2026-11-27T02:34:03Z",
       "archived": false,
       "default_branch": "main",
@@ -549,7 +645,7 @@
     },
     "liustack/modsearch": {
       "full_name": "liustack/modsearch",
-      "stars": 1047,
+      "stars": 1048,
       "pushed_at": "2026-11-25T19:12:24Z",
       "archived": false,
       "default_branch": "main",
@@ -557,7 +653,7 @@
     },
     "ningbainb/deepseek-harness-desktop": {
       "full_name": "ningbainb/deepseek-harness-desktop",
-      "stars": 964,
+      "stars": 963,
       "pushed_at": "2026-11-26T07:29:08Z",
       "archived": false,
       "default_branch": "main",
@@ -573,7 +669,7 @@
     },
     "kingofsoysauce/dsh-liang-skin": {
       "full_name": "kingOfSoySauce/dsh-liang-skin",
-      "stars": 408,
+      "stars": 407,
       "pushed_at": "2026-11-13T08:40:04Z",
       "archived": false,
       "default_branch": "main",
@@ -589,7 +685,7 @@
     },
     "han-1413141/dsh-cost-meter": {
       "full_name": "Han-1413141/dsh-cost-meter",
-      "stars": 760,
+      "stars": 764,
       "pushed_at": "2026-11-26T13:28:00Z",
       "archived": false,
       "default_branch": "master",
@@ -621,8 +717,8 @@
     },
     "elysia395/dsh-wallpaper-engine": {
       "full_name": "elysia395/dsh-wallpaper-engine",
-      "stars": 8260,
-      "pushed_at": "2026-11-26T15:43:11Z",
+      "stars": 8284,
+      "pushed_at": "2026-11-27T11:30:03Z",
       "archived": false,
       "default_branch": "main",
       "html_url": "https://github.com/elysia395/dsh-wallpaper-engine"
@@ -645,7 +741,7 @@
     },
     "vladimir-human/ru-marketplace-mcp": {
       "full_name": "Vladimir-Human/ru-marketplace-mcp",
-      "stars": 210,
+      "stars": 211,
       "pushed_at": "2026-11-23T10:53:14Z",
       "archived": false,
       "default_branch": "main",
@@ -685,7 +781,7 @@
     },
     "xmanrui/dsh-im": {
       "full_name": "xmanrui/dsh-im",
-      "stars": 3834,
+      "stars": 3838,
       "pushed_at": "2026-11-26T05:48:40Z",
       "archived": false,
       "default_branch": "main",
@@ -718,7 +814,7 @@
     "btspoony/mstar-harness": {
       "full_name": "btspoony/mstar-harness",
       "stars": 74,
-      "pushed_at": "2026-11-27T05:10:24Z",
+      "pushed_at": "2026-11-27T11:50:18Z",
       "archived": false,
       "default_branch": "main",
       "html_url": "https://github.com/btspoony/mstar-harness"
@@ -789,8 +885,8 @@
     },
     "saya-ch/dsh-mobile": {
       "full_name": "saya-ch/dsh-mobile",
-      "stars": 1011,
-      "pushed_at": "2026-11-26T20:23:45Z",
+      "stars": 1013,
+      "pushed_at": "2026-11-27T12:09:29Z",
       "archived": false,
       "default_branch": "main",
       "html_url": "https://github.com/saya-ch/dsh-mobile"
@@ -805,8 +901,8 @@
     },
     "xiajiajun516/dsh-config-manager": {
       "full_name": "xiajiajun516/dsh-config-manager",
-      "stars": 388,
-      "pushed_at": "2026-11-26T12:22:26Z",
+      "stars": 393,
+      "pushed_at": "2026-11-27T12:08:45Z",
       "archived": false,
       "default_branch": "main",
       "html_url": "https://github.com/xiajiajun516/dsh-config-manager"
@@ -821,7 +917,7 @@
     },
     "michengai/dsh-skills-manager": {
       "full_name": "MichengAI/dsh-skills-manager",
-      "stars": 622,
+      "stars": 623,
       "pushed_at": "2026-11-24T11:28:34Z",
       "archived": false,
       "default_branch": "master",
@@ -885,7 +981,7 @@
     },
     "nonamelego/dsh-catppuccin-theme": {
       "full_name": "NoNameLeGo/dsh-catppuccin-theme",
-      "stars": 89,
+      "stars": 88,
       "pushed_at": "2026-11-23T11:07:03Z",
       "archived": false,
       "default_branch": "main",
@@ -894,7 +990,7 @@
     "blank-not-black/dsh-remote": {
       "full_name": "Blank-not-black/dsh-Remote",
       "stars": 91,
-      "pushed_at": "2026-11-27T02:03:52Z",
+      "pushed_at": "2026-11-27T09:11:08Z",
       "archived": false,
       "default_branch": "main",
       "html_url": "https://github.com/Blank-not-black/dsh-Remote"
@@ -902,219 +998,239 @@
   },
   "packages": {
     "@a9i5k4/dsh-auto-memory": {
-      "downloads": 19961,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 19925,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "@vectorize-io/hindsight-coding-agents": {
-      "downloads": 147875,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 147001,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "@openviking/dsh-memory-plugin": {
-      "downloads": 48817,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 48736,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "misakanet": {
-      "downloads": 10163,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 10141,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "dsh-mnemon": {
-      "downloads": 165141,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 164107,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "dsh-memento": {
-      "downloads": 7476,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 7474,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "dsh-engramory": {
-      "downloads": 10781,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 10958,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
+    },
+    "dsh-world": {
+      "downloads": 19876,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
+    },
+    "dsh-roost": {
+      "downloads": 22012,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
+    },
+    "dsh-botgroup": {
+      "downloads": 1854,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
+    },
+    "openmausbot": {
+      "downloads": 34830,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
+    },
+    "openbot": {
+      "downloads": 792,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
+    },
+    "nod": {
+      "downloads": 202,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "dsh-superagent-trace": {
-      "downloads": 877,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 911,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "dsh-session-superagent": {
-      "downloads": 104093,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 104532,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "@nelsonlongxiang/dsh-open-a2a-net": {
-      "downloads": 12466,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 12857,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "dsh-superagent-desktop": {
-      "downloads": 1797,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 1861,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "billion-context": {
-      "downloads": 3873165,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 3805819,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "dsh-chat-import": {
-      "downloads": 22679,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 22538,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "@dsh-suite/plugin-manager": {
-      "downloads": 1243,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 1230,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "dsh-interconnect": {
-      "downloads": 1287,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 1284,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "@anionex/dsh-turn-rewind": {
-      "downloads": 6842,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 6691,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "dsh-message-edit": {
-      "downloads": 2594,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 2544,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "dsh-recall-plugin": {
-      "downloads": 8796,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 8472,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "@yejiming/dsh-data-agent": {
-      "downloads": 2880,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 2844,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "@taxueseek/argo-dsh": {
-      "downloads": 7197,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 7186,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "@zhaoolee/dsh-notes": {
-      "downloads": 737,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 748,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "@anionex/dsh-computer-use": {
-      "downloads": 6024,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 5737,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "dsh-deepread": {
-      "downloads": 3513,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 3474,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "@noob-stupid/dsh-plugin-console": {
-      "downloads": 21868,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 21615,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "dsh-better-sidebar": {
-      "downloads": 382551,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 373363,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "dsh-at-file": {
-      "downloads": 109660,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 101000,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "@zseven-w/dsh-openpencil": {
-      "downloads": 4388,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
-    },
-    "@changfenhuang/dsh-annotation": {
-      "downloads": 6518,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 4382,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "dsh-client-auto-continue": {
-      "downloads": 15756,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 16096,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "dsh-smooth-stream": {
-      "downloads": 3875,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 3830,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "@changfenhuang/dsh-genui": {
-      "downloads": 67561,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 67413,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "@deepseek-harness-tui/dsh-tui": {
-      "downloads": 80099,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
-    },
-    "@huiliyi37/dsh-tianshu-tui": {
-      "downloads": 4048,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 79420,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "dsh-tongflow": {
-      "downloads": 2947,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 2891,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "odai-dsh-plugin": {
-      "downloads": 3053,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 2925,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "@nanmicoder/dsh-agent-teams": {
-      "downloads": 62898,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 61474,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "@shengsheng/dsh-taskboard": {
-      "downloads": 1610,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 1571,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "@ethanyoq/dsh-ai-novel-writer": {
-      "downloads": 1655,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 1654,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "ds-harness-remote": {
-      "downloads": 119002,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 124129,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "aegis": {
-      "downloads": 194,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 191,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "dsh-plugin-marketplace": {
-      "downloads": 8823,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 8544,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "ru-marketplace-mcp-dsh": {
-      "downloads": 2707,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 2764,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     },
     "dsh-stock-watch": {
-      "downloads": 1147,
-      "start": "2026-10-27",
-      "end": "2026-11-25"
+      "downloads": 1133,
+      "start": "2026-10-28",
+      "end": "2026-11-26"
     }
   },
   "repo_packages": {
@@ -1126,6 +1242,14 @@
     "omdsh-dev/dsh-mnemon": "dsh-mnemon",
     "perrylink/dsh-memento": "dsh-memento",
     "tinqiao-oss/engramory": "dsh-engramory",
+    "modelflare-ai/anymodelbot": "anymodel-bot",
+    "botharness/deepseekbot": "botharness",
+    "chenkezhen480/dsh-world": "dsh-world",
+    "roost-qq/dsh-roost": "dsh-roost",
+    "mj-cjm/dsh-bot": "dsh-botgroup",
+    "milind-soni/openmausbot": "openmausbot",
+    "copilotkit/openbot": "openbot",
+    "n8n-io/nod": "nod",
     "luckyxiang6688/dsh-superagent-trace": "dsh-superagent-trace",
     "mycf711/dsh-session-superagent": "dsh-session-superagent",
     "hiseax/dsh-windows-superagent": "dsh-windows-superagent",
@@ -1178,10 +1302,12 @@
     "multica-ai/dsh-multica-runtime": "@multica-ai/dsh-runtime"
   },
   "coverage": {
-    "repos": "112/113",
-    "packages": "43/58",
+    "repos": "124/125",
+    "packages": "47/66",
     "unpublished": [
       "dsh-flowix-memory",
+      "anymodel-bot",
+      "botharness",
       "dsh-windows-superagent",
       "dsh-superagent",
       "treg-dsh",
@@ -1202,6 +1328,16 @@
         "kind": "repo",
         "id": "revolutionla/dsh-dream-skin",
         "error": "gh: Not Found (HTTP 404)"
+      },
+      {
+        "kind": "npm",
+        "id": "@changfenhuang/dsh-annotation",
+        "error": "URLError: <urlopen error _ssl.c:1011: The handshake operation timed out>"
+      },
+      {
+        "kind": "npm",
+        "id": "@huiliyi37/dsh-tianshu-tui",
+        "error": "URLError: <urlopen error _ssl.c:1011: The handshake operation timed out>"
       }
     ]
   }
